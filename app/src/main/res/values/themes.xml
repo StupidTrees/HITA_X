@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.HITA" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -12,5 +12,23 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="backgroundColorBottom">#FFFFFFFF</item>
+        <item name="backgroundColorBottomAsTint">#CFFFFFFF</item>
+        <item name="backgroundColorSecond">#FFFAFAFA</item>
+        <item name="backgroundColorSecondAsTint">#CFFAFAFA</item>
+        <item name="textColorPrimary">#FF000000</item>
+        <item name="textColorSecondary">#FF808080</item>
+        <item name="colorControlDisabled">#FFE0E0E0</item>
+    </style>
+
+
+    <!--    圆角透明背景的BottomSheetDialog主题-->
+    <style name="TransparentBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+         
+        <item name="bottomSheetStyle">@style/TransparentBottomSheetStyle</item>
+    </style>
+    <style name="TransparentBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="behavior_peekHeight">400dp</item>
     </style>
 </resources>

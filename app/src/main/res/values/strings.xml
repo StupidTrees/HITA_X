@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">HITA</string>
+    <string name="app_name">HITSZ助手</string>
+
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="input_hint">输入内容…</string>
+    <string name="date_format_1">yyyy年M月d日</string>
+    <string name="date_format_3">yyyy年M月d日 hh时mm分</string>
+    <string name="date_format_2">M月d日</string>
+    <string name="date_format_am">上午hh:mm</string>
+    <string name="date_format_pm">下午hh:mm</string>
+    <string name="yesterday">昨天</string>
+    <string name="the_day_before_yesterday">前天</string>
+    <string name="date_format_with_prefix">"%s %s"</string>
 </resources>
