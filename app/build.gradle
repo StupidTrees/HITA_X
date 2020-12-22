@@ -57,6 +57,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     //retrofit2的gson转换器
     implementation 'com.squareup.retrofit2:converter-gson:2.0.2'
-
+    //jsoup爬虫
+    implementation 'org.jsoup:jsoup:1.12.1'
 
 }

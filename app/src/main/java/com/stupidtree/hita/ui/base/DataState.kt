@@ -53,7 +53,6 @@ class DataState<T> {
         }else{
             STATE.SUCCESS
         }
-
     }
 
     constructor(data: T, state: STATE) {
