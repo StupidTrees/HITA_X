@@ -3,14 +3,11 @@ package com.stupidtree.hita.ui.widgets
 import android.content.Context
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import com.stupidtree.hita.R
+import androidx.viewbinding.ViewBinding
+import com.stupidtree.hita.databinding.DialogBottomSelectableListBinding
+import com.stupidtree.hita.databinding.DialogBottomSelectableListItemBinding
 import com.stupidtree.hita.ui.base.BaseViewHolder
 import com.stupidtree.hita.ui.base.BasicSelectableListAdapter
 import java.util.*
@@ -18,25 +15,7 @@ import java.util.*
 /**
  * 圆角的文本框底部弹窗
  */
-class PopUpSelectableList<T> : TransparentBottomSheetDialog() {
-    /**
-     * View绑定区
-     */
-    @JvmField
-    @BindView(R.id.title)
-    var title: TextView? = null
-
-    @JvmField
-    @BindView(R.id.list)
-    var list: RecyclerView? = null
-
-    @JvmField
-    @BindView(R.id.confirm)
-    var confirm: View? = null
-
-    @JvmField
-    @BindView(R.id.cancel)
-    var cancel: View? = null
+class PopUpSelectableList<T> : TransparentBottomSheetDialog<DialogBottomSelectableListBinding>() {
 
     @StringRes
     var init_title: Int? = null
@@ -93,10 +72,7 @@ class PopUpSelectableList<T> : TransparentBottomSheetDialog() {
         this.onConfirmListener = onConfirmListener
         return this
     }
-
-    override fun getLayoutId(): Int {
-        return R.layout.dialog_bottom_selectable_list
-    }
+    
 
     override fun onStart() {
         super.onStart()
@@ -108,13 +84,13 @@ class PopUpSelectableList<T> : TransparentBottomSheetDialog() {
 
     override fun initViews(v: View) {
         listAdapter = LAdapter(requireContext(), listRes!!)
-        list!!.adapter = listAdapter
-        list!!.layoutManager = LinearLayoutManager(requireContext())
+        binding.list.adapter = listAdapter
+        binding.list.layoutManager = LinearLayoutManager(requireContext())
         if (init_title != null) {
-            title!!.setText(init_title!!)
+            binding.title.setText(init_title!!)
         }
-        cancel!!.setOnClickListener { view: View? -> dismiss() }
-        confirm!!.setOnClickListener { view: View? ->
+        binding.cancel.setOnClickListener { view: View? -> dismiss() }
+        binding.confirm.setOnClickListener { view: View? ->
             if (onConfirmListener != null) {
                 val data = listAdapter.selectedData
                 Log.e("data", data.toString())
@@ -140,40 +116,34 @@ class PopUpSelectableList<T> : TransparentBottomSheetDialog() {
 
     }
 
-    internal class LAdapter<C>(mContext: Context, mBeans: MutableList<ItemData<C>>) : BasicSelectableListAdapter<ItemData<C>, LAdapter.LHolder>(mContext!!, mBeans) {
-        override fun getLayoutId(viewType: Int): Int {
-            return R.layout.dialog_bottom_selectable_list_item
-        }
-
-        override fun createViewHolder(v: View, viewType: Int): LHolder {
-            return LHolder(v)
-        }
-
-        protected override fun bindHolder(holder: LHolder, data: ItemData<C>?, position: Int) {
+    internal class LAdapter<C>(mContext: Context, mBeans: MutableList<ItemData<C>>) : BasicSelectableListAdapter<ItemData<C>, LAdapter.LHolder>(
+        mContext, mBeans) {
+        override fun bindHolder(holder: LHolder, data: ItemData<C>?, position: Int) {
             if (data != null) {
-                holder.text!!.text = data.name
-                holder.item!!.setOnClickListener { view: View? -> selectItem(position, data) }
+                holder.binding.text.text = data.name
+                holder.binding.item.setOnClickListener { selectItem(position, data) }
             }
             if (position == selectedIndex) { //若被选中
-                holder.selected!!.visibility = View.VISIBLE
+                holder.binding.selected.visibility = View.VISIBLE
             } else {
-                holder.selected!!.visibility = View.GONE
+                holder.binding.selected.visibility = View.GONE
             }
 
         }
 
-        internal class LHolder(itemView: View) : BaseViewHolder(itemView) {
-            @JvmField
-            @BindView(R.id.text)
-            var text: TextView? = null
-
-            @JvmField
-            @BindView(R.id.item)
-            var item: ViewGroup? = null
-
-            @JvmField
-            @BindView(R.id.selected)
-            var selected: ImageView? = null
+        internal class LHolder(view:DialogBottomSelectableListItemBinding) : BaseViewHolder<DialogBottomSelectableListItemBinding>(view) {
         }
+
+        override fun getViewBinding(viewType: Int): ViewBinding {
+            return DialogBottomSelectableListItemBinding.inflate(mInflater)
+        }
+
+        override fun createViewHolder(viewBinding: ViewBinding, viewType: Int): LHolder {
+            return LHolder(viewBinding as DialogBottomSelectableListItemBinding)
+        }
+    }
+
+    override fun initViewBinding(): DialogBottomSelectableListBinding {
+        return DialogBottomSelectableListBinding.inflate(layoutInflater)
     }
 }

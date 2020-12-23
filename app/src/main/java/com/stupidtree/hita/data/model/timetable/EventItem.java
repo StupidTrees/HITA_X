@@ -1,4 +1,4 @@
-package com.stupidtree.hita.data.model;
+package com.stupidtree.hita.data.model.timetable;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

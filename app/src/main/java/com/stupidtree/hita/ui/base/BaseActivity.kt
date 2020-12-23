@@ -11,26 +11,27 @@ import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import butterknife.ButterKnife
+import androidx.viewbinding.ViewBinding
 import com.stupidtree.hita.R
 
 /**
  * 本项目所有Activity的基类
  * @param <TextRecord> 泛型T指定的是这个页面绑定的ViewModel
 </TextRecord> */
-abstract class BaseActivity<T : ViewModel?> : AppCompatActivity() {
+abstract class BaseActivity<T : ViewModel?, V: ViewBinding> : AppCompatActivity() {
     /**
      * 每个Acitivity绑定一个ViewModel
      */
-    var viewModel: T? = null
+    private var viewModel: T? = null
 
+    protected lateinit var binding:V
 
     /**
      * 所有继承BaseActivity的Activity都要实现以下几个函数
      */
 
     //获取这个Activity的布局id
-    protected abstract fun getLayoutId(): Int
+    protected abstract fun initViewBinding():V
 
     //获取ViewModel的具体类型
     protected abstract fun getViewModelClass(): Class<T>?
@@ -39,9 +40,10 @@ abstract class BaseActivity<T : ViewModel?> : AppCompatActivity() {
     protected abstract fun initViews()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(getLayoutId())
+        binding = initViewBinding()
+        setContentView(binding.root)
         //所有的Activity都可以使用ButterKnife进行View注入，十分方便
-        ButterKnife.bind(this)
+        //ButterKnife.bind(this)
         //对ViewModel进行初始化
         getViewModelClass()?.let {
             viewModel = if (it.superclass == AndroidViewModel::class.java) {
@@ -91,7 +93,7 @@ abstract class BaseActivity<T : ViewModel?> : AppCompatActivity() {
      * 获取这个Activity本身
      * @return Activity自己
      */
-    fun getThis(): BaseActivity<T> {
+    fun getThis(): BaseActivity<T,V> {
         return this
     }
 

@@ -2,31 +2,14 @@ package com.stupidtree.hita.ui.widgets
 
 import android.text.TextUtils
 import android.view.View
-import android.widget.TextView
 import androidx.annotation.StringRes
-import butterknife.BindView
-import com.stupidtree.hita.R
-import com.stupidtree.hita.ui.widgets.TransparentBottomSheetDialog
+import com.stupidtree.hita.databinding.DialogBottomTextBinding
 
 /**
  * 圆角的文本框底部弹窗
  */
-class PopUpText : TransparentBottomSheetDialog() {
-    @JvmField
-    @BindView(R.id.title)
-    var title: TextView? = null
+class PopUpText : TransparentBottomSheetDialog<DialogBottomTextBinding>() {
 
-    @JvmField
-    @BindView(R.id.text)
-    var textView: TextView? = null
-
-    @JvmField
-    @BindView(R.id.confirm)
-    var confirm: View? = null
-
-    @JvmField
-    @BindView(R.id.cancel)
-    var cancel: View? = null
 
     @StringRes
     var init_title: Int? = null
@@ -39,7 +22,7 @@ class PopUpText : TransparentBottomSheetDialog() {
 
     override fun onStart() {
         super.onStart()
-        textView!!.requestFocus()
+        binding.text.requestFocus()
     }
 
     fun setTitle(@StringRes title: Int): PopUpText {
@@ -61,32 +44,33 @@ class PopUpText : TransparentBottomSheetDialog() {
         this.onConfirmListener = onConfirmListener
         return this
     }
-
-    override fun getLayoutId(): Int {
-        return R.layout.dialog_bottom_text
-    }
+    
 
     override fun initViews(v: View) {
         if (init_title != null) {
-            title!!.setText(init_title!!)
+            binding.title!!.setText(init_title!!)
         }
         if (!TextUtils.isEmpty(init_text)) {
-            textView!!.text = init_text
-            textView!!.visibility = View.VISIBLE
+            binding.text.text = init_text
+            binding.text.visibility = View.VISIBLE
         } else {
-            textView!!.visibility = View.GONE
+            binding.text.visibility = View.GONE
         }
         if (isCancelable) {
-            cancel!!.visibility = View.VISIBLE
+            binding.cancel.visibility = View.VISIBLE
         } else {
-            cancel!!.visibility = View.GONE
+            binding.cancel.visibility = View.GONE
         }
-        cancel!!.setOnClickListener { view: View? -> dismiss() }
-        confirm!!.setOnClickListener { view: View? ->
+        binding.cancel.setOnClickListener { dismiss() }
+        binding.confirm.setOnClickListener {
             if (onConfirmListener != null) {
                 onConfirmListener!!.OnConfirm()
             }
             dismiss()
         }
+    }
+
+    override fun initViewBinding(): DialogBottomTextBinding {
+        return DialogBottomTextBinding.inflate(layoutInflater)
     }
 }

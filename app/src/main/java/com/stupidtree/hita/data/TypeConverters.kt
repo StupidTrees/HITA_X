@@ -1,8 +1,8 @@
 package com.stupidtree.hita.data
 
 import androidx.room.TypeConverter
-import com.stupidtree.hita.data.model.EventItem
-import com.stupidtree.hita.data.model.Subject
+import com.stupidtree.hita.data.model.timetable.EventItem
+import com.stupidtree.hita.data.model.timetable.Subject
 import java.sql.Timestamp
 /**
  * ROOM需要使用转换器将时间戳转换为Date

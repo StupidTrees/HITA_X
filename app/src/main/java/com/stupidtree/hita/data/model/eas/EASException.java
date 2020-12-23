@@ -10,13 +10,13 @@ public class EASException extends Exception {
     int type;
     String dialogMessage;
 
-    public static EASException getLoginFailedExpection() {
+    public static EASException getLoginFailedException() {
         EASException jew = new EASException();
         jew.setType(LOGIN_FAILED);
         return jew;
     }
 
-    public static EASException getConnectErrorExpection() {
+    public static EASException getConnectErrorException() {
         EASException jew = new EASException();
         jew.setType(CONNECT_ERROR);
         return jew;

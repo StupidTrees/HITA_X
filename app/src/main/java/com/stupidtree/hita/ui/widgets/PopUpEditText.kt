@@ -1,27 +1,13 @@
 package com.stupidtree.hita.ui.widgets
 
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
 import androidx.annotation.StringRes
-import butterknife.BindView
-import com.stupidtree.hita.R
+import com.stupidtree.hita.databinding.DialogBottomEditTextBinding
 
 /**
  * 圆角的文本框底部弹窗
  */
-class PopUpEditText : TransparentBottomSheetDialog() {
-    @BindView(R.id.title)
-    lateinit var title: TextView
-
-    @BindView(R.id.text)
-    lateinit var editText: EditText
-
-    @BindView(R.id.confirm)
-    lateinit var confirm: View
-
-    @BindView(R.id.cancel)
-    lateinit var cancel: View
+class PopUpEditText : TransparentBottomSheetDialog<DialogBottomEditTextBinding>() {
 
     @StringRes
     var init_title: Int? = null
@@ -38,7 +24,7 @@ class PopUpEditText : TransparentBottomSheetDialog() {
 
     override fun onStart() {
         super.onStart()
-        editText!!.requestFocus()
+        binding.text.requestFocus()
     }
 
     fun setTitle(@StringRes title: Int): PopUpEditText {
@@ -61,26 +47,27 @@ class PopUpEditText : TransparentBottomSheetDialog() {
         return this
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.dialog_bottom_edit_text
-    }
 
     override fun initViews(v: View) {
         if (init_title != null) {
-            title!!.setText(init_title!!)
+            binding.title.setText(init_title!!)
         }
         if (init_hint != null) {
-            editText.setHint(init_hint!!)
+            binding.text.setHint(init_hint!!)
         }
         if (init_text != null) {
-            editText.setText(init_text)
+            binding.text.setText(init_text)
         }
-        cancel.setOnClickListener { view: View? -> dismiss() }
-        confirm!!.setOnClickListener { view: View? ->
+        binding.cancel.setOnClickListener { view: View? -> dismiss() }
+        binding.confirm.setOnClickListener { view: View? ->
             if (onConfirmListener != null) {
-                onConfirmListener!!.OnConfirm(editText!!.text.toString())
+                onConfirmListener!!.OnConfirm(binding.text.text.toString())
             }
             dismiss()
         }
+    }
+
+    override fun initViewBinding(): DialogBottomEditTextBinding {
+        return DialogBottomEditTextBinding.inflate(layoutInflater)
     }
 }

@@ -143,7 +143,7 @@
 //                return result;
 //            } catch (JsonSyntaxException e) {
 //                logOut();
-//                throw EASException.getLoginFailedExpection();
+//                throw EASException.getLoginFailedException();
 //            }
 //        } catch (IOException e) {
 //            throw EASException.getConnectErrorExpection();
@@ -193,7 +193,7 @@
 //                return result;
 //            } catch (JsonSyntaxException e) {
 //                logOut();
-//                throw EASException.getLoginFailedExpection();
+//                throw EASException.getLoginFailedException();
 //            }
 //        } catch (IOException e) {
 //            e.printStackTrace();
@@ -233,7 +233,7 @@
 //                return result;
 //            } catch (Exception e) {
 //                logOut();
-//                throw EASException.getLoginFailedExpection();
+//                throw EASException.getLoginFailedException();
 //            }
 //        } catch (IOException e) {
 //            throw EASException.getConnectErrorExpection();
@@ -519,7 +519,7 @@
 //                // System.out.println("YY:" + year + " MM:" + month + "  DD:" + result.get(Calendar.DAY_OF_MONTH));
 //                return result;
 //            } catch (JsonSyntaxException e) {
-//                throw EASException.getLoginFailedExpection();
+//                throw EASException.getLoginFailedException();
 //            }
 //        } catch (IOException e) {
 //            throw EASException.getConnectErrorExpection();
