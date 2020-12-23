@@ -118,6 +118,11 @@
 <!--                    app:BL_text="@string/login"-->
 <!--                    app:BL_textColor="#FFFFFF"-->
 <!--                    app:BL_textSize="18sp" />-->
+                <Button
+                    android:id="@+id/login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Button" />
             </FrameLayout>
 
         </LinearLayout>

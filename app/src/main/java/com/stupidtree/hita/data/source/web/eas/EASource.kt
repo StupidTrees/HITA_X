@@ -56,13 +56,13 @@ class EASource internal constructor() : EASService {
                 if (login) {
                     val easToken = EASToken() //登录成功，创建tokrn
                     easToken.cookies = cookies //设置cookies
-                    res.value = DataState(easToken, DataState.STATE.SUCCESS)
+                    res.postValue(DataState(easToken, DataState.STATE.SUCCESS))
                 } else {
-                    res.value = DataState(DataState.STATE.FETCH_FAILED)
+                    res.postValue(DataState(DataState.STATE.FETCH_FAILED))
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                res.value = DataState(DataState.STATE.FETCH_FAILED)
+                res.postValue(DataState(DataState.STATE.FETCH_FAILED))
             }
         }.start()
         return res
@@ -98,9 +98,9 @@ class EASource internal constructor() : EASService {
                     term.termName = m["xqmc"]
                     terms.add(term)
                 }
-                res.value = DataState(terms, DataState.STATE.SUCCESS)
+                res.postValue(DataState(terms, DataState.STATE.SUCCESS))
             } catch (e: IOException) {
-                res.value = DataState(DataState.STATE.FETCH_FAILED)
+                res.postValue(DataState(DataState.STATE.FETCH_FAILED))
             }
         }.start()
         return res;

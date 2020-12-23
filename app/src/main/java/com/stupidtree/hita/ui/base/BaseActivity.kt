@@ -18,11 +18,11 @@ import com.stupidtree.hita.R
  * 本项目所有Activity的基类
  * @param <TextRecord> 泛型T指定的是这个页面绑定的ViewModel
 </TextRecord> */
-abstract class BaseActivity<T : ViewModel?, V: ViewBinding> : AppCompatActivity() {
+abstract class BaseActivity<T : ViewModel, V: ViewBinding> : AppCompatActivity() {
     /**
      * 每个Acitivity绑定一个ViewModel
      */
-    private var viewModel: T? = null
+    protected lateinit var viewModel: T
 
     protected lateinit var binding:V
 
@@ -34,7 +34,7 @@ abstract class BaseActivity<T : ViewModel?, V: ViewBinding> : AppCompatActivity(
     protected abstract fun initViewBinding():V
 
     //获取ViewModel的具体类型
-    protected abstract fun getViewModelClass(): Class<T>?
+    protected abstract fun getViewModelClass(): Class<T>
 
     //为Activity中的View设置行为
     protected abstract fun initViews()
@@ -45,7 +45,7 @@ abstract class BaseActivity<T : ViewModel?, V: ViewBinding> : AppCompatActivity(
         //所有的Activity都可以使用ButterKnife进行View注入，十分方便
         //ButterKnife.bind(this)
         //对ViewModel进行初始化
-        getViewModelClass()?.let {
+        getViewModelClass().let {
             viewModel = if (it.superclass == AndroidViewModel::class.java) {
                 ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(it)
             } else {

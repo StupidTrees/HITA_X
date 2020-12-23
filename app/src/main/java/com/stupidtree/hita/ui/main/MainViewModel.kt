@@ -1,12 +1,6 @@
-package com.stupidtree.hita.ui.main;
+package com.stupidtree.hita.ui.main
 
-import android.app.Application;
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-
-public class MainViewModel extends AndroidViewModel {
-    public MainViewModel(@NonNull Application application) {
-        super(application);
-    }
-}
+class MainViewModel(application: Application) : AndroidViewModel(application)
