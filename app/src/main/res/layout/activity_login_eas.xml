@@ -9,6 +9,7 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="360dp"
+        android:background="#00000000"
         app:elevation="0dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -39,13 +40,14 @@
                     android:alpha="0.8"
                     android:fontFamily="sans-serif-black"
                     android:text="HITSZ"
-                    android:textSize="24sp" />
+                    android:textSize="32sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="统一身份认证"
+                    android:textColor="?attr/textColorPrimary"
                     android:textSize="36sp"
                     android:textStyle="bold" />
 
@@ -83,6 +85,8 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="@string/hint_eas_username"
                 android:paddingLeft="8dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
@@ -92,6 +96,8 @@
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="@string/hint_eas_password"
                 android:inputType="textPassword"
                 android:paddingLeft="8dp"
                 android:paddingTop="16dp"
@@ -120,9 +126,9 @@
 <!--                    app:BL_textSize="18sp" />-->
                 <Button
                     android:id="@+id/login"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:text="@string/login" />
             </FrameLayout>
 
         </LinearLayout>

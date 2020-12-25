@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
@@ -18,32 +19,39 @@ abstract class BaseFragment<T : ViewModel,V:ViewBinding> : Fragment() {
 //    private var rootView: View? = null
 
     //本Fragment绑定的ViewModel
-    protected var viewModel: T? = null
-    protected  var _binding:V? = null
+    protected lateinit var viewModel: T
+    protected var binding:V? = null
 
     /**
      * 以下四个函数的作用和BaseActivity里的四个函数类似
      */
     protected abstract fun getViewModelClass(): Class<T>
     protected abstract fun initViews(view: View)
-    protected abstract fun getLayoutId(): Int
+    protected abstract fun initViewBinding():V
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 //        if (rootView == null) {
 //            rootView = inflater.inflate(getLayoutId(), container, false)
 //        }
-
+        binding = initViewBinding()
         //同样，所有的Fragment也支持ButterKnife的View注入
         //ButterKnife.bind(this, rootView!!)
         //初始化ViewModel
-        viewModel = ViewModelProvider(this)[getViewModelClass()]
-        _binding?.let {
+        getViewModelClass().let {
+            viewModel = if (it.superclass == AndroidViewModel::class.java) {
+                ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(it)
+            } else {
+                ViewModelProvider(this).get(it)
+            }
+        }
+        //viewModel = ViewModelProvider(this)[getViewModelClass()]
+        binding?.let {
             initViews(it.root)
         }
-        return _binding?.root
+        return binding?.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 }

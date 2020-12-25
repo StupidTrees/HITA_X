@@ -6,6 +6,7 @@ import com.stupidtree.hita.R
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
+
 /**
  * 此类整合了一些文本处理有关的函数
  */
@@ -13,6 +14,13 @@ object TextUtils {
     fun isEmpty(text: CharSequence?): Boolean {
         return TextUtils.isEmpty(text)
     }
+
+    fun getNormalDateText(context: Context, calendar: Calendar):String {
+        val sdf_year =
+            SimpleDateFormat(context.getString(R.string.date_format_1), Locale.getDefault())
+        return sdf_year.format(calendar.time)
+    }
+
     /**
      * 获得聊天列表的日期字符串（模仿微信）
      *
@@ -24,10 +32,14 @@ object TextUtils {
         val time = Calendar.getInstance()
         time.timeInMillis = timestamp?.time ?: -1
         val now = Calendar.getInstance()
-        val sdf_year = SimpleDateFormat(context.getString(R.string.date_format_1), Locale.getDefault())
-        val sdf_month = SimpleDateFormat(context.getString(R.string.date_format_2), Locale.getDefault())
-        val sdf_am_hour = SimpleDateFormat(context.getString(R.string.date_format_am), Locale.getDefault())
-        val sdf_pm_hour = SimpleDateFormat(context.getString(R.string.date_format_pm), Locale.getDefault())
+        val sdf_year =
+            SimpleDateFormat(context.getString(R.string.date_format_1), Locale.getDefault())
+        val sdf_month =
+            SimpleDateFormat(context.getString(R.string.date_format_2), Locale.getDefault())
+        val sdf_am_hour =
+            SimpleDateFormat(context.getString(R.string.date_format_am), Locale.getDefault())
+        val sdf_pm_hour =
+            SimpleDateFormat(context.getString(R.string.date_format_pm), Locale.getDefault())
         val yesterday = getDateAddedCalendar(now, -1)
         val theDayBeforeYesterday = getDateAddedCalendar(now, -2)
         return if (isSameDay(time, now)) { //今天
@@ -60,10 +72,14 @@ object TextUtils {
         val time = Calendar.getInstance()
         time.timeInMillis = timestamp?.time ?: -1
         val now = Calendar.getInstance()
-        val sdf_year = SimpleDateFormat(context.getString(R.string.date_format_1), Locale.getDefault())
-        val sdf_month = SimpleDateFormat(context.getString(R.string.date_format_2), Locale.getDefault())
-        val sdf_am_hour = SimpleDateFormat(context.getString(R.string.date_format_am), Locale.getDefault())
-        val sdf_pm_hour = SimpleDateFormat(context.getString(R.string.date_format_pm), Locale.getDefault())
+        val sdf_year =
+            SimpleDateFormat(context.getString(R.string.date_format_1), Locale.getDefault())
+        val sdf_month =
+            SimpleDateFormat(context.getString(R.string.date_format_2), Locale.getDefault())
+        val sdf_am_hour =
+            SimpleDateFormat(context.getString(R.string.date_format_am), Locale.getDefault())
+        val sdf_pm_hour =
+            SimpleDateFormat(context.getString(R.string.date_format_pm), Locale.getDefault())
         val yesterday = getDateAddedCalendar(now, -1)
         val theDayBeforeYesterday = getDateAddedCalendar(now, -2)
         return if (isSameDay(time, now)) { //今天
@@ -73,11 +89,23 @@ object TextUtils {
                 sdf_pm_hour.format(time.time)
             }
         } else if (isSameDay(time, yesterday) || isSameDay(time, theDayBeforeYesterday)) { //昨天、前天
-            val prefix = if (isSameDay(time, yesterday)) context.getString(R.string.yesterday) else context.getString(R.string.the_day_before_yesterday)
+            val prefix = if (isSameDay(
+                    time,
+                    yesterday
+                )
+            ) context.getString(R.string.yesterday) else context.getString(R.string.the_day_before_yesterday)
             if (time[Calendar.AM_PM] == Calendar.AM) {
-                context.getString(R.string.date_format_with_prefix, prefix, sdf_am_hour.format(time.time))
+                context.getString(
+                    R.string.date_format_with_prefix,
+                    prefix,
+                    sdf_am_hour.format(time.time)
+                )
             } else {
-                context.getString(R.string.date_format_with_prefix, prefix, sdf_pm_hour.format(time.time))
+                context.getString(
+                    R.string.date_format_with_prefix,
+                    prefix,
+                    sdf_pm_hour.format(time.time)
+                )
             }
         } else if (time[Calendar.YEAR] != now[Calendar.YEAR]) { //不是同一年
             sdf_year.format(time.time)

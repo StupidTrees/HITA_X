@@ -3,6 +3,7 @@ package com.stupidtree.hita.ui.widgets
 import android.text.TextUtils
 import android.view.View
 import androidx.annotation.StringRes
+import com.stupidtree.hita.R
 import com.stupidtree.hita.databinding.DialogBottomTextBinding
 
 /**
@@ -44,11 +45,11 @@ class PopUpText : TransparentBottomSheetDialog<DialogBottomTextBinding>() {
         this.onConfirmListener = onConfirmListener
         return this
     }
-    
+
 
     override fun initViews(v: View) {
         if (init_title != null) {
-            binding.title!!.setText(init_title!!)
+            binding.title.setText(init_title!!)
         }
         if (!TextUtils.isEmpty(init_text)) {
             binding.text.text = init_text
@@ -70,7 +71,12 @@ class PopUpText : TransparentBottomSheetDialog<DialogBottomTextBinding>() {
         }
     }
 
-    override fun initViewBinding(): DialogBottomTextBinding {
-        return DialogBottomTextBinding.inflate(layoutInflater)
+
+    override fun getLayoutId(): Int {
+        return R.layout.dialog_bottom_text
+    }
+
+    override fun initViewBinding(v: View): DialogBottomTextBinding {
+        return DialogBottomTextBinding.bind(v)
     }
 }

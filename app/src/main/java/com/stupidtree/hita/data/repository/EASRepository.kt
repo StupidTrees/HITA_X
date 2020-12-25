@@ -9,6 +9,7 @@ import com.stupidtree.hita.data.model.eas.TermItem
 import com.stupidtree.hita.data.source.web.eas.EASource
 import com.stupidtree.hita.data.source.web.service.EASService
 import com.stupidtree.hita.ui.base.DataState
+import java.util.*
 
 class EASRepository internal constructor(application: Application) {
 
@@ -27,6 +28,19 @@ class EASRepository internal constructor(application: Application) {
             return@map DataState(false,it.state)
         };
     }
+
+    /**
+     * 获取学期开始日期
+     */
+    fun getStartDateOfTerm(term:TermItem):LiveData<DataState<Calendar>>{
+        token?.let {
+            return easService.getStartDate(it,term)
+        }
+        val res = MutableLiveData<DataState<Calendar>>()
+        res.value = DataState(DataState.STATE.NOT_LOGGED_IN)
+        return res
+    }
+
 
     /**
      * 进行获取学年学期

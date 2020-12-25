@@ -1,11 +1,14 @@
 package com.stupidtree.hita.ui.widgets
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
+import com.stupidtree.hita.R
 import com.stupidtree.hita.databinding.DialogBottomSelectableListBinding
 import com.stupidtree.hita.databinding.DialogBottomSelectableListItemBinding
 import com.stupidtree.hita.ui.base.BaseViewHolder
@@ -32,12 +35,12 @@ class PopUpSelectableList<T> : TransparentBottomSheetDialog<DialogBottomSelectab
     /**
      * 不得已放在UI里的数据
      */
-    var listRes: MutableList<ItemData<T>>? = null
+    private var listRes: MutableList<ItemData<T>>? = null
     private var init_selected: T? = null
     private var onConfirmListener: OnConfirmListener<T>? = null
 
     interface OnConfirmListener<T> {
-        fun OnConfirm(title: String?, key: T)
+        fun onConfirm(title: String?, key: T)
     }
 
     fun setTitle(@StringRes title: Int): PopUpSelectableList<T> {
@@ -77,7 +80,7 @@ class PopUpSelectableList<T> : TransparentBottomSheetDialog<DialogBottomSelectab
     override fun onStart() {
         super.onStart()
         if (init_selected != null) {
-            listAdapter.setSelected(ItemData<T>(null, init_selected!!))
+            listAdapter.setSelected(ItemData(null, init_selected!!))
         }
         listAdapter.notifyDataSetChanged()
     }
@@ -89,13 +92,13 @@ class PopUpSelectableList<T> : TransparentBottomSheetDialog<DialogBottomSelectab
         if (init_title != null) {
             binding.title.setText(init_title!!)
         }
-        binding.cancel.setOnClickListener { view: View? -> dismiss() }
-        binding.confirm.setOnClickListener { view: View? ->
+        binding.cancel.setOnClickListener { dismiss() }
+        binding.confirm.setOnClickListener {
             if (onConfirmListener != null) {
                 val data = listAdapter.selectedData
                 Log.e("data", data.toString())
                 if (data != null) {
-                    onConfirmListener!!.OnConfirm(data.name, data.data)
+                    onConfirmListener!!.onConfirm(data.name, data.data)
                 }
             }
             dismiss()
@@ -116,6 +119,7 @@ class PopUpSelectableList<T> : TransparentBottomSheetDialog<DialogBottomSelectab
 
     }
 
+    @SuppressLint("ParcelCreator")
     internal class LAdapter<C>(mContext: Context, mBeans: MutableList<ItemData<C>>) : BasicSelectableListAdapter<ItemData<C>, LAdapter.LHolder>(
         mContext, mBeans) {
         override fun bindHolder(holder: LHolder, data: ItemData<C>?, position: Int) {
@@ -134,16 +138,23 @@ class PopUpSelectableList<T> : TransparentBottomSheetDialog<DialogBottomSelectab
         internal class LHolder(view:DialogBottomSelectableListItemBinding) : BaseViewHolder<DialogBottomSelectableListItemBinding>(view) {
         }
 
-        override fun getViewBinding(viewType: Int): ViewBinding {
-            return DialogBottomSelectableListItemBinding.inflate(mInflater)
-        }
 
         override fun createViewHolder(viewBinding: ViewBinding, viewType: Int): LHolder {
             return LHolder(viewBinding as DialogBottomSelectableListItemBinding)
         }
+
+        override fun getViewBinding(parent: ViewGroup, viewType: Int): ViewBinding {
+            return DialogBottomSelectableListItemBinding.inflate(mInflater,parent,false)
+        }
     }
 
-    override fun initViewBinding(): DialogBottomSelectableListBinding {
-        return DialogBottomSelectableListBinding.inflate(layoutInflater)
+
+
+    override fun getLayoutId(): Int {
+        return R.layout.dialog_bottom_selectable_list
+    }
+
+    override fun initViewBinding(v: View): DialogBottomSelectableListBinding {
+        return DialogBottomSelectableListBinding.bind(v)
     }
 }

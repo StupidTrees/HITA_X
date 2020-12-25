@@ -1,8 +1,9 @@
 package com.stupidtree.hita.data.source.web.eas
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.JsonParser
+import com.google.gson.*
 import com.stupidtree.hita.data.model.eas.CourseItem
 import com.stupidtree.hita.data.model.eas.EASException
 import com.stupidtree.hita.data.model.eas.EASToken
@@ -91,12 +92,17 @@ class EASource internal constructor() : EASService {
                         m[key.replace("\"".toRegex(), "")] =
                             value.toString().replace("\"".toRegex(), "")
                     }
-                    val term = TermItem()
-                    term.yearCode = m["xn"]
-                    term.yearName = m["xnmc"]
-                    term.termCode = m["xq"]
-                    term.termName = m["xqmc"]
-                    terms.add(term)
+                    Log.e("map", m.toString());
+                    val term = m["xn"]?.let { m["xnmc"]?.let { it1 ->
+                        m["xq"]?.let { it2 ->
+                            m["xqmc"]?.let { it3 ->
+                                TermItem(it,
+                                    it1, it2, it3
+                                )
+                            }
+                        }
+                    } }
+                    term?.let { terms.add(it) }
                 }
                 res.postValue(DataState(terms, DataState.STATE.SUCCESS))
             } catch (e: IOException) {
@@ -104,6 +110,52 @@ class EASource internal constructor() : EASService {
             }
         }.start()
         return res;
+    }
+
+    /**
+     * 获取学期开始日期
+     */
+    override fun getStartDate(token: EASToken, term: TermItem): LiveData<DataState<Calendar>> {
+        var res = MutableLiveData<DataState<Calendar>>()
+        Thread{
+            val s = Jsoup.connect("http://jw.hitsz.edu.cn/Xiaoli/queryMonthList")
+                .timeout(timeout)
+                .cookies(token.cookies)
+                .headers(defaultRequestHeader)
+                .header("X-Requested-With", "XMLHttpRequest")
+                .data("zyw", "zh")
+                .data("pxn", term.yearCode)
+                .data("pxq", term.termCode)
+                .ignoreContentType(true)
+                .ignoreHttpErrors(true)
+                .post()
+            try {
+                val json = s.getElementsByTag("body").text()
+                val monthList = JsonParser().parse(json).asJsonObject["monlist"].asJsonArray
+                if (monthList.size() == 0) throw EASException.newDialogMessageExpection("该学期尚未开放！")
+                val firstMon = monthList[0].asJsonObject
+                val year = firstMon["yy"].asInt
+                val month = firstMon["mm"].asInt
+                val firstMonDays = firstMon["dszlist"].asJsonArray
+                var i: Int
+                i = 0
+                while (i < firstMonDays.size()) {
+                    val aWeek = firstMonDays[i].asJsonObject
+                    val attr = aWeek["xldjz"]
+                    if (attr != JsonNull.INSTANCE) break
+                    i++
+                }
+                val result = Calendar.getInstance()
+                result[Calendar.YEAR] = year
+                result[Calendar.MONTH] = month - 1
+                result[Calendar.WEEK_OF_MONTH] = i + 1
+                result[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
+                res.postValue(DataState(result))
+            } catch (e: Exception) {
+                res.postValue(DataState(DataState.STATE.FETCH_FAILED,e.message))
+            }
+        }.start()
+        return res
     }
 
     override fun getTimetableOfTerm(

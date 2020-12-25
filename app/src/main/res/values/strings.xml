@@ -12,4 +12,9 @@
     <string name="yesterday">昨天</string>
     <string name="the_day_before_yesterday">前天</string>
     <string name="date_format_with_prefix">"%s %s"</string>
+    <string name="hint_eas_username">统一身份认证账号</string>
+    <string name="hint_eas_password">密码</string>
+    <string name="login">登录</string>
+    <string name="import_timetable">导入课表</string>
+    <string name="pick_import_term">选择导入学期</string>
 </resources>

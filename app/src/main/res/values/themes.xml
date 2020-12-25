@@ -6,8 +6,8 @@
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorSecondary">@color/purple_500</item>
+        <item name="colorSecondaryVariant">@color/purple_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
@@ -24,11 +24,17 @@
 
     <!--    圆角透明背景的BottomSheetDialog主题-->
     <style name="TransparentBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
-         
         <item name="bottomSheetStyle">@style/TransparentBottomSheetStyle</item>
     </style>
     <style name="TransparentBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
         <item name="behavior_peekHeight">400dp</item>
+    </style>
+
+
+    <!--水波纹风格-->
+    <style name="button_ripple_white">
+        <item name="android:colorControlHighlight">@color/white</item>
+        <item name="android:radius">24dp</item>
     </style>
 </resources>

@@ -16,12 +16,13 @@ import com.stupidtree.hita.R
 import com.stupidtree.hita.databinding.ActivityLoginEasBinding
 import com.stupidtree.hita.ui.base.BaseActivity
 import com.stupidtree.hita.ui.base.DataState
+import com.stupidtree.hita.utils.ActivityUtils
 import java.util.*
 
 class LoginEASActivity : BaseActivity<LoginEASViewModel, ActivityLoginEasBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setWindowParams(statusBar = true, darkColor = false, navi = false)
+        setWindowParams(statusBar = true, darkColor = true, navi = false)
         setToolbarActionBack(binding.toolbar)
     }
 
@@ -29,6 +30,7 @@ class LoginEASActivity : BaseActivity<LoginEASViewModel, ActivityLoginEasBinding
         viewModel.loginResultLiveData.observe(this){
             if(it.state==DataState.STATE.SUCCESS){
                 Toast.makeText(getThis(),"登录成功",Toast.LENGTH_SHORT).show()
+                ActivityUtils.startEASActivity(getThis())
             }else{
                 Toast.makeText(getThis(),"登录失败",Toast.LENGTH_SHORT).show()
             }

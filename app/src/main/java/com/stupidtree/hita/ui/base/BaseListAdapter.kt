@@ -43,7 +43,7 @@ abstract class BaseListAdapter<T, H : RecyclerView.ViewHolder>(
      * 所有继承此类的Adapter都需要实现以下三个函数
      */
     //获取每个列表项的布局id
-    protected abstract fun getViewBinding(viewType: Int): ViewBinding
+    protected abstract fun getViewBinding(parent:ViewGroup,viewType: Int): ViewBinding
 
     //初始化每个holder
     abstract fun createViewHolder(viewBinding: ViewBinding, viewType: Int): H
@@ -61,7 +61,7 @@ abstract class BaseListAdapter<T, H : RecyclerView.ViewHolder>(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): H {
         // val v = mInflater.inflate(getLayoutId(viewType), parent, false)
-        return createViewHolder(getViewBinding(viewType), viewType)
+        return createViewHolder(getViewBinding(parent,viewType), viewType)
     }
 
     override fun onBindViewHolder(holder: H, position: Int) {
@@ -79,12 +79,6 @@ abstract class BaseListAdapter<T, H : RecyclerView.ViewHolder>(
     val indexBias: Int
         get() = 0
 
-    constructor(parcel: Parcel) : this(
-        TODO("mContext"),
-        TODO("mBeans")
-    ) {
-
-    }
 
 
     fun willNotifyNormalChange(): Boolean { //当位置不发生变化时，是否刷新该item

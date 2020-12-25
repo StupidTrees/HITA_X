@@ -1,0 +1,54 @@
+<resources>
+
+    <!--name 是自定义属性名，一般采用驼峰命名，可以随意。 format 是属性的单位-->
+    <attr name="timeLabelColor" format="color" />
+    <attr name="timeLineColor" format="color" />
+    <attr name="timeLabelWidth" format="dimension" />
+    <attr name="timeLabelSize" format="dimension" />
+    <!--name 是自定义控件的类名-->
+    <declare-styleable name="TimeTableViewGroup">
+        <!--注意：一般情况是按照上面这样写，把属性单独定义在上面，然后在styleable这里面引用，但是我要装一下逼，就单独混写在里面了下，取值的时候就需要单独去取名称才能取到值不然是取不到值-->
+        <attr name="timeLabelColor" />
+        <attr name="timeLabelSize" />
+        <attr name="timeLabelWidth" />
+        <attr name="timeLineColor" />
+    </declare-styleable>
+
+
+    <attr name="cardTitleText" format="string" />
+    <attr name="cardSubtitleText" format="string" />
+    <attr name="cardIcon" format="reference" />
+    <attr name="cardIconColor" format="color" />
+    <attr name="cardCheckable" format="boolean" />
+    <attr name="cardHapticFeedback" format="boolean" />
+    <attr name="cardIconPadding" format="dimension" />
+    <declare-styleable name="SelectableIconCardView">
+        <attr name="cardTitleText" />
+        <attr name="cardSubtitleText" />
+        <attr name="cardIcon" />
+        <attr name="cardIconColor" />
+        <attr name="cardCheckable" />
+        <attr name="cardHapticFeedback" />
+        <attr name="cardIconPadding" />
+    </declare-styleable>
+
+
+    <attr name="defaultText" format="string" />
+    <attr name="dialogTitle" format="string" />
+    <attr name="iconPadding" format="dimension" />
+    <attr name="barIcon" format="reference" />
+    <attr name="backgroundElement" format="reference" />
+    <declare-styleable name="RoundedBarPicker">
+        <attr name="defaultText" />
+        <attr name="iconPadding" />
+        <attr name="barIcon" />
+        <attr name="backgroundElement" />
+        <attr name="dialogTitle" />
+    </declare-styleable>
+
+    <attr name="pullDownAnimElementColor" format="color" />
+    <declare-styleable name="ExpendPoint">
+        <attr name="pullDownAnimElementColor" />
+    </declare-styleable>
+</resources>
+

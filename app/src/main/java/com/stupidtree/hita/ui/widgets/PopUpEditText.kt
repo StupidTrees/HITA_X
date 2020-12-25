@@ -2,6 +2,7 @@ package com.stupidtree.hita.ui.widgets
 
 import android.view.View
 import androidx.annotation.StringRes
+import com.stupidtree.hita.R
 import com.stupidtree.hita.databinding.DialogBottomEditTextBinding
 
 /**
@@ -58,8 +59,8 @@ class PopUpEditText : TransparentBottomSheetDialog<DialogBottomEditTextBinding>(
         if (init_text != null) {
             binding.text.setText(init_text)
         }
-        binding.cancel.setOnClickListener { view: View? -> dismiss() }
-        binding.confirm.setOnClickListener { view: View? ->
+        binding.cancel.setOnClickListener { dismiss() }
+        binding.confirm.setOnClickListener {
             if (onConfirmListener != null) {
                 onConfirmListener!!.OnConfirm(binding.text.text.toString())
             }
@@ -67,7 +68,11 @@ class PopUpEditText : TransparentBottomSheetDialog<DialogBottomEditTextBinding>(
         }
     }
 
-    override fun initViewBinding(): DialogBottomEditTextBinding {
-        return DialogBottomEditTextBinding.inflate(layoutInflater)
+    override fun getLayoutId(): Int {
+        return R.layout.dialog_bottom_edit_text
+    }
+
+    override fun initViewBinding(v: View): DialogBottomEditTextBinding {
+        return DialogBottomEditTextBinding.bind(v)
     }
 }
