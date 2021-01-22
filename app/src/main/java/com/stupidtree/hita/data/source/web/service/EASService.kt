@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import com.stupidtree.hita.data.model.eas.CourseItem
 import com.stupidtree.hita.data.model.eas.EASToken
 import com.stupidtree.hita.data.model.eas.TermItem
+import com.stupidtree.hita.data.model.timetable.TermSubject
+import com.stupidtree.hita.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hita.ui.base.DataState
 import java.util.*
 
@@ -28,7 +30,10 @@ interface EASService {
      */
     fun getStartDate(token: EASToken,term:TermItem):LiveData<DataState<Calendar>>;
 
-
+    /**
+     * 获取某学期的已选课程
+     */
+    fun getSubjectsOfTerm(token: EASToken, term: TermItem): LiveData<DataState<MutableList<TermSubject>>>
     /**
      * 获取个人总课表
      * @param term 学期
@@ -36,6 +41,11 @@ interface EASService {
      */
     fun getTimetableOfTerm(term:TermItem, token: EASToken):LiveData<DataState<List<CourseItem>>>
 
+
+    /**
+     * 获取某学期的课表结构
+     */
+    fun getScheduleStructure(term: TermItem,token: EASToken):LiveData<DataState<MutableList<TimePeriodInDay>>>
 
 
 }

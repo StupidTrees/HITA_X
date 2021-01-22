@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="material_toolbar_height">56dp</dimen>
+    <dimen name="material_appbar_height">56dp</dimen>
+    <dimen name="material_toolbar_top_margin">24dp</dimen>
+    <dimen name="material_fab_margin">16dp</dimen>
+    <dimen name="timeline_margin_top">16dp</dimen>
+    <dimen name="timeline_card_elevation">0dp</dimen>
+    <dimen name="timeline_width">8dp</dimen>
+    <dimen name="task_card_elevation">0dp</dimen>
+    <dimen name="timetable_label_width">24dp</dimen>
+</resources>

@@ -90,7 +90,8 @@
                 android:paddingLeft="8dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:text="180110324" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/password"
@@ -102,7 +103,8 @@
                 android:paddingLeft="8dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:text="www,2012.com" />
 
             <FrameLayout
                 android:layout_width="match_parent"

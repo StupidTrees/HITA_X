@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    //id 'kotlin-android-extensions'
 }
 
 
@@ -18,11 +17,17 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
     }
 //    viewBinding{
 //        enabled = true
 //    }
-    buildFeatures{
+    buildFeatures {
         //dataBinding = true
         // for view binding :
         viewBinding = true
@@ -50,17 +55,18 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.room:room-runtime:2.2.6'
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    testImplementation 'junit:junit:4.+'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    annotationProcessor 'androidx.room:room-compiler:2.2.6'
 
-    //ButterKnifeView注入
-    //implementation 'com.jakewharton:butterknife:10.1.0'
-    kapt 'com.jakewharton:butterknife-compiler:10.1.0'
+
+    implementation "androidx.room:room-runtime:2.3.0-alpha04"
+    kapt "androidx.room:room-compiler:2.3.0-alpha04"
+
+
     //kotlin的viewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     //Glide图片加载
@@ -71,8 +77,13 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.12.1'
 
     //buttonLoading
-    implementation 'com.github.rasoulmiri:buttonloading:v1.0.8'
+    implementation 'br.com.simplepass:loading-button-android:2.2.0'
     //折叠布局
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+
+    //时间轴
+    implementation 'com.github.alorma:timelineview:2.3.0'
+    //圆形进度
+    implementation 'com.github.lzyzsd:circleprogress:1.2.1'
 
 }

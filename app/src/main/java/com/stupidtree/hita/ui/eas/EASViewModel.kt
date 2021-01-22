@@ -31,10 +31,9 @@ class EASViewModel(application: Application) : AndroidViewModel(application){
     /**
      * 方法区
      */
-
-
     fun startRefreshTerms(){
         termsController.value = Trigger.actioning
     }
+
 
 }

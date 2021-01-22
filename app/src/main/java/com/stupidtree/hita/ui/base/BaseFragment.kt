@@ -15,8 +15,6 @@ import androidx.viewbinding.ViewBinding
  * @param <TextRecord> 泛型指定的是Fragment所绑定的ViewModel类型
 </TextRecord> */
 abstract class BaseFragment<T : ViewModel,V:ViewBinding> : Fragment() {
-//    //本Fragment持有的根View
-//    private var rootView: View? = null
 
     //本Fragment绑定的ViewModel
     protected lateinit var viewModel: T
@@ -29,13 +27,7 @@ abstract class BaseFragment<T : ViewModel,V:ViewBinding> : Fragment() {
     protected abstract fun initViews(view: View)
     protected abstract fun initViewBinding():V
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        if (rootView == null) {
-//            rootView = inflater.inflate(getLayoutId(), container, false)
-//        }
         binding = initViewBinding()
-        //同样，所有的Fragment也支持ButterKnife的View注入
-        //ButterKnife.bind(this, rootView!!)
-        //初始化ViewModel
         getViewModelClass().let {
             viewModel = if (it.superclass == AndroidViewModel::class.java) {
                 ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(it)
@@ -43,13 +35,16 @@ abstract class BaseFragment<T : ViewModel,V:ViewBinding> : Fragment() {
                 ViewModelProvider(this).get(it)
             }
         }
-        //viewModel = ViewModelProvider(this)[getViewModelClass()]
         binding?.let {
             initViews(it.root)
         }
         return binding?.root
     }
 
+
+    fun getColorPrimary():Int{
+        return (activity as BaseActivity<*, *>).getColorPrimary()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null

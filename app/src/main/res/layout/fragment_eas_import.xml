@@ -5,97 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#00000000"
-        app:elevation="0dp">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="0dp"
-            app:layout_scrollFlags="snapMargins|scroll|enterAlwaysCollapsed|exitUntilCollapsed">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.9">
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="24dp"
-                    android:scrollbarSize="0dp">
-
-                    <com.stupidtree.hita.ui.widgets.RoundedBarView
-                        android:id="@+id/pick_xnxq"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        app:backgroundElement="@drawable/element_rounded_button_bg_primary"
-                        app:barIcon="@drawable/ic_baseline_timetable_24"
-                        app:dialogTitle="导入学期"
-                        app:iconPadding="4dp">
-
-                    </com.stupidtree.hita.ui.widgets.RoundedBarView>
-                </HorizontalScrollView>
-
-                                <net.cachapa.expandablelayout.ExpandableLayout
-                                    android:id="@+id/expand"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    app:el_expanded="false">
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:orientation="horizontal"
-                                        android:paddingBottom="24dp">
-
-                                        <LinearLayout
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginStart="24dp"
-                                            android:layout_marginTop="8dp"
-                                            android:layout_marginEnd="8dp"
-                                            android:layout_weight="1"
-                                            android:orientation="vertical">
-
-                                            <CheckBox
-                                                android:id="@+id/switch_subject"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:buttonTint="@color/white"
-                                                android:checked="true"
-                                                android:drawableTint="@color/white"
-                                                android:switchPadding="4dp"
-                                                android:text="导入课程详细信息"
-                                                android:textColor="@color/white" />
-
-                                            <TextView
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:layout_margin="4dp"
-                                                android:lineSpacingMultiplier="1.5"
-                                                android:text="这将覆盖本地数据"
-                                                android:textColor="@color/white"
-                                                android:textSize="12sp"
-                                                android:visibility="visible" />
-                                        </LinearLayout>
-
-                                    </LinearLayout>
-                                </net.cachapa.expandablelayout.ExpandableLayout>
-
-            </LinearLayout>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"
@@ -105,8 +14,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overScrollMode="never"
-            android:paddingTop="16dp">
+            android:overScrollMode="never">
 
             <LinearLayout
 
@@ -114,76 +22,151 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="24dp"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="24dp"
+                    android:paddingBottom="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/term_pick"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:orientation="horizontal"
+                        android:theme="@style/button_ripple_white">
+
+                        <TextView
+                            android:id="@+id/term_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="2020春季"
+                            android:textColor="?attr/textColorPrimary"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                         <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="match_parent"
+                            android:alpha="0.6"
+                            android:background="?attr/colorControlNormal"
+                            android:backgroundTint="?attr/backgroundColorBottomAsTint"
+                            app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24" />
+
+                    </LinearLayout>
+
+                    <com.stupidtree.hita.ui.widgets.RoundedBarView
+                        android:id="@+id/pick_xnxq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="24dp"
+                        android:visibility="gone"
+                        app:backgroundElement="@drawable/element_rounded_button_bg_grey"
+                        app:barIcon="@drawable/ic_baseline_timetable_24"
+                        app:dialogTitle="导入学期"
+                        app:foregroundColor="?attr/textColorSecondary"
+                        app:iconPadding="4dp">
+
+                    </com.stupidtree.hita.ui.widgets.RoundedBarView>
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                        android:id="@+id/button_import"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/element_rounded_button_bg_primary"
+                        android:text="@string/button_import"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:finalCornerAngle="16dp"
+                        app:initialCornerAngle="16dp"
+                        app:spinning_bar_color="@color/white"
+                        app:spinning_bar_padding="5dp"
+                        app:spinning_bar_width="4dp" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="?android:attr/listDivider" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/schedule_structure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:overScrollMode="never" >
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="24dp"
-                    android:text="课表导入"
-                    android:textColor="?attr/textColorPrimary"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:scrollbarSize="0dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <com.stupidtree.hita.ui.widgets.RoundedBarView
-                            android:id="@+id/start_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="24dp"
-                            android:layout_marginBottom="16dp"
-                            app:backgroundElement="@drawable/element_rounded_button_bg_primary"
-                            app:barIcon="@drawable/ic_baseline_timetable_24"
-                            app:dialogTitle="起始日期"
-                            app:iconPadding="4dp">
-
-                        </com.stupidtree.hita.ui.widgets.RoundedBarView>
-                    </LinearLayout>
-                </HorizontalScrollView>
+                    android:layout_marginBottom="8dp"
+                    android:background="?android:attr/listDivider" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="24dp"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:paddingStart="24dp"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="24dp"
+                    android:paddingBottom="16dp">
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="开始日期"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                        <com.stupidtree.hita.ui.widgets.ButtonLoading
-                            android:id="@+id/buttonImport"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:layout_gravity="bottom"
-                            android:foregroundGravity="center"
-                            app:BL_backgroundColor="#00000000"
-                            app:BL_circleColor="?attr/colorAccent"
-                            app:BL_circleColorSecond="?attr/colorPrimary"
-                            app:BL_enable="true"
-                            app:BL_stateShow="normal"
-                            app:BL_text="@string/import_timetable"
-                            app:BL_textColor="#FFFFFF"
-                            app:BL_textSize="16sp" />
-                    </FrameLayout>
+                    <com.stupidtree.hita.ui.widgets.RoundedBarView
+                        android:id="@+id/start_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="16dp"
+                        android:alpha="0.6"
+                        android:clickable="false"
+                        app:backgroundElement="@drawable/element_rounded_button_bg_grey"
+                        app:barIcon="@drawable/ic_baseline_timetable_24"
+                        app:dialogTitle="起始日期"
+                        app:foregroundColor="?attr/textColorSecondary"
+                        app:iconPadding="4dp">
 
+                    </com.stupidtree.hita.ui.widgets.RoundedBarView>
                 </LinearLayout>
 
+                <CalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

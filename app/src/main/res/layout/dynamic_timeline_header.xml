@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/timeline_head_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="24dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:theme="@style/unbound_ripple_white_light"
+    android:visibility="visible"
+    app:cardBackgroundColor="?attr/backgroundColorSecond"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="24dp">
+
+    <ImageView
+        android:id="@+id/bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="?attr/colorPrimary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/timeline_titile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-black"
+                android:maxEms="7"
+                android:singleLine="true"
+                android:text="马克思注意基本原理概论"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/timeline_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:text="82分钟后开始"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/timeline_head_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_timeline_head_free"
+                app:tint="@color/white" />
+
+
+            <com.github.lzyzsd.circleprogress.ArcProgress
+                android:id="@+id/circle_progress"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                app:arc_bottom_text="@string/progress"
+                app:arc_bottom_text_size="10sp"
+                app:arc_finished_color="@color/white"
+                app:arc_stroke_width="12dp"
+                app:arc_text_color="@color/white"
+                app:arc_text_size="20sp"
+                app:arc_unfinished_color="#66FFFFFF" />
+
+            <!--<com.gelitenight.waveview.library.WaveView-->
+            <!--android:id="@+id/timeline_head_waveview"-->
+            <!--android:layout_width="90dp"-->
+            <!--android:layout_height="90dp"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:visibility="invisible" />-->
+
+            <LinearLayout
+                android:id="@+id/timeline_head_gonow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="invisible"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="84dp"
+                    android:layout_height="84dp"
+                    android:layout_marginBottom="4dp"
+                    app:srcCompat="@drawable/ic_run"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/tl_head_gonow_classroom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:alpha="0.8"
+                    android:fontFamily="sans-serif-black"
+                    android:maxEms="9"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/head_expand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            app:el_duration="200"
+            app:el_expanded="false"
+            app:el_parallax="0.5">
+
+            <LinearLayout
+                android:id="@+id/head_counting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/element_rounded_button_bg_white"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tl_head_counting_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginRight="16dp"
+                        android:gravity="bottom|start"
+                        android:maxEms="9"
+                        android:text="21分钟后进行"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tl_head_counting_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:alpha="0.8"
+                        android:gravity="center"
+                        android:maxEms="12"
+                        android:singleLine="true"
+                        android:text="马克思主义基本原理概论"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/tl_head_counting_image"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTintMode="src_over"
+                    android:padding="8dp"
+                    android:scaleType="centerCrop"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/ic_baseline_access_alarm_24"
+                    app:tint="@color/white"
+                    app:tintMode="src_in" />
+
+            </LinearLayout>
+        </net.cachapa.expandablelayout.ExpandableLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:orientation="horizontal"
+            tools:ignore="RtlHardcoded">
+
+
+            <ImageView
+                android:id="@+id/bt_expand"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="10dp"
+                android:visibility="visible"
+                app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24"
+                app:theme="@style/button_ripple_white"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:id="@+id/bt_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="16dp"
+                app:srcCompat="@drawable/ic_baseline_add_24"
+                app:theme="@style/button_ripple_white"
+                app:tint="@color/white" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

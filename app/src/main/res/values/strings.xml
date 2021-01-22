@@ -17,4 +17,1079 @@
     <string name="login">登录</string>
     <string name="import_timetable">导入课表</string>
     <string name="pick_import_term">选择导入学期</string>
+    <string name="timetable_tab_title">第%d周</string>
+    <string name="import_success">导入成功</string>
+    <string name="import_failed">导入失败</string>
+    <string name="button_import">导入</string>
+    <string name="no_valid_date">请设置开始日期</string>
+    <string name="title_import_timetable">课表导入</string>
+    <string name="schedule_list_item_pattern">第%d节课</string>
+
+
+
+    <string name="timeline_head_free_title">今日空闲</string>
+    <string name="timeline_head_free_subtitle">享受当下！</string>
+    <string name="timeline_head_goodnight_title">夜深了</string>
+    <string name="timeline_head_goodnight_subtitle">晚安！</string>
+    <string name="timeline_head_goodmorning_title">早上好</string>
+    <string name="timeline_head_lunch_title">午餐时间</string>
+    <string name="timeline_head_lunch_subtitle">去哪吃?</string>
+    <string name="timeline_head_dinner_title">晚餐时间</string>
+    <string name="timeline_head_dinner_subtitle">去哪吃?</string>
+    <string name="timeline_head_normal_title">暂时没有事件</string>
+    <string name="timeline_head_normal_subtitle">自由安排</string>
+    <string name="timeline_head_finish_title">全部结束</string>
+    <string name="timeline_head_finish_subtitle">享受生活吧！</string>
+    <string name="timeline_head_nulluser_title">请先登录</string>
+    <string name="timeline_head_nulluser_subtitle">登录后享受更多服务</string>
+    <string name="timeline_head_nulldata_title">无数据</string>
+    <string name="timeline_head_nulldata_subtitle">请创建或导入课表</string>
+    <string name="timeline_head_notthisterm_title">假期</string>
+    <string name="timeline_head_notthisterm_subtitle">本学期未开始！</string>
+    <string name="title_activity_user_profile">ActivityUserProfile</string>
+    <string name="shortcut_empty_classroom_short">空教室</string>
+    <string name="shortcut_empty_classroom_long">空教室查询</string>
+    <string name="shortcut_explore_short">希塔</string>
+    <string name="shortcut_explore_long">希塔HITA</string>
+    <string name="shortcut_timetable_short">课表</string>
+    <string name="shortcut_timetable_long">课程表</string>
+    <string name="shortcut_news_short">信息窗</string>
+    <string name="shortcut_news_long">信息窗口</string>
+    <string name="title_activity_search">ActivitySearch</string>
+    <string name="update_dialog_title">有可用更新</string>
+    <string name="update_dialog_mes1">新版本</string>
+    <string name="update_dialog_mes2">发布时间</string>
+    <string name="button_confirm">确定</string>
+    <string name="button_cancel">取消</string>
+    <string name="guide_1p">欢迎使用HITSZ助手，以下为使用导航</string>
+    <string name="guide_1s">您可以点击其他位置跳过导航</string>
+    <string name="guide_3p">点击展开抽屉</string>
+    <string name="guide_3s">功能都在这啦</string>
+    <string name="guide_5p">点击进入日程表</string>
+    <string name="guide_5s">加强版课程表</string>
+    <string name="guide_6p">这里可以进行搜索</string>
+    <string name="guide_6s">HIT全局搜...</string>
+    <string name="guide_7p">登录HITSZ助手账号</string>
+    <string name="guide_7s">开启精彩体验吧</string>
+    <string name="notif_installQQ">请安装QQ后再反馈！</string>
+    <string name="drawer_username_null">登录</string>
+    <string name="drawer_signature_null">HITSZ助手账号</string>
+    <string name="drawer_signature_none">无签名</string>
+    <string name="main_drawer_menu_jwts">教务系统</string>
+    <string name="main_drawer_menu_ut">大学城内部网</string>
+    <string name="main_drawer_menu_info">校园动态</string>
+    <string name="main_drawer_menu_search">搜索</string>
+    <string name="main_drawer_menu_darkmode">深色模式</string>
+    <string name="main_drawer_menu_settings">设置</string>
+    <string name="main_drawer_menu_report">意见反馈</string>
+    <string name="main_drawer_menu_about">关于</string>
+    <string name="main_drawer_menu_curriculums">课表</string>
+    <string name="main_drawer_menu_studyassistant">助手</string>
+    <string name="main_drawer_menu_hita">希塔</string>
+    <string name="main_drawer_menu_theme">主题</string>
+    <string name="punch_success_normal">打卡成功</string>
+    <string name="punch_success_happy">打卡成功，祝你开心每一天</string>
+    <string name="punch_success_sad">打卡成功，加油呀！</string>
+    <string name="load_news_failed">加载新闻失败</string>
+    <string name="load_lecture_failed">加载讲座失败</string>
+    <string name="load_annouce_failed">加载通知失败</string>
+    <string name="punch_failed">打卡失败！</string>
+    <string name="maintab_navi">校园</string>
+    <string name="maintab_today">今日</string>
+    <string name="maintab_events">事务</string>
+    <string name="sign_up">注册</string>
+    <string name="log_in">登录</string>
+    <string name="navi_jw_title">教务功能</string>
+    <string name="navi_jw_jw_p">掌上教务</string>
+    <string name="navi_jw_jw_s">告别网页</string>
+    <string name="navi_jw_emptyclassroom_s">找地方学习</string>
+    <string name="navi_jw_xl_s">何时放假</string>
+    <string name="navi_jw_xl_p">校历</string>
+    <string name="navi_hint_text">长按卡片可以拖动调整次序哦</string>
+    <string name="navi_hint_button">知道啦</string>
+    <string name="navi_campus_title">校园生活</string>
+    <string name="navi_campus_vote_p">态度墙</string>
+    <string name="navi_campus_billboard_p">食堂排行</string>
+    <string name="navi_mood_greet">Hi, 今天心情如何？</string>
+    <string name="navi_mood_title">今日校园心情</string>
+    <string name="navi_mood_point">分</string>
+    <string name="ade_title">添加%s</string>
+    <string name="ade_arrangement">日程</string>
+    <string name="ade_ddl">DDL</string>
+    <string name="ade_course">课程</string>
+    <string name="ade_exam">考试</string>
+    <string name="ade_namehint">输入事件名称...</string>
+    <string name="ade_tag2">标签2</string>
+    <string name="ade_tag3">标签3</string>
+    <string name="ade_pick_subject">选择科目</string>
+    <string name="ade_pick_time">设置日期与时间段</string>
+    <string name="ade_pick_task">处理任务</string>
+    <string name="ade_pick_location">选择地点</string>
+    <string name="ade_wholeday">全天</string>
+    <string name="add_laf_detail_hint">输入详细内容</string>
+    <string name="button_post">发布</string>
+
+    <string name="usercenter_sync_autoupload">备份所有数据到服务器</string>
+    <string name="usercenter_sync_autoupload_hint">当时间表变更时，APP将自动备份数据</string>
+    <string name="usercenter_sync_download">下载云端数据到本地</string>
+    <string name="usercenter_sync_download_hint">这将清除本地数据，并置课表为教务课表</string>
+    <string name="usercenter_info_bind">认证学号</string>
+    <string name="usercenter_info_nick">昵称</string>
+    <string name="usercenter_info_signature">个性签名</string>
+    <string name="usercenter_info_username">账号</string>
+    <string name="usercenter_info_school">学院</string>
+    <string name="usercenter_info_realname">姓名</string>
+    <string name="days">%d天</string>
+    <string name="mood_title">校园心情指数</string>
+    <string name="signup_username">设置登录账号</string>
+    <string name="signup_password">密码</string>
+    <string name="signup_confirm_password">确认密码</string>
+    <string name="signup_nick">昵称</string>
+    <string name="grkb_import_xnxq">导入学期</string>
+    <string name="grkb_upload_teacher_hint">教师搜索现已改用官方教师展示平台，故该功能不建议开启</string>
+    <string name="grkb_attention">请注意</string>
+    <string name="grkb_attention_hint">导入后请务必核对教务网站上、学校发布的官方课表！</string>
+    <string name="grkb_upload_teacher">帮助完善教师数据库</string>
+    <string name="cjgl_xnxq">查询学期</string>
+    <string name="bind_stun_title">验证哈工大深圳学号</string>
+    <string name="bind_stun_stunum">学号</string>
+    <string name="bind_stun_password">统一身份登录密码</string>
+    <string name="add_task_title">添加待办</string>
+    <string name="add_task_name_hint">输入任务名...</string>
+    <string name="add_task_everyday">每日任务</string>
+    <string name="add_task_limitation">任务期限</string>
+    <string name="add_attitude_title">发布态度话题</string>
+    <string name="add_attitude_name">输入标题</string>
+    <string name="add_attitude_image">添加图片</string>
+    <string name="hitsz">哈工大深圳</string>
+    <string name="login_jwts_tysfrzdl">统一身份认证登录</string>
+    <string name="username">账号</string>
+    <string name="password">密码</string>
+    <string name="hita_account">HITSZ助手</string>
+    <string name="app_slogan">Harvest In The Shining Zone </string>
+    <string name="navi_campus_card_p">校园卡</string>
+    <string name="navi_jw_emptyclassroom_p">空教室查询</string>
+    <string name="notif_importdatafirst">请先创建或导入课表！</string>
+    <string name="logout_message">注销后，本地所有数据将会被清空</string>
+    <string name="tt_monday">一</string>
+    <string name="tt_tuesday">二</string>
+    <string name="tt_wednesday">三</string>
+    <string name="tt_thursday">四</string>
+    <string name="tt_friday">五</string>
+    <string name="tt_saturday">六</string>
+    <string name="tt_sunday">日</string>
+    <string name="tt_wholeday">全天</string>
+    <plurals name="user_center_you_have_punched">
+        <item quantity="other">累计%d天校园心情</item>
+    </plurals>
+    <string name="date_day">%d日</string>
+    <string name="week">第%d周</string>
+    <string name="week_str">第%s周</string>
+    <plurals name="count_week">
+        <item quantity="other">%d星期</item>
+    </plurals>
+    <plurals name="count_week_simplified">
+        <item quantity="other">%d周</item>
+    </plurals>
+    <string name="navi_semister_not_begun">学期未开始</string>
+    <string name="navi_semister_no_data">无学期数据</string>
+    <string name="navi_settings_title">设置导航页内容</string>
+    <string name="ade_no_suitable_allocation">没有找到合适的分配时间！</string>
+    <string name="ade_set_time_first">请先设置日期！</string>
+    <string name="pick_location">选择地点</string>
+    <string name="ade_exam_name">输入考试名称…</string>
+    <string name="ade_set_time_period">设置日期与时间段</string>
+    <string name="ade_set_time_date">设置日期与时间</string>
+    <string name="ade_set_date">设置日期</string>
+    <string name="label_activity_attitude">HITSZ态度墙</string>
+    <string name="label_activity_tasks">待办事项</string>
+    <string name="task_card_title_tasknum">待办</string>
+    <string name="task_card_title_notask">无待办</string>
+    <string name="task_card_title_ddlnum">DDL</string>
+    <string name="task_card_title_noddl">无DDL</string>
+    <string name="exam_card_noexam">无考试</string>
+    <string name="wholeday">全天</string>
+    <string name="dialog_pick_course_title">设置课程时间</string>
+    <string name="dialog_pick_course_to">到</string>
+    <string name="dialog_pick_course_label">选择上课周数：</string>
+    <string name="period">第%d节</string>
+    <string name="today">今天</string>
+    <string name="tomorrow">明天</string>
+    <string name="tda_tomorrow">后天</string>
+    <string name="pick_single_time_label1">周</string>
+    <string name="pick_single_time_label2">时</string>
+    <string name="pick_single_time_label3">分</string>
+    <string name="menu_timeable_draw_line">显示当前时间线</string>
+    <string name="menu_timeable_color">科目颜色</string>
+    <string name="menu_timeable_random_allocate">随机分配颜色</string>
+    <string name="dialog_title_random_allocate">是否随机生成各科目颜色？</string>
+    <string name="dialog_title_set_total_weeks">设置总周数</string>
+    <string name="attention">注意</string>
+    <string name="dialog_message_delete_curriculum">删除课表将删除一切与之关联的事件、科目、任务，确定吗？</string>
+    <string name="curriculum_manager_satrtat">开始日期</string>
+    <string name="curriculum_manager_total">%d周</string>
+    <string name="curriculum_manager_enable_color">启用科目颜色</string>
+    <string name="curriculum_manager_randomly_allocate_color">随机分配颜色</string>
+    <string name="menu_timeable_curriculum">课表管理</string>
+    <string name="snack_semester_notstarted">这个学期还没有开始哟</string>
+    <string name="dialog_tag1">标签1</string>
+    <string name="dialog_tag2">标签2</string>
+    <string name="dialog_time">时间</string>
+    <string name="dialog_date">日期</string>
+    <string name="dialog_teacher">教师</string>
+    <string name="dialog_classroom">教室</string>
+    <string name="dialog_period">节数</string>
+    <string name="dialog_this_course_s">该课时</string>
+    <string name="dialog_this_course_p">为本科目的第%d次课</string>
+    <string name="dialog_course_rate_p">课程自评</string>
+    <string name="dialog_course_rate_s">这堂课学得怎么样？</string>
+    <string name="notif_delete_success">删除成功！</string>
+    <string name="dialog_title_sure_delete">确定删除吗？</string>
+    <string name="none">无</string>
+    <string name="pick_teacher">选择教师</string>
+    <string name="pick_classroom">选择教室</string>
+    <string name="menu_logout_jw">注销教务登录状态</string>
+    <string name="menu_open_in_browser">浏览器打开</string>
+    <string name="menu_all_subjects">所有科目</string>
+    <string name="menu_search_teacher_website">查找教师网站</string>
+    <string name="menu_logout">注销</string>
+    <string name="menu_delete">删除</string>
+    <string name="settings_category_functions">功能开关</string>
+    <string name="settings_summary_task">开启后方可使用学习助手</string>
+    <string name="settings_title_task">任务模块(开发阶段)</string>
+    <string name="settings_summary_autologin">需要验证学号并设置本地登录密码</string>
+    <string name="settings_title_autologin">后台自动登录教务</string>
+    <string name="settings_title_jwpassword">设置教务登录密码</string>
+    <string name="settings_summary_jwpassword">出于隐私安全，密码不会保存在云</string>
+    <string name="settings_title_darkmode">深色模式选项</string>
+    <string name="settings_summary_darkmode">设置大可莫得开启时机</string>
+    <string name="settings_category_timetable">课程表设置</string>
+    <string name="settings_summary_colormode">为不同科目着色，关闭则显示主题渐变色</string>
+    <string name="settings_title_colormode">启用科目颜色</string>
+    <string name="settings_category_app">应用设置</string>
+    <string name="settings_summary_auto_check_update">建议开启</string>
+    <string name="settings_title_auto_check_update">进入app自动检查更新</string>
+    <string name="settings_summary_auto_download_wifi">建议开启</string>
+    <string name="settings_title_auto_download_wifi">Wifi自动下载更新</string>
+    <string name="setting_summary_always_on_notifi">其实挺方便哒</string>
+    <string name="setting_title_always_on_notifi">常驻通知栏</string>
+    <string name="settings_not_set_yet">未设置</string>
+    <string name="settings_already_set">已设置</string>
+    <string name="settings_noti_loginfirst">请先登录验证学号</string>
+    <string name="settings_noti_bindfirst">请先验证学号</string>
+    <string name="settings_noti_bound_to">验证学号:%s</string>
+    <string name="settings_category_auto_login">自动登录设置</string>
+    <string name="label_activity_settings">设置</string>
+    <string name="label_activity_utmood">HITSZ校园心情</string>
+    <string name="mood_0">哀鸿遍野</string>
+    <string name="mood_1">嘤嘤嘤</string>
+    <string name="mood_2">心情糟糕</string>
+    <string name="mood_3">烦闷</string>
+    <string name="mood_4">一般</string>
+    <string name="mood_5">不错</string>
+    <string name="mood_6">很棒</string>
+    <string name="mood_7">棒极了</string>
+    <string name="mood_8">高兴疯了</string>
+    <string name="label_activity_empty_classroom">空教室查询</string>
+    <string name="subject_compulsory">性质</string>
+    <string name="subject_credit">课程学分</string>
+    <string name="subject_total">总学时</string>
+    <string name="subject_exam">考试课</string>
+    <string name="subject_title_info">科目信息</string>
+    <string name="subject_code">课程代码</string>
+    <string name="subject_xnxq">学年学期</string>
+    <string name="subject_type">课程类别</string>
+    <string name="subject_school">开设部门</string>
+    <string name="subject_title_all_courses">所有课时</string>
+    <string name="subject_progress_text">进度</string>
+    <string name="subject_self_rate">自评点数</string>
+    <string name="subject_title_scores">成绩</string>
+    <string name="subject_score_none">还没有成绩信息，试试登录教务系统同步吧</string>
+    <string name="subject_color">课程颜色</string>
+    <string name="search_hint">明天下午...</string>
+    <string name="check_for_update">检查更新</string>
+    <string name="start_download">开始下载</string>
+    <string name="install">安装</string>
+    <string name="pause">暂停</string>
+    <string name="continue_download">继续下载</string>
+    <string name="update_version">版本：</string>
+    <string name="update_size">文件大小：</string>
+    <string name="update_release_time">发布时间：</string>
+    <string name="update_log">更新日志：</string>
+    <string name="version">版本：</string>
+    <string name="label_activity_about_hita">关于</string>
+    <string name="new_version_available">检测到版本更新</string>
+    <string name="already_up_to_date">已是最新版本！</string>
+    <string name="update_available">检查到更新</string>
+    <string name="check_for_update_failed">检查更新失败！</string>
+    <string name="delete_installation_package">删除安装包</string>
+    <string name="timeline_head_ongoing_subtitle">正在进行</string>
+    <string name="timelinr_goodmorning_subtitle">今天共有%d节课</string>
+    <string name="timeline_gonow_subtitle">%d分钟后开始</string>
+    <string name="timeline_counting_middle">后进行</string>
+    <string name="timeline_counting_free">接下来没事了</string>
+    <string name="unknown_location">未知地点</string>
+    <string name="progress">进度</string>
+    <string name="bind">验证</string>
+    <string name="set_signature">设置个性签名</string>
+    <string name="notif_signature_updated">更改签名成功</string>
+    <string name="notif_signature_update_failed">更改签名失败,请尝试重新登录</string>
+    <string name="notif_set_nick">设置昵称</string>
+    <string name="notif_nick_updated">更改昵称成功</string>
+    <string name="notif_nick_update_failed">更改昵称失败，请尝试重新登录</string>
+    <string name="notif_bind_studentnumber_success">验证学号成功</string>
+    <string name="notif_bind_studentnumber_already">该学号已验证至其他账号！</string>
+    <string name="user_info_updated">已更新用户信息</string>
+    <string name="dialog_message_bind_failed">验证失败！</string>
+    <string name="button_try_again">再来一次</string>
+    <string name="notif_migrate_data_failed">迁移数据失败</string>
+    <string name="dialog_title_already_bound_to">该学号已验证至%s(%s)</string>
+    <string name="dialog_item_migrate_data">迁移该账号数据至本账号</string>
+    <string name="login_success_syncing">登录成功,正在同步用户数据……</string>
+    <string name="username_or_password_wrong">用户名或密码错误</string>
+    <string name="login_failed">登录失败</string>
+    <string name="enter_username">请输入用户名</string>
+    <string name="enter_password">请输入密码</string>
+    <string name="sync_success">成功同步该账号的课表！</string>
+    <string name="sync_error">同步用户数据出错！</string>
+    <string name="no_data_on_cloud">云端没有数据！</string>
+    <string name="curriculum_updated">已更新课表参数</string>
+    <string name="enter_name">输入名称…</string>
+    <string name="give_me_that_permission">请授予HITSZ助手勿扰权限</string>
+    <string name="mute_assistant">上课静音助手</string>
+    <string name="mute_assistant_tag1">上课前</string>
+    <string name="mute_assistant_tag2">分钟开启静音</string>
+    <string name="mute_assistant_tag3">下课时自动关闭静音模式</string>
+    <string name="mute_assistant_tag4">强制静音</string>
+    <string name="mute_assistant_tag5">上课时监听音量调节事件，强制归零。 一定程度上抗击恶意APP</string>
+    <string name="preview_assistant_tag1">自动生成预习任务</string>
+    <string name="preview_assistant_tag2">每天花</string>
+    <string name="preview_assistant_tag3">分钟预习</string>
+    <string name="preview_assistant_tag4">仅安排考试课</string>
+    <string name="preview_assistant_tag5">APP将综合科目信息与用户喜好，为重要性强的科目安排预习复习等任务，也会为任务自动分配处理事件，帮助你的学习生活么么哒</string>
+    <string name="label_activity_learning_assistant">学习助手</string>
+    <string name="delete_curriculum">删除课程表</string>
+    <string name="tab_hitsz_website_info">哈工深官网</string>
+    <string name="load_more">加载更多</string>
+    <string name="web_total_searched">共搜索到%d条结果(显示%d条)</string>
+    <string name="nothing_found">没有搜索到结果</string>
+    <string name="teacher_total_searched">共查找到%d位教师</string>
+    <string name="tab_search_teacher">教师</string>
+    <string name="email">邮箱</string>
+    <string name="phone">电话</string>
+    <string name="address">地址</string>
+    <string name="no_teacher_contact_data">无数据</string>
+    <string name="teacher_no_page">暂时没有更多信息</string>
+    <string name="tab_search_zsw">哈工深招生网</string>
+    <string name="zsw_total_searched">共查找到%d条信息</string>
+    <string name="posted_in">发布于</string>
+    <string name="total_views">浏览量</string>
+    <string name="search_connect_error">网络出错，请重试</string>
+    <string name="search_resolve_error">解析出错，请重试</string>
+    <string name="tab_search_library">图书馆</string>
+    <string name="lib_ut">大学城</string>
+    <string name="lib_sz">深圳市</string>
+    <string name="tab_search_timetable">时间表</string>
+    <string name="timetable_total_searched">共查找到%d件事件</string>
+    <string name="navi_campus_search_p">HIT全局搜</string>
+    <string name="navi_campus_hita_p">希塔</string>
+    <string name="use_vpn_hint">校外请使用官方vpn连接</string>
+    <string name="attitude_tabs_latest_created">最新</string>
+    <string name="attitude_tabs_latest_updated">最近互动</string>
+    <string name="attitude_tabs_weekly_top">近期最热</string>
+    <string name="attitude_tabs_history_top">总榜</string>
+    <string name="teacher_temp_label">助手服务器暂存</string>
+    <string name="tab_search_location">地点</string>
+    <string name="location_total_searched">共找到%d个地点</string>
+    <string name="time_format_1">%d小时%d分钟</string>
+    <string name="time_format_2">%d分钟</string>
+    <string name="time_format_2_simplified">%d分</string>
+    <string name="time_format_3">%d小时</string>
+    <string name="time_format_3_simplified">%d时</string>
+    <string name="theme_name_red">鲜艳红</string>
+    <string name="theme_name_pink">爱人粉</string>
+    <string name="theme_name_brown">低调棕</string>
+    <string name="theme_name_blue">晴空蓝</string>
+    <string name="theme_name_grey">谷歌灰</string>
+    <string name="theme_name_android">安卓绿</string>
+    <string name="theme_name_purple">直男紫</string>
+    <string name="theme_name_green">原谅绿</string>
+    <string name="theme_name_deep_orange">百香橙</string>
+    <string name="theme_name_normal_blue">纯蓝</string>
+    <string name="theme_name_cyan">光亮青</string>
+    <string name="theme_name_amber">琥珀</string>
+    <string name="theme_name_rose">俺高贵</string>
+    <string name="theme_name_vice">罪恶都市</string>
+    <string name="theme_name_mild">温和绿</string>
+    <string name="theme_name_morning">晨光</string>
+    <string name="theme_name_ph">仅深色-没有证据</string>
+    <string name="theme_name_p30">天空之镜</string>
+    <string name="theme_name_hit">哈工大蓝</string>
+    <string name="theme_name_cruelsummer">残酷夏日</string>
+    <string name="theme_name_mi">50度灰</string>
+    <string name="theme_name_diechilan" translatable="false">古风色-蝶翅蓝</string>
+    <string name="theme_name_tan" translatable="false">古风色-檀</string>
+    <string name="theme_name_yadinglv" translatable="false">古风色-亚丁绿</string>
+    <string name="theme_name_manjianghong" translatable="false">古风色-满江红</string>
+    <string name="theme_name_cyberpunk">仅深色-赛博朋克</string>
+    <string name="xsxk_xnxq">选择学期</string>
+    <string name="jw_xk_tabs_bx">必修</string>
+    <string name="jw_xk_tabs_xx">限选</string>
+    <string name="jw_xk_tabs_cxyx">创新研修</string>
+    <string name="jw_xk_tabs_cxsy">创新实验</string>
+    <string name="jw_xk_tabs_ty">体育</string>
+    <string name="jw_xk_tabs_fankzy">方案内跨专业</string>
+    <string name="jw_xk_tabs_kzy">跨专业</string>
+    <string name="subject_name">课程中文名称</string>
+    <string name="subject_lang">授课语言</string>
+    <string name="subject_name_en">课程英文名称</string>
+    <string name="subject_tag">备注</string>
+    <string name="subject_descrip">课程简介</string>
+    <string name="subject_descrip_en">课程英文简介</string>
+    <string name="subject_guideline">课程大纲附件</string>
+    <string name="subject_guideline_en">课程大纲英文附件</string>
+    <string name="subject_teacher_name">教师姓名</string>
+    <string name="subject_teacher_responsible">是否负责人</string>
+    <string name="subject_teacher_files">教学资料</string>
+    <string name="subject_jw_title">教务课程详情</string>
+    <string name="download_fail">下载出错</string>
+    <string name="download_success">文件下载完成</string>
+    <string name="downloading">下载中....</string>
+    <string name="download_open_folder">点击打开文件目录</string>
+    <string name="subject_jw_download_begin">开始下载，通知栏查看进度</string>
+    <string name="jw_xk_tabs_yx">已选课程</string>
+    <string name="download_file_progress_pattern">还有%d个文件</string>
+    <string name="xk_opoup_subject_detail">课程详情</string>
+    <string name="xk_opoup_click_jump">点击查看</string>
+    <string name="jw_tabs_xk">选课</string>
+    <string name="jw_tabs_frkb">课表导入</string>
+    <string name="jw_tabs_cj">成绩管理</string>
+    <string name="jw_tabs_grcj">个人成绩</string>
+    <string name="subjet_jw_detail_click_jump">点击进入</string>
+    <string name="subject_jw_detail">教务网课程详情页</string>
+    <string name="jw_xk_tabs_mooc">MOOC</string>
+    <string name="jw_xk_tabs_wlts">文理通识</string>
+    <string name="jw_xk_tabs_cx">重修</string>
+    <string name="app_notification_channel2_id">hita_channel2</string>
+    <string name="notifi_import_first">请登录并创建课表后使用</string>
+    <string name="app_notification_channel3_id">hita_channel3</string>
+    <string name="settings_summary_timetable_back">点击按钮快速回到本周</string>
+    <string name="settings_title_timetable_back">显示“回到本周”浮动按钮</string>
+    <string name="settings_title_timetable_card_height">事件卡片高度（像素/小时）</string>
+    <string name="settings_summary_timetable_card_height">点击恢复默认</string>
+    <string name="settings_title_timetable_card_opacity">卡片背景不透明度</string>
+    <string name="settings_title_timetable_card_text_bold">卡片字体加粗</string>
+    <string name="settings_summary_timetable_card_text_bold">有时挺好看的</string>
+    <string name="settings_title_timetable_card_icon_enable">卡片显示小圆圈</string>
+    <string name="settings_summary_timetable_card_icon_enable">关闭则文字上移</string>
+    <string name="settings_title_timetable_card_title_gravity">标题对齐方式</string>
+    <string name="settings_summary_timetable_card_title_gravity">仅设置事件名称的显示方式</string>
+    <string name="settings_title_timetable_card_background">卡片背景</string>
+    <string name="settings_title_timetable_card_title_color">卡片标题颜色</string>
+    <string name="settings_title_timetable_card_subtitle_color">卡片副标题颜色</string>
+    <string name="settings_title_timetable_card_title_alpha">标题不透明度</string>
+    <string name="settings_title_timetable_card_subtitle_alpha">副标题不透明度</string>
+    <string name="settings_title_timetable_preset">预设样式配置</string>
+    <string name="settings_summary_timetable_preset">使用预设配置下面的选项</string>
+    <string name="settings_title_timetable_card_icon_color">小圆圈颜色</string>
+    <string name="menu_timetable_style">详细样式</string>
+    <string name="preference_tabs_basic">基本设置</string>
+    <string name="preference_tabs_appearance">外观设置</string>
+    <string name="preference_tabs_others">其他设置</string>
+    <string name="settings_summary_timetable_animation">有可能造成卡顿</string>
+    <string name="settings_title_timetable_animation">启用卡片动画</string>
+    <string name="class_assistant">事件开始提醒</string>
+    <string name="give_me_notification_permission">请手动授予APP弹出悬浮通知的权限</string>
+    <string name="mute_on">已开启静音</string>
+    <string name="HITSZ_study_assistant">HITSZ学习助手</string>
+    <string name="event_notify_soon">马上开始啦！</string>
+    <string name="mute_off">已关闭静音</string>
+    <string name="curriculum_none">没有课表</string>
+    <string name="curriculum_changed">已切换当前课表</string>
+    <string name="curriculum_manager_name">课表名称</string>
+    <string name="curriculum_manager_ttweeks">总周数</string>
+    <string name="notifi_curriculum_set_name">设置课表名称</string>
+    <string name="choose_or_add_subject">选择或添加科目</string>
+    <string name="notifi_atleast_oneweek">请至少指定一周</string>
+    <string name="ade_subject_name">输入课程名称...</string>
+    <string name="choose_subject">选择已有科目</string>
+    <string name="ade_pick_teacher">选择教师</string>
+    <string name="new_subject_created">已创建新的科目</string>
+    <string name="add_course_done">已添加课程</string>
+    <string name="add_event_done">事件已添加</string>
+    <string name="notifi_input_teacher">请输入教师名称！</string>
+    <string name="add_subject">添加科目</string>
+    <string name="delete_success">删除成功</string>
+    <string name="delete_failed">删除失败</string>
+    <string name="dialog_message_delete_subject">这将删除该科目的所有课程和考试事件，确定删除吗？</string>
+    <string name="delete_subject">删除科目</string>
+    <string name="import_curriculum">添加课表</string>
+    <string name="new_curriculum">新建空课表</string>
+    <string name="import_from_jw">教务系统导入</string>
+    <string name="import_from_excel">Excel文件导入</string>
+    <string name="import_excel_success">成功从Excel文件中导入%d个课表</string>
+    <string name="curriculum_created">已新建课表</string>
+    <string name="subject_mooc">MOOC</string>
+    <string name="main_drawer_menu_user">账号</string>
+    <string name="sync_subjects_info_to_curriculum">同步课程详情到当前课表</string>
+    <string name="subject_sync_success">成功同步%d个科目的信息！</string>
+    <string name="subject_sync_failed">同步失败！</string>
+    <string name="excel_hint1">查看格式要求和模板文件</string>
+    <string name="excel_hint2">从文件管理器选择Excel文件</string>
+    <string name="switch_curriculum">切换</string>
+    <string name="check_your_network">请检查网络连接</string>
+    <string name="subject_operation_hint">开启了颜色，点击科目卡片右方的颜色图标即可编辑颜色。</string>
+    <string name="subject_sync_hint">可以前往教务系统的“已选”课程页面，一键同步课程详情信息</string>
+    <string name="exam_place">考场</string>
+    <string name="search">搜索</string>
+    <string-array name="curriculum_tabs">
+        <item>科目</item>
+        <item>教师</item>
+        <item>设置</item>
+    </string-array>
+    <string-array name="user_center_tabs">
+        <item>资料</item>
+        <item>校园</item>
+
+        <item>同步</item>
+    </string-array>
+    <string-array name="months">
+        <item>1月</item>
+        <item>2月</item>
+        <item>3月</item>
+        <item>4月</item>
+        <item>5月</item>
+        <item>6月</item>
+        <item>7月</item>
+        <item>8月</item>
+        <item>9月</item>
+        <item>10月</item>
+        <item>11月</item>
+        <item>12月</item>
+    </string-array>
+    <string-array name="months_full">
+        <item>1月</item>
+        <item>2月</item>
+        <item>3月</item>
+        <item>4月</item>
+        <item>5月</item>
+        <item>6月</item>
+        <item>7月</item>
+        <item>8月</item>
+        <item>9月</item>
+        <item>10月</item>
+        <item>11月</item>
+        <item>12月</item>
+    </string-array>
+    <string-array name="dow1">
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+        <item>星期日</item>
+    </string-array>
+    <string-array name="dow2">
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
+    </string-array>
+    <string-array name="laf_tabs">
+        <item>广场</item>
+        <item>话题</item>
+        <item>关注</item>
+    </string-array>
+    <string-array name="navi_setting_items">
+        <item>校园心情</item>
+        <item>教务功能</item>
+        <item>校区新闻</item>
+        <item>校园生活</item>
+    </string-array>
+    <string-array name="community_comment_item">
+        <item>删除评论</item>
+        <item>回复评论</item>
+        <item>复制评论</item>
+    </string-array>
+    <string-array name="profile_policy_items">
+        <item>不展示真实信息给任何人</item>
+        <item>展示给我关注的人</item>
+        <item>展示给任何人</item>
+    </string-array>
+    <string-array name="leaderboard_tabs">
+        <item>食堂排行</item>
+    </string-array>
+    <string-array name="news_tabs">
+        <item>校区要闻</item>
+        <item>综合新闻</item>
+        <item>讲座信息</item>
+        <item>通知公告</item>
+        <item>校园动态</item>
+
+    </string-array>
+    <string-array name="preference_dark_mode">
+        <item>手动开关</item>
+        <item>跟随系统（仅测试原生和MIUI11）</item>
+    </string-array>
+    <string-array name="preference_card_title_gravity">
+        <item>居中</item>
+        <item>顶部</item>
+        <item>底部</item>
+    </string-array>
+    <string-array name="preference_card_background">
+        <item>主题渐变色</item>
+        <item>主题色Primary</item>
+        <item>主题色Accent</item>
+    </string-array>
+    <string-array name="preference_card_title_color">
+        <item>科目颜色</item>
+        <item>白色</item>
+        <item>黑色</item>
+        <item>主题色Primary</item>
+        <item>主题色Accent</item>
+    </string-array>
+    <string-array name="preference_card_title_color_subject_disabled">
+        <item>白色</item>
+        <item>黑色</item>
+        <item>主题色Primary</item>
+        <item>主题色Accent</item>
+    </string-array>
+    <string-array name="preference_timetable_preset">
+        <item>默认</item>
+        <item>科目色</item>
+        <item>主题色-淡</item>
+        <item>科目色-淡</item>
+    </string-array>
+    <string name="timetable_start_time">起始显示时间</string>
+    <string name="draw_bg_dashed_lines">绘制背景时间虚线</string>
+    <string name="upload_done">上传完成</string>
+    <string name="upload_failed">上传失败</string>
+    <string name="tab_search_user">用户</string>
+    <string name="follow">关注</string>
+    <string name="followed">已关注</string>
+    <string name="fans">粉丝</string>
+    <string name="following">关注</string>
+    <string name="unfollow">取关</string>
+    <string name="unfollowed">已取关</string>
+    <string name="my_fans">我的粉丝</string>
+    <string name="my_following">我的关注</string>
+    <string name="people_following">TA的关注</string>
+    <string name="people_fans">他的粉丝</string>
+    <string name="no_image_fetched">没有获取到图片</string>
+    <string name="no_image_selected">没有选择数据</string>
+    <string name="label_activity_create_post">发布帖子</string>
+    <string name="compressing_pic">正在压缩第%d张图片</string>
+    <string name="compress_done">图片压缩完成</string>
+    <string name="compress_failed">图片压缩失败</string>
+    <string name="post_fail">发布失败！</string>
+    <string name="uploading_pic">正在上传图片</string>
+    <string name="uploading_progress">正在上传第%d/%d个文件:%d%%</string>
+    <string name="uploade_done">上传完成</string>
+    <string name="post_success">发布成功！</string>
+    <string name="reply_post">回复帖子</string>
+    <string name="reply_to_comment">回复给</string>
+    <string name="please_input">请输入内容</string>
+    <string name="comment_added">已添加评论</string>
+    <string name="log_in_first">请先登录！</string>
+    <string name="reply_to">回复给</string>
+    <string name="set_topic">设置话题</string>
+    <string name="more_topics">更多话题</string>
+    <string name="label_activity_one_topic">话题详情</string>
+    <string name="pick_topic">选择话题</string>
+    <string name="delete_start">开始删除</string>
+    <string name="delete_file_start">开始删除文件</string>
+    <string name="sure_to_delete_post">确定删除该帖子吗？</string>
+    <string name="no_comment">还没有评论~</string>
+    <string name="all_comment">所有评论回复</string>
+    <string name="users_liked">点赞用户</string>
+    <string name="no_more">没有更多内容</string>
+    <string name="usercenter_info_grade">入学年份</string>
+    <string name="usercenter_info_profile">主页权限</string>
+    <string name="notif_grade_updated">设置年级成功！</string>
+    <string name="notif_grade_update_failed">设置年级失败</string>
+    <string name="notif_policy_updated">更改成功</string>
+    <string name="notif_policy_update_failed">更改失败</string>
+    <string name="privacy_hint">个人心情统计、真实姓名将会根据设置向其他用户展示。但学院信息都是公开的。</string>
+    <string name="label_activity_message_box">所有消息</string>
+    <string name="follow_failed">关注失败！</string>
+    <string name="unfollow_failed">取关失败！</string>
+    <string name="users_all_post_label">%s的所有动态</string>
+    <string name="my_post">我的发帖</string>
+    <string name="my_message">我的消息</string>
+    <string name="community_name">θ社区</string>
+    <string name="explore_friends">发现</string>
+    <string name="school_mate">同学院用户</string>
+    <string name="its_post">TA的发帖</string>
+    <string name="verify_id_first">请先进入个人中心完成学号验证！</string>
+    <string name="label_activity_user_center">个人中心</string>
+    <string name="changing">正在更改</string>
+    <string name="avatar_changed_success">更换头像成功</string>
+    <string name="avatar_changed_failed">更换头像失败</string>
+    <string name="download_image">下载图片</string>
+    <string name="save_done">已保存至相册</string>
+
+
+    <string name="privacy_policy" translatable="false">
+        <Data><![CDATA[
+        <p>您在使用我们的服务时，我们可能会收集和使用您的相关信息。
+        <br />我们希望通过本《隐私政策》向您说明，在使用我们的服务时，我们如何收集、使用、储存和分享这些信息，以及我们为您提供的访问、更新、控制和保护这些信息的方式。
+        <br />本《隐私政策》与您所使用的服务息息相关，希望您仔细阅读，在需要时，按照本《隐私政策》的指引，作出您认为适当的选择。
+        <br />本《隐私政策》中涉及的相关技术词汇，我们尽量以简明扼要的表述，并提供进一步说明的链接，以便您的理解。
+        <br />您使用或继续使用我们的服务，即意味着同意我们按照本《隐私政策》收集、使用、储存和分享您的相关信息。
+        如对本《隐私政策》或相关事宜有任何问题，请通过stupidtree@163.com与我们联系。</p>
+
+        <h2>我们可能收集的信息</h2>
+        <p>我们提供服务时，可能会收集、储存和使用下列与您有关的信息。如果您不提供相关信息，可能无法享受我们提供的某些服务，或者无法达到相关服务拟达到的效果。
+        </p>
+        <h2>来自教务网站的验证信息</h2>
+
+        <p>用户进行教务验证时，向服务器传送用户个人信息，包括<strong>姓名</strong,<strong>所在学院名称</strong>,<strong>教务账号</strong>
+        <p>注：任何和教育网站有关的密码等隐私内容，本应用都只会进行本地保存，而非在线备份。
+        </p>
+
+        <h2>其他方分享的您的信息</h2>
+
+        <p>其他方使用我们的服务时所提供有关您的共享信息。
+        </p>
+
+        <h2>我们获取的您的信息</h2>
+        <p>您使用服务时我们可能收集如下信息：
+        <br /><b>日志信息</b>，指您使用我们的服务时，系统可能通过cookies、web beacon或其他方式自动采集的技术信息，包括：
+        <br /><b>设备或软件信息</b>，例如您的移动设备、网页浏览器或用于接入我们服务的其他程序所提供的配置信息、您的IP地址和移动设备所用的版本和设备识别码；
+        <br /><b>（在含导航功能的版本中）位置信息</b>，指您开启设备定位功能并使用我们基于位置提供的相关服务时，收集的有关您位置的信息，包括：
+        <br />您通过具有定位功能的移动设备使用我们的服务时，通过GPS或WiFi等方式收集的您的地理位置信息；
+        <br />您或其他用户提供的包含您所处地理位置的实时信息，例如您提供的账户信息中包含的您所在地区信息，您或其他人上传的显示您当前或曾经所处地理位置的共享信息；
+        <br />您可以通过关闭定位功能，停止对您的地理位置信息的收集。
+        </p>
+
+        <h2>我们可能如何使用信息</h2>
+
+        <p>我们可能将在向您提供服务的过程之中所收集的信息用作下列用途：
+        <br/>向您提供服务；
+        <br/>在我们提供服务时，用于身份验证、存档和备份用途，确保我们向您提供的产品和服务的安全性；
+        <br/>帮助我们设计新服务，改善我们现有服务；
+        <br/>使我们更加了解您如何接入和使用我们的服务，从而针对性地回应您的个性化需求，例如语言设定、位置设定、个性化的帮助服务和指示，或对您和其他用户作出其他方面的回应；
+        <br/>软件认证或管理软件升级；
+        <br/>让您参与有关我们产品和服务的调查。
+        <br/></p>
+        <p>为了让您有更好的体验、改善我们的服务或您同意的其他用途，在符合相关法律法规的前提下，我们可能将通过某一项服务所收集的信息，以汇集信息或者个性化的方式，用于我们的其他服务。例如，在您使用我们的一项服务时所收集的信息，可能在另一服务中用于向您提供特定内容，或向您展示与您相关的、非普遍推送的信息。如果我们在相关服务中提供了相应选项，您也可以授权我们将该服务所提供和储存的信息用于我们的其他服务。
+        <br/>我们将尽一切可能采取适当的技术手段，保证您可以访问、更新和更正自己的注册信息或使用我们的服务时提供的其他个人信息。在访问、更新、更正和删除前述信息时，我们可能会要求您进行身份验证，以保障账户安全。
+        </p>
+
+        <h3>我们可能分享的信息</h3>
+
+        <p>除以下情形外，未经您同意，我们不会与任何第三方分享您的个人信息：
+        <br/>我们可能将您的个人信息与第三方服务供应商、承包商及代理（例如代表我们发出电子邮件或推送通知的通讯服务提供商、为我们提供位置数据的地图服务供应商）分享（他们可能并非位于您所在的法域），用作下列用途：
+        <br/>向您提供我们的服务；
+        <br/>实现“我们可能如何使用信息”部分所述目的；
+        <br/>履行我们在本《隐私政策》中的义务和行使我们的权利；
+        <br/>理解、维护和改善我们的服务。
+        <br/>如我们与任何上述第三方分享您的个人信息，我们将努力确保该等第三方在使用您的个人信息时遵守本《隐私政策》及我们要求其遵守的其他适当的保密和安全措施。
+        <br/>随着我们业务的持续发展，我们有可能进行合并、收购、资产转让或类似的交易，您的个人信息有可能作为此类交易的一部分而被转移。我们将在转移前通知您。
+        <br/>我们还可能为以下需要而保留、保存或披露您的个人信息：
+        <br/>遵守适用的法律法规；
+        <br/>遵守法院命令或其他法律程序的规定；
+        <br/>遵守相关政府机关的要求；
+        <br/>为遵守适用的法律法规、维护社会公共利益，或保护我们的客户、我们、其他用户的人身和财产安全或合法权益所合理必需的用途
+        </p>
+
+        <h2>信息安全</h2>
+        <p>我们仅在本《隐私政策》所述目的所必需的期间和法律法规要求的时限内保留您的个人信息。 我们使用各种安全技术和程序，以防信息的丢失、不当使用、未经授权阅览或披露。例如，在某些服务中，我们将利用加密技术（例如SSL）来保护您提供的个人信息。但请您理解，由于技术的限制以及可能存在的各种恶意手段，在互联网行业，即便竭尽所能加强安全措施，也不可能始终保证信息百分之百的安全。您需要了解，您接入我们的服务所用的系统和通讯网络，有可能因我们可控范围外的因素而出现问题。
+        </p>
+
+        <h3>您分享的信息</h3>
+
+        <p>我们的多项服务，可让您不仅与自己的社交网络，也与使用该服务的所有用户公开分享您的相关信息，例如，您在我们的服务中所上传或发布的信息（包括您公开的个人信息、您建立的名单）、您对其他人上传或发布的信息作出的回应，以及包括与这些信息有关的位置数据和日志信息。使用我们服务的其他用户也有可能分享与您有关的信息（包括位置数据和日志信息）。特别是，我们的社交媒体服务，是专为使您与世界各地的用户共享信息而设计，您可以使共享信息实时、广泛地传递。只要您不删除共享信息，有关信息会一直留存在公共领域；即使您删除共享信息，有关信息仍可能由其他用户或不受我们控制的非关联第三方独立地缓存、复制或储存，或由其他用户或该等第三方在公共领域保存。
+        <br/>因此，请您谨慎考虑通过我们的服务上传、发布和交流的信息内容。在一些情况下，您可通过我们某些服务的隐私设定来控制有权浏览您共享信息的用户范围。如要求从我们的服务中删除您的相关信息，请通过该等特别服务条款提供的方式操作。
+        </p>
+
+        <h2>您分享的敏感个人信息</h2>
+
+        <p>某些个人信息因其特殊性可能被认为是敏感个人信息，例如您的种族、宗教、个人健康和医疗信息等。相比其他个人信息，敏感个人信息受到更加严格的保护。
+        <br/>请注意，您在使用我们的服务时所提供、上传或发布的内容和信息（例如有关您社交活动的照片等信息），可能会泄露您的敏感个人信息。您需要谨慎地考虑，是否在使用我们的服务时披露相关敏感个人信息。
+        <br/>您同意按本《隐私政策》所述的目的和方式来处理您的敏感个人信息。</p>
+
+        <h2>我们可能如何收集信息</h2>
+
+        <p>我们或我们的第三方合作伙伴，可能通过cookies和web beacon收集和使用您的信息，并将该等信息储存为日志信息。
+        <br/>我们使用自己的cookies和web beacon，目的是为您提供更个性化的用户体验和服务，并用于以下用途：
+        <br/>记住您的身份。例如：cookies和web beacon有助于我们辨认您作为我们的注册用户的身份，或保存您向我们提供的有关您的喜好或其他信息；
+        <br/>分析您使用我们服务的情况。例如，我们可利用cookies和web beacon来了解您使用我们的服务进行什么活动，或哪些网页或服务最受您的欢迎；
+        </p>
+
+
+        <h2>隐私政策的适用例外</h2>
+
+        <p>我们的服务可能包括或链接至第三方提供的社交媒体或其他服务（包括网站）。例如：
+        <br/>您利用 “分享”键将某些内容分享到我们的服务，或您利用第三方连线服务登录我们的服务。这些功能可能会收集您的相关信息（包括您的日志信息），并可能在您的电脑装置cookies，从而正常运行上述功能；
+        <br/>我们通过广告或我们服务的其他方式向您提供链接，使您可以接入第三方的服务或网站。
+        <br/>该等第三方社交媒体或其他服务可能由相关的第三方或我们运营。您使用该等第三方的社交媒体服务或其他服务（包括您向该等第三方提供的任何个人信息），须受该第三方的服务条款及隐私政策（而非《通用服务条款》或本《隐私政策》）约束，您需要仔细阅读其条款。本《隐私政策》仅适用于我们所收集的信息，并不适用于任何第三方提供的服务或第三方的信息使用规则，我们对任何第三方使用由您提供的信息不承担任何责任。
+        </p>
+
+        <h2>未成年人使用我们的服务</h2>
+
+        <p>我们鼓励父母或监护人指导未满十八岁的未成年人使用我们的服务。我们建议未成年人鼓励他们的父母或监护人阅读本《隐私政策》，并建议未成年人在提交的个人信息之前寻求父母或监护人的同意和指导。
+        </p>
+
+        <h2>隐私政策的适用范围</h2>
+
+        <p>除某些特定服务外，我们所有的服务均适用本《隐私政策》。这些特定服务将适用特定的隐私政策。针对某些特定服务的特定隐私政策，将更具体地说明我们在该等服务中如何使用您的信息。该特定服务的隐私政策构成本《隐私政策》的一部分。如相关特定服务的隐私政策与本《隐私政策》有不一致之处，适用该特定服务的隐私政策。
+        <br/>请您注意，本《隐私政策》不适用于以下情况：
+        <br/>通过我们的服务而接入的第三方服务（包括任何第三方网站）收集的信息；
+        <br/>通过在我们服务中进行广告服务的其他公司或机构所收集的信息。
+        </p>
+        <h2>变更</h2>
+
+        <p>我们可能适时修订本《隐私政策》的条款，该等修订构成本《隐私政策》的一部分。如该等修订造成您在本《隐私政策》下权利的实质减少，我们将在修订生效前通过在主页上显著位置提示或向您发送电子邮件或以其他方式通知您。在该种情况下，若您继续使用我们的服务，即表示同意受经修订的本《隐私政策》的约束。
+        </p>
+        ]]></Data>
+    </string>
+    <!--用户协议-->
+    <string name="user_agreement" translatable="false">
+        <![CDATA[
+        <p>请您使用本产品之前，务必仔细阅读并理解《用户许可使用协议》（以下简称“本协议”）中规定的多有权利和限制。
+            <br/>我们一向尊重并会严格保护用户在使用本产品时的合法权益（包括用户隐私、用户数据等）不受到任何侵犯。
+            <br/>本协议（包括本文最后部分的隐私政策）是用户（包括通过各种合法途径获取到本产品的自然人、法人或其他组织机构，以下简称“用户”或“您”）与我们之间针对本产品相关事项最终的、完整的且排他的协议，并取代、合并之前的当事人之间关于上述事项的讨论和协议。
+            <br/>本协议将对用户使用本产品的行为产生法律约束力，您已承诺和保证有权利和能力订立本协议。用户开始使用本产品将视为已经接受本协议，请认真阅读并理解本协议中各种条款，包括免除和限制我们的免责条款和对用户的权利限制（未成年人审阅时应由法定监护人陪同），如果您不能接受本协议中的全部条款，请勿开始使用本产品。
+        </p>
+
+        <h4>使用账户</h4>
+
+        <p>您必须承诺和保证：
+            <br/>1. 您使用本产品的行为必须合法
+            <br/>本产品将会依据本协议“修改和终止”的规定保留或终止您的账户。您必须承诺对您的登录信息保密、不被其他人获取与使用，并且对您在本账户下的所有行为负责。您必须将任何有可能触犯法律的、未授权使用或怀疑为未授权使用的行为在第一时间通知本产品。本产品不对您因未能遵守上述要求而造成的损失承担法律责任。
+        </p>
+
+        <h4>终端用户协议许可</h4>
+
+        <p>依据本协议规定，本产品将授予您以下不可转让的、非排他的许可：
+            <br/>1.使用本产品的权利；
+            <br/>2.在您所有的网络通信设备、计算机设备和移动通信设备上下载、安装、使用本产品的权利。
+        </p>
+
+        <h4>限制性条款</h4>
+
+        <p>本协议对您的授权将受到以下限制：
+            <br/>1. 您不得对本产品进行任何形式的许可、出售、租赁、转让、发行或其他商业用途；
+            <br/>2. 除非法律禁止此类限制，否则您不得对本产品的任何部分或衍生产品进行修改、翻译、改编、合并、利用、分解、改造或反向编译、反向工程等；
+            <br/>3. 您不得以创建相同或竞争服务为目的使用本产品；
+            <br/>4. 除非法律明文规定，否则您不得对本产品的任何部分以任何形式或方法进行生产、复制、发行、出售、下载或显示等；
+            <br/>5. 您不得删除或破坏包含在本产品中的任何版权声明或其他所有权标记。
+        </p>
+
+        <h4>版本</h4>
+
+        <p>任何本产品的更新版本或未来版本、更新或者其他变更将受到本协议约束。
+        </p>
+
+        <h4>遵守法律</h4>
+
+        <p>您同意遵守《中华人民共和国合同法》、《中华人民共和国著作权法》及其实施条例、《全国人民代表大会常务委员会关于维护互联网安全的决定》（“人大安全决定”）、《中华人民共和国保守国家秘密法》、《中华人民共和国电信条例》（“电信条例“）、《中华人民共和国计算机信息系统安全保护条例》、《中华人民共和国计算机信息网络国际联网管理暂行规定》及其实施办法、《计算机信息系统国际联网保密管理规定》、《互联网信息服务管理办法》、《计算机信息网络国际联网安全保护管理办法》、《互联网电子公告服务管理规定》（“电子公告规定”）等相关中国法律法规的任何及所有的规定，并对以任何方式使用您的密码和您的账号使用本服务的任何行为及其结果承担全部责任。如违反《人大安全决定》有可能构成犯罪，被追究刑事责任。《电子公告规定》则有明文规定，上网用户使用电子公告服务系统对所发布的信息负责。《电信条例》也强调，使用电信网络传输信息的内容及其后果由电信用户负责。在任何情况下，如果本网站有理由认为您的任何行为，包括但不限于您的任何言论和其它行为违反或可能违反上述法律和法规的任何规定，本网站可在任何时候不经任何事先通知终止向您提供服务。
+        </p>
+
+        <h4>用户内容</h4>
+
+        <p>1.用户内容是指该用户下载、发布或以其他方式使用本产品时产生的所有内容（例如：您的信息、图片、音乐或其他内容）。
+            <br/>2.您是您的用户内容唯一的责任人，您将承担因您的用户内容披露而导致的您或任何第三方被识别的风险。
+            <br/>3.您已同意您的用户内容受到权利限制（详见“权利限制”）
+        </p>
+
+        <h4>权利限制</h4>
+        <p>您已同意通过分享或其他方式使用本产品中的相关服务，在使用过程中，您将承担因下述行为所造成的风险而产生的全部法律责任：
+            <br/>1.破坏宪法所确定的基本原则的；
+            <br/>2.危害国家安全、泄露国家秘密、颠覆国家政权、破坏国家统一的；
+            <br/>3.损害国家荣誉和利益的；
+            <br/>4.煽动民族仇恨、民族歧视，破坏民族团结的；
+            <br/>5.破坏国家宗教政策，宣扬邪教和封建迷信的；
+            <br/>6.散布淫秽、色情、赌博、暴力、凶杀、恐怖或者教唆犯罪的；
+            <br/>7.侮辱或者诽谤他人，侵害他人合法权益的；
+            <br/>8.含有法律、行政法规禁止的其他内容的。
+            <br/>您已经同意不在本产品从事下列行为：
+            <br/>1.发布或分享电脑病毒、蠕虫、恶意代码、故意破坏或改变计算机系统或数据的软件；
+            <br/>2.未授权的情况下，收集其他用户的信息或数据，例如电子邮箱地址等；
+            <br/>3.用自动化的方式恶意使用本产品，给服务器造成过度的负担或以其他方式干扰或损害网站服务器和网络链接；
+            <br/>4.在未授权的情况下，尝试访问本产品的服务器数据或通信数据；
+            <br/>5.干扰、破坏本产品其他用户的使用。
+        </p>
+
+        <h4>修改和终止</h4>
+
+        <h3>修改</h3>
+
+        <p>本协议容许变更。如果本协议有任何实质性变更，我们将通过电子邮件来通知您。变更通知之后，继续使用本产品则为您已知晓此类变更并同意条款约束；
+            <br/>我们保留在任何时候无需通知而修改、保留或关闭本产品任何服务之权利；
+            <br/>您已同意我们无需因修改、保留或关闭本产品任何服务之权利；
+            <br/>您已同意我们无需因修改、保留或关闭本产品任何服务的行为对您或第三方承担责任。
+        </p>
+
+        <h3>终止</h3>
+
+        <p>本协议自您接受之日起生效，在您使用本产品的过程中持续有效，直至依据本协议终止；
+            <br/>尽管有上述规定，如果您使用本产品的时间早于您接受本协议的时间，您在此知晓并同意本协议于您接受本协议的时间，您在此知晓并同意本协议于您第一次使用本产品时生效，除非依据本协议提前终止；
+            <br/>我们可能会依据法律的规定，保留您使用本产品或者本账户的权利；无论是否通知，我们将在任何时间以任何原因终止本协议，包括出于善意的相信您违反了我们可接受使用政策或本协议的其他规定；
+            <br/>不受前款规定所限，如果用户侵犯第三人的版权且我们接到版权所有人或版权所有人的合法代理人的通知后，我们保留终止本协议的权利；
+            <br/>一旦本协议终止，您使用本产品的权利即告终止。您应当知晓您的产品终止意味着您的用户内容将从我们的活动数据库中删除。我们不因终止本协议对您承担任何责任，包括终止您的用户账户和删除您的用户内容。
+        </p>
+
+        <h4>第三方</h4>
+
+        <p>您已知晓或同意我们的部分服务时基于第三方的技术支持获得；
+            <br/>您已知晓本协议是您在与我们之前签订，而非您与上述第三方之间签订。我们是基于本产品所产生的内容、维护、支持服务、保证和由此产生的诉讼等事项的唯一责任人。您已同意遵守且授权给本产品限制您有条件地使用本产品的服务。
+        </p>
+
+        <h4>第三方信息和服务</h4>
+
+        <p>1.本产品包含了第三方的部分信息和服务。我们不控制且不对第三方的信息和服务负责；
+            <br/>2.我们仅为您使用方便的目的或为承诺和保证第三方的需要而提供此类信息和服务；
+            <br/>3.用户需对使用第三方信息和服务产生的风险承担法律责任；
+            <br/>4.当用户访问第三方信息和服务时，适用第三方的条款和政策。
+        </p>
+
+        <h4>赔偿</h4>
+
+        <p>您已同意无害地使用本产品，避免因下述行为或相关行为遭受来第三方的任何投诉、诉讼、损失、损害、责任、成本和费用（包括律师费）：
+            <br/>1.用户使用本产品的行为；
+            <br/>2.用户的用户内容；
+            <br/>3.用户违反本协议的行为。
+        </p>
+        <p>我们保留专属抗辩权和请求赔偿的权利
+        </p>
+        <p>您已同意，除非获得我们书面同意，您不得在您与我们共同对第三方提起的诉讼中单方和解。
+        </p>
+        <p>我们将尽合理努力将此类诉讼、诉讼行为或进程通知您。
+        </p>
+        <p>在任何情况下，本产品都不对您或任何第三方因本协议产生的任何间接性、后果性、惩罚性的、偶然的、特殊或惩罚性的损害赔偿承担责任。访问、使用本产品所产生的损坏计算机系统或移动通讯设备数据的风险将由您个人承担。
+        </p>
+
+        <h4>适用法律</h4>
+
+        <p>本协议适用中华人民共和国法律；
+            <br/>如果双方发生纠纷，应本着友好的圆柱协商解决；如协商不成，应向所在地的法院提起诉讼。
+        </p>
+
+        <h4>独立性</h4>
+
+        <p>本协议中的某些条款因故无法适用，则本协议的其他条款继续适用且无法适用的条款将会被修改，以便其能够依法适用。
+        </p>
+
+        <h4>完整性</h4>
+
+        <p>本协议（包括隐私政策）是您和本产品之间关于本产品相关事项的最终的、完整的、排他的协议，且取代和合并之前当事人关于此类事项（包括之前的最终用户许可、服务条款和隐私政策）的讨论和协议；
+            <br/>每部分的题目只为阅读之便而无任何法律或合同义务；
+            <br/>除非我们书面同意，您不得转让本协议所规定的权利义务。任何违反上述规定企图转让的行为均无效。
+        </p>
+        ]]>
+    </string>
+    <string name="name_user_agreement">用户协议</string>
+    <string name="name_privacy_agreement">隐私协议</string>
+    <string name="i_have_read">朕已阅</string>
+    <string name="agree_and_login">同意协议并登录</string>
+    <string name="agree_and_signup">同意协议并注册</string>
+    <string name="post_detail">帖子详情</string>
+    <string name="reply">回复</string>
+    <string name="send">发送</string>
+    <string name="create_comment">发表评论回复</string>
+    <string name="verify_stuid_hint">认证学号将会同步真实姓名、学院名称、学号信息到助手账号，请阅读隐私协议后再确认是否进行操作</string>
+    <string name="latest">最新</string>
+    <string name="hottest">近期热门</string>
+    <string name="tabs_theta_bulletin">通知公告</string>
+    <string name="no_topic_permission">没用在该话题发表的权限</string>
+    <string name="contact">联系</string>
+    <string name="label_activity_ddl_manager">Deadline管理</string>
+    <string name="right_today">今日进行</string>
+    <string name="name_week">星期</string>
+    <string name="name_day">天</string>
+    <string name="name_hour">小时</string>
+    <string name="name_minute">分钟</string>
+    <string name="name_day_short">天</string>
+    <string name="name_hour_short">时</string>
+    <string name="name_minute_short">分</string>
+    <string name="name_week_short">周</string>
+    <string name="total_wholeday_event">共%d件全天事件</string>
+    <string name="ddl_passed">已结束</string>
+    <string name="ddl_todo">现有DDL</string>
+    <string name="ddl_passed_tag">已结束DDL</string>
+    <string name="number_of_items_selected">已选择%d项</string>
+    <string name="no_ddl_add_some">没有DDL，添加一些吧</string>
+    <string name="less_than"><![CDATA[<]]></string>
+    <string name="label_activity_exam_countdown">考试倒计时</string>
+    <string name="exam_todo">即将到来</string>
+    <string name="exam_passed">其他</string>
+    <string name="exam_passed_tag">已结束</string>
+    <string name="no_exam_add_some">没有考试哦，可以导入或手动添加</string>
+    <string name="operation_failed">操作失败！</string>
+    <string name="task_finished_name">已完成</string>
+    <string name="tdb_yesterday">前天</string>
+    <string name="guid_7p">主页下滑可以展开事件面板</string>
+    <string name="guid_7s">待办事项 DDL管理</string>
+    <string name="date_format_2_simplified">第%d周EEE</string>
+    <string name="date_format_2_wk_followed">第%d周（%s）EEEE</string>
+    <string name="date_format_2_simplified_wk_followed">第%d周（%s）EEE</string>
+    <string name="date_format_2_wk_replaced">%sEEEE</string>
+    <string name="date_format_2_simplified_wk_replaced">%sEEE</string>
+    <string name="date_format_4">YY年M月d日</string>
+    <string name="unknown_department">未知部门</string>
+    <string name="no_info">无信息</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="counted_in_GPA" translatable="false">考试课</string>
+    <string name="not_counted_in_GPA" translatable="false">考查课</string>
+    <string name="brackets_content">（%s）</string>
+    <string name="name_this_week">这周</string>
+    <string name="name_next_week">下周</string>
+    <string name="name_last_week">上周</string>
+    <string name="ade_title_edit">编辑%s</string>
+    <string name="edit_event_done">已保存</string>
+    <string name="jw_tabs_xxjd" translatable="false">学习进度</string>
+    <string name="bx_progress_number" translatable="false">完成%d/%d门</string>
+    <string name="bx_progress_credit" translatable="false">已修%.1f/%.1f学分</string>
+    <string name="jw_xxjd_xflb_progress_txt" translatable="false">%.1f/%.1f</string>
+    <string name="set_start_date_plz">请设置开始日期！</string>
+    <string name="options">选项</string>
+    <string name="import_subject_detail" translatable="false">导入科目详情</string>
+    <string name="will_cover_local_info" translatable="false">将覆盖掉本地信息</string>
+    <string name="help_build_teacher_database" translatable="false">帮助完善教师信息</string>
+    <string name="turn_on_if_teacher_info_lack" translatable="false">教师信息不全可开启</string>
+    <string name="start_date_of_curriculum" translatable="false">课表开始时间</string>
+    <string name="adjust_if_not_correct" translatable="false">若与学校通知时间有差异请手动调整</string>
+    <string name="importTimetable" translatable="false">导入</string>
+    <string name="fetch_start_date_failed" translatable="false">获取学期开始日期失败</string>
+    <string name="input_username_and_pswd_plz" translatable="false">请输入用户名和密码！</string>
+    <string name="less_than_a_day">明日进行</string>
+    <string name="adt_set_ddl_date">设置DDL日期</string>
+    <string name="adt_set_time_date">设置DDL日期时间</string>
+    <string name="ddl_wholeday">全天DDL</string>
+    <string name="no_ddl">无截止日期</string>
+    <string name="task_unfinished_name">未完成</string>
+    <string name="task_detail">待办详情</string>
+    <string name="ddl_of_task">待办截止日期</string>
+    <string name="delete_ddl_also">同时删除截止事件</string>
+    <string name="edit_task">编辑待办</string>
+    <string name="belong_to_task">所属待办事项</string>
+    <string name="set_task_for_ddl">为DDL设置待办</string>
+    <string name="passed_ddl">已超出ddl</string>
+    <string name="task_done">已完成</string>
+    <string name="task_not_done">待办</string>
+    <string name="timeline_hint">新的待办与DDL模块上线啦，下拉此页试试</string>
+    <string name="subject_teacher">任课教师</string>
+    <string name="jw_tabs_grcj_cjxq" translatable="false">成绩详情</string>
+    <string name="kjs_jxl">教学楼</string>
+    <string name="jw_tabs_kjs">空教室查询</string>
+    <string name="number_schedule">第%d节课</string>
+    <string name="before_first_class">第一节课前</string>
+    <string name="after_last_class">最后一节课结束</string>
+    <string name="class_number_what">第%d节课</string>
+    <string name="class_after_number_what">第%d节课结束</string>
+    <string name="current">当前</string>
+    <string name="expand">展开</string>
+    <string name="pick_query_week">选择查询周次</string>
+    <string name="pick_jxl">选择教学楼</string>
+    <string name="jz_xnxq">截止学期</string>
+    <string name="number_of_class">第%d节课</string>
+    <string name="pick_time_period">选择时间段</string>
+    <string name="title_timeline">今日</string>
 </resources>

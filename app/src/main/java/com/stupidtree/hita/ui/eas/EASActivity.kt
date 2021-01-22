@@ -4,9 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Pair
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
+import com.stupidtree.hita.R
 import com.stupidtree.hita.databinding.ActivityEasBinding
 import com.stupidtree.hita.ui.base.BaseActivity
 import com.stupidtree.hita.ui.base.BaseTabAdapter
@@ -30,7 +34,8 @@ class EASActivity : BaseActivity<EASViewModel, ActivityEasBinding>(),EASFragment
     private fun initPager() {
 
         val titles = listOf("课表导入")
-        binding.jwtsPager.adapter = object : BaseTabAdapter(supportFragmentManager, titles.size) {
+        binding.title.text = binding.navView.menu.getItem(0).title
+        binding.pager.adapter = object : BaseTabAdapter(supportFragmentManager, titles.size) {
             override fun initItem(position: Int): Fragment {
                 return ImportTimetableFragment.newInstance()
             }
@@ -39,75 +44,25 @@ class EASActivity : BaseActivity<EASViewModel, ActivityEasBinding>(),EASFragment
                 return titles[position]
             }
         }.setDestroyFragment(false)
-        binding.jwtsTab.setupWithViewPager(binding.jwtsPager)
+        binding.pager.offscreenPageLimit = 3
+        binding.pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageSelected(position: Int) {
+                val item = binding.navView.menu.getItem(position)
+                item.isChecked = true
+                binding.title.text = item.title
+            }
+            override fun onPageScrollStateChanged(state: Int) {}
+        })
+        binding.navView.setOnNavigationItemSelectedListener { item: MenuItem ->
+            when (item.itemId) {
+                R.id.navigation_import->binding.pager.currentItem = 0
+            }
+            binding.title.text = item.title
+            true
+        }
     }
 
-
-//    fun onOperationDone(
-//        id: String?,
-//        task: BaseOperationTask<Pair<List<Map<String?, String?>?>?, HashMap<String?, String?>?>?>?,
-//        params: Array<Boolean?>?,
-//        result: Pair<List<Map<String?, String?>>?, HashMap<String, String>?>?
-//    ) {
-//        MaterialCircleAnimator.animHide(loading)
-//        pager!!.visibility = View.VISIBLE
-//        if (result == null) {
-//            EASCore.logOut()
-//            Toast.makeText(HContext, "页面过期，请返回重新登录！", Toast.LENGTH_SHORT).show()
-//            val i = Intent(this@EASActivity, LoginEASActivity::class.java)
-//            startActivity(i)
-//            finish()
-//        } else {
-//            if (!TextUtils.isEmpty(intent.getStringExtra("terminal"))) {
-//                pager!!.currentItem =
-//                    Objects.requireNonNull(intent.getStringExtra("terminal")).toInt()
-//            }
-//            // Log.e("refresh2", String.valueOf(getSupportFragmentManager().getFragments()));
-//            for (f in supportFragmentManager.fragments) {
-//                if (f is EASFragment) {
-//                    if (f.isResumed) {
-//                        (f as EASFragment).Refresh()
-//                    } else {
-//                        (f as EASFragment).setWillRefreshOnResume(true)
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//
-//
-//
-//
-//    internal class loadBasicInfoTask(listRefreshedListener: OperationListener?) :
-//        BaseOperationTask<Pair<List<Map<String?, String?>?>?, HashMap<String?, String?>?>?>(
-//            listRefreshedListener
-//        ) {
-//        protected fun doInBackground(
-//            listRefreshedListener: OperationListener<Pair<List<Map<String?, String?>?>?, HashMap<String?, String?>?>?>?,
-//            vararg booleans: Boolean?
-//        ): Pair<List<Map<String, String>>, HashMap<String, String>>? {
-//            val xnxqItems: MutableList<Map<String, String>> = ArrayList()
-//            val keyToTitle = HashMap<String, String>()
-//            return try {
-//                xnxqItems.addAll(EASCore.getXNXQ())
-//                keyToTitle.putAll(EASCore.getXKColumnTitles())
-//                Pair(xnxqItems, keyToTitle)
-//            } catch (e: EASException) {
-//                try {
-//                    xnxqItems.clear()
-//                    if (tryToReLogin()) {
-//                        xnxqItems.addAll(EASCore.getXNXQ())
-//                        keyToTitle.clear()
-//                        keyToTitle.putAll(EASCore.getXKColumnTitles())
-//                        Pair(xnxqItems, keyToTitle)
-//                    } else null
-//                } catch (e2: EASException) {
-//                    null
-//                }
-//            }
-//        }
-//    }
 
     override fun initViewBinding(): ActivityEasBinding {
         return ActivityEasBinding.inflate(layoutInflater)

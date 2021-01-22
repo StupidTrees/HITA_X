@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="textColorPrimary" format="color" />
     <attr name="textColorSecondary" format="color" />
@@ -6,5 +7,5 @@
     <attr name="backgroundColorSecond" format="color" />
     <attr name="backgroundColorSecondAsTint" format="color" />
     <attr name="colorControlDisabled" format="color" />
+    <attr name="backgroundIconColorBottom" format="color"/>
 </resources>
-

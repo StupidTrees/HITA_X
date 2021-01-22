@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <item
+        android:id="@+id/drawer_nav_my_profile"
+        android:icon="@drawable/ic_menu_profile"
+        android:title="我的资料" />
+    <item
+        android:id="@+id/drawer_nav_scan_qr"
+        android:icon="@drawable/ic_menu_camera"
+        android:title="二维码" />
+    <item
+        android:id="@+id/drawer_nav_discover_friend"
+        android:icon="@drawable/ic_menu_discover"
+        android:title="发现朋友" />
+<!--    <item-->
+<!--        android:icon="@drawable/ic_menu_settings"-->
+<!--        android:title="@string/menu_setting" />-->
+
+<!--    <item-->
+<!--        android:id="@+id/drawer_nav_about_app"-->
+<!--        android:icon="@drawable/ic_menu_more"-->
+<!--        android:title="@string/about_cloud_liter" />-->
+
+</menu>

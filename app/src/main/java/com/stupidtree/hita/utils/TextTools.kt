@@ -1,7 +1,6 @@
 package com.stupidtree.hita.utils
 
 import android.content.Context
-import android.text.TextUtils
 import com.stupidtree.hita.R
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
@@ -10,11 +9,24 @@ import java.util.*
 /**
  * 此类整合了一些文本处理有关的函数
  */
-object TextUtils {
-    fun isEmpty(text: CharSequence?): Boolean {
-        return TextUtils.isEmpty(text)
-    }
+object TextTools {
 
+    fun containsNumber(s: String?): Boolean {
+        if (s != null) {
+            return s.contains("1") || s.contains("2") || s.contains("3") || s.contains("4") || s.contains("5") || s.contains("6") ||
+                    s.contains("7") || s.contains("8") || s.contains("9") || s.contains("0")
+        }
+        return false
+    }
+    fun isNumber(x: String?): Boolean {
+        if (x == null || x.isEmpty()) return false
+        for (i in x.indices) {
+            if (x[i] !in '0'..'9') {
+                return false
+            }
+        }
+        return true
+    }
     fun getNormalDateText(context: Context, calendar: Calendar):String {
         val sdf_year =
             SimpleDateFormat(context.getString(R.string.date_format_1), Locale.getDefault())
@@ -90,21 +102,21 @@ object TextUtils {
             }
         } else if (isSameDay(time, yesterday) || isSameDay(time, theDayBeforeYesterday)) { //昨天、前天
             val prefix = if (isSameDay(
-                    time,
-                    yesterday
-                )
+                            time,
+                            yesterday
+                    )
             ) context.getString(R.string.yesterday) else context.getString(R.string.the_day_before_yesterday)
             if (time[Calendar.AM_PM] == Calendar.AM) {
                 context.getString(
-                    R.string.date_format_with_prefix,
-                    prefix,
-                    sdf_am_hour.format(time.time)
+                        R.string.date_format_with_prefix,
+                        prefix,
+                        sdf_am_hour.format(time.time)
                 )
             } else {
                 context.getString(
-                    R.string.date_format_with_prefix,
-                    prefix,
-                    sdf_pm_hour.format(time.time)
+                        R.string.date_format_with_prefix,
+                        prefix,
+                        sdf_pm_hour.format(time.time)
                 )
             }
         } else if (time[Calendar.YEAR] != now[Calendar.YEAR]) { //不是同一年
@@ -126,5 +138,7 @@ object TextUtils {
     private fun isSameDay(a: Calendar, b: Calendar): Boolean {
         return a[Calendar.YEAR] == b[Calendar.YEAR] && a[Calendar.MONTH] == b[Calendar.MONTH] && a[Calendar.DAY_OF_MONTH] == b[Calendar.DAY_OF_MONTH]
     }
+
+
 
 }

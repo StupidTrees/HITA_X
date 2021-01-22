@@ -2,14 +2,14 @@ package com.stupidtree.hita.ui.eas.imp
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.*
+import com.stupidtree.hita.data.model.eas.CourseItem
 import com.stupidtree.hita.data.model.eas.TermItem
+import com.stupidtree.hita.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hita.data.repository.EASRepository
 import com.stupidtree.hita.ui.base.DataState
 import com.stupidtree.hita.ui.base.Trigger
+import com.stupidtree.hita.utils.MTransformations
 import java.util.*
 
 class ImportTimetableViewModel(application: Application) : AndroidViewModel(application) {
@@ -22,7 +22,8 @@ class ImportTimetableViewModel(application: Application) : AndroidViewModel(appl
      * LiveData区
      */
 
-    private val termsController: MutableLiveData<Trigger> = MutableLiveData()
+    private val termsController = MutableLiveData<Trigger>()
+
     val termsLiveData: LiveData<DataState<List<TermItem>>> =
         Transformations.switchMap(termsController) {
             return@switchMap easRepository.getAllTerms()
@@ -31,9 +32,8 @@ class ImportTimetableViewModel(application: Application) : AndroidViewModel(appl
 
     val selectedTermLiveData: MutableLiveData<TermItem?> = MutableLiveData()
 
-    val startDateLiveData: LiveData<DataState<Calendar>> =
-        Transformations.switchMap(selectedTermLiveData) {
-            Log.e("select_changed", it.toString())
+    val startDateLiveData: MediatorLiveData<DataState<Calendar>> =
+        MTransformations.switchMap(selectedTermLiveData) {
             it?.let { it1 ->
                 return@switchMap easRepository.getStartDateOfTerm(it1)
             }
@@ -42,12 +42,17 @@ class ImportTimetableViewModel(application: Application) : AndroidViewModel(appl
             return@switchMap r
         }
 
+    val importTimetableResultLiveData = MediatorLiveData<DataState<Boolean>>()
+
+    val scheduleStructureLiveData: LiveData<DataState<MutableList<TimePeriodInDay>>> =
+        Transformations.switchMap(selectedTermLiveData) {
+            return@switchMap it?.let { it1 -> easRepository.getScheduleStructure(it1) }
+        }
+
 
     /**
      * 方法区
      */
-
-
     fun startRefreshTerms() {
         termsController.value = Trigger.actioning
     }
@@ -56,10 +61,37 @@ class ImportTimetableViewModel(application: Application) : AndroidViewModel(appl
         selectedTermLiveData.value = termItem
     }
 
-    fun getAllTerms(): List<TermItem> {
+    fun startGetAllTerms(): List<TermItem> {
         if (termsLiveData.value != null && termsLiveData.value!!.data != null) {
             return termsLiveData.value!!.data!!
         }
         return listOf()
     }
+
+    fun startImportTimetable(): Boolean {
+        selectedTermLiveData.value?.let { term ->
+            startDateLiveData.value?.let { date ->
+                scheduleStructureLiveData.value?.let { schedule->
+                    if (schedule.data != null && date.state == DataState.STATE.SUCCESS && date.data != null) {
+                        easRepository.startImportTimetableOfTerm(
+                            term,
+                            date.data!!,
+                            schedule.data!!,
+                            importTimetableResultLiveData
+                        )
+                        return true
+                    }
+                }
+
+            }
+
+        }
+        return false
+    }
+
+
+    fun changeStartDate(date: Calendar) {
+        startDateLiveData.value = DataState(date, DataState.STATE.SPECIAL)
+    }
+
 }

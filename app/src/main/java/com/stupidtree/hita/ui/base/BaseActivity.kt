@@ -114,7 +114,11 @@ abstract class BaseActivity<T : ViewModel, V: ViewBinding> : AppCompatActivity()
         theme.resolveAttribute(R.attr.colorControlNormal, typedValue, true)
         return typedValue.data
     }
-
+    fun getBackgroundColorSecondAsTint(): Int {
+        val typedValue = TypedValue()
+        theme.resolveAttribute(R.attr.backgroundColorSecondAsTint, typedValue, true)
+        return typedValue.data
+    }
 //    fun getBackgroundColorSecondAsTint(): Int {
 //        val typedValue = TypedValue()
 //        theme.resolveAttribute(R.attr.backgroundColorSecondAsTint, typedValue, true)

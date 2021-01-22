@@ -1,6 +1,7 @@
 package com.stupidtree.hita.ui.widgets
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -20,6 +21,7 @@ class RoundedBarView: FrameLayout {
     var iconId = 0
     var selectedName:String?=null
     var dialogTitle: String? = null
+    var titleTextColor:Int = Color.WHITE
     var backgroundRes = R.drawable.element_rounded_button_bg_white
     var selectedKey:String? = null
     var onClickListener:OnClickListener?=null
@@ -73,6 +75,7 @@ class RoundedBarView: FrameLayout {
                         TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics
                     ).toInt()
                 )
+                R.styleable.RoundedBarPicker_foregroundColor->titleTextColor = a.getColor(attr,Color.WHITE)
             }
         }
     }
@@ -93,6 +96,8 @@ class RoundedBarView: FrameLayout {
         text.text = selectedName
         card.setBackgroundResource(backgroundRes)
         icon.setImageResource(iconId)
+        text.setTextColor(titleTextColor)
+        icon.setColorFilter(titleTextColor)
         icon.setPadding(iconPadding, iconPadding, iconPadding, iconPadding)
     }
 

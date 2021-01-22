@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="24dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.alorma.timeline.RoundTimelineView
+        android:id="@+id/timeline"
+        android:layout_width="24dp"
+        android:layout_height="match_parent"
+        app:timeline_alignment="middle"
+        app:timeline_drawInternal="false"
+        app:timeline_indicatorColor="?attr/colorAccent"
+        app:timeline_indicatorSize="8dp"
+        app:timeline_lineColor="#11304ffe"
+        app:timeline_lineStyle="linear"
+        app:timeline_lineWidth="@dimen/timeline_width" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/tl_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:longClickable="true"
+        android:transitionName="card"
+        app:cardBackgroundColor="?attr/backgroundColorSecond"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="@dimen/timeline_card_elevation"
+        android:focusable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:id="@+id/tl_tv_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|start"
+                    android:gravity="bottom|left"
+                    android:maxEms="12"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp"
+                    android:singleLine="true"
+                    android:text="当前中国社会治理热点研究考试"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="18sp"
+                    android:transitionName="course_name" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|start"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/element_rounded_button_bg_grey"
+                    android:backgroundTint="?attr/backgroundColorBottomAsTint"
+                    android:backgroundTintMode="src_over"
+                    android:paddingStart="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="4dp"
+                    android:text="第13周 星期一"
+                    android:textColor="?attr/textColorSecondary"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:clickable="false"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    app:theme="@style/button_ripple_accent_large">
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="center"
+
+                        android:alpha="0.8"
+                        android:clickable="false"
+                        app:tint="?attr/textColorSecondary"
+                        app:tintMode="src_in"
+                        app:srcCompat="@drawable/ic_baseline_access_time_24" />
+
+                    <TextView
+                        android:id="@+id/tl_tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:layout_marginLeft="8dp"
+                        android:alpha="0.8"
+                        android:text="10:15-10:32"
+                        android:textColor="?attr/textColorSecondary"
+                        android:textSize="14sp"
+                        android:transitionName="course_time" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="16dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/element_rounded_button_bg_primary_light"
+                    android:clickable="false"
+                    android:orientation="horizontal"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="8dp"
+                    app:theme="@style/button_ripple_accent_large">
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="center"
+                        android:alpha="0.8"
+                        android:clickable="false"
+                        app:tint="?attr/colorPrimary"
+                        app:tintMode="src_in"
+                        app:srcCompat="@drawable/ic_baseline_location_24" />
+
+                    <TextView
+                        android:id="@+id/tl_tv_place"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|start"
+                        android:layout_weight="1"
+                        android:alpha="0.8"
+                        android:fontFamily="sans-serif-black"
+                        android:maxEms="5"
+                        android:singleLine="true"
+                        android:text="T3402"
+                        android:textColor="?attr/colorAccent"
+                        android:textSize="14sp"
+                        android:transitionName="course_name" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tl_tv_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/element_rounded_button_bg_primary_light"
+                    android:backgroundTint="?attr/backgroundColorBottomAsTint"
+                    android:backgroundTintMode="src_over"
+                    android:fontFamily="sans-serif-black"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp"
+                    android:text="34min"
+                    android:textColor="?attr/colorAccent"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="34min"
+                    android:textColor="?attr/textColorSecondary"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/event_progressbar"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:progressDrawable="@drawable/style_progressbar_rounded_primary_light" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!--name 是自定义属性名，一般采用驼峰命名，可以随意。 format 是属性的单位-->
@@ -38,12 +39,14 @@
     <attr name="iconPadding" format="dimension" />
     <attr name="barIcon" format="reference" />
     <attr name="backgroundElement" format="reference" />
+    <attr name="foregroundColor" format="color" />
     <declare-styleable name="RoundedBarPicker">
         <attr name="defaultText" />
         <attr name="iconPadding" />
         <attr name="barIcon" />
         <attr name="backgroundElement" />
         <attr name="dialogTitle" />
+        <attr name="foregroundColor" />
     </declare-styleable>
 
     <attr name="pullDownAnimElementColor" format="color" />
