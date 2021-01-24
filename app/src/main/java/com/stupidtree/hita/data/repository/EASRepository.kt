@@ -115,14 +115,15 @@ class EASRepository internal constructor(application: Application) {
                         val events = mutableListOf<EventItem>()
                        // val schedule = timetablePreferenceSource.getSchedule()
                         for(item in it.data!!){
-                            val schedulePeriod = schedule[item.begin - 1]
+                            val spStart = schedule[item.begin - 1]
+                            val spEnd = schedule[item.begin+item.last-2]
                             for(week in item.weeks){
                                 val from = getDateAtWOT(startDate,week,item.dow)
                                 val to = getDateAtWOT(startDate,week,item.dow)
-                                from.set(Calendar.HOUR_OF_DAY,schedulePeriod.from.hour)
-                                from.set(Calendar.MINUTE,schedulePeriod.from.minute)
-                                to.set(Calendar.HOUR_OF_DAY,schedulePeriod.to.hour)
-                                to.set(Calendar.MINUTE,schedulePeriod.to.minute)
+                                from.set(Calendar.HOUR_OF_DAY,spStart.from.hour)
+                                from.set(Calendar.MINUTE,spStart.from.minute)
+                                to.set(Calendar.HOUR_OF_DAY,spEnd.to.hour)
+                                to.set(Calendar.MINUTE,spEnd.to.minute)
                                 val e = EventItem()
                                 e.name = item.name.toString()
                                 e.from.time = from.timeInMillis

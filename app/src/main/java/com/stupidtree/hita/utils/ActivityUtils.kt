@@ -13,7 +13,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
 import com.stupidtree.hita.ui.eas.EASActivity
 import com.stupidtree.hita.ui.eas.login.LoginEASActivity
-
+import com.stupidtree.hita.ui.timetable.activity.TimetableActivity
 
 
 object ActivityUtils {
@@ -25,6 +25,11 @@ object ActivityUtils {
 
     fun startEASActivity(from: Context){
         val i = Intent(from, EASActivity::class.java)
+        from.startActivity(i)
+    }
+
+    fun startTimetableActivity(from:Context){
+        val i = Intent(from,TimetableActivity::class.java)
         from.startActivity(i)
     }
 }

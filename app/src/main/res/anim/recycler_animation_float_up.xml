@@ -1,0 +1,27 @@
+<?xml version ="1.0" encoding ="utf-8"?><!--  Learn More about how to use App Actions: https://developer.android.com/guide/actions/index.html -->
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="250"
+    android:interpolator="@android:anim/decelerate_interpolator">
+
+    <translate
+        android:fromYDelta="24%"
+        android:toYDelta="0"
+
+        />
+
+    <alpha
+        android:fromAlpha="0"
+        android:toAlpha="1"
+        />
+
+<!--    <scale-->
+<!--        android:fromXScale="55%"-->
+<!--        android:fromYScale="55%"-->
+<!--        android:toXScale="100%"-->
+<!--        android:toYScale="100%"-->
+<!--        android:pivotX="50%"-->
+<!--        android:pivotY="50%"-->
+<!--        android:interpolator="@android:anim/decelerate_interpolator"-->
+<!--        />-->
+
+</set>

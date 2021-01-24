@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".ui.eas.login.LoginEASActivity" />
         <activity android:name=".ui.eas.EASActivity" />
+        <activity android:name=".ui.timetable.activity.TimetableActivity" />
     </application>
 
 </manifest>

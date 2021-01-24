@@ -62,7 +62,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                 val mContent = binding.drawer.getChildAt(0)
                 val scale = 1 - slideOffset
                 val rightScale = 0.8f + scale * 0.2f
-                mContent.translationX = -drawerView.measuredWidth * slideOffset
+                mContent.translationX = drawerView.measuredWidth * slideOffset
                 //mContent.setAlpha(0.3f+0.7f*scale);
                 mContent.pivotX = mContent.measuredWidth.toFloat()
                 mContent.pivotY = (mContent.measuredHeight shr 1.toFloat().toInt()).toFloat()
@@ -83,6 +83,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
             when (item.itemId) {
                 R.id.drawer_nav_my_profile -> {
                     ActivityUtils.startLoginEASActivity(getThis())
+                    true
+                }
+                R.id.drawer_nav_scan_qr->{
+                    ActivityUtils.startTimetableActivity(getThis())
                     true
                 }
                 else -> false
@@ -124,7 +128,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
             binding.title.text = item.title
             true
         }
-        binding.avatar.setOnClickListener { binding.drawer.openDrawer(GravityCompat.END) }
+        binding.avatar.setOnClickListener { binding.drawer.openDrawer(GravityCompat.START) }
     }
 
 //    private fun setUserViews(userLocalInfo: UserLocal) {

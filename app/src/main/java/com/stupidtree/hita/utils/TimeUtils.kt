@@ -31,8 +31,29 @@ object TimeUtils {
     /**
      * 是否已过去
      */
-    fun passed(time:Timestamp):Boolean{
-        return time.time<System.currentTimeMillis()
+    fun passed(time: Timestamp): Boolean {
+        return time.time < System.currentTimeMillis()
+    }
+
+    /**
+     * 现在是星期几
+     */
+    fun currentDOW(): Int {
+        return getDow(System.currentTimeMillis())
+    }
+
+    /**
+     * 星期几
+     * 周一为1
+     */
+    fun getDow(ts:Long):Int{
+        val c = Calendar.getInstance()
+        c.timeInMillis = ts
+        return if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+            7
+        } else {
+            c.get(Calendar.DAY_OF_WEEK) - 1
+        }
     }
 
 }

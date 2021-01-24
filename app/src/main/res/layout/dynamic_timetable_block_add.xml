@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.2"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:theme="@style/button_ripple_accent_large"
+            app:srcCompat="@drawable/element_rounded_button_bg_primary" />
+<!--        android:tint="?attr/background_icon_color_bottom"-->
+<!--        android:tintMode="src_over"-->
+        <ImageView
+            android:id="@+id/add"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:backgroundTintMode="src_over"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:padding="4dp"
+            android:theme="@style/button_ripple_accent_large"
+            android:tintMode="src_in"
+            app:srcCompat="@drawable/ic_baseline_add_24"
+            app:tint="?attr/colorAccent"
+            android:focusable="true" />
+<!--        android:background="@drawable/radius_accent_round_icon_bg"-->
+<!--        android:backgroundTint="?attr/background_color_bottom_as_tint"-->
+
+    </FrameLayout>
+
+</merge>

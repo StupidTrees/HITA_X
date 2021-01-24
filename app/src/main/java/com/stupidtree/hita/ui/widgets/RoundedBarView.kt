@@ -5,13 +5,10 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
-import android.view.View.OnClickListener
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.stupidtree.hita.R
-import com.stupidtree.hita.ui.base.BaseActivity
-import java.util.*
 
 class RoundedBarView: FrameLayout {
     lateinit var text: TextView

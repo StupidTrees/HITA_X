@@ -42,16 +42,6 @@
                     android:gravity="bottom"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:text="TextView"
-                        android:textColor="?attr/textColorPrimary"
-                        android:textSize="28sp" />
-
                     <ImageView
                         android:id="@+id/avatar"
                         android:layout_width="36dp"
@@ -62,6 +52,16 @@
                         android:foreground="?attr/selectableItemBackground"
                         android:visibility="visible"
                         tools:srcCompat="@tools:sample/avatars" />
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="TextView"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="28sp" />
 
                     <!--                <ImageView-->
                     <!--                    android:id="@+id/add"-->
@@ -95,7 +95,7 @@
     <LinearLayout
         android:layout_width="260dp"
         android:layout_height="match_parent"
-        android:layout_gravity="end"
+        android:layout_gravity="start"
         android:background="?attr/backgroundColorSecond"
         android:gravity="start"
         android:orientation="vertical">

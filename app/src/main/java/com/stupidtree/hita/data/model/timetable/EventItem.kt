@@ -3,6 +3,7 @@ package com.stupidtree.hita.data.model.timetable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.stupidtree.hita.utils.TimeUtils
 import java.sql.Timestamp
 import java.util.*
 import kotlin.math.abs
@@ -45,6 +46,20 @@ class EventItem {
      */
     fun getFromTimeDistance(): Int {
         return (abs(from.time - System.currentTimeMillis()) / 60000).toInt()
+    }
+
+    /**
+     * 获取持续时长
+     */
+    fun getDurationInMinutes(): Int {
+        return ((to.time - from.time) / 60000).toInt()
+    }
+
+    /**
+     * 获取周几，周一为0
+     */
+    fun getDow():Int{
+        return TimeUtils.getDow(from.time)
     }
 
     /**

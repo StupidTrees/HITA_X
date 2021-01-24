@@ -7,5 +7,9 @@ class TimePeriodInDay(f:TimeInDay,t:TimeInDay) {
         return "$from-$to"
     }
 
+    fun getLengthInMinutes():Int{
+        return from.getDistanceInMinutes(to)
+    }
+
 
 }

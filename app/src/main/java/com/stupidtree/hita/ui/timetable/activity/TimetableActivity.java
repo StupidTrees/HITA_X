@@ -1,70 +1,38 @@
-//package com.stupidtree.hita.ui.timetable.activity;
+package com.stupidtree.hita.ui.timetable.activity;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+
+import androidx.viewpager.widget.ViewPager;
+
+import com.stupidtree.hita.databinding.ActivityTimeTableBinding;
+import com.stupidtree.hita.ui.base.BaseActivity;
+
+import org.jetbrains.annotations.NotNull;
+
+public class TimetableActivity extends BaseActivity<TimetableViewModel, ActivityTimeTableBinding> {
+
+    public static final String TIMETABLE_REFRESH = "COM.STUPIDTREE.HITA.TIMETABLE_ACTIVITY_REFRESH";
+    int pageWeekOfTerm;
+    boolean hasInit = false;
+    boolean refreshOnResume = false;
+    boolean firstEnter = true;
+    public static final int TIMETABLE_REQUEST_SETTING = 858;
+    public static final int SETTING_RESULT_TIMETABLE = 865;
+
+//    public AppBarLayout mAppBarLayout;
+//    Toolbar mToolbar;
+//    LinearLayout invalidLayout;
+//    ViewPager viewPager;
 //
-//import android.annotation.SuppressLint;
-//import android.content.BroadcastReceiver;
-//import android.content.Context;
-//import android.content.Intent;
-//import android.content.IntentFilter;
-//import android.content.SharedPreferences;
-//import android.content.res.ColorStateList;
-//import android.graphics.Color;
-//import android.os.Bundle;
-//import android.view.Gravity;
-//import android.view.View;
-//import android.widget.ImageView;
-//import android.widget.LinearLayout;
-//
-//import androidx.annotation.Nullable;
-//import androidx.appcompat.widget.Toolbar;
-//import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-//import androidx.viewpager.widget.ViewPager;
-//
-//import com.google.android.material.appbar.AppBarLayout;
-//import com.google.android.material.floatingactionbutton.FloatingActionButton;
-//import com.google.android.material.snackbar.Snackbar;
-//import com.google.android.material.tabs.TabLayout;
-//import com.stupidtree.hita.R;
-//import com.stupidtree.hita.adapter.TimeTablePagerAdapter;
-//import com.stupidtree.hita.databinding.ActivityTimeTableBinding;
-//import com.stupidtree.hita.fragments.BaseOperationTask;
-//import com.stupidtree.hita.fragments.popup.FragmentTimetablePanel;
-//import com.stupidtree.hita.timetable.TimetableCore;
-//import com.stupidtree.hita.timetable.packable.HTime;
-//import com.stupidtree.hita.timetable.packable.Subject;
-//import com.stupidtree.hita.ui.base.BaseActivity;
-//import com.stupidtree.hita.util.ColorBox;
-//import com.stupidtree.hita.views.TimeTableBlockView;
-//
-//import org.jetbrains.annotations.NotNull;
-//
-//import java.util.Objects;
-//
-//import static com.stupidtree.hita.HITAApplication.HContext;
-//import static com.stupidtree.hita.timetable.TimeWatcherService.TIMETABLE_CHANGED;
-//
-//public class TimetableActivity extends BaseActivity<TimetableViewModel, ActivityTimeTableBinding> implements
-//        FragmentTimetablePanel.PanelRoot, TimeTableBlockView.TimeTablePreferenceRoot {
-//
-//    public static final String TIMETABLE_REFRESH = "COM.STUPIDTREE.HITA.TIMETABLE_ACTIVITY_REFRESH";
-//    int pageWeekOfTerm;
-//    boolean hasInit = false;
-//    boolean refreshOnResume = false;
-//    boolean firstEnter = true;
-//    public static final int TIMETABLE_REQUEST_SETTING = 858;
-//    public static final int SETTING_RESULT_TIMETABLE = 865;
-//
-////    public AppBarLayout mAppBarLayout;
-////    Toolbar mToolbar;
-////    LinearLayout invalidLayout;
-////    ViewPager viewPager;
-////
-////    FloatingActionButton fab;
-////    TabLayout tabs;
-//
-//    TimeTablePagerAdapter pagerAdapter;
-//    SharedPreferences timetableSP;
-//
-//    /*个性化参数*/
+//    FloatingActionButton fab;
+//    TabLayout tabs;
+
+    TimeTablePagerAdapter pagerAdapter;
+    SharedPreferences timetableSP;
+
+    /*个性化参数*/
 //    private boolean drawNowLine;
 //    private boolean drawBGLine;
 //    private String titleGravity;
@@ -81,20 +49,20 @@
 //    private boolean boldText;
 //    private int card_height;
 //    private HTime fromTime;
-//
-//
-//    void initViewPager() {
-//        pagerAdapter = new TimeTablePagerAdapter(this, getSupportFragmentManager(), TimetableCore.getInstance(HContext).getCurrentCurriculum().getTotalWeeks());
-//        binding.timetableViewpager.setAdapter(pagerAdapter);
-//        binding.timetableViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int i, float v, int i1) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int i) {
-//                pageWeekOfTerm = i + 1;
+
+
+    void initViewPager() {
+        pagerAdapter = new TimeTablePagerAdapter(this, getSupportFragmentManager(),20);
+        binding.timetableViewpager.setAdapter(pagerAdapter);
+        binding.timetableViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                pageWeekOfTerm = i + 1;
 //                if (pageWeekOfTerm == TimetableCore.getInstance(HContext).getThisWeekOfTerm()) {
 //                    fab.hide();
 //                    //toolbar_title.setTextColor(ContextCompat.getColor(TimetableActivity.this, R.color.theme1_colorPrimaryDark));
@@ -102,18 +70,19 @@
 //                    if (timetableSP.getBoolean("timetable_back_enable", true)) fab.show();
 //                    //toolbar_title.setTextColor(ContextCompat.getColor(TimetableActivity.this, R.color.material_primary_text));
 //                }
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int i) {
-//
-//            }
-//        });
-//        binding.timetableViewpager.setCurrentItem(0);
-//        binding.timetableTabs.setupWithViewPager(binding.timetableViewpager);
-//        //if(thisWeekOfTerm-1>=0) viewPager.setCurrentItem(thisWeekOfTerm-1);
-//    }
-//
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+        binding.timetableTabs.setupWithViewPager(binding.timetableViewpager);
+        binding.timetableViewpager.setCurrentItem(20);
+        binding.timetableViewpager.setOffscreenPageLimit(3);
+        //if(thisWeekOfTerm-1>=0) viewPager.setCurrentItem(thisWeekOfTerm-1);
+    }
+
 //    void initReceiver() {
 //        BroadcastReceiver br = new BroadcastReceiver() {
 //            @Override
@@ -132,10 +101,10 @@
 //        iF.addAction(TIMETABLE_REFRESH);
 //        LocalBroadcastManager.getInstance(this).registerReceiver(br, iF);
 //    }
-//
-//
-//    /*刷新课表视图函数*/
-//    public void Refresh(boolean backToThisWeek) {
+
+
+    /*刷新课表视图函数*/
+    public void Refresh(boolean backToThisWeek) {
 //        TimetableCore tc = TimetableCore.getInstance(HContext);
 //        tc.syncTimeFlags();
 //        syncAllPreferences();
@@ -158,17 +127,9 @@
 //        if (!tc.isThisTerm() || !fabEnable || pageWeekOfTerm == tc.getThisWeekOfTerm())
 //            fab.hide();
 //        else fab.show();
-//    }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == TIMETABLE_REQUEST_SETTING && resultCode == SETTING_RESULT_TIMETABLE) {
-//            onCalledRefresh();
-//        }
-//    }
-//
-//
+    }
+
+
 //    public void syncAllPreferences() {
 //        cardBackground = timetableSP.getString("timetable_card_background", "gradient");
 //        card_height = timetableSP.getInt("timetable_card_height", 160);//课程表卡片高度
@@ -187,13 +148,13 @@
 //        subtitleAlpha = timetableSP.getInt("timetable_card_subtitle_alpha", 100);
 //        fromTime = new HTime(timetableSP.getString("timetable_start_time", "08:00"));
 //    }
-//
-//
+
+
 //    public void onCalledRefresh() {
 //        syncAllPreferences();
 //        pagerAdapter.notifyAllFragments();
 //    }
-//
+
 //    @Override
 //    public void changeEnableColor(boolean changed) {
 //        timetableSP.edit().putBoolean("subjects_color_enable", changed).apply();
@@ -231,87 +192,23 @@
 //    public SharedPreferences getSP() {
 //        return timetableSP;
 //    }
-//
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setWindowParams(true, true, false);
-//        setToolbarActionBack(binding.mainToolBar);
-//        timetableSP = getSharedPreferences("timetable_pref", Context.MODE_PRIVATE);
-//        initReceiver();
-//        Refresh(false);
-//        hasInit = true;
-//    }
-//
-//
-//    @Override
-//    public boolean drawBGLine() {
-//        return drawBGLine;
-//    }
-//
-//    @Override
-//    public HTime getStartTime() {
-//
-//        return fromTime;
-//    }
-//
-//
-//    @Override
-//    public boolean isColorEnabled() {
-//        return colorfulMode;
-//    }
-//
-//    @Override
-//    public String getCardTitleColor() {
-//        return titleColor;
-//    }
-//
-//    @Override
-//    public String getSubTitleColor() {
-//        return subTitleColor;
-//    }
-//
-//    @Override
-//    public String getIconColor() {
-//        return iconColor;
-//    }
-//
-//    @Override
-//    public boolean willBoldText() {
-//        return boldText;
-//    }
-//
-//    @Override
-//    public int getTodayBGColor() {
-//        return getIconColorBottom();
-//    }
-//
-//    @Override
-//    public boolean cardIconEnabled() {
-//        return enableIcon;
-//    }
-//
-//    @Override
-//    public int getCardOpacity() {
-//        return bgOpacity;
-//    }
-//
-//    @Override
-//    public int getCardHeight() {
-//        return card_height;
-//    }
-//
-//    @Override
-//    public int getTitleGravity() {
-//        if (titleGravity.equals("top")) return Gravity.TOP | Gravity.CENTER_HORIZONTAL;
-//        else if (titleGravity.equals("center")) return Gravity.CENTER;
-//        else return Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setWindowParams(true, true, false);
+        setToolbarActionBack(binding.mainToolBar);
+        timetableSP = getSharedPreferences("timetable_pref", Context.MODE_PRIVATE);
+        //initReceiver();
+        Refresh(false);
+        hasInit = true;
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 //        if (refreshOnResume) {
 //            onCalledRefresh();
 //            refreshOnResume = false;
@@ -321,67 +218,23 @@
 //            viewPager.setCurrentItem(TimetableCore.getInstance(HContext).getThisWeekOfTerm() - 1);
 //        }
 //        firstEnter = false;
-//    }
-//
-//    @Override
-//    public void onOperationStart(String id, Boolean[] params) {
-//
-//    }
-//
-//    @Override
-//    public void onOperationDone(String id, BaseOperationTask task, Boolean[] params, Object result) {
-//        if ("reset_color".equals(id)) {
-//            pagerAdapter.notifyAllFragments();
-//        }
-//    }
-//
-//
-//    @Override
-//    public int getTitleAlpha() {
-//        return titleAlpha;
-//    }
-//
-//    @Override
-//    public int getSubtitleAlpha() {
-//        return subtitleAlpha;
-//    }
-//
-//
-//    @Override
-//    public boolean animEnabled() {
-//        return enableAnim;
-//    }
-//
-//
-//    @Override
-//    public String getCardBackground() {
-//        return cardBackground;
-//    }
-//
-//    @Override
-//    public SharedPreferences getTTPreference() {
-//        return timetableSP;
-//    }
-//
-//    @Override
-//    public boolean drawNowLine() {
-//        return drawNowLine;
-//    }
-//
-//    @NotNull
-//    @Override
-//    protected ActivityTimeTableBinding initViewBinding() {
-//        return ActivityTimeTableBinding.inflate(getLayoutInflater());
-//    }
-//
-//    @NotNull
-//    @Override
-//    protected Class<TimetableViewModel> getViewModelClass() {
-//        return TimetableViewModel.class;
-//    }
-//
-//    @Override
-//    protected void initViews() {
+    }
+
+
+    @NotNull
+    @Override
+    protected ActivityTimeTableBinding initViewBinding() {
+        return ActivityTimeTableBinding.inflate(getLayoutInflater());
+    }
+
+    @NotNull
+    @Override
+    protected Class<TimetableViewModel> getViewModelClass() {
+        return TimetableViewModel.class;
+    }
+
+    @Override
+    protected void initViews() {
 //        final TimetableCore tc = TimetableCore.getInstance(HContext);
 //        binding.fabThisweek.setBackgroundTintList(ColorStateList.valueOf(getColorAccent()));
 //        binding.fabThisweek.setImageTintList(ColorStateList.valueOf(Color.WHITE));
@@ -395,31 +248,31 @@
 //            FragmentTimetablePanel tp = new FragmentTimetablePanel();
 //            tp.show(getSupportFragmentManager(), "panel");
 //        });
-//        initViewPager();
+        initViewPager();
+
+    }
+
+//
+//    static class resetColorTask extends BaseOperationTask<Object> {
+//
+//        SharedPreferences sharedPreferences;
+//
+//        resetColorTask(OperationListener listRefreshedListener, SharedPreferences sharedPreferences) {
+//            super(listRefreshedListener);
+//            id = "reset_color";
+//            this.sharedPreferences = sharedPreferences;
+//        }
+//
+//        @SuppressLint("ApplySharedPref")
+//        @Override
+//        protected Object doInBackground(OperationListener<Object> listRefreshedListener, Boolean... booleans) {
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            for (Subject s : TimetableCore.getInstance(HContext).getSubjects(null)) {
+//                editor.putInt("color:" + s.getName(), ColorBox.getRandomColor_Material());
+//            }
+//            editor.commit();
+//            return super.doInBackground(listRefreshedListener, booleans);
+//        }
 //
 //    }
-//
-////
-////    static class resetColorTask extends BaseOperationTask<Object> {
-////
-////        SharedPreferences sharedPreferences;
-////
-////        resetColorTask(OperationListener listRefreshedListener, SharedPreferences sharedPreferences) {
-////            super(listRefreshedListener);
-////            id = "reset_color";
-////            this.sharedPreferences = sharedPreferences;
-////        }
-////
-////        @SuppressLint("ApplySharedPref")
-////        @Override
-////        protected Object doInBackground(OperationListener<Object> listRefreshedListener, Boolean... booleans) {
-////            SharedPreferences.Editor editor = sharedPreferences.edit();
-////            for (Subject s : TimetableCore.getInstance(HContext).getSubjects(null)) {
-////                editor.putInt("color:" + s.getName(), ColorBox.getRandomColor_Material());
-////            }
-////            editor.commit();
-////            return super.doInBackground(listRefreshedListener, booleans);
-////        }
-////
-////    }
-//}
+}
