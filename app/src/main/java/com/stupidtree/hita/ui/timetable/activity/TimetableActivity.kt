@@ -26,6 +26,10 @@ class TimetableActivity :
         return TimetableViewModel::class.java
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.startRefresh()
+    }
     override fun initViews() {
         pagerAdapter = TimeTablePagerAdapter(binding.timetableViewpager,supportFragmentManager, 5)
         viewModel.timetableLiveData.observe(this){
@@ -54,6 +58,10 @@ class TimetableActivity :
     }
 
     private fun refreshWeekLayout(timetables:List<Timetable>){
+        if(timetables.isEmpty()){
+            binding.weekText.text = "无课表"
+            return
+        }
         val weeks = mutableListOf<Int>()
         val cd = pagerAdapter.getCurrentDate()
         var minTT:Timetable? = null
