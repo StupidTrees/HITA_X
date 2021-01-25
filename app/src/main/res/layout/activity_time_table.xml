@@ -21,9 +21,9 @@
             android:layout_height="wrap_content"
             android:elevation="0dp"
             android:fitsSystemWindows="true"
+            android:theme="?attr/toolbarStyle"
             android:visibility="visible"
-            app:contentInsetStartWithNavigation="0dp"
-            android:theme="?attr/toolbarStyle">
+            app:contentInsetStartWithNavigation="0dp">
             <!--app:contentInsetStart="0dp"-->
 
             <LinearLayout
@@ -31,23 +31,23 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/timetable_tabs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <!--                app:tabTextAppearance="@style/MainTabsTextTheme_normal"-->
+                <TextView
+                    android:id="@+id/week_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:overScrollMode="never"
-                    app:tabGravity="fill"
-                    app:tabIndicatorColor="#00000000"
-                    app:tabIndicatorGravity="bottom"
-                    app:tabMode="scrollable"
-                    app:tabSelectedTextColor="?attr/textColorPrimary"
+                    android:gravity="center"
+                    android:text="第13周"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
-                    app:tabTextColor="?attr/textColorSecondary"
-                    app:tabUnboundedRipple="true" />
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
-<!--                app:tabTextAppearance="@style/MainTabsTextTheme_normal"-->
                 <ImageView
                     android:id="@+id/more"
                     android:layout_width="wrap_content"
@@ -55,9 +55,9 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:padding="16dp"
                     android:theme="@style/button_ripple_white"
-                    app:tintMode="src_in"
                     app:srcCompat="@drawable/ic_baseline_check_24"
-                    app:tint="?attr/colorControlNormal" />
+                    app:tint="?attr/colorControlNormal"
+                    app:tintMode="src_in" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
@@ -88,23 +88,5 @@
         android:layout_height="match_parent"
         android:overScrollMode="never"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/fab_thisweek"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom|right"-->
-<!--        android:layout_margin="16dp"-->
-<!--        android:clickable="true"-->
-<!--        android:focusable="true"-->
-<!--        android:foregroundTint="@color/white"-->
-<!--        android:foregroundTintMode="src_in"-->
-<!--        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"-->
-<!--        app:tint="@color/white"-->
-<!--        app:tintMode="src_in"-->
-<!--        app:layout_anchor="@+id/timetable_viewpager"-->
-<!--        app:layout_anchorGravity="end|bottom"-->
-<!--        app:layout_behavior=".views.mBottomHideBehavior"-->
-<!--        app:srcCompat="@drawable/ic_baseline_check_24" />-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

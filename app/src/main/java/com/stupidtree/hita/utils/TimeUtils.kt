@@ -24,6 +24,7 @@ import com.bumptech.glide.request.target.NotificationTarget
 import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.signature.ObjectKey
 import java.sql.Timestamp
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -56,4 +57,10 @@ object TimeUtils {
         }
     }
 
+
+    fun printDate(date:Long):String{
+        val c = Calendar.getInstance()
+        c.timeInMillis = date
+        return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(c.time)
+    }
 }

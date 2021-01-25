@@ -16,6 +16,8 @@ interface TimetableDao{
     @Query("SELECT * FROM timetable WHERE code is :easCode")
     fun getTimetableByEASCode(easCode:String): Timetable?
 
+    @Query("SELECT * FROM timetable")
+    fun getTimetables(): LiveData<List<Timetable>>
 
     /**
      * 保存课表

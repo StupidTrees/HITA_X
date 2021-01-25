@@ -18,4 +18,12 @@ class Timetable {
     var createdAt //创建时间
             : Timestamp = Timestamp(System.currentTimeMillis())
     var scheduleStructure:List<TimePeriodInDay> = mutableListOf()//时间表结构
+
+
+    /**
+     * 获取某时间戳所对应的周数 =
+     */
+    fun getWeekNumber(ts:Long):Int{
+        return ((ts-startTime.time)/(1000*60*60*24*7)).toInt()
+    }
 }

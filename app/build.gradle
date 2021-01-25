@@ -7,7 +7,7 @@ plugins {
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.stupidtree.hita"
@@ -85,5 +85,9 @@ dependencies {
     implementation 'com.github.alorma:timelineview:2.3.0'
     //圆形进度
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
+
+
+    //循环viewpager
+    //implementation 'com.github.AbrahamCaiJin:LoopViewPager:1.0.0'
 
 }

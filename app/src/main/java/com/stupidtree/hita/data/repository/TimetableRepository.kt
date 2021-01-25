@@ -7,20 +7,28 @@ import androidx.lifecycle.MutableLiveData
 import com.stupidtree.hita.data.AppDatabase
 import com.stupidtree.hita.data.model.eas.TermItem
 import com.stupidtree.hita.data.model.timetable.EventItem
+import com.stupidtree.hita.data.model.timetable.Timetable
 import com.stupidtree.hita.ui.base.DataState
 import java.util.*
 
 class TimetableRepository(application: Application) {
     private val eventItemDao = AppDatabase.getDatabase(application).eventItemDao()
+    private val timetableDao = AppDatabase.getDatabase(application).timetableDao()
 
     /**
      * 获取[from,to)内的事件
      */
     fun getEventsDuring(from:Long,to:Long): LiveData<List<EventItem>> {
-        Log.e("from-to", "$from,$to")
+        //Log.e("from-to", "$from,$to")
         return eventItemDao.getEventsDuring(from,to)
     }
 
+    /**
+     * 获取所有课表
+     */
+    fun getTimetables():LiveData<List<Timetable>>{
+        return timetableDao.getTimetables()
+    }
     companion object {
         private var instance: TimetableRepository? = null
         fun getInstance(application: Application): TimetableRepository {

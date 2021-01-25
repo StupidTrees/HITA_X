@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.repository.TimetableRepository
-import com.stupidtree.hita.ui.base.Trigger
 import java.util.*
 
 class TimetablePageViewModel(application: Application) : AndroidViewModel(application) {
