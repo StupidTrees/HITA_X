@@ -31,7 +31,7 @@ class TimetableActivity :
         viewModel.startRefresh()
     }
     override fun initViews() {
-        pagerAdapter = TimeTablePagerAdapter(binding.timetableViewpager,supportFragmentManager, 5)
+        pagerAdapter = TimeTablePagerAdapter(binding.timetableViewpager,supportFragmentManager, 7)
         viewModel.timetableLiveData.observe(this){
             refreshWeekLayout(it)
         }
@@ -69,7 +69,7 @@ class TimetableActivity :
         for(tt in timetables){
             val wk = tt.getWeekNumber(cd)
             weeks.add(wk)
-            if(wk<minWk){
+            if(wk in 1 until minWk){
                 minWk = wk
                 minTT = tt
             }

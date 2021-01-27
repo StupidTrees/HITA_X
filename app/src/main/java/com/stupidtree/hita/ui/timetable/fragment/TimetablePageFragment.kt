@@ -4,9 +4,10 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.util.TimeUtils
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import com.stupidtree.hita.R
 import com.stupidtree.hita.data.model.timetable.EventItem
@@ -15,11 +16,12 @@ import com.stupidtree.hita.databinding.FragmentTimetablePageBinding
 import com.stupidtree.hita.ui.base.BaseFragment
 import com.stupidtree.hita.ui.timetable.views.TimeTableBlockView.TimeTablePreferenceRoot
 import com.stupidtree.hita.ui.timetable.views.TimeTableViewGroup
+import com.stupidtree.hita.utils.TimeUtils
 import java.util.*
 
 class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimetablePageBinding>() {
     private val topDateTexts = arrayOfNulls<TextView>(8) //顶部日期文本
-
+    private var mView:View? = null
     private fun initDateTextViews() {
         topDateTexts[0] = binding?.ttTvMonth
         topDateTexts[1] = binding?.ttTvDay1
@@ -30,6 +32,17 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
         topDateTexts[6] = binding?.ttTvDay6
         topDateTexts[7] = binding?.ttTvDay7
     }
+
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        mView = super.onCreateView(inflater, container, savedInstanceState)
+//        val parent = mView?.parent as ViewGroup?
+//        parent?.removeView(mView)
+//        return mView
+//    }
 
     private fun refreshDateViews(date: Long) {
         //Log.e("dateView",com.stupidtree.hita.utils.TimeUtils.printDate(date))
@@ -51,21 +64,12 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
 
     override fun onStart() {
         super.onStart()
-
         arguments?.getLong("date")?.let {
             refreshDateViews(it)
             viewModel.startRefresh(it)
         }
 
     }
-//
-//    fun NotifyRefresh() {
-//        if (isResumed) {
-//            willRefreshOnResume = false
-//            refreshPageView(pageWeek)
-//        } else willRefreshOnResume = true
-//    }
-
 
 
     fun setWeek(date:Long){
@@ -125,7 +129,7 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
                 get() = 60
 
             override fun animEnabled(): Boolean {
-                return true
+                return false
             }
 
             override val cardBackground: String
@@ -200,9 +204,6 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
             for (o in it) {
                 binding?.timetableView?.addBlock(o)
             }
-//            if (pageWeek == TimetableCore.getInstance(HContext).getThisWeekOfTerm() && root!!.drawNowLine() && HTime(TimetableCore.getNow()).after(root!!.startTime)) {
-//                binding?.timetableView?!!.addView(TimeTableNowLine(requireContext(), getIconColorSecond()))
-//            }
         }
     }
 

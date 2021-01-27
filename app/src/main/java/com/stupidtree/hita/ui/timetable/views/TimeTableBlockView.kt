@@ -41,6 +41,7 @@ class TimeTableBlockView constructor(context: Context, var block: Any, var root:
     }
 
     private fun initEventCard(context: Context) {
+
         val ei = block as EventItem
         inflate(context, R.layout.fragment_timetable_class_card, this)
         card = findViewById(R.id.card)

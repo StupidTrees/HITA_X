@@ -1,10 +1,8 @@
 package com.stupidtree.hita.ui.timetable.views
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +11,6 @@ import android.view.animation.LayoutAnimationController
 import com.stupidtree.hita.R
 import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.model.timetable.TimeInDay
-import com.stupidtree.hita.ui.base.BaseActivity
 import com.stupidtree.hita.ui.timetable.views.TimeTableBlockView.*
 import com.stupidtree.hita.utils.TimeUtils
 
@@ -33,12 +30,20 @@ class TimeTableViewGroup : ViewGroup {
     var root: TimeTablePreferenceRoot? = null
     private var onCardClickListener: OnCardClickListener? = null
     private var onCardLongClickListener: OnCardLongClickListener? = null
+    private val mLabelPaint = Paint()
+    private val mPathEffect = DashPathEffect(floatArrayOf(20f, 20f), 0f)
+    private val mLinePaint = Paint()
+    private val mLinePath = Path()
 
     constructor(context: Context?, attrs: AttributeSet) : super(context, attrs) {
         typedTimeTableView(attrs, 0)
     }
 
-    constructor(context: Context?, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context?, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         typedTimeTableView(attrs, defStyleAttr)
     }
 
@@ -53,63 +58,69 @@ class TimeTableViewGroup : ViewGroup {
     constructor(context: Context?) : super(context) {}
 
     override fun dispatchDraw(canvas: Canvas) {
-        try {
 //            if (week == TimetableCore.getInstance(HContext).getThisWeekOfTerm())
 //                drawTodayRect(canvas);
-            drawLabels(canvas)
-            super.dispatchDraw(canvas)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        drawLabels(canvas)
+        super.dispatchDraw(canvas)
     }
 
     private fun typedTimeTableView(attrs: AttributeSet, defStyleAttr: Int) {
-        val a = context.theme.obtainStyledAttributes(attrs,  R.styleable.TimeTableViewGroup, defStyleAttr, 0)
+        val a = context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.TimeTableViewGroup,
+            defStyleAttr,
+            0
+        )
         val n = a.indexCount
         for (i in 0..n) {
             when (val attr = a.getIndex(i)) {
-                R.styleable.TimeTableViewGroup_timeLabelSize -> labelSize = a.getDimensionPixelSize(attr, TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_SP, 8f, resources.displayMetrics).toInt())
-                R.styleable.TimeTableViewGroup_timeLabelColor -> labelColor = a.getColor(attr, Color.BLACK)
+                R.styleable.TimeTableViewGroup_timeLabelSize -> labelSize = a.getDimensionPixelSize(
+                    attr, TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_SP, 8f, resources.displayMetrics
+                    ).toInt()
+                )
+                R.styleable.TimeTableViewGroup_timeLabelColor -> labelColor =
+                    a.getColor(attr, Color.BLACK)
                 R.styleable.TimeTableViewGroup_timeLineColor ->                     // 默认颜色设置为黑色
                     timelineColor = a.getColor(attr, Color.BLACK)
-                R.styleable.TimeTableViewGroup_timeLabelWidth -> labelWidth = a.getDimensionPixelSize(attr, TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics).toInt())
+                R.styleable.TimeTableViewGroup_timeLabelWidth -> labelWidth =
+                    a.getDimensionPixelSize(
+                        attr, TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics
+                        ).toInt()
+                    )
             }
         }
     }
 
     private fun drawTodayRect(canvas: Canvas) {
-        val left: Int = labelWidth + sectionWidth *( TimeUtils.currentDOW()-1)
+        val left: Int = labelWidth + sectionWidth * (TimeUtils.currentDOW() - 1)
         val right = left + sectionWidth
         val paint = Paint()
         paint.color = root!!.todayBGColor
         canvas.drawRect(left.toFloat(), 0f, right.toFloat(), mHeight.toFloat(), paint)
     }
 
+
     private fun drawLabels(canvas: Canvas) {
-        val paint = Paint()
-        paint.color = labelColor
-        paint.textSize = labelSize.toFloat()
-        paint.textAlign = Paint.Align.LEFT
-        val pathEffect = DashPathEffect(floatArrayOf(20f, 20f), 0f)
-        val paint2 = Paint()
-        paint2.style = Paint.Style.STROKE
-        paint2.strokeWidth = 1f
-        paint2.color = timelineColor
-        paint2.pathEffect = pathEffect
+        mLabelPaint.color = labelColor
+        mLabelPaint.textSize = labelSize.toFloat()
+        mLabelPaint.textAlign = Paint.Align.LEFT
+        mLinePaint.style = Paint.Style.STROKE
+        mLinePaint.strokeWidth = 1f
+        mLinePaint.color = timelineColor
+        mLinePaint.pathEffect = mPathEffect
         for (i in startTime.hour..23) {
             val temp = TimeInDay(i, 0)
             val left = 0
             val x = if (startTime.before(temp)) 1.0f else -1.0f
             val startTimeFromBeginning: Float = x * startTime.getDistanceInMinutes(temp)
-            val top = (startTimeFromBeginning/60f * sectionHeight).toInt()
-            canvas.drawText(temp.toString(), left.toFloat(), (top + labelSize).toFloat(), paint)
+            val top = (startTimeFromBeginning / 60f * sectionHeight).toInt()
+            canvas.drawText(temp.toString(), left.toFloat(), (top + labelSize).toFloat(),mLabelPaint)
             if (root!!.drawBGLine()) {
-                val path = Path()
-                path.moveTo(0f, top.toFloat())
-                path.lineTo(mWidth.toFloat(), (top + 1).toFloat())
-                canvas.drawPath(path, paint2)
+                mLinePath.moveTo(0f, top.toFloat())
+                mLinePath.lineTo(mWidth.toFloat(), (top + 1).toFloat())
+                canvas.drawPath(mLinePath, mLinePaint)
             }
         }
     }
@@ -119,8 +130,11 @@ class TimeTableViewGroup : ViewGroup {
         startTime = root!!.startTime
         if (root!!.animEnabled() && firstLoad) {
             firstLoad = false
-            layoutAnimation = LayoutAnimationController(AnimationUtils.loadAnimation(
-                    context, R.anim.recycler_animation_float_up), 0.08f)
+            layoutAnimation = LayoutAnimationController(
+                AnimationUtils.loadAnimation(
+                    context, R.anim.recycler_animation_float_up
+                ), 0.08f
+            )
         } else {
             layoutAnimation = null
         }
@@ -147,20 +161,28 @@ class TimeTableViewGroup : ViewGroup {
 //    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        //Log.e("width,height",widthMeasureSpec+","+heightMeasureSpec);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val totalMinutes: Int = root!!.startTime.getDistanceInMinutes(endTime)
-        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.makeMeasureSpec((totalMinutes.toFloat() / 60f * sectionHeight).toInt(), MeasureSpec.EXACTLY))
+        setMeasuredDimension(
+            MeasureSpec.getSize(widthMeasureSpec),
+            MeasureSpec.makeMeasureSpec(
+                (totalMinutes.toFloat() / 60f * sectionHeight).toInt(),
+                MeasureSpec.EXACTLY
+            )
+        )
         mWidth = MeasureSpec.getSize(widthMeasureSpec)
-        mHeight = MeasureSpec.makeMeasureSpec((totalMinutes.toFloat() / 60f * sectionHeight).toInt(), MeasureSpec.EXACTLY)
+        mHeight = MeasureSpec.makeMeasureSpec(
+            (totalMinutes.toFloat() / 60f * sectionHeight).toInt(),
+            MeasureSpec.EXACTLY
+        )
         sectionWidth = (mWidth - labelWidth) / 7
         //setMeasuredDimension(width, height);
-        val count = childCount
-        for (i in 0 until count) {
+        for (i in 0 until childCount) {
             when (val child = getChildAt(i)) {
                 is TimeTableBlockView -> {
                     val cw = MeasureSpec.makeMeasureSpec(sectionWidth, MeasureSpec.EXACTLY)
-                    val cH: Int = MeasureSpec.makeMeasureSpec(getCardHeight(child), MeasureSpec.EXACTLY)
+                    val cH: Int =
+                        MeasureSpec.makeMeasureSpec(getCardHeight(child), MeasureSpec.EXACTLY)
                     child.measure(cw, cH)
                 }
                 is TimeTableNowLine -> {
@@ -170,7 +192,10 @@ class TimeTableViewGroup : ViewGroup {
                 }
                 is TimeTableBlockAddView -> {
                     val cw = MeasureSpec.makeMeasureSpec(sectionWidth, MeasureSpec.EXACTLY)
-                    val cH = MeasureSpec.makeMeasureSpec((child.duration / 60f * sectionHeight).toInt(), MeasureSpec.EXACTLY)
+                    val cH = MeasureSpec.makeMeasureSpec(
+                        (child.duration / 60f * sectionHeight).toInt(),
+                        MeasureSpec.EXACTLY
+                    )
                     child.measure(cw, cH)
                 }
                 else -> {
@@ -195,21 +220,22 @@ class TimeTableViewGroup : ViewGroup {
             when (val child = getChildAt(i)) {
                 is TimeTableBlockView -> {
                     val lastTime = child.getDuration().toFloat()
-                    val x = if (startTime.before(child.getEvent().from)) 1.0f else -1.0f
-                    val startTimeFromBeginning: Float = x * startTime.getDistanceInMinutes(child.getEvent().from.time)
+                    val startTimeFromBeginning: Int =
+                        startTime.getDistanceInMinutes(child.getEvent().from.time)
                     val courseInWeek = child.getDow() - 1 //获得周几
                     //计算左边的坐标
                     val left = labelWidth + sectionWidth * courseInWeek
                     //计算右边坐标
                     val right = left + sectionWidth
                     //计算顶部坐标
-                    val top = (startTimeFromBeginning /60f * sectionHeight).toInt()
-                    val bottom = top + (lastTime /60f * sectionHeight).toInt()
+                    val top = (startTimeFromBeginning / 60f * sectionHeight).toInt()
+                    val bottom = top + (lastTime / 60f * sectionHeight).toInt()
                     // block.measure(sectionWidth,getCardHeight(block));
                     child.layout(left, top, right, bottom)
                 }
                 is TimeTableNowLine -> {
-                    val startTimeFromBeginning = startTime.getDistanceInMinutes(System.currentTimeMillis())
+                    val startTimeFromBeginning =
+                        startTime.getDistanceInMinutes(System.currentTimeMillis())
                     val top = (startTimeFromBeginning / 60f * sectionHeight).toInt()
                     child.layout(0, top, mWidth, top + 4)
                 }
@@ -229,32 +255,36 @@ class TimeTableViewGroup : ViewGroup {
         }
     }
 
-    fun addBlock(o: Any?) {
+    fun addBlock(o: Any) {
         if (o is EventItem) {
             val timeTableBlockView = TimeTableBlockView(context, o, root!!)
-            if (onCardClickListener != null) timeTableBlockView.onCardClickListener = object : TimeTableBlockView.OnCardClickListener {
-                override fun OnClick(v: View, ei: EventItem) {
-                    onCardClickListener!!.onEventClick(v, ei)
+            if (onCardClickListener != null) timeTableBlockView.onCardClickListener =
+                object : TimeTableBlockView.OnCardClickListener {
+                    override fun OnClick(v: View, ei: EventItem) {
+                        onCardClickListener!!.onEventClick(v, ei)
+                    }
                 }
-            }
-            if (onCardLongClickListener != null) timeTableBlockView.onCardLongClickListener = object : TimeTableBlockView.OnCardLongClickListener {
-                override fun OnLongClick(v: View, ei: EventItem): Boolean {
-                    return onCardLongClickListener!!.onEventLongClick(v, ei)
+            if (onCardLongClickListener != null) timeTableBlockView.onCardLongClickListener =
+                object : TimeTableBlockView.OnCardLongClickListener {
+                    override fun OnLongClick(v: View, ei: EventItem): Boolean {
+                        return onCardLongClickListener!!.onEventLongClick(v, ei)
+                    }
                 }
-            }
             addView(timeTableBlockView)
         } else if (o is List<*>) {
             val timeTableBlockView = TimeTableBlockView(context, o, root!!)
-            if (onCardClickListener != null) timeTableBlockView.onDuplicateCardClickListener = object : OnDuplicateCardClickListener {
-                override fun OnDuplicateClick(v: View, list: List<EventItem>) {
-                    onCardClickListener!!.onDuplicateEventClick(v, list)
+            if (onCardClickListener != null) timeTableBlockView.onDuplicateCardClickListener =
+                object : OnDuplicateCardClickListener {
+                    override fun OnDuplicateClick(v: View, list: List<EventItem>) {
+                        onCardClickListener!!.onDuplicateEventClick(v, list)
+                    }
                 }
-            }
-            if (onCardLongClickListener != null) timeTableBlockView.onDuplicateCardLongClickListener = object : OnDuplicateCardLongClickListener {
-                override fun onDuplicateLongClick(v: View, list: List<EventItem>): Boolean {
-                    return onCardLongClickListener!!.onDuplicateEventClick(v, list)
+            if (onCardLongClickListener != null) timeTableBlockView.onDuplicateCardLongClickListener =
+                object : OnDuplicateCardLongClickListener {
+                    override fun onDuplicateLongClick(v: View, list: List<EventItem>): Boolean {
+                        return onCardLongClickListener!!.onDuplicateEventClick(v, list)
+                    }
                 }
-            }
             addView(timeTableBlockView)
         }
     }

@@ -16,6 +16,8 @@ class TimetablePageViewModel(application: Application) : AndroidViewModel(applic
     val eventsOfThisWeek:LiveData<List<EventItem>> = Transformations.switchMap(eventsController){
         val from = Calendar.getInstance()
         val to = Calendar.getInstance()
+        from.timeInMillis = it
+        to.timeInMillis = it
         from.firstDayOfWeek = Calendar.MONDAY
         to.firstDayOfWeek = Calendar.MONDAY
         from.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY)

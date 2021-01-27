@@ -63,4 +63,21 @@ object TimeUtils {
         c.timeInMillis = date
         return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(c.time)
     }
+
+
+    /**
+     * 获取小时（东八区）
+     */
+    fun getHour(date:Long):Int{
+//        val c = Calendar.getInstance()
+//        c.timeInMillis = date
+//        return c[Calendar.HOUR_OF_DAY]
+        return 8+((date%(1000*60*60*24))/(1000*60*60)).toInt()
+    }
+    fun getMinute(date:Long):Int{
+//        val c = Calendar.getInstance()
+//        c.timeInMillis = date
+//        return c[Calendar.MINUTE]
+        return ((date%(1000*60*60))/(1000*60)).toInt()
+    }
 }

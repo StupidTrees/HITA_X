@@ -56,7 +56,7 @@ class EventItem {
     }
 
     /**
-     * 获取周几，周一为0
+     * 获取周几，周一为1
      */
     fun getDow():Int{
         return TimeUtils.getDow(from.time)
