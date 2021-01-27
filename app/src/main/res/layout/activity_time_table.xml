@@ -1,223 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColorBottom">
+    android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00000000"
-        android:elevation="0dp"
-        android:fitsSystemWindows="false"
-        android:visibility="visible"
-        app:elevation="0dp">
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingBottom="4dp"
+        android:visibility="visible">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/main_tool_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="0dp"
-            android:fitsSystemWindows="true"
-            android:theme="?attr/toolbarStyle"
-            android:visibility="visible"
-            app:contentInsetStartWithNavigation="0dp">
-            <!--app:contentInsetStart="0dp"-->
+        <View
+            android:layout_width="@dimen/timetable_label_width"
+            android:layout_height="28dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <!--                app:tabTextAppearance="@style/MainTabsTextTheme_normal"-->
-                <TextView
-                    android:id="@+id/week_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="第13周"
-                    android:textColor="?attr/textColorPrimary"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <ImageView
-                    android:id="@+id/more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:padding="16dp"
-                    android:theme="@style/button_ripple_white"
-                    app:srcCompat="@drawable/ic_baseline_check_24"
-                    app:tint="?attr/colorControlNormal"
-                    app:tintMode="src_in" />
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:fitsSystemWindows="true"
-            android:orientation="horizontal"
-            android:paddingBottom="4dp"
-            android:visibility="visible">
+            android:layout_gravity="center"
+            android:layout_weight="1">
 
-            <View
-                android:layout_width="@dimen/timetable_label_width"
-                android:layout_height="28dp" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <TextView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:layout_weight="1">
+                android:background="@drawable/element_round_grey"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/tt_monday"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="10sp" />
+        </FrameLayout>
 
-                <TextView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/element_round_grey"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="@string/tt_monday"
-                    android:textColor="?attr/textColorPrimary"
-                    android:textSize="10sp" />
-            </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <TextView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:layout_weight="1">
+                android:background="@drawable/element_round_grey"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/tt_tuesday"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="10sp" />
 
-                <TextView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/element_round_grey"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="@string/tt_tuesday"
-                    android:textColor="?attr/textColorPrimary"
-                    android:textSize="10sp" />
+        </FrameLayout>
 
-            </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <TextView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:layout_weight="1">
+                android:background="@drawable/element_round_grey"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/tt_wednesday"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="10sp" />
+        </FrameLayout>
 
-                <TextView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/element_round_grey"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="@string/tt_wednesday"
-                    android:textColor="?attr/textColorPrimary"
-                    android:textSize="10sp" />
-            </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <TextView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:layout_weight="1">
+                android:background="@drawable/element_round_grey"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/tt_thursday"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="10sp" />
+        </FrameLayout>
 
-                <TextView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/element_round_grey"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="@string/tt_thursday"
-                    android:textColor="?attr/textColorPrimary"
-                    android:textSize="10sp" />
-            </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <TextView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:layout_weight="1">
+                android:background="@drawable/element_round_grey"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/tt_friday"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="10sp" />
+        </FrameLayout>
 
-                <TextView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/element_round_grey"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="@string/tt_friday"
-                    android:textColor="?attr/textColorPrimary"
-                    android:textSize="10sp" />
-            </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <TextView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:layout_weight="1">
+                android:background="@drawable/element_round_grey"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/tt_saturday"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="10sp" />
+        </FrameLayout>
 
-                <TextView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/element_round_grey"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="@string/tt_saturday"
-                    android:textColor="?attr/textColorPrimary"
-                    android:textSize="10sp" />
-            </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <TextView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:layout_weight="1">
+                android:background="@drawable/element_round_grey"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/tt_sunday"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="10sp" />
+        </FrameLayout>
 
-                <TextView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/element_round_grey"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="@string/tt_sunday"
-                    android:textColor="?attr/textColorPrimary"
-                    android:textSize="10sp" />
-            </FrameLayout>
-
-        </LinearLayout>
-
-
-    </com.google.android.material.appbar.AppBarLayout>
+    </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/timetable_viewpager"
+        android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+        android:overScrollMode="never" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

@@ -12,8 +12,8 @@ import java.util.*
 class TimetablePageViewModel(application: Application) : AndroidViewModel(application) {
     private val timetableRepository = TimetableRepository.getInstance(application)
 
-    private val eventsController:MutableLiveData<Long> = MutableLiveData()
-    val eventsOfThisWeek:LiveData<List<EventItem>> = Transformations.switchMap(eventsController){
+    val startDateLiveDate:MutableLiveData<Long> = MutableLiveData()
+    val eventsOfThisWeek:LiveData<List<EventItem>> = Transformations.switchMap(startDateLiveDate){
         val from = Calendar.getInstance()
         val to = Calendar.getInstance()
         from.timeInMillis = it
@@ -29,7 +29,7 @@ class TimetablePageViewModel(application: Application) : AndroidViewModel(applic
         return@switchMap timetableRepository.getEventsDuring(from.timeInMillis,to.timeInMillis)
     }
 
-    fun startRefresh(date:Long){
-        eventsController.value = date
+    fun setStartDate(date:Long){
+        startDateLiveDate.value = date
     }
 }

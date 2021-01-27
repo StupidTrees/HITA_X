@@ -16,6 +16,7 @@ import com.stupidtree.hita.data.source.preference.TimetablePreferenceSource
 import com.stupidtree.hita.data.source.web.eas.EASource
 import com.stupidtree.hita.data.source.web.service.EASService
 import com.stupidtree.hita.ui.base.DataState
+import com.stupidtree.hita.utils.TimeUtils.getDateAtWOT
 import java.sql.Timestamp
 import java.util.*
 
@@ -147,14 +148,6 @@ class EASRepository internal constructor(application: Application) {
     }
 
 
-    fun getDateAtWOT(startDate: Calendar,WeekOfTerm: Int, DOW: Int): Calendar {
-        val temp = Calendar.getInstance()
-        val daysToPlus = (WeekOfTerm - 1) * 7
-        temp.timeInMillis = startDate.timeInMillis
-        temp.add(Calendar.DATE, daysToPlus)
-        temp.add(Calendar.DAY_OF_MONTH, DOW - 1)
-        return temp
-    }
 
     companion object {
         private var instance: EASRepository? = null

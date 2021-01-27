@@ -3,6 +3,7 @@ package com.stupidtree.hita.ui.timetable.views
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.model.timetable.TimeInDay
 import com.stupidtree.hita.ui.timetable.views.TimeTableBlockView.*
 import com.stupidtree.hita.utils.TimeUtils
+import java.util.*
 
 class TimeTableViewGroup : ViewGroup {
     var mWidth = 0
@@ -28,6 +30,7 @@ class TimeTableViewGroup : ViewGroup {
     var endTime = TimeInDay(24, 0)
     var addButton: TimeTableBlockAddView? = null
     var root: TimeTablePreferenceRoot? = null
+    private val startDate: Calendar = Calendar.getInstance()
     private var onCardClickListener: OnCardClickListener? = null
     private var onCardLongClickListener: OnCardLongClickListener? = null
     private val mLabelPaint = Paint()
@@ -58,8 +61,9 @@ class TimeTableViewGroup : ViewGroup {
     constructor(context: Context?) : super(context) {}
 
     override fun dispatchDraw(canvas: Canvas) {
-//            if (week == TimetableCore.getInstance(HContext).getThisWeekOfTerm())
-//                drawTodayRect(canvas);
+        if(TimeUtils.isSameWeekWithStartDate(startDate,System.currentTimeMillis())){
+            drawTodayRect(canvas)
+        }
         drawLabels(canvas)
         super.dispatchDraw(canvas)
     }
@@ -101,6 +105,9 @@ class TimeTableViewGroup : ViewGroup {
         canvas.drawRect(left.toFloat(), 0f, right.toFloat(), mHeight.toFloat(), paint)
     }
 
+    fun setStartDate(ts:Long){
+        startDate.timeInMillis = ts
+    }
 
     private fun drawLabels(canvas: Canvas) {
         mLabelPaint.color = labelColor
@@ -125,7 +132,13 @@ class TimeTableViewGroup : ViewGroup {
         }
     }
 
-    fun notifyRefresh() {
+
+    /**
+     * 更新视图
+     */
+    fun notifyRefresh(startDate:Long,events:List<EventItem>) {
+        this.startDate.timeInMillis = startDate
+        removeAllViews()
         sectionHeight = root!!.cardHeight
         startTime = root!!.startTime
         if (root!!.animEnabled() && firstLoad) {
@@ -137,6 +150,9 @@ class TimeTableViewGroup : ViewGroup {
             )
         } else {
             layoutAnimation = null
+        }
+        for (o in events) {
+            addBlock(o)
         }
     }
 
@@ -176,7 +192,6 @@ class TimeTableViewGroup : ViewGroup {
             MeasureSpec.EXACTLY
         )
         sectionWidth = (mWidth - labelWidth) / 7
-        //setMeasuredDimension(width, height);
         for (i in 0 until childCount) {
             when (val child = getChildAt(i)) {
                 is TimeTableBlockView -> {

@@ -1,15 +1,11 @@
 package com.stupidtree.hita.ui.timetable.activity
 
-import android.util.Log
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.stupidtree.hita.ui.timetable.fragment.TimetablePageFragment
-import java.text.SimpleDateFormat
 import java.util.*
 
 class TimeTablePagerAdapter(pager: ViewPager, fm: FragmentManager,val size: Int) :
@@ -21,16 +17,6 @@ class TimeTablePagerAdapter(pager: ViewPager, fm: FragmentManager,val size: Int)
 
     private var currentIndex = 0
     private var startIndex = 0
-
-
-
-//    override fun getPageTitle(position: Int): CharSequence {
-//        val offset = (7 * 24 * 60 * 60 * 1000 * (position - initPosition)).toLong()
-//        val c = Calendar.getInstance()
-//        c.timeInMillis = initTime + offset
-//        return SimpleDateFormat("yy-MM-dd").format(c.time)
-//        //return String.format(context.getString(R.string.timetable_tab_title), position + 1)
-//    }
 
 
     override fun getItem(position: Int): Fragment {
@@ -81,7 +67,7 @@ class TimeTablePagerAdapter(pager: ViewPager, fm: FragmentManager,val size: Int)
         pager.adapter = this
         var tm = windowStart.timeInMillis
         for (i in 0 until size) {
-            val f = TimetablePageFragment.newInstance()
+            val f = TimetablePageFragment.newInstance(tm)
             f.setWeek(tm)
             fragments.add(f)
             tm += WEEK_MILLS

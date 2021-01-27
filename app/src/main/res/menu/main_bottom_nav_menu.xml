@@ -6,9 +6,9 @@
         android:icon="@drawable/ic_run"
         android:title="@string/title_timeline" />
 
-<!--    <item-->
-<!--        android:id="@+id/navigation_notifications"-->
-<!--        android:icon="@drawable/ic_baseline_person_24"-->
-<!--        android:title="@string/title_me" />-->
+    <item
+        android:id="@+id/navigation_timetable"
+        android:icon="@drawable/ic_baseline_timetable_24"
+        android:title="@string/title_timetable" />
 
 </menu>

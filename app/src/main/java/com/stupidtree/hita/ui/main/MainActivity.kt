@@ -18,6 +18,7 @@ import com.stupidtree.hita.databinding.ActivityMainBinding
 import com.stupidtree.hita.ui.base.BaseActivity
 import com.stupidtree.hita.ui.base.BaseTabAdapter
 import com.stupidtree.hita.ui.main.timeline.FragmentTimeLine
+import com.stupidtree.hita.ui.timetable.activity.TimetableFragment
 import com.stupidtree.hita.utils.ActivityUtils
 import com.stupidtree.hita.utils.ImageUtils
 
@@ -99,9 +100,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         setUpDrawer()
         binding.title.text = binding.navView.menu.getItem(0).title
         //Objects.requireNonNull(getSupportActionBar()).setTitle(navView.getMenu().getItem(0).getTitle());
-        binding.pager.adapter = object : BaseTabAdapter(supportFragmentManager, 1) {
+        binding.pager.adapter = object : BaseTabAdapter(supportFragmentManager, 2) {
             override fun initItem(position: Int): Fragment {
-                return FragmentTimeLine()
+                if(position==0) return FragmentTimeLine()
+                else return TimetableFragment()
             }
 
             override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
@@ -123,7 +125,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         binding.navView.setOnNavigationItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.navigation_timeline-> binding.pager.currentItem = 0
-               //R.id.navigation_dashboard -> binding.pager.currentItem = 1
+               R.id.navigation_timetable -> binding.pager.currentItem = 1
             }
             binding.title.text = item.title
             true

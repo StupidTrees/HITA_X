@@ -1,19 +1,10 @@
 package com.stupidtree.hita.utils
 
-import android.animation.Animator
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.view.View
-import android.view.animation.Animation
-import android.view.animation.DecelerateInterpolator
-import android.view.animation.RotateAnimation
 import com.stupidtree.hita.ui.eas.EASActivity
 import com.stupidtree.hita.ui.eas.login.LoginEASActivity
-import com.stupidtree.hita.ui.timetable.activity.TimetableActivity
+import com.stupidtree.hita.ui.timetable.activity.TimetableFragment
 
 
 object ActivityUtils {
@@ -29,7 +20,7 @@ object ActivityUtils {
     }
 
     fun startTimetableActivity(from:Context){
-        val i = Intent(from,TimetableActivity::class.java)
+        val i = Intent(from,TimetableFragment::class.java)
         from.startActivity(i)
     }
 }
