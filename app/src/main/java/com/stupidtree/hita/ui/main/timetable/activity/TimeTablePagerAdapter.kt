@@ -1,18 +1,17 @@
-package com.stupidtree.hita.ui.timetable.activity
+package com.stupidtree.hita.ui.main.timetable.activity
 
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.stupidtree.hita.ui.timetable.fragment.TimetablePageFragment
+import com.stupidtree.hita.ui.main.timetable.fragment.TimetablePageFragment
 import java.util.*
 
 class TimeTablePagerAdapter(pager: ViewPager, fm: FragmentManager,val size: Int) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private var fragments: MutableList<TimetablePageFragment> = mutableListOf()
-  //  private var tags:MutableList<Boolean> = mutableListOf()
     private val windowStart: Calendar = Calendar.getInstance()
 
     private var currentIndex = 0

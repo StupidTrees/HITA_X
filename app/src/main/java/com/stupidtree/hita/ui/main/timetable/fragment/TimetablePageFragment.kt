@@ -1,4 +1,4 @@
-package com.stupidtree.hita.ui.timetable.fragment
+package com.stupidtree.hita.ui.main.timetable.fragment
 
 import android.content.SharedPreferences
 import android.graphics.Color
@@ -12,8 +12,8 @@ import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.model.timetable.TimeInDay
 import com.stupidtree.hita.databinding.FragmentTimetablePageBinding
 import com.stupidtree.hita.ui.base.BaseFragment
-import com.stupidtree.hita.ui.timetable.views.TimeTableBlockView.TimeTablePreferenceRoot
-import com.stupidtree.hita.ui.timetable.views.TimeTableViewGroup
+import com.stupidtree.hita.ui.main.timetable.views.TimeTableBlockView.TimeTablePreferenceRoot
+import com.stupidtree.hita.ui.main.timetable.views.TimeTableViewGroup
 import com.stupidtree.hita.utils.TimeUtils
 import java.util.*
 

@@ -18,7 +18,7 @@ import com.stupidtree.hita.databinding.ActivityMainBinding
 import com.stupidtree.hita.ui.base.BaseActivity
 import com.stupidtree.hita.ui.base.BaseTabAdapter
 import com.stupidtree.hita.ui.main.timeline.FragmentTimeLine
-import com.stupidtree.hita.ui.timetable.activity.TimetableFragment
+import com.stupidtree.hita.ui.main.timetable.activity.TimetableFragment
 import com.stupidtree.hita.utils.ActivityUtils
 import com.stupidtree.hita.utils.ImageUtils
 
@@ -87,7 +87,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                     true
                 }
                 R.id.drawer_nav_scan_qr->{
-                    ActivityUtils.startTimetableActivity(getThis())
                     true
                 }
                 else -> false
@@ -102,8 +101,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         //Objects.requireNonNull(getSupportActionBar()).setTitle(navView.getMenu().getItem(0).getTitle());
         binding.pager.adapter = object : BaseTabAdapter(supportFragmentManager, 2) {
             override fun initItem(position: Int): Fragment {
-                if(position==0) return FragmentTimeLine()
-                else return TimetableFragment()
+                return if(position==0) FragmentTimeLine()
+                else TimetableFragment()
             }
 
             override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {

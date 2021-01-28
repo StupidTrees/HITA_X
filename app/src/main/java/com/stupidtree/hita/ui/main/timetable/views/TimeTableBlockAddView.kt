@@ -1,4 +1,4 @@
-package com.stupidtree.hita.ui.timetable.views
+package com.stupidtree.hita.ui.main.timetable.views
 
 import android.view.View
 import android.view.ViewGroup

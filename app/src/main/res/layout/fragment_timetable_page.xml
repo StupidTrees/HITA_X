@@ -117,7 +117,7 @@
         android:overScrollMode="never"
         android:transitionGroup="false">
 
-        <com.stupidtree.hita.ui.timetable.views.TimeTableViewGroup
+        <com.stupidtree.hita.ui.main.timetable.views.TimeTableViewGroup
             android:id="@+id/timetableView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

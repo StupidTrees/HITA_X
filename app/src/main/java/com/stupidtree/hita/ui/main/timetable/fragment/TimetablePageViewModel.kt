@@ -1,4 +1,4 @@
-package com.stupidtree.hita.ui.timetable.fragment
+package com.stupidtree.hita.ui.main.timetable.fragment
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

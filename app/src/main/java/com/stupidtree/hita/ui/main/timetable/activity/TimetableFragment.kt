@@ -1,9 +1,6 @@
-package com.stupidtree.hita.ui.timetable.activity
+package com.stupidtree.hita.ui.main.timetable.activity
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.viewpager.widget.ViewPager
 import com.stupidtree.hita.data.model.timetable.Timetable
 import com.stupidtree.hita.databinding.ActivityTimeTableBinding

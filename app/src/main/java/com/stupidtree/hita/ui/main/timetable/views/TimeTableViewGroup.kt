@@ -1,9 +1,8 @@
-package com.stupidtree.hita.ui.timetable.views
+package com.stupidtree.hita.ui.main.timetable.views
 
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import android.view.animation.LayoutAnimationController
 import com.stupidtree.hita.R
 import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.model.timetable.TimeInDay
-import com.stupidtree.hita.ui.timetable.views.TimeTableBlockView.*
+import com.stupidtree.hita.ui.main.timetable.views.TimeTableBlockView.*
 import com.stupidtree.hita.utils.TimeUtils
 import java.util.*
 
@@ -36,7 +35,7 @@ class TimeTableViewGroup : ViewGroup {
     private val mLabelPaint = Paint()
     private val mPathEffect = DashPathEffect(floatArrayOf(20f, 20f), 0f)
     private val mLinePaint = Paint()
-    private val mLinePath = Path()
+
 
     constructor(context: Context?, attrs: AttributeSet) : super(context, attrs) {
         typedTimeTableView(attrs, 0)
@@ -124,7 +123,9 @@ class TimeTableViewGroup : ViewGroup {
             val startTimeFromBeginning: Float = x * startTime.getDistanceInMinutes(temp)
             val top = (startTimeFromBeginning / 60f * sectionHeight).toInt()
             canvas.drawText(temp.toString(), left.toFloat(), (top + labelSize).toFloat(),mLabelPaint)
+
             if (root!!.drawBGLine()) {
+                val mLinePath = Path()
                 mLinePath.moveTo(0f, top.toFloat())
                 mLinePath.lineTo(mWidth.toFloat(), (top + 1).toFloat())
                 canvas.drawPath(mLinePath, mLinePaint)

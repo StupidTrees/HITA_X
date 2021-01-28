@@ -1,4 +1,4 @@
-package com.stupidtree.hita.ui.timetable.views
+package com.stupidtree.hita.ui.main.timetable.views
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -15,7 +15,6 @@ import com.stupidtree.hita.R
 import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.model.timetable.TimeInDay
 import com.stupidtree.hita.utils.ColorBox
-import java.util.*
 
 @SuppressLint("ViewConstructor")
 class TimeTableBlockView constructor(context: Context, var block: Any, var root: TimeTablePreferenceRoot) : FrameLayout(context) {
