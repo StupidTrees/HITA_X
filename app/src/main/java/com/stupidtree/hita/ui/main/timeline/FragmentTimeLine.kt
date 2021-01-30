@@ -18,8 +18,8 @@ class FragmentTimeLine : BaseFragment<FragmentTimelineViewModel, FragmentTimelin
         retainInstance = false
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         viewModel.startRefresh()
     }
 

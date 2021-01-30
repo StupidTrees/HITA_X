@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import com.stupidtree.hita.ui.eas.EASActivity
 import com.stupidtree.hita.ui.eas.login.LoginEASActivity
-import com.stupidtree.hita.ui.main.timetable.activity.TimetableFragment
 
 
 object ActivityUtils {

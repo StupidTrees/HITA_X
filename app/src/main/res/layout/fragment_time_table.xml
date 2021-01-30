@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,9 +14,16 @@
         android:paddingBottom="4dp"
         android:visibility="visible">
 
-        <View
+        <TextView
+            android:id="@+id/month"
             android:layout_width="@dimen/timetable_label_width"
-            android:layout_height="28dp" />
+            android:layout_height="match_parent"
+            android:alpha="0.9"
+            android:gravity="center"
+            android:text="12月"
+            android:textColor="?attr/textColorPrimary"
+            android:textSize="10sp"
+            android:visibility="visible" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -153,10 +161,31 @@
 
     </LinearLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
+    <com.stupidtree.hita.ui.widgets.VerticalNestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never" />
+        android:overScrollMode="never"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <com.stupidtree.hita.ui.main.timetable.views.LeftLabelView
+                android:layout_width="@dimen/timetable_label_width"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/timetable_date_height"
+                custom:timeLabelColor="?attr/textColorSecondary"
+                custom:timeLabelSize="11sp" />
+
+            <com.stupidtree.hita.ui.widgets.WrapContentHeightViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
+        </LinearLayout>
+    </com.stupidtree.hita.ui.widgets.VerticalNestedScrollView>
+
 
 </LinearLayout>

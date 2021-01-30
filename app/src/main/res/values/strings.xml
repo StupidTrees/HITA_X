@@ -1093,4 +1093,7 @@
     <string name="pick_time_period">选择时间段</string>
     <string name="title_timeline">今日</string>
     <string name="title_timetable">时间表</string>
+    <string name="week_title">第%d周</string>
+    <string name="no_timetable">无课表</string>
+    <string name="holiday">假期</string>
 </resources>

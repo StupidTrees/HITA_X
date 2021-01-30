@@ -423,7 +423,7 @@ class EASource internal constructor() : EASService {
                     .method(Connection.Method.POST).execute()
                 val json = r.body()
                 val content = JsonParser().parse(json).asJsonObject["content"].asJsonArray
-                val dateFormatter = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault())
+                val dateFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
                 for (je in content) {
                     val tp = je.asJsonObject
                     val from = Calendar.getInstance()

@@ -90,8 +90,10 @@ class EASRepository internal constructor(application: Application) {
             schedule:List<TimePeriodInDay>,//课表结构
             importTimetableLiveData:MediatorLiveData<DataState<Boolean>>
     ){
-       // Log.e("startIm", term.toString())
-        startDate.set(Calendar.DAY_OF_WEEK,1)
+        startDate.set(Calendar.HOUR_OF_DAY,0)
+        startDate.set(Calendar.MINUTE,0)
+        startDate.firstDayOfWeek = Calendar.MONDAY
+        startDate.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY)
         if(token!=null){
             timetableWebLiveData?.let { importTimetableLiveData.removeSource(it) }
             timetableWebLiveData = easService.getTimetableOfTerm(term, token!!)
@@ -106,15 +108,11 @@ class EASRepository internal constructor(application: Application) {
                             //若存在，则先清空原有课表课程
                             eventItemDao.deleteCourseFromTimetable(timetable.id)
                         }
-                        timetable.name = term.yearName+term.termName
-                        timetable.startTime = Timestamp(startDate.timeInMillis)
-                        timetable.code = term.getCode()
-                        timetable.scheduleStructure = schedule
-                        timetableDao.saveTimetable(timetable)
 
+                        //记录最后的时间戳，作为学期结束的标志
+                        var maxTs:Long = 0
                         //添加时间表
                         val events = mutableListOf<EventItem>()
-                       // val schedule = timetablePreferenceSource.getSchedule()
                         for(item in it.data!!){
                             val spStart = schedule[item.begin - 1]
                             val spEnd = schedule[item.begin+item.last-2]
@@ -132,10 +130,21 @@ class EASRepository internal constructor(application: Application) {
                                 e.teacher = item.teacher
                                 e.place = item.classroom
                                 e.timetableId = timetable.id
+                                if(e.to.time>maxTs) maxTs = e.to.time
                                 events.add(e)
                             }
                         }
                         eventItemDao.saveEvents(events)
+
+                        //更新timetable对象
+                        timetable.name = term.yearName+term.termName
+                        timetable.startTime = Timestamp(startDate.timeInMillis)
+                        timetable.endTime = Timestamp(maxTs)
+                        timetable.code = term.getCode()
+                        timetable.scheduleStructure = schedule
+                        timetableDao.saveTimetable(timetable)
+
+
                         importTimetableLiveData.postValue(DataState(false,DataState.STATE.SUCCESS))
                     }.start()
                 }else{

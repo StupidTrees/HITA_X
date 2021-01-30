@@ -7,6 +7,7 @@ import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.VectorDrawable
+import android.text.TextUtils.isEmpty
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.annotation.Px
@@ -23,6 +24,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.NotificationTarget
 import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.signature.ObjectKey
+import com.stupidtree.hita.R
 import java.util.*
 
 /**
@@ -31,7 +33,16 @@ import java.util.*
  */
 object ImageUtils {
 
-
+    fun loadAvatarInto(context: Context, filename: String?, target: ImageView) {
+        if (isEmpty(filename)) {
+            target.setImageResource(R.drawable.ic_baseline_location_24)
+        } else {
+            val glideUrl = GlideUrl("http://hita.store:3000/user/profile/avatar?path=" +
+                    filename, LazyHeaders.Builder().addHeader("device-type", "android").build())
+            Glide.with(context).load(glideUrl
+            ).apply(RequestOptions.bitmapTransform(CircleCrop())).placeholder(R.drawable.ic_baseline_location_24).into(target)
+        }
+    }
     /**
      * convert dp to its equivalent px
      *

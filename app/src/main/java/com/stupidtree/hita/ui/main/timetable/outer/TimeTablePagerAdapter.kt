@@ -1,11 +1,11 @@
-package com.stupidtree.hita.ui.main.timetable.activity
+package com.stupidtree.hita.ui.main.timetable.outer
 
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.stupidtree.hita.ui.main.timetable.fragment.TimetablePageFragment
+import com.stupidtree.hita.ui.main.timetable.inner.TimetablePageFragment
 import java.util.*
 
 class TimeTablePagerAdapter(pager: ViewPager, fm: FragmentManager,val size: Int) :
@@ -36,20 +36,20 @@ class TimeTablePagerAdapter(pager: ViewPager, fm: FragmentManager,val size: Int)
     }
 
     fun getCurrentDate():Long{
-        return windowStart.timeInMillis+(fragments.size/2)* WEEK_MILLS+ WEEK_MILLS/2
+        return windowStart.timeInMillis+(fragments.size/2)* WEEK_MILLS + WEEK_MILLS/2
     }
 
     fun scrollRight() {
         windowStart.timeInMillis += WEEK_MILLS
         val toChange = fragments[startIndex]//最左页面挪到右边使用
-        toChange.setWeek(windowStart.timeInMillis + (fragments.size - 1) * WEEK_MILLS)
+        toChange.resetWeek(windowStart.timeInMillis + (fragments.size - 1) * WEEK_MILLS)
         startIndex = (startIndex+1)%fragments.size
     }
 
     fun scrollLeft() {
         windowStart.timeInMillis -= WEEK_MILLS
         val toChange = fragments[(startIndex+fragments.size-1)%fragments.size]//最右页面挪到左边使用
-        toChange.setWeek(windowStart.timeInMillis)
+        toChange.resetWeek(windowStart.timeInMillis)
         startIndex = (startIndex-1+fragments.size)%fragments.size
     }
 
@@ -67,7 +67,6 @@ class TimeTablePagerAdapter(pager: ViewPager, fm: FragmentManager,val size: Int)
         var tm = windowStart.timeInMillis
         for (i in 0 until size) {
             val f = TimetablePageFragment.newInstance(tm)
-            f.setWeek(tm)
             fragments.add(f)
             tm += WEEK_MILLS
         }

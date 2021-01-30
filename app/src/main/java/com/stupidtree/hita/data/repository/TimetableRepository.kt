@@ -19,8 +19,7 @@ class TimetableRepository(application: Application) {
      * 获取[from,to)内的事件
      */
     fun getEventsDuring(from:Long,to:Long): LiveData<List<EventItem>> {
-        //Log.e("from-to", "$from,$to")
-        return eventItemDao.getEventsDuring(from,to)
+        return  eventItemDao.getEventsDuring(from,to)
     }
 
     /**
@@ -29,6 +28,8 @@ class TimetableRepository(application: Application) {
     fun getTimetables():LiveData<List<Timetable>>{
         return timetableDao.getTimetables()
     }
+
+
     companion object {
         private var instance: TimetableRepository? = null
         fun getInstance(application: Application): TimetableRepository {

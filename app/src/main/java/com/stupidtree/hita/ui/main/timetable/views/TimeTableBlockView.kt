@@ -1,6 +1,5 @@
 package com.stupidtree.hita.ui.main.timetable.views
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
@@ -16,8 +15,8 @@ import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.model.timetable.TimeInDay
 import com.stupidtree.hita.utils.ColorBox
 
-@SuppressLint("ViewConstructor")
-class TimeTableBlockView constructor(context: Context, var block: Any, var root: TimeTablePreferenceRoot) : FrameLayout(context) {
+class TimeTableBlockView
+constructor(context: Context, var block: Any, var root: TimeTablePreferenceRoot) : FrameLayout(context) {
     lateinit var card: View
     var title: TextView? = null
     var subtitle: TextView? = null
@@ -28,15 +27,15 @@ class TimeTableBlockView constructor(context: Context, var block: Any, var root:
     var onDuplicateCardLongClickListener: OnDuplicateCardLongClickListener? = null
 
     interface OnCardClickListener {
-        fun OnClick(v: View, ei: EventItem)
+        fun onClick(v: View, ei: EventItem)
     }
 
     interface OnCardLongClickListener {
-        fun OnLongClick(v: View, ei: EventItem): Boolean
+        fun onLongClick(v: View, ei: EventItem): Boolean
     }
 
     interface OnDuplicateCardClickListener {
-        fun OnDuplicateClick(v: View, list: List<EventItem>)
+        fun onDuplicateClick(v: View, list: List<EventItem>)
     }
 
     private fun initEventCard(context: Context) {
@@ -62,55 +61,52 @@ class TimeTableBlockView constructor(context: Context, var block: Any, var root:
         }
         when (root.cardTitleColor) {
             "subject" -> if (root.isColorEnabled) {
-                if (title != null) title!!.setTextColor(subjectColor)
-            } else if (title != null) title!!.setTextColor(root.colorPrimary)
-            "white" -> if (title != null) title!!.setTextColor(Color.WHITE)
-            "black" -> if (title != null) title!!.setTextColor(Color.BLACK)
-            "primary" -> if (title != null) title!!.setTextColor(root.colorPrimary)
-            "accent" -> if (title != null) title!!.setTextColor(root.colorAccent)
+                title?.setTextColor(subjectColor)
+            } else title?.setTextColor(root.colorPrimary)
+            "white" -> title?.setTextColor(Color.WHITE)
+            "black" -> title?.setTextColor(Color.BLACK)
+            "primary" -> title?.setTextColor(root.colorPrimary)
+            "accent" -> title?.setTextColor(root.colorAccent)
         }
         when (root.subTitleColor) {
             "subject" -> if (root.isColorEnabled) {
-                if (subtitle != null) subtitle!!.setTextColor(subjectColor)
-            } else if (subtitle != null) subtitle!!.setTextColor(root.colorPrimary)
-            "white" -> if (subtitle != null) subtitle!!.setTextColor(Color.WHITE)
-            "black" -> if (subtitle != null) subtitle!!.setTextColor(Color.BLACK)
-            "primary" -> if (subtitle != null) subtitle!!.setTextColor(root.colorPrimary)
-            "accent" -> if (subtitle != null) subtitle!!.setTextColor(root.colorAccent)
+                subtitle?.setTextColor(subjectColor)
+            } else subtitle?.setTextColor(root.colorPrimary)
+            "white" -> subtitle?.setTextColor(Color.WHITE)
+            "black" -> subtitle?.setTextColor(Color.BLACK)
+            "primary" -> subtitle?.setTextColor(root.colorPrimary)
+            "accent" -> subtitle?.setTextColor(root.colorAccent)
         }
-        if (icon != null) {
-            if (root.cardIconEnabled()) {
-                icon!!.visibility = VISIBLE
-                icon!!.setColorFilter(Color.WHITE)
-                when (root.iconColor) {
-                    "subject" -> if (root.isColorEnabled) {
-                        if (icon != null) icon!!.setColorFilter(subjectColor)
-                    } else if (icon != null) icon!!.setColorFilter(root.colorPrimary)
-                    "white" -> if (icon != null) icon!!.setColorFilter(Color.WHITE)
-                    "black" -> if (icon != null) icon!!.setColorFilter(Color.BLACK)
-                    "primary" -> if (icon != null) icon!!.setColorFilter(root.colorPrimary)
-                    "accent" -> if (icon != null) icon!!.setColorFilter(root.colorAccent)
-                }
-            } else {
-                icon!!.visibility = GONE
+        if (root.cardIconEnabled()) {
+            icon?.visibility = VISIBLE
+            icon?.setColorFilter(Color.WHITE)
+            when (root.iconColor) {
+                "subject" -> if (root.isColorEnabled) {
+                    icon?.setColorFilter(subjectColor)
+                } else icon?.setColorFilter(root.colorPrimary)
+                "white" -> icon?.setColorFilter(Color.WHITE)
+                "black" -> icon?.setColorFilter(Color.BLACK)
+                "primary" -> icon?.setColorFilter(root.colorPrimary)
+                "accent" -> icon?.setColorFilter(root.colorAccent)
             }
+        } else {
+            icon?.visibility = GONE
         }
-        card.setOnClickListener { v -> if (onCardClickListener != null) onCardClickListener!!.OnClick(v, ei) }
+        
+        card.setOnClickListener { v -> onCardClickListener?.onClick(v, ei) }
         card.setOnLongClickListener { v: View ->
-            if (onCardLongClickListener != null) {
-                return@setOnLongClickListener onCardLongClickListener!!.OnLongClick(v, ei)
-            } else return@setOnLongClickListener false
+            return@setOnLongClickListener onCardLongClickListener?.onLongClick(v, ei) == true
         }
-        if (title != null) title!!.text = ei.name
-        if (subtitle != null) subtitle!!.text = if (TextUtils.isEmpty(ei.place)) "" else ei.place
+        title?.text = ei.name
+        subtitle?.text = if (TextUtils.isEmpty(ei.place)) "" else ei.place
         card.background.mutate().alpha = (255 * (root.cardOpacity.toFloat() / 100)).toInt()
         if (root.willBoldText()) {
-            title?.setTypeface(Typeface.DEFAULT_BOLD)
-            if (subtitle != null) subtitle!!.setTypeface(Typeface.DEFAULT_BOLD)
+            title?.typeface = Typeface.DEFAULT_BOLD
+            subtitle?.typeface = Typeface.DEFAULT_BOLD
         }
-        if (title != null) title!!.alpha = root.titleAlpha.toFloat() / 100
-        if (subtitle != null) subtitle!!.alpha = root.subtitleAlpha.toFloat() / 100
-        if (title != null) title!!.gravity = root.titleGravity
+        title?.alpha = root.titleAlpha.toFloat() / 100
+        subtitle?.alpha = root.subtitleAlpha.toFloat() / 100
+        title?.gravity = root.titleGravity
     }
 
 
@@ -123,6 +119,7 @@ class TimeTableBlockView constructor(context: Context, var block: Any, var root:
         }
     }
 
+
     private fun initDuplicateCard(context: Context) {
         val list: List<EventItem> = block as List<EventItem>
         inflate(context, R.layout.fragment_timetable_duplicate_card, this)
@@ -132,7 +129,7 @@ class TimeTableBlockView constructor(context: Context, var block: Any, var root:
         val sb = StringBuilder()
         for (ei in list) sb.append(ei.name).append(";\n")
         title?.text = sb.toString()
-        if (onDuplicateCardClickListener != null) card.setOnClickListener { v -> onDuplicateCardClickListener?.OnDuplicateClick(v, list) }
+        if (onDuplicateCardClickListener != null) card.setOnClickListener { v -> onDuplicateCardClickListener?.onDuplicateClick(v, list) }
         if (onDuplicateCardLongClickListener != null) card.setOnLongClickListener { v ->
             onDuplicateCardLongClickListener?.let { return@let it.onDuplicateLongClick(v, list) }
             return@setOnLongClickListener false
@@ -165,24 +162,24 @@ class TimeTableBlockView constructor(context: Context, var block: Any, var root:
         }
         if (icon != null) {
             if (root.cardIconEnabled()) {
-                icon!!.visibility = VISIBLE
-                icon!!.setColorFilter(Color.WHITE)
+                icon?.visibility = VISIBLE
+                icon?.setColorFilter(Color.WHITE)
                 when (root.iconColor) {
                     "subject" -> if (root.isColorEnabled) {
-                        icon!!.setColorFilter(subjectColor)
-                    } else icon!!.setColorFilter(root.colorPrimary)
-                    "white" -> icon!!.setColorFilter(Color.WHITE)
-                    "black" -> icon!!.setColorFilter(Color.BLACK)
-                    "primary" -> icon!!.setColorFilter(root.colorPrimary)
-                    "accent" -> icon!!.setColorFilter(root.colorAccent)
+                        icon?.setColorFilter(subjectColor)
+                    } else icon?.setColorFilter(root.colorPrimary)
+                    "white" -> icon?.setColorFilter(Color.WHITE)
+                    "black" -> icon?.setColorFilter(Color.BLACK)
+                    "primary" -> icon?.setColorFilter(root.colorPrimary)
+                    "accent" -> icon?.setColorFilter(root.colorAccent)
                 }
             } else {
-                icon!!.visibility = GONE
+                icon?.visibility = GONE
             }
         }
         card.background.mutate().alpha = (255 * (root.cardOpacity.toFloat() / 100)).toInt()
         if (root.willBoldText()) {
-            title?.setTypeface(Typeface.DEFAULT_BOLD)
+            title?.typeface = Typeface.DEFAULT_BOLD
         }
         title?.alpha = root.titleAlpha.toFloat() / 100
         title?.gravity = root.titleGravity
@@ -225,19 +222,21 @@ class TimeTableBlockView constructor(context: Context, var block: Any, var root:
         return -1
     }
 
-    fun getDuration():Int {
-            if (block is EventItem) {
-                return (block as EventItem).getDurationInMinutes()
-            } else if (block is List<*>) {
-                return (block as List<EventItem>)[0].getDurationInMinutes()
-            }
-            return -1
+    fun getDuration(): Int {
+        if (block is EventItem) {
+            return (block as EventItem).getDurationInMinutes()
+        } else if (block is List<*>) {
+            return ((block as List<*>)[0] as EventItem).getDurationInMinutes()
         }
+        return -1
+    }
 
     fun getEvent(): EventItem {
         if (block is List<*>) {
-            return (block as List<EventItem>)[0]
+            return (block as List<*>)[0] as EventItem
         }
         return block as EventItem
     }
+
+
 }

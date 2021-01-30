@@ -1,16 +1,18 @@
 package com.stupidtree.hita.ui.main
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import android.view.MenuItem
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
+import androidx.drawerlayout.widget.DrawerLayout.GONE
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.stupidtree.hita.R
@@ -18,15 +20,14 @@ import com.stupidtree.hita.databinding.ActivityMainBinding
 import com.stupidtree.hita.ui.base.BaseActivity
 import com.stupidtree.hita.ui.base.BaseTabAdapter
 import com.stupidtree.hita.ui.main.timeline.FragmentTimeLine
-import com.stupidtree.hita.ui.main.timetable.activity.TimetableFragment
+import com.stupidtree.hita.ui.main.timetable.outer.TimetableFragment
 import com.stupidtree.hita.utils.ActivityUtils
 import com.stupidtree.hita.utils.ImageUtils
 
 /**
  * 很显然，这是主界面
  */
-@SuppressLint("NonConstantResourceId")
-class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
+class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(), TimetableFragment.MainPageController {
 
     /**
      * 抽屉里的View
@@ -41,11 +42,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         setWindowParams(statusBar = true, darkColor = true, navi = false)
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        //setUserViews(viewModel.localUser)
-    }
 
     private fun setUpDrawer() {
         binding.drawerNavigationview.itemIconTintList = null
@@ -64,7 +60,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                 val scale = 1 - slideOffset
                 val rightScale = 0.8f + scale * 0.2f
                 mContent.translationX = drawerView.measuredWidth * slideOffset
-                //mContent.setAlpha(0.3f+0.7f*scale);
                 mContent.pivotX = mContent.measuredWidth.toFloat()
                 mContent.pivotY = (mContent.measuredHeight shr 1.toFloat().toInt()).toFloat()
                 mContent.invalidate()
@@ -73,7 +68,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
             }
 
             override fun onDrawerOpened(drawerView: View) {
-               // setUserViews(viewModel.localUser)
+                // setUserViews(viewModel.localUser)
             }
 
             override fun onDrawerClosed(drawerView: View) {}
@@ -86,7 +81,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                     ActivityUtils.startLoginEASActivity(getThis())
                     true
                 }
-                R.id.drawer_nav_scan_qr->{
+                R.id.drawer_nav_scan_qr -> {
                     true
                 }
                 else -> false
@@ -94,28 +89,41 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        setUserViews()
+    }
     override fun initViews() {
-
         setUpDrawer()
-        binding.title.text = binding.navView.menu.getItem(0).title
-        //Objects.requireNonNull(getSupportActionBar()).setTitle(navView.getMenu().getItem(0).getTitle());
+        //  binding.title.text = binding.navView.menu.getItem(0).title
         binding.pager.adapter = object : BaseTabAdapter(supportFragmentManager, 2) {
             override fun initItem(position: Int): Fragment {
-                return if(position==0) FragmentTimeLine()
+                return if (position == 0) FragmentTimeLine()
                 else TimetableFragment()
             }
 
             override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-                super.destroyItem(container, position, `object`)
+                //super.destroyItem(container, position, `object`)
             }
         }
         binding.pager.offscreenPageLimit = 3
         binding.pager.addOnPageChangeListener(object : OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
-                val item = binding.navView.menu.getItem(position)
-                item.isChecked = true
-                binding.title.text = item.title
+                when (position) {
+                    0 -> {
+                        binding.timetableLayout.visibility = GONE
+                        binding.todayLayout.visibility = VISIBLE
+                    }
+                    1 -> {
+                        binding.timetableLayout.visibility = VISIBLE
+                        binding.todayLayout.visibility = GONE
+                    }
+
+                }
+//                val item = binding.navView.menu.getItem(position)
+//                item.isChecked = true
+//                binding.title.text = item.title
                 //Objects.requireNonNull(getSupportActionBar()).setTitle(item.getTitle());
             }
 
@@ -123,16 +131,18 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         })
         binding.navView.setOnNavigationItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
-                R.id.navigation_timeline-> binding.pager.currentItem = 0
-               R.id.navigation_timetable -> binding.pager.currentItem = 1
+                R.id.navigation_timeline -> binding.pager.currentItem = 0
+                R.id.navigation_timetable -> binding.pager.currentItem = 1
             }
-            binding.title.text = item.title
+            binding.navView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
             true
         }
         binding.avatar.setOnClickListener { binding.drawer.openDrawer(GravityCompat.START) }
     }
 
-//    private fun setUserViews(userLocalInfo: UserLocal) {
+    private fun setUserViews() {
+        ImageUtils.loadAvatarInto(this, "avatar_3.jpg", drawerAvatar!!)
+        ImageUtils.loadAvatarInto(this, "avatar_3.jpg", binding.avatar)
 //        if (userLocalInfo.isValid) { //如果已登录
 //            //装载头像
 //            ImageUtils.loadLocalAvatarInto(this, userLocalInfo.avatar, drawerAvatar!!)
@@ -173,7 +183,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 //                false
 //            }
 //        }
-//    }
+    }
 
     override fun onBackPressed() {
         //super.onBackPressed();
@@ -195,5 +205,20 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
     override fun initViewBinding(): ActivityMainBinding {
         return ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    override fun setTitleText(string: String) {
+        binding.timetableTitle.text = string
+        binding.timetableNameCard.visibility = VISIBLE
+    }
+
+    override fun setTimetableName(String: String) {
+        binding.timetableName.text = String
+        binding.timetableNameCard.visibility = VISIBLE
+    }
+
+    override fun setSingleTitle(string: String) {
+        binding.timetableTitle.text = string
+        binding.timetableNameCard.visibility = GONE
     }
 }

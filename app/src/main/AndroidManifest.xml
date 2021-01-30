@@ -23,7 +23,6 @@
         </activity>
         <activity android:name=".ui.eas.login.LoginEASActivity" />
         <activity android:name=".ui.eas.EASActivity" />
-        <activity android:name="com.stupidtree.hita.ui.main.timetable.activity.TimetableFragment" />
     </application>
 
 </manifest>
