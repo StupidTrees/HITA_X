@@ -1,6 +1,7 @@
 package com.stupidtree.hita.data.model.timetable
 
 import android.util.Log
+import android.util.TimeUtils
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.sql.Timestamp
@@ -28,7 +29,9 @@ class Timetable {
      */
     fun getWeekNumber(ts: Long): Int {
         if (ts > endTime.time) return -1
+        Log.e("start","${com.stupidtree.hita.utils.TimeUtils.printDate(startTime.time)},${startTime.time}}")
         val x = ((ts - startTime.time) / (1000 * 60 * 60 * 24 * 7.toFloat()))
+        Log.e("gen","${com.stupidtree.hita.utils.TimeUtils.printDate(ts)},$x")
         return when {
             x < 0 -> {
                 -1

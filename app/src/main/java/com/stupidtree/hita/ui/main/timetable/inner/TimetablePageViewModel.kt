@@ -11,18 +11,18 @@ import java.util.*
 
 class TimetablePageViewModel(application: Application) : AndroidViewModel(application) {
     private val timetableRepository = TimetableRepository.getInstance(application)
-    var dataHashCode:Int = 0
+    var dataHashCode: Int = 0
 
-    val startDateLiveDate:MutableLiveData<Long> = MutableLiveData()
-    val eventsOfThisWeek:LiveData<List<EventItem>> = Transformations.switchMap(startDateLiveDate){
-        val to = it + 1000*60*60*24*7
-        return@switchMap timetableRepository.getEventsDuring(it,to)
+    val startDateLiveData: MutableLiveData<Long> = MutableLiveData()
+    val eventsOfThisWeek: LiveData<List<EventItem>> = Transformations.switchMap(startDateLiveData) {
+        val to = it + 1000 * 60 * 60 * 24 * 7
+        return@switchMap timetableRepository.getEventsDuring(it, to)
     }
 
-    fun setStartDate(date:Long){
-
-        if(startDateLiveDate.value != date){
-            startDateLiveDate.value = date
+    fun setStartDate(date: Long) {
+        val old = startDateLiveData.value ?: 0
+        if (date < old || date > old + 1000 * 60 * 60 * 24 * 7) {
+            startDateLiveData.value = date
         }
     }
 }

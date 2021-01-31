@@ -17,6 +17,7 @@ import androidx.viewbinding.ViewBinding
 abstract class BaseFragment<T : ViewModel,V:ViewBinding> : Fragment() {
 
     //本Fragment绑定的ViewModel
+    protected var viewModelInit:Boolean = false
     protected lateinit var viewModel: T
     protected var binding:V? = null
 
@@ -38,6 +39,7 @@ abstract class BaseFragment<T : ViewModel,V:ViewBinding> : Fragment() {
         binding?.let {
             initViews(it.root)
         }
+        viewModelInit = true
         return binding?.root
     }
 

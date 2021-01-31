@@ -2,7 +2,6 @@ package com.stupidtree.hita.ui.main.timetable.inner
 
 import android.content.SharedPreferences
 import android.graphics.Color
-import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -12,7 +11,6 @@ import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.model.timetable.TimeInDay
 import com.stupidtree.hita.databinding.FragmentTimetablePageBinding
 import com.stupidtree.hita.ui.base.BaseFragment
-import com.stupidtree.hita.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
 import com.stupidtree.hita.ui.main.timetable.views.TimeTableBlockView.TimeTablePreferenceRoot
 import com.stupidtree.hita.ui.main.timetable.views.TimeTableView
 import com.stupidtree.hita.utils.TimeUtils
@@ -20,24 +18,45 @@ import java.util.*
 
 class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimetablePageBinding>() {
     private val topDateTexts = arrayOfNulls<TextView>(8) //顶部日期文本
+    private var initStartDate:Long? = null
+
 
     override fun onStart() {
         super.onStart()
-        arguments?.getLong("date")?.let {
-          //  Log.e("notify_start", this.toString() + "," + TimeUtils.printDate(it))
+        initStartDate?.let {
+            Log.e("use_init", this.toString()+","+TimeUtils.printDate(it))
+            viewModel.setStartDate(it)
+            initStartDate = null
+            return
+        }
+        viewModel.startDateLiveData.value?.let {
             viewModel.setStartDate(it)
         }
     }
 
+
     fun resetWeek(date: Long) {
-        arguments?.getLong("date")?.let {
-            val old = it
-            if (date < old || date > old + WEEK_MILLS) {
-                arguments?.putLong("date", date)
-            }
+        initStartDate = if(viewModelInit){
+            viewModel.setStartDate(date)
+            null
+        }else{
+            Log.e("set_init",this.toString()+","+TimeUtils.printDate(date))
+            date
         }
+//        arguments?.getLong("date")?.let {
+//            val old = it
+//            if (date < old || date > old + WEEK_MILLS) {
+//                arguments?.putLong("date", date)
+//            }
+//        }
     }
 
+
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("resume", this.toString())
+    }
 
     override fun initViews(view: View) {
         initDateTextViews()
@@ -149,16 +168,19 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
             }
         })
         viewModel.eventsOfThisWeek.observe(this) {
-            arguments?.getLong("date")?.let { date ->
+            // arguments?.getLong("date")?.let { date ->
+            viewModel.startDateLiveData.value?.let { date ->
+                Log.e("data","${this},${TimeUtils.printDate(date)}")
                 val dataHash = it.hashCode()
                 if (dataHash != viewModel.dataHashCode ||
-                        binding?.timetableView?.childCount?:0<it.size) {
+                        binding?.timetableView?.childCount ?: 0 < it.size) {
                     viewModel.dataHashCode = dataHash
                     binding?.timetableView?.notifyRefresh(date, it)
                 }
             }
+            // }
         }
-        viewModel.startDateLiveDate.observe(this) { date ->
+        viewModel.startDateLiveData.observe(this) { date ->
             val startDate = Calendar.getInstance()
             startDate.timeInMillis = date
             binding?.timetableView?.setStartDate(date)
@@ -184,6 +206,7 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
         topDateTexts[7] = binding?.ttTvDay7
     }
 
+
     override fun getViewModelClass(): Class<TimetablePageViewModel> {
         return TimetablePageViewModel::class.java
     }
@@ -192,13 +215,13 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
         return FragmentTimetablePageBinding.inflate(layoutInflater)
     }
 
+
     companion object {
-        fun newInstance(init_date: Long): TimetablePageFragment {
-            val b = Bundle()
-            b.putLong("date", init_date)
-            val f = TimetablePageFragment()
-            f.arguments = b
-            return f
+        fun newInstance(): TimetablePageFragment {
+//             val b = Bundle()
+//             b.putLong("date", init_date)
+            //             f.arguments = b
+            return TimetablePageFragment()
         }
     }
 }
