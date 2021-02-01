@@ -1,26 +1,24 @@
 package com.stupidtree.hita.ui.main.timetable.outer
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 import com.stupidtree.hita.R
 import com.stupidtree.hita.data.model.timetable.Timetable
-import com.stupidtree.hita.databinding.FragmentTimeTableBinding
+import com.stupidtree.hita.databinding.FragmentTimetableBinding
 import com.stupidtree.hita.ui.base.BaseFragment
 import com.stupidtree.hita.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
-import com.stupidtree.hita.utils.TimeUtils
 import java.util.*
 
 class TimetableFragment :
-        BaseFragment<TimetableViewModel, FragmentTimeTableBinding>() {
+    BaseFragment<TimetableViewModel, FragmentTimetableBinding>() {
     private var pagerAdapter: TimeTablePagerAdapter? = null
     private var mainPageController: MainPageController? = null
     private var currentIndex = 0
 
 
-    override fun initViewBinding(): FragmentTimeTableBinding {
-        return FragmentTimeTableBinding.inflate(layoutInflater)
+    override fun initViewBinding(): FragmentTimetableBinding {
+        return FragmentTimetableBinding.inflate(layoutInflater)
     }
 
     override fun getViewModelClass(): Class<TimetableViewModel> {
@@ -65,9 +63,9 @@ class TimetableFragment :
             }
 
             override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
             ) {
 
             }
@@ -115,15 +113,17 @@ class TimetableFragment :
     }
 
     private fun refreshWeekLayout(currentPageStart: Long, timetables: List<Timetable>) {
-        if (timetables.isEmpty()) {
-            mainPageController?.setSingleTitle(getString(R.string.no_timetable))
-            return
-        }
         val weeks = mutableListOf<Int>()
         val cdCalendar = Calendar.getInstance()
 
         cdCalendar.timeInMillis = currentPageStart + WEEK_MILLS / 2
         binding?.month?.text = resources.getStringArray(R.array.months)[cdCalendar[Calendar.MONTH]]
+
+
+        if (timetables.isEmpty()) {
+            mainPageController?.setSingleTitle(getString(R.string.no_timetable))
+            return
+        }
 
         var minTT: Timetable? = null
         var minWk = Int.MAX_VALUE

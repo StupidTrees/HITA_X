@@ -9,8 +9,13 @@ import androidx.viewpager.widget.ViewPager
 import com.stupidtree.hita.ui.main.timetable.inner.TimetablePageFragment
 import com.stupidtree.hita.utils.TimeUtils
 
-class TimeTablePagerAdapter(private val pager: ViewPager, fm: FragmentManager, val size: Int, initWindowStart: Long) :
-        FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class TimeTablePagerAdapter(
+    private val pager: ViewPager,
+    fm: FragmentManager,
+    val size: Int,
+    initWindowStart: Long
+) :
+    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private var fragments: MutableList<TimetablePageFragment> = mutableListOf()
 
@@ -54,17 +59,17 @@ class TimeTablePagerAdapter(private val pager: ViewPager, fm: FragmentManager, v
         if (date < oldStart) {//跳出了窗口
             startIndex = 0//(startIndex - 3 + size) % size
             for (i in 0 until size) {
-                fragments[i].resetWeek(newStart)
+                fragments[i].resetWeek(newStart, true)
                 newStart += WEEK_MILLS
             }
-            pager.currentItem = count / 2 + size / 2//pager.currentItem - pager.currentItem % size + size / 2
+            pager.currentItem = pager.currentItem - pager.currentItem % size + size / 2
         } else if (date >= oldStart + WEEK_MILLS * size) {
             startIndex = 0//(startIndex + 3 + size) % size
             for (i in 0 until size) {
-                fragments[i].resetWeek(newStart)
+                fragments[i].resetWeek(newStart, true)
                 newStart += WEEK_MILLS
             }
-            pager.currentItem = count / 2 + size / 2//pager.currentItem + pager.currentItem % size + size / 2
+            pager.currentItem = pager.currentItem - pager.currentItem % size + size + size / 2
         }
 
     }
