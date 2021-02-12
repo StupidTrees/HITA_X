@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:transitionName="card">
+
+
+    <LinearLayout
+        android:id="@+id/name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:orientation="horizontal"
+        android:paddingStart="24dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:id="@+id/tt_dlg_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:gravity="center|start"
+            android:paddingEnd="16dp"
+            android:text="名字非常长"
+            android:textColor="?attr/textColorPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:transitionName="course_name"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/element_rounded_button_bg_primary_light"
+            android:fontFamily="sans-serif-black"
+            android:paddingStart="12dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="4dp"
+            android:text="课程"
+            android:textColor="?attr/colorAccent"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tt_dlg_value3_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center|top"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="?attr/backgroundColorBottomAsTint"
+            android:backgroundTintMode="src_over"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_baseline_access_alarm_24"
+            app:tint="?attr/colorAccent" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:gravity="left|center"
+                android:text="@string/dialog_teacher"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="12sp"
+                tools:ignore="NestedWeights,RtlHardcoded" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/teacher"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="张彪"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="18sp"
+                    tools:ignore="HardcodedText" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="4dp"
+                    android:clickable="false"
+                    app:srcCompat="@drawable/ic_baseline_search_24"
+                    app:tint="?attr/colorAccent" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tt_dlg_value2_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center|top"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="?attr/backgroundColorBottomAsTint"
+            android:backgroundTintMode="src_over"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_baseline_access_alarm_24"
+            app:tint="?attr/colorAccent" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:gravity="left|center"
+                android:text="@string/dialog_classroom"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="12sp"
+                tools:ignore="NestedWeights,RtlHardcoded" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/place"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:gravity="center"
+                    android:maxEms="10"
+                    android:singleLine="false"
+                    android:text="T3502"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="18sp"
+                    tools:ignore="HardcodedText" />
+
+                <ImageView
+                    android:id="@+id/classroom_detail_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="4dp"
+                    android:clickable="false"
+                    app:srcCompat="@drawable/ic_baseline_search_24"
+                    app:tint="?attr/colorAccent" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center|top"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="?attr/backgroundColorBottomAsTint"
+            android:backgroundTintMode="src_over"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_baseline_access_alarm_24"
+            app:tint="?attr/colorAccent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/dialog_time"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="10:30-11:00"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="18sp"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center|top"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="?attr/backgroundColorBottomAsTint"
+            android:backgroundTintMode="src_over"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_baseline_access_alarm_24"
+            app:tint="?attr/colorAccent"
+            tools:ignore="ContentDescription" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/dialog_period"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="12sp"
+                tools:ignore="NestedWeights" />
+
+            <TextView
+                android:id="@+id/time_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="1,2"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="18sp"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center|top"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="?attr/backgroundColorBottomAsTint"
+            android:backgroundTintMode="src_over"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_baseline_access_alarm_24"
+            app:tint="?attr/colorAccent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/dialog_date"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left|center"
+                android:singleLine="false"
+                android:text="3月24日\n第三周星期日(今天)"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="18sp"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center|top"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_baseline_access_alarm_24"
+            app:tint="?attr/colorAccent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_this_course_s"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/course_course_in_subject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_this_course_p"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="18sp" />
+
+            <ProgressBar
+                android:id="@+id/course_progress"
+                style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:progress="50"
+                android:progressDrawable="@drawable/style_progressbar_rounded_primary_light" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:paddingStart="24dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="16dp">
+
+        <ImageView
+            android:id="@+id/subject"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/element_rounded_button_bg_primary_light"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="10dp"
+            android:theme="@style/button_ripple_accent_large"
+            app:srcCompat="@drawable/ic_baseline_menu_24"
+            app:tint="?attr/colorAccent"
+            app:tintMode="src_in" />
+
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="end"
+            android:background="@drawable/element_rounded_button_bg_primary_light"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="8dp"
+            android:theme="@style/button_ripple_accent_large"
+            app:srcCompat="@android:drawable/ic_delete"
+            app:tint="?attr/colorAccent"
+            app:tintMode="src_in" />
+    </LinearLayout>
+
+
+</LinearLayout>
+
+

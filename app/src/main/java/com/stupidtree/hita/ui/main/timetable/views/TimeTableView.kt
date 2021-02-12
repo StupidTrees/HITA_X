@@ -86,6 +86,7 @@ class TimeTableView : ViewGroup {
 
     fun setStartDate(ts: Long) {
         startDate.timeInMillis = ts
+        invalidate()
     }
 
     private fun drawLabels(canvas: Canvas) {

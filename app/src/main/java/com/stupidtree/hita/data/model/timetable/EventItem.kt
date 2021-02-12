@@ -4,12 +4,13 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.stupidtree.hita.utils.TimeUtils
+import java.io.Serializable
 import java.sql.Timestamp
 import java.util.*
 import kotlin.math.abs
 
 @Entity(tableName = "events")
-class EventItem {
+class EventItem :Serializable{
     enum class TYPE {
         CLASS, EXAM, OTHER, TAG
     }
@@ -31,6 +32,8 @@ class EventItem {
             : Timestamp = Timestamp(0)
     var to //结束时间
             : Timestamp = Timestamp(0)
+    var fromNumber:Int = 0
+    var lastNumber:Int = 0
 
     @ColumnInfo(name = "created_at")
     var createdAt //创建时间

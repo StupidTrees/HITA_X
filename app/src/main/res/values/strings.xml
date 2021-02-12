@@ -1096,4 +1096,5 @@
     <string name="week_title">第%d周</string>
     <string name="no_timetable">无课表</string>
     <string name="holiday">假期</string>
+    <string name="event_duration_text">%s-%s</string>
 </resources>

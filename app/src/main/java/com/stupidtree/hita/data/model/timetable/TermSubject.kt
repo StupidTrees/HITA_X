@@ -16,9 +16,9 @@ class TermSubject {
     @PrimaryKey
     var id: String = UUID.randomUUID().toString()
     var name //名称
-            : String? = null
+            : String = ""
     var timetableId //所属课表的id
-            : String? = null
+            : String = ""
     var type //课程类型
             : TYPE = TYPE.COM_A
     var field: String? = null//课程领域（人文艺术、科学技术）

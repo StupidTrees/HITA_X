@@ -2,15 +2,23 @@ package com.stupidtree.hita.ui.main.timetable.outer
 
 import android.util.Log
 import android.view.ViewGroup
+import android.view.ViewParent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.stupidtree.hita.ui.main.timetable.inner.TimetablePageFragment
+import com.stupidtree.hita.ui.main.timetable.outer.TimetableFragment.Companion.WINDOW_SIZE
 import com.stupidtree.hita.utils.TimeUtils
+import kotlin.math.roundToInt
 
-class TimeTablePagerAdapter(private val pager: ViewPager, fm: FragmentManager, val size: Int, initWindowStart: Long) :
-        FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class TimeTablePagerAdapter(
+    private val pager: ViewPager,
+    fm: FragmentManager,
+    val size: Int,
+    initWindowStart: Long
+) :
+    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private var fragments: MutableList<TimetablePageFragment> = mutableListOf()
 
@@ -49,24 +57,26 @@ class TimeTablePagerAdapter(private val pager: ViewPager, fm: FragmentManager, v
     }
 
 
-    fun scrollToDate(date: Long, oldStart: Long) {
-        var newStart = date - WEEK_MILLS * size / 2
-        if (date < oldStart) {//跳出了窗口
-            startIndex = 0//(startIndex - 3 + size) % size
-            for (i in 0 until size) {
-                fragments[i].resetWeek(newStart)
-                newStart += WEEK_MILLS
-            }
-            pager.currentItem = count / 2 + size / 2//pager.currentItem - pager.currentItem % size + size / 2
-        } else if (date >= oldStart + WEEK_MILLS * size) {
-            startIndex = 0//(startIndex + 3 + size) % size
-            for (i in 0 until size) {
-                fragments[i].resetWeek(newStart)
-                newStart += WEEK_MILLS
-            }
-            pager.currentItem = count / 2 + size / 2//pager.currentItem + pager.currentItem % size + size / 2
+    fun scrollToDate(date: Long, oldStart: Long): Boolean {
+        var newWindowStart = date - WEEK_MILLS * (size / 2)
+        val oldWindowStart = oldStart - WEEK_MILLS * (size / 2)
+        if (date > oldWindowStart && date < oldWindowStart + WEEK_MILLS * size) { //在窗口内
+            val offset = ((newWindowStart - oldWindowStart).toFloat() / WEEK_MILLS).roundToInt()
+            pager.currentItem += offset
+            return offset != 0
         }
-
+        Log.e("日期跳转","超出窗口")
+        if (date < oldStart) {
+            pager.currentItem -= WINDOW_SIZE/2 - 1
+        } else {
+            pager.currentItem += WINDOW_SIZE/2 - 1
+        }
+        startIndex = (pager.currentItem - size / 2 + size) % size
+        for (i in 0 until size) {
+            fragments[(i + startIndex) % size].resetWeek(newWindowStart)
+            newWindowStart += WEEK_MILLS
+        }
+        return true
     }
 
 
@@ -82,8 +92,7 @@ class TimeTablePagerAdapter(private val pager: ViewPager, fm: FragmentManager, v
             fragments.add(f)
             tm += WEEK_MILLS
         }
-        Log.e("window", TimeUtils.printDate(initWindowStart))
-        pager.currentItem = count / 2 + size / 2
+        pager.currentItem = count / 2 + (size / 2)
 
     }
 

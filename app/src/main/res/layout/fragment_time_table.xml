@@ -1,212 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:custom="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <Button
-            android:id="@+id/x1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button" />
-
-        <Button
-            android:id="@+id/x2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal"
-        android:paddingBottom="4dp"
-        android:visibility="visible">
-
-        <TextView
-            android:id="@+id/month"
-            android:layout_width="@dimen/timetable_label_width"
-            android:layout_height="match_parent"
-            android:alpha="0.9"
-            android:gravity="center"
-            android:text="12月"
-            android:textColor="?attr/textColorPrimary"
-            android:textSize="10sp"
-            android:visibility="visible" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:background="@drawable/element_round_grey"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="@string/tt_monday"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="10sp" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:background="@drawable/element_round_grey"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="@string/tt_tuesday"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="10sp" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:background="@drawable/element_round_grey"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="@string/tt_wednesday"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="10sp" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:background="@drawable/element_round_grey"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="@string/tt_thursday"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="10sp" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:background="@drawable/element_round_grey"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="@string/tt_friday"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="10sp" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:background="@drawable/element_round_grey"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="@string/tt_saturday"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="10sp" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:background="@drawable/element_round_grey"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="@string/tt_sunday"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="10sp" />
-        </FrameLayout>
-
-    </LinearLayout>
-
-    <com.stupidtree.hita.ui.widgets.VerticalNestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:fillViewport="true">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:paddingBottom="4dp"
+            android:visibility="visible">
 
-            <com.stupidtree.hita.ui.main.timetable.views.LeftLabelView
+            <TextView
+                android:id="@+id/month"
                 android:layout_width="@dimen/timetable_label_width"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/timetable_date_height"
-                custom:timeLabelColor="?attr/textColorSecondary"
-                custom:timeLabelSize="11sp" />
+                android:alpha="0.9"
+                android:gravity="center"
+                android:text="12月"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="10sp"
+                android:visibility="visible" />
 
-            <com.stupidtree.hita.ui.widgets.WrapContentHeightViewPager
-                android:id="@+id/pager"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:overScrollMode="never" />
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/element_round_grey"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/tt_monday"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="10sp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/element_round_grey"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/tt_tuesday"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="10sp" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/element_round_grey"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/tt_wednesday"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="10sp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/element_round_grey"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/tt_thursday"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="10sp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/element_round_grey"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/tt_friday"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="10sp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/element_round_grey"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/tt_saturday"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="10sp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/element_round_grey"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/tt_sunday"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="10sp" />
+            </FrameLayout>
+
         </LinearLayout>
-    </com.stupidtree.hita.ui.widgets.VerticalNestedScrollView>
+
+        <com.stupidtree.hita.ui.widgets.VerticalNestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <com.stupidtree.hita.ui.main.timetable.views.LeftLabelView
+                    android:layout_width="@dimen/timetable_label_width"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/timetable_date_height"
+                    custom:timeLabelColor="?attr/textColorSecondary"
+                    custom:timeLabelSize="11sp" />
+
+                <com.stupidtree.hita.ui.widgets.WrapContentHeightViewPager
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never" />
+            </LinearLayout>
+        </com.stupidtree.hita.ui.widgets.VerticalNestedScrollView>
 
 
-</LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:tint="@color/white"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        app:srcCompat="@drawable/ic_baseline_settings_backup_restore_24" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

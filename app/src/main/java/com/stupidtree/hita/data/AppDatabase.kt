@@ -8,13 +8,14 @@ import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.model.timetable.TermSubject
 import com.stupidtree.hita.data.model.timetable.Timetable
 import com.stupidtree.hita.data.source.dao.EventItemDao
+import com.stupidtree.hita.data.source.dao.SubjectDao
 import com.stupidtree.hita.data.source.dao.TimetableDao
 
 @Database(entities = [EventItem::class, TermSubject::class, Timetable::class], version = 1)
 @androidx.room.TypeConverters(TypeConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun eventItemDao(): EventItemDao
-//    abstract fun subjectDao(): SubjectDao
+    abstract fun subjectDao(): SubjectDao
     abstract fun timetableDao(): TimetableDao
 
     companion object {

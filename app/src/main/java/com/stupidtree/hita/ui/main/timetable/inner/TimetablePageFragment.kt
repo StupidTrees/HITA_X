@@ -13,6 +13,7 @@ import com.stupidtree.hita.databinding.FragmentTimetablePageBinding
 import com.stupidtree.hita.ui.base.BaseFragment
 import com.stupidtree.hita.ui.main.timetable.views.TimeTableBlockView.TimeTablePreferenceRoot
 import com.stupidtree.hita.ui.main.timetable.views.TimeTableView
+import com.stupidtree.hita.utils.EventsUtils
 import com.stupidtree.hita.utils.TimeUtils
 import java.util.*
 
@@ -24,7 +25,7 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
     override fun onStart() {
         super.onStart()
         initStartDate?.let {
-            Log.e("use_init", this.toString()+","+TimeUtils.printDate(it))
+            //Log.e("use_init", this.toString()+","+TimeUtils.printDate(it))
             viewModel.setStartDate(it)
             initStartDate = null
             return
@@ -40,22 +41,16 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
             viewModel.setStartDate(date)
             null
         }else{
-            Log.e("set_init",this.toString()+","+TimeUtils.printDate(date))
+            //Log.e("set_init",this.toString()+","+TimeUtils.printDate(date))
             date
         }
-//        arguments?.getLong("date")?.let {
-//            val old = it
-//            if (date < old || date > old + WEEK_MILLS) {
-//                arguments?.putLong("date", date)
-//            }
-//        }
     }
 
 
 
     override fun onResume() {
         super.onResume()
-        Log.e("resume", this.toString())
+       // Log.e("resume", this.toString())
     }
 
     override fun initViews(view: View) {
@@ -113,7 +108,7 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
         })
         binding?.timetableView?.setOnCardClickListener(object : TimeTableView.OnCardClickListener {
             override fun onEventClick(v: View, eventItem: EventItem) {
-                //EventsUtils.showEventItem(requireContext(), eventItem)
+                EventsUtils.showEventItem(requireContext(), eventItem)
             }
 
             override fun onDuplicateEventClick(v: View, eventItems: List<EventItem>) {
@@ -170,7 +165,7 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
         viewModel.eventsOfThisWeek.observe(this) {
             // arguments?.getLong("date")?.let { date ->
             viewModel.startDateLiveData.value?.let { date ->
-                Log.e("data","${this},${TimeUtils.printDate(date)}")
+                //Log.e("data","${this},${TimeUtils.printDate(date)}")
                 val dataHash = it.hashCode()
                 if (dataHash != viewModel.dataHashCode ||
                         binding?.timetableView?.childCount ?: 0 < it.size) {
@@ -218,9 +213,6 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
 
     companion object {
         fun newInstance(): TimetablePageFragment {
-//             val b = Bundle()
-//             b.putLong("date", init_date)
-            //             f.arguments = b
             return TimetablePageFragment()
         }
     }

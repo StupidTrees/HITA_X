@@ -39,6 +39,8 @@ class TimetableViewModel(application: Application) :
         windowStart[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
         windowStart[Calendar.HOUR_OF_DAY] = 0
         windowStart[Calendar.MINUTE] = 0
+        windowStart[Calendar.SECOND] = 0
+        windowStart[Calendar.MILLISECOND] = 0
         currentPageStartDate.value = windowStart.timeInMillis
         return windowStart.timeInMillis - WEEK_MILLS* (WINDOW_SIZE/2)
     }

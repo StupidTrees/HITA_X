@@ -11,9 +11,10 @@ import com.stupidtree.hita.ui.base.BaseFragment
 import com.stupidtree.hita.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
 import com.stupidtree.hita.utils.TimeUtils
 import java.util.*
+import kotlin.math.abs
 
 class TimetableFragment :
-        BaseFragment<TimetableViewModel, FragmentTimeTableBinding>() {
+    BaseFragment<TimetableViewModel, FragmentTimeTableBinding>() {
     private var pagerAdapter: TimeTablePagerAdapter? = null
     private var mainPageController: MainPageController? = null
     private var currentIndex = 0
@@ -65,44 +66,54 @@ class TimetableFragment :
             }
 
             override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
             ) {
 
             }
 
             override fun onPageSelected(position: Int) {
-                viewModel.currentPageStartDate.value?.let {
-                    val oldWindowStart = it - WEEK_MILLS * (WINDOW_SIZE / 2)
-                    when (position) {
-                        currentIndex - 1 -> {
-                            viewModel.addStartDate(-WEEK_MILLS)
-                            pagerAdapter?.scrollLeft(oldWindowStart - WEEK_MILLS)
-                        }
-                        currentIndex + 1 -> {
-                            viewModel.addStartDate(WEEK_MILLS)
-                            pagerAdapter?.scrollRight(oldWindowStart + WEEK_MILLS)
-                        }
-                        else -> {
+                if (abs(position - currentIndex) <= WINDOW_SIZE / 2) {
+                    for (i in 0 until abs(position - currentIndex)) {
+                        viewModel.currentPageStartDate.value?.let {
+                            val oldWindowStart = it - WEEK_MILLS * (WINDOW_SIZE / 2)
+                            when {
+                                position < currentIndex -> {//往左
+                                    viewModel.addStartDate(-WEEK_MILLS)
+                                    pagerAdapter?.scrollLeft(oldWindowStart - WEEK_MILLS)
+                                }
+                                position > currentIndex -> {//往右
+                                    viewModel.addStartDate(WEEK_MILLS)
+                                    pagerAdapter?.scrollRight(oldWindowStart + WEEK_MILLS)
+                                }
+                                else -> {
 
+                                }
+                            }
                         }
                     }
+//                    when (position) {
+//                        currentIndex - 1 -> {
+//                            viewModel.addStartDate(-WEEK_MILLS)
+//                            pagerAdapter?.scrollLeft(oldWindowStart - WEEK_MILLS)
+//                        }
+//                        currentIndex + 1 -> {
+//                            viewModel.addStartDate(WEEK_MILLS)
+//                            pagerAdapter?.scrollRight(oldWindowStart + WEEK_MILLS)
+//                        }
+//                        else -> {
+//
+//                        }
+//                    }
                 }
 
                 currentIndex = position
             }
 
         })
-        binding?.x1?.setOnClickListener {
-//            val c = Calendar.getInstance()
-//            c.set(2020,5,24)
+        binding?.floatingActionButton?.setOnClickListener {
             scrollToDate(System.currentTimeMillis())
-        }
-        binding?.x2?.setOnClickListener {
-//            val c = Calendar.getInstance()
-//            c.set(2021,5,24)
-//            scrollToDate(c.timeInMillis)
         }
     }
 
@@ -122,7 +133,7 @@ class TimetableFragment :
         val weeks = mutableListOf<Int>()
         val cdCalendar = Calendar.getInstance()
 
-        cdCalendar.timeInMillis = currentPageStart + WEEK_MILLS / 2
+        cdCalendar.timeInMillis = currentPageStart
         binding?.month?.text = resources.getStringArray(R.array.months)[cdCalendar[Calendar.MONTH]]
 
         var minTT: Timetable? = null
@@ -135,6 +146,11 @@ class TimetableFragment :
                 minWk = wk
                 minTT = tt
             }
+        }
+        if (currentPageStart <= System.currentTimeMillis() && System.currentTimeMillis() < currentPageStart + WEEK_MILLS) {
+            binding?.floatingActionButton?.hide()
+        } else {
+            binding?.floatingActionButton?.show()
         }
         minTT?.let {
             mainPageController?.setTitleText(getString(R.string.week_title, minWk))
@@ -158,14 +174,18 @@ class TimetableFragment :
         start.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
         start.set(Calendar.HOUR_OF_DAY, 0)
         start.set(Calendar.MINUTE, 0)
+        start.set(Calendar.MILLISECOND, 0)
+        start.set(Calendar.SECOND, 0)
         viewModel.currentPageStartDate.value?.let {
-            pagerAdapter?.scrollToDate(start.timeInMillis, it)
+            if (pagerAdapter?.scrollToDate(start.timeInMillis, it) == true) {
+                viewModel.currentPageStartDate.value = start.timeInMillis
+            }
         }
-        viewModel.currentPageStartDate.value = start.timeInMillis
+
     }
 
     companion object {
-        const val WINDOW_SIZE = 5
+        const val WINDOW_SIZE:Int = 5
     }
 
 }
