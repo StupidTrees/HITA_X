@@ -36,9 +36,9 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
     }
 
 
-    fun resetWeek(date: Long) {
+    fun resetWeek(date: Long,force:Boolean = false) {
         initStartDate = if(viewModelInit){
-            viewModel.setStartDate(date)
+            viewModel.setStartDate(date,force)
             null
         }else{
             //Log.e("set_init",this.toString()+","+TimeUtils.printDate(date))
