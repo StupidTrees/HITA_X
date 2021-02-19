@@ -9,6 +9,7 @@ import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.databinding.FragmentTimelineBinding
 import com.stupidtree.hita.ui.base.BaseFragment
 import com.stupidtree.hita.ui.base.BaseListAdapter
+import com.stupidtree.hita.utils.EventsUtils
 
 class FragmentTimeLine : BaseFragment<FragmentTimelineViewModel, FragmentTimelineBinding>(){
     private var listAdapter: TimelineListAdapter? = null
@@ -31,7 +32,7 @@ class FragmentTimeLine : BaseFragment<FragmentTimelineViewModel, FragmentTimelin
         binding?.list?.layoutManager = LinearLayoutManager(requireContext())
         listAdapter!!.setOnItemClickListener(object : BaseListAdapter.OnItemClickListener<EventItem> {
             override fun onItemClick(data: EventItem, card: View?, position: Int) {
-                //EventsUtils.showEventItem(getBaseActivity(), timelineRes!![position])
+                EventsUtils.showEventItem(requireContext(), data)
             }
         })
         listAdapter!!.setOnHintConfirmedListener(object : TimelineListAdapter.OnHintConfirmedListener {

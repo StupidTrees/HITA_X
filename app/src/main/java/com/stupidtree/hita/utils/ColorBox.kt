@@ -25,7 +25,7 @@ object ColorBox {
             return Color.parseColor(colors_material[random.nextInt(colors_material.size - 1)])
         }
 
-    fun getSubjectColor(SP: SharedPreferences, subjectName: String): Int {
+    fun getSubjectColor(SP: SharedPreferences, subjectName: String?): Int {
         var color = SP.getInt("color:$subjectName", -1)
         if (color == -1) {
             color = randomColor_Material

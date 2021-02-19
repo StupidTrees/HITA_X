@@ -10,7 +10,7 @@ import java.util.*
 import kotlin.math.abs
 
 @Entity(tableName = "events")
-class EventItem :Serializable{
+class EventItem :Serializable,Comparable<EventItem>{
     enum class TYPE {
         CLASS, EXAM, OTHER, TAG
     }
@@ -130,5 +130,19 @@ class EventItem :Serializable{
         result = 31 * result + to.hashCode()
         return result
     }
+
+    override fun compareTo(other: EventItem): Int {
+        return from.compareTo(other.from)
+    }
+
+    companion object{
+        fun getTagInstance(name:String):EventItem{
+            val result = EventItem()
+            result.type = TYPE.TAG
+            result.name = name
+            return result
+        }
+    }
+
 
 }

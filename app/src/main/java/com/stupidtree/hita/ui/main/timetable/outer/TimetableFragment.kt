@@ -126,15 +126,19 @@ class TimetableFragment :
     }
 
     private fun refreshWeekLayout(currentPageStart: Long, timetables: List<Timetable>) {
+        val cdCalendar = Calendar.getInstance()
+        cdCalendar.timeInMillis = currentPageStart
+        binding?.month?.text = resources.getStringArray(R.array.months)[cdCalendar[Calendar.MONTH]]
+        if (currentPageStart <= System.currentTimeMillis() && System.currentTimeMillis() < currentPageStart + WEEK_MILLS) {
+            binding?.floatingActionButton?.hide()
+        } else {
+            binding?.floatingActionButton?.show()
+        }
         if (timetables.isEmpty()) {
             mainPageController?.setSingleTitle(getString(R.string.no_timetable))
             return
         }
         val weeks = mutableListOf<Int>()
-        val cdCalendar = Calendar.getInstance()
-
-        cdCalendar.timeInMillis = currentPageStart
-        binding?.month?.text = resources.getStringArray(R.array.months)[cdCalendar[Calendar.MONTH]]
 
         var minTT: Timetable? = null
         var minWk = Int.MAX_VALUE
@@ -147,11 +151,7 @@ class TimetableFragment :
                 minTT = tt
             }
         }
-        if (currentPageStart <= System.currentTimeMillis() && System.currentTimeMillis() < currentPageStart + WEEK_MILLS) {
-            binding?.floatingActionButton?.hide()
-        } else {
-            binding?.floatingActionButton?.show()
-        }
+
         minTT?.let {
             mainPageController?.setTitleText(getString(R.string.week_title, minWk))
             it.name?.let { it1 -> mainPageController?.setTimetableName(it1) }

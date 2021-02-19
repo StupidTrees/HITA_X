@@ -32,6 +32,15 @@
         <item name="behavior_peekHeight">400dp</item>
     </style>
 
+    <style name="ToolBarTheme_Light" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorButtonNormal">#FFFFFF</item>
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="actionMenuTextColor">#FFFFFF</item>
+        <item name="android:titleTextAppearance">@style/Toolbar_Light_TitleStyle</item>
+    </style>
+    <style name="Toolbar_Light_TitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">#ffffff</item>
+    </style>
 
     <!--水波纹风格-->
     <style name="button_ripple_white">
@@ -48,8 +57,44 @@
         <item name="android:colorControlHighlight">#44FFFFFF</item>
     </style>
 
+    <style name="button_ripple_accent_little">
+        <item name="android:colorControlHighlight">?attr/colorPrimary</item>
+        <item name="android:radius">16dp</item>
+    </style>
+
+    <style name="button_ripple_accent">
+        <item name="android:colorControlHighlight">?attr/colorPrimary</item>
+        <item name="android:radius">24dp</item>
+    </style>
+
     <style name="button_ripple_accent_large">
         <item name="android:colorControlHighlight">?attr/colorPrimary</item>
         <item name="android:radius">36dp</item>
+    </style>
+
+
+
+    <style name="text_style_18sp_bold_white">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+    </style>
+
+    <style name="text_style_28sp_bold_white">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+    </style>
+
+    <style name="text_style_18sp_bold_primary">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">?attr/textColorPrimary</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+    </style>
+
+    <style name="text_style_28sp_bold_primary">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">?attr/textColorPrimary</item>
+        <item name="android:fontFamily">sans-serif-black</item>
     </style>
 </resources>

@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.stupidtree.hita.R
 import com.stupidtree.hita.data.model.eas.TermItem
@@ -22,10 +21,7 @@ import com.stupidtree.hita.ui.base.BaseViewHolder
 import com.stupidtree.hita.ui.base.DataState
 import com.stupidtree.hita.ui.eas.EASFragment
 import com.stupidtree.hita.ui.widgets.PopUpCheckableList
-import com.stupidtree.hita.ui.widgets.RoundedBarView
 import com.stupidtree.hita.utils.TextTools
-import java.sql.Time
-import java.time.Year
 import java.util.*
 
 

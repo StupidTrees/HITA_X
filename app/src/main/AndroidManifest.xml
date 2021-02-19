@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <provider
+            android:name=".MFileProvider"
+            android:authorities="com.stupidtree.hita.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider> <!-- 加上他，否则无法从相册选取图片 -->
         <activity
             android:name=".ui.main.MainActivity"
 
@@ -26,6 +37,10 @@
         </activity>
         <activity android:name=".ui.eas.login.LoginEASActivity" />
         <activity android:name=".ui.eas.EASActivity" />
+        <activity android:name=".ui.timetable.TimetableManagerActivity" />
+        <activity android:name=".ui.subject.SubjectActivity" />
+        <activity android:name=".ui.welcome.WelcomeActivity" />
+        <activity android:name=".ui.myprofile.MyProfileActivity" />
     </application>
 
 </manifest>

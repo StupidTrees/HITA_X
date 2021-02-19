@@ -3,6 +3,7 @@ package com.stupidtree.hita.ui.main
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.HapticFeedbackConstants
 import android.view.MenuItem
 import android.view.View
@@ -27,7 +28,8 @@ import com.stupidtree.hita.utils.ImageUtils
 /**
  * 很显然，这是主界面
  */
-class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(), TimetableFragment.MainPageController {
+class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
+    TimetableFragment.MainPageController {
 
     /**
      * 抽屉里的View
@@ -45,7 +47,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(), Timetab
 
     private fun setUpDrawer() {
         binding.drawerNavigationview.itemIconTintList = null
-        val headerView = binding.drawerNavigationview.inflateHeaderView(R.layout.activity_main_nav_header)
+        val headerView =
+            binding.drawerNavigationview.inflateHeaderView(R.layout.activity_main_nav_header)
         binding.drawer.setStatusBarBackgroundColor(Color.TRANSPARENT)
         binding.drawer.setScrimColor(getBackgroundColorSecondAsTint())
         binding.drawer.drawerElevation = ImageUtils.dp2px(this, 84f).toFloat()
@@ -82,6 +85,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(), Timetab
                     true
                 }
                 R.id.drawer_nav_scan_qr -> {
+                    ActivityUtils.startTimetableManager(getThis())
                     true
                 }
                 else -> false
@@ -91,8 +95,9 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(), Timetab
 
     override fun onStart() {
         super.onStart()
-        setUserViews()
+        viewModel.startRefreshUser()
     }
+
     override fun initViews() {
         setUpDrawer()
         //  binding.title.text = binding.navView.menu.getItem(0).title
@@ -108,7 +113,13 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(), Timetab
         }
         binding.pager.offscreenPageLimit = 3
         binding.pager.addOnPageChangeListener(object : OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
             override fun onPageSelected(position: Int) {
                 when (position) {
                     0 -> {
@@ -138,52 +149,39 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(), Timetab
             true
         }
         binding.avatar.setOnClickListener { binding.drawer.openDrawer(GravityCompat.START) }
+
+        viewModel.loggedInUserLiveData.observe(this) {
+            Log.e("user", it.toString())
+            if (it.isValid()) { //如果已登录
+                //装载头像
+                ImageUtils.loadLocalAvatarInto(this, it.id, drawerAvatar!!)
+                ImageUtils.loadLocalAvatarInto(this, it.id, binding.avatar)
+                //设置各种文字
+                drawerUsername?.text = it.username
+                drawerNickname?.text = it.nickname
+                drawerHeader?.setOnClickListener {
+                    ActivityUtils.startMyProfileActivity(
+                        getThis()
+                    )
+                }
+            } else {
+                //未登录的信息显示
+                drawerUsername?.setText(R.string.not_log_in)
+                drawerNickname?.setText(R.string.log_in_first)
+                drawerAvatar?.setImageResource(R.drawable.place_holder_avatar)
+                binding.avatar.setImageResource(R.drawable.place_holder_avatar)
+                drawerHeader?.setOnClickListener { ActivityUtils.startWelcomeActivity(getThis()) }
+                binding.drawerNavigationview.setNavigationItemSelectedListener { item: MenuItem ->
+                    if (item.itemId == R.id.drawer_nav_my_profile) {
+                        ActivityUtils.startWelcomeActivity(getThis())
+                        return@setNavigationItemSelectedListener true
+                    }
+                    false
+                }
+            }
+        }
     }
 
-    private fun setUserViews() {
-        ImageUtils.loadAvatarInto(this, "avatar_3.jpg", drawerAvatar!!)
-        ImageUtils.loadAvatarInto(this, "avatar_3.jpg", binding.avatar)
-//        if (userLocalInfo.isValid) { //如果已登录
-//            //装载头像
-//            ImageUtils.loadLocalAvatarInto(this, userLocalInfo.avatar, drawerAvatar!!)
-//            ImageUtils.loadLocalAvatarInto(this, userLocalInfo.avatar, binding.avatar)
-//            //设置各种文字
-//            drawerUsername!!.text = userLocalInfo.username
-//            drawerNickname!!.text = userLocalInfo.nickname
-//            drawerHeader!!.setOnClickListener { ActivityUtils.startProfileActivity(getThis(), viewModel.localUser.id!!) }
-//            binding.drawerNavigationview.setNavigationItemSelectedListener { item: MenuItem ->
-//                when (item.itemId) {
-//                    R.id.drawer_nav_my_profile -> {
-//                        ActivityUtils.startProfileActivity(getThis(), viewModel.localUser.id!!)
-//                        true
-//                    }
-//                    R.id.drawer_nav_scan_qr -> {
-//                        ActivityUtils.startQRCodeActivity(getThis())
-//                        true
-//                    }
-//                    R.id.drawer_nav_discover_friend -> {
-//                        ActivityUtils.startSearchActivity(getThis())
-//                        true
-//                    }
-//                    else -> false
-//                }
-//            }
-//        } else {
-//            //未登录的信息显示
-//            drawerUsername!!.setText(R.string.not_logged_in)
-//            drawerNickname!!.setText(R.string.please_log_in)
-//            drawerAvatar!!.setImageResource(R.drawable.place_holder_avatar)
-//            binding.avatar.setImageResource(R.drawable.place_holder_avatar)
-//            drawerHeader!!.setOnClickListener { ActivityUtils.startLoginActivity(getThis()) }
-//            binding.drawerNavigationview.setNavigationItemSelectedListener { item: MenuItem ->
-//                if (item.itemId == R.id.drawer_nav_my_profile) {
-//                    ActivityUtils.startLoginActivity(getThis())
-//                    return@setNavigationItemSelectedListener true
-//                }
-//                false
-//            }
-//        }
-    }
 
     override fun onBackPressed() {
         //super.onBackPressed();

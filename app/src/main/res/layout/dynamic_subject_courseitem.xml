@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+
+
+        android:id="@+id/item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
+        android:backgroundTint="?attr/backgroundColorBottomAsTint"
+        android:backgroundTintMode="src_over"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center|start"
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:cardBackgroundColor="?attr/colorAccent"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/element_round_primary"
+                android:backgroundTint="?attr/colorAccent"
+                android:backgroundTintMode="src_in"
+                android:clickable="false"
+                android:padding="4dp"
+                android:visibility="visible"
+                app:srcCompat="@drawable/element_round_primary_light" />
+
+            <CheckBox
+                android:id="@+id/check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="-8dp"
+                android:layout_marginEnd="-6dp"
+                android:buttonTint="?attr/colorAccent"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/subject_courselist_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:clickable="false"
+                android:fontFamily="sans-serif-black"
+                android:text="3周星期四"
+                android:textColor="?attr/colorAccent"
+                android:textSize="14sp"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</FrameLayout>
+

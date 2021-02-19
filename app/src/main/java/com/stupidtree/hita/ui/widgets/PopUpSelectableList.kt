@@ -53,7 +53,7 @@ class PopUpSelectableList<T> : TransparentBottomSheetDialog<DialogBottomSelectab
         return this
     }
 
-    fun setListData(titles: List<String?>, keys: List<T>): PopUpSelectableList<T> {
+    fun setListData(titles: Array<String>, keys: List<T>): PopUpSelectableList<T> {
         listRes = ArrayList()
         for (i in 0 until titles.size.coerceAtMost(keys.size)) {
             (listRes as ArrayList<ItemData<T>>).add(ItemData(titles[i], keys[i]))

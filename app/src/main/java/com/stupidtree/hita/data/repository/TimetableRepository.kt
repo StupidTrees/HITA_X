@@ -22,12 +22,17 @@ class TimetableRepository(application: Application) {
         return  eventItemDao.getEventsDuring(from,to)
     }
 
+
+    fun getClassesOfSubject(subjectId:String):LiveData<List<EventItem>>{
+        return eventItemDao.getClassesOfSubject(subjectId)
+    }
     /**
      * 获取所有课表
      */
     fun getTimetables():LiveData<List<Timetable>>{
         return timetableDao.getTimetables()
     }
+
 
 
     companion object {

@@ -204,7 +204,7 @@ class EASource internal constructor() : EASService {
                     val s = TermSubject()
                     s.code = JsonUtils.getStringData(subject, "kcdm")
                     // s.id = JsonUtils.getStringData(subject, "kcid")
-                    s.name = JsonUtils.getStringData(subject, "kcmc")
+                    s.name = JsonUtils.getStringData(subject, "kcmc").toString()
                     when (JsonUtils.getStringData(subject, "kcxzmc")) {
                         "必修" -> s.type = TermSubject.TYPE.COM_A
                         "限选" -> s.type = TermSubject.TYPE.OPT_A

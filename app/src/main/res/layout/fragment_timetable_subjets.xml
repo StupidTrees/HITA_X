@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:overScrollMode="never">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center|start"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:text="@string/title_teachers"
+            android:textColor="?attr/textColorPrimary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/teachers_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:animateLayoutChanges="false"
+            android:animationCache="false"
+            android:layoutAnimation="@anim/recycler_layout_animation_slide_from_right"
+            android:overScrollMode="never" />
+
+        <TextView
+            android:id="@+id/title_subject"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center|start"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:text="@string/title_subjects"
+            android:textColor="?attr/textColorPrimary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/edit_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="20dp"
+            android:background="?attr/backgroundColorBottom"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/usercenter_subjects_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="false"
+            android:animationCache="false"
+            android:layoutAnimation="@anim/recycler_layout_animation_slide_from_right"
+            android:overScrollMode="never" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

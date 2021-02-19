@@ -63,8 +63,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
 
-    implementation "androidx.room:room-runtime:2.3.0-alpha04"
-    kapt "androidx.room:room-compiler:2.3.0-alpha04"
+    implementation "androidx.room:room-runtime:2.3.0-beta01"
+    kapt "androidx.room:room-compiler:2.3.0-beta01"
 
 
     //kotlin的viewModel
@@ -86,8 +86,8 @@ dependencies {
     //圆形进度
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
 
+    //多行collapsingToolbar
+    implementation 'net.opacapp:multiline-collapsingtoolbar:27.1.1'
 
-    //循环viewpager
-    //implementation 'com.github.AbrahamCaiJin:LoopViewPager:1.0.0'
-
+    implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'//流式布局
 }

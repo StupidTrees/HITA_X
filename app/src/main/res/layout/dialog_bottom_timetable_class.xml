@@ -438,10 +438,11 @@
             android:clickable="true"
             android:foreground="?attr/selectableItemBackground"
             android:padding="10dp"
-            android:theme="@style/button_ripple_accent_large"
+            android:theme="@style/button_ripple_accent_little"
             app:srcCompat="@drawable/ic_baseline_menu_24"
             app:tint="?attr/colorAccent"
-            app:tintMode="src_in" />
+            app:tintMode="src_in"
+            android:focusable="true" />
 
         <ImageView
             android:id="@+id/delete"
@@ -452,10 +453,11 @@
             android:clickable="true"
             android:foreground="?attr/selectableItemBackground"
             android:padding="8dp"
-            android:theme="@style/button_ripple_accent_large"
-            app:srcCompat="@android:drawable/ic_delete"
+            android:theme="@style/button_ripple_accent_little"
+            app:srcCompat="@drawable/ic_baseline_delete_24"
             app:tint="?attr/colorAccent"
-            app:tintMode="src_in" />
+            app:tintMode="src_in"
+            android:focusable="true" />
     </LinearLayout>
 
 

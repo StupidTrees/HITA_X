@@ -43,9 +43,11 @@ object TimeUtils {
     }
 
 
-    fun printDate(date: Long): String {
+    fun printDate(date: Long?): String {
         val c = Calendar.getInstance()
-        c.timeInMillis = date
+        if (date != null) {
+            c.timeInMillis = date
+        }
         return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(c.time)
     }
 
@@ -71,7 +73,7 @@ object TimeUtils {
         val res = time >= calendar1.timeInMillis && time < end
         Log.e(
             "sameWeek",
-            "${TimeUtils.printDate(calendar1.timeInMillis)},${TimeUtils.printDate(time)}"
+            "${printDate(calendar1.timeInMillis)},${printDate(time)}"
         )
 
         return res
@@ -94,7 +96,7 @@ object TimeUtils {
             }
         }
         return SimpleDateFormat(
-            context.getString(if (simplified) R.string.date_format_3 else R.string.date_format_1),
+            context.getString(if (simplified) R.string.date_format_2 else R.string.date_format_3),
             Locale.getDefault()
         )
             .format(c.time) + following

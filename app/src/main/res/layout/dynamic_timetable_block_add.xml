@@ -37,7 +37,7 @@
             app:tint="?attr/colorAccent"
             android:focusable="true" />
 <!--        android:background="@drawable/radius_accent_round_icon_bg"-->
-<!--        android:backgroundTint="?attr/background_color_bottom_as_tint"-->
+<!--        android:backgroundTint="?attr/backgroundColorBottomAsTint"-->
 
     </FrameLayout>
 

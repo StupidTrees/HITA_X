@@ -3,7 +3,6 @@ package com.stupidtree.hita.ui.base
 import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,13 +17,13 @@ import java.util.*
  * @param <H> H泛型指定ViewHolder的类型
 </H></TextRecord> */
 abstract class BaseListAdapter<T, H : RecyclerView.ViewHolder>(
-    protected var mContext: Context,
-    /**
-     * 标准三件：数据源列表、Context、Inflater对象
-     */
-    protected var mBeans: MutableList<T>
+        protected var mContext: Context,
+        /**
+         * 标准三件：数据源列表、Context、Inflater对象
+         */
+        protected var mBeans: MutableList<T>
 ) : RecyclerView.Adapter<H>(),
-    Parcelable {
+        Parcelable {
     var mInflater: LayoutInflater = LayoutInflater.from(mContext)
 
     val beans: List<T>
@@ -43,15 +42,15 @@ abstract class BaseListAdapter<T, H : RecyclerView.ViewHolder>(
      * 所有继承此类的Adapter都需要实现以下三个函数
      */
     //获取每个列表项的布局id
-    protected abstract fun getViewBinding(parent:ViewGroup,viewType: Int): ViewBinding
+    protected abstract fun getViewBinding(parent: ViewGroup, viewType: Int): ViewBinding
 
     //初始化每个holder
     abstract fun createViewHolder(viewBinding: ViewBinding, viewType: Int): H
 
     //用于绑定每个holder
     protected abstract fun bindHolder(holder: H, data: T?, position: Int)
-    fun setOnItemClickListener(mOnItemClickLitener: OnItemClickListener<T>?) {
-        mOnItemClickListener = mOnItemClickLitener
+    fun setOnItemClickListener(mOnItemClickListener: OnItemClickListener<T>?) {
+        this.mOnItemClickListener = mOnItemClickListener
     }
 
     fun setOnItemLongClickListener(mOnItemLongClickLitener: OnItemLongClickListener<T>?) {
@@ -60,16 +59,14 @@ abstract class BaseListAdapter<T, H : RecyclerView.ViewHolder>(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): H {
-        // val v = mInflater.inflate(getLayoutId(viewType), parent, false)
-        return createViewHolder(getViewBinding(parent,viewType), viewType)
+        return createViewHolder(getViewBinding(parent, viewType), viewType)
     }
 
     override fun onBindViewHolder(holder: H, position: Int) {
-        try {
-            val data = mBeans[position]
-            bindHolder(holder, data, position)
-        } catch (e: Exception) {
-            e.printStackTrace()
+        if(position+indexBias<mBeans.size){
+            bindHolder(holder, mBeans[position + indexBias], position)
+        }else{
+            bindHolder(holder,null,position)
         }
     }
 
@@ -78,7 +75,6 @@ abstract class BaseListAdapter<T, H : RecyclerView.ViewHolder>(
      */
     val indexBias: Int
         get() = 0
-
 
 
     fun willNotifyNormalChange(): Boolean { //当位置不发生变化时，是否刷新该item
@@ -129,8 +125,8 @@ abstract class BaseListAdapter<T, H : RecyclerView.ViewHolder>(
                 if (newIndex > mBeans.size - 1) mBeans.add(to) else mBeans.add(newIndex, to)
                 notifyItemMoved(oldIndex + indexBias, newIndex + indexBias)
                 notifyItemRangeChanged(
-                    Math.min(oldIndex, newIndex) + indexBias,
-                    mBeans.size + indexBias
+                        Math.min(oldIndex, newIndex) + indexBias,
+                        mBeans.size + indexBias
                 )
             }
         }
@@ -181,8 +177,8 @@ abstract class BaseListAdapter<T, H : RecyclerView.ViewHolder>(
                 if (newIndex > mBeans.size - 1) mBeans.add(to) else mBeans.add(newIndex, to)
                 notifyItemMoved(oldIndex + indexBias, newIndex + indexBias)
                 notifyItemRangeChanged(
-                    Math.min(oldIndex, newIndex) + indexBias,
-                    mBeans.size + indexBias
+                        Math.min(oldIndex, newIndex) + indexBias,
+                        mBeans.size + indexBias
                 )
             }
         }
@@ -196,9 +192,9 @@ abstract class BaseListAdapter<T, H : RecyclerView.ViewHolder>(
      * @param comparator       用于排序，比较两个Item的Comparator
      */
     fun notifyItemChangedSmooth(
-        newL: List<T>,
-        notifyNormalItem: Boolean,
-        comparator: Comparator<T>
+            newL: List<T>,
+            notifyNormalItem: Boolean,
+            comparator: Comparator<T>
     ) {
         val toInsert: MutableList<Int> = ArrayList() //记录变化的操作表，正表示加入，负表示删除
         val toRemove = Stack<Int>()
@@ -239,8 +235,8 @@ abstract class BaseListAdapter<T, H : RecyclerView.ViewHolder>(
                 if (newIndex > mBeans.size - 1) mBeans.add(to) else mBeans.add(newIndex, to)
                 notifyItemMoved(oldIndex + indexBias, newIndex + indexBias)
                 notifyItemRangeChanged(
-                    Math.min(oldIndex, newIndex) + indexBias,
-                    mBeans.size + indexBias
+                        Math.min(oldIndex, newIndex) + indexBias,
+                        mBeans.size + indexBias
                 )
             }
         }
@@ -292,8 +288,8 @@ abstract class BaseListAdapter<T, H : RecyclerView.ViewHolder>(
                 if (newIndex > mBeans.size - 1) mBeans.add(to) else mBeans.add(newIndex, to)
                 notifyItemMoved(oldIndex + indexBias, newIndex + indexBias)
                 notifyItemRangeChanged(
-                    Math.min(oldIndex, newIndex) + indexBias,
-                    mBeans.size + indexBias
+                        Math.min(oldIndex, newIndex) + indexBias,
+                        mBeans.size + indexBias
                 )
             }
         }
@@ -347,11 +343,18 @@ abstract class BaseListAdapter<T, H : RecyclerView.ViewHolder>(
                 if (newIndex > mBeans.size - 1) mBeans.add(to) else mBeans.add(newIndex, to)
                 notifyItemMoved(oldIndex + indexBias, newIndex + indexBias)
                 notifyItemRangeChanged(
-                    Math.min(oldIndex, newIndex) + indexBias,
-                    mBeans.size + indexBias
+                        oldIndex.coerceAtMost(newIndex) + indexBias,
+                        mBeans.size + indexBias
                 )
             }
         }
+    }
+
+
+    open fun notifyDataSetChanged(list:List<T>){
+        mBeans.clear()
+        mBeans.addAll(list)
+        notifyDataSetChanged()
     }
 
     open fun notifyItemsAppended(newL: List<T>) {
@@ -413,7 +416,6 @@ abstract class BaseListAdapter<T, H : RecyclerView.ViewHolder>(
     override fun describeContents(): Int {
         return 0
     }
-
 
 
 }

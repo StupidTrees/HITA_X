@@ -25,6 +25,8 @@ import com.bumptech.glide.request.target.NotificationTarget
 import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.signature.ObjectKey
 import com.stupidtree.hita.R
+import com.stupidtree.hita.data.repository.LocalUserRepository
+import com.stupidtree.hita.data.source.preference.UserPreferenceSource
 import java.util.*
 
 /**
@@ -33,16 +35,41 @@ import java.util.*
  */
 object ImageUtils {
 
-    fun loadAvatarInto(context: Context, filename: String?, target: ImageView) {
-        if (isEmpty(filename)) {
+    fun loadAvatarInto(context: Context, userId: String?, target: ImageView) {
+        if (isEmpty(userId)) {
             target.setImageResource(R.drawable.ic_baseline_location_24)
         } else {
-            val glideUrl = GlideUrl("http://hita.store:3000/user/profile/avatar?path=" +
-                    filename, LazyHeaders.Builder().addHeader("device-type", "android").build())
-            Glide.with(context).load(glideUrl
-            ).apply(RequestOptions.bitmapTransform(CircleCrop())).placeholder(R.drawable.ic_baseline_location_24).into(target)
+            val glideUrl = GlideUrl(
+                "http://hita.store:39999/profile/avatar?userId=" +
+                        userId, LazyHeaders.Builder().addHeader("device-type", "android").build()
+            )
+            Glide.with(context).load(
+                glideUrl
+            ).apply(RequestOptions.bitmapTransform(CircleCrop())).diskCacheStrategy(
+                DiskCacheStrategy.NONE
+            ).skipMemoryCache(true).placeholder(R.drawable.place_holder_avatar).into(target)
         }
     }
+
+    fun loadLocalAvatarInto(context: Context, userId: String?, target: ImageView) {
+        val sign = UserPreferenceSource.getInstance(context).myAvatarGlideSignature
+        if (userId.isNullOrEmpty()) {
+            target.setImageResource(R.drawable.place_holder_avatar)
+        } else {
+            val glideUrl = GlideUrl(
+                "http://hita.store:39999/profile/avatar?userId=" +
+                        userId, LazyHeaders.Builder().addHeader("device-type", "android").build()
+            )
+            Glide.with(context).load(
+                glideUrl
+            ).apply(RequestOptions.bitmapTransform(CircleCrop()))
+                .signature(ObjectKey(sign))
+                .placeholder(R.drawable.place_holder_avatar)
+                .diskCacheStrategy(DiskCacheStrategy.NONE).into(target)
+            // p.edit().putString("my_avatar","normal").apply();
+        }
+    }
+
     /**
      * convert dp to its equivalent px
      *

@@ -10,7 +10,19 @@ import java.util.*
  * 此类整合了一些文本处理有关的函数
  */
 object TextTools {
+    fun isUsernameValid(username: String?): Boolean {
+        if (!username.isNullOrBlank()) {
+            return username.length > 3
+        }
+        return false
+    }
 
+    fun isPasswordValid(password: String?): Boolean {
+        if (!password.isNullOrBlank()) {
+            return password.length >= 8
+        }
+        return false
+    }
     fun containsNumber(s: String?): Boolean {
         if (s != null) {
             return s.contains("1") || s.contains("2") || s.contains("3") || s.contains("4") || s.contains("5") || s.contains("6") ||

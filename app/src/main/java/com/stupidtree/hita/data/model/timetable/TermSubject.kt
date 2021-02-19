@@ -7,10 +7,10 @@ import java.sql.Timestamp
 import java.util.*
 
 @Entity(tableName = "subject")
-class TermSubject {
+class TermSubject{
     //必修-考试，必修-考察，选修-专选，选修-任选，慕课
     enum class TYPE {
-        COM_A, COM_B, OPT_A, OPT_B, MOOC
+        COM_A, COM_B, OPT_A, OPT_B, MOOC,TAG
     }
 
     @PrimaryKey
@@ -34,4 +34,6 @@ class TermSubject {
             : String? = null
     var createdAt //创建时间
             : Timestamp = Timestamp(System.currentTimeMillis())
+
+
 }

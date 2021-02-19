@@ -7,6 +7,8 @@ import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.model.timetable.TimeInDay
 import com.stupidtree.hita.databinding.DialogBottomTimetableClassBinding
 import com.stupidtree.hita.ui.base.BaseFragment
+import com.stupidtree.hita.ui.subject.SubjectActivity
+import com.stupidtree.hita.utils.ActivityUtils
 import com.stupidtree.hita.utils.TimeUtils
 import java.util.*
 
@@ -16,14 +18,7 @@ class EventItemFragment : BaseFragment<EventItemViewModel, DialogBottomTimetable
 //    private override fun initViews(dlgView: View) {
 //        courseProgressBar.setMax(100)
 //        ratingBar.setStepSize(0.5f)
-//        subject.setOnClickListener(View.OnClickListener {
-//            if (requireContext() is ActivitySubject) {
-//                Toast.makeText(requireContext(), "禁止套娃！", Toast.LENGTH_SHORT).show()
-//                return@OnClickListener
-//            }
-//            ActivityUtils.startSubjectActivity_name(requireContext(), eventItem.mainName)
-//        })
-//        nameLayout.setOnClickListener { subject.callOnClick() }
+
 //        val delete = dlgView.findViewById<View>(R.id.delete)
 //        delete.setOnClickListener { v ->
 //            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
@@ -101,10 +96,6 @@ class EventItemFragment : BaseFragment<EventItemViewModel, DialogBottomTimetable
         return str
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initViews(view)
-    }
 //
 //    fun onOperationStart(id: String?, params: Array<Boolean?>?) {
 //        ratingBar!!.visibility = View.INVISIBLE
@@ -184,13 +175,29 @@ class EventItemFragment : BaseFragment<EventItemViewModel, DialogBottomTimetable
     }
 
     override fun initViews(view: View) {
-        viewModel.eventItemLiveData.observe(this) {
-            setInfo(it)
-        }
-
         arguments?.let {
             viewModel.eventItemLiveData.value = it["event"] as EventItem?
         }
+
+        viewModel.eventItemLiveData.observe(this) {
+            setInfo(it)
+        }
+        viewModel.progressLiveData.observe(this) {
+            binding?.courseProgress?.progress =
+                (((it.first + 1).toFloat() / it.second.toFloat()) * 100).toInt()
+            binding?.courseCourseInSubject?.text =
+                getString(R.string.dialog_this_course_p, it.first + 1)
+        }
+
+
+        binding?.subject?.setOnClickListener(View.OnClickListener {
+            if (requireContext() !is SubjectActivity) {
+                viewModel.eventItemLiveData.value?.let {
+                    ActivityUtils.startSubjectActivity(requireContext(), it.subjectId)
+                }
+            }
+        })
+        binding?.nameLayout?.setOnClickListener { binding?.subject?.callOnClick() }
     }
 
     companion object {
