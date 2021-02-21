@@ -42,7 +42,12 @@ object ProfileWebSource : BaseWebSource<ProfileService>(
      * @return 操作结果
      */
     fun changeSignature(token: String, signature: String): LiveData<DataState<String>> {
-        return Transformations.map(service.changeSignature(signature, token)) { input: ApiResponse<Any?>? ->
+        return Transformations.map(
+            service.changeSignature(
+                signature,
+                HttpUtils.getHeaderAuth(token)
+            )
+        ) { input: ApiResponse<Any?>? ->
             if (input != null) {
                 when (input.code) {
                     SUCCESS -> {
@@ -67,9 +72,9 @@ object ProfileWebSource : BaseWebSource<ProfileService>(
         return Transformations.map(
             service.changeNickname(
                 nickname,
-                token
+                HttpUtils.getHeaderAuth(token)
             )
-        ) { input: ApiResponse<Any?>? ->
+        ) { input ->
             if (input != null) {
                 when (input.code) {
                     SUCCESS -> return@map DataState<String?>(DataState.STATE.SUCCESS)
@@ -110,18 +115,18 @@ object ProfileWebSource : BaseWebSource<ProfileService>(
      * @param gender 性别 MALE/FEMALE
      * @return 操作结果
      */
-    fun changeGender(token: String, gender: String): LiveData<DataState<String?>> {
-        return Transformations.map<ApiResponse<Any?>, DataState<String?>>(
+    fun changeGender(token: String, gender: String): LiveData<DataState<String>> {
+        return Transformations.map(
             service.changeGender(
                 gender,
-                token
+                HttpUtils.getHeaderAuth(token)
             )
-        ) { input: ApiResponse<Any?>? ->
+        ) { input ->
             if (input != null) {
                 when (input.code) {
-                    SUCCESS -> return@map DataState<String?>(DataState.STATE.SUCCESS)
-                    TOKEN_INVALID -> return@map DataState<String?>(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState<String?>(
+                    SUCCESS -> return@map DataState<String>(DataState.STATE.SUCCESS)
+                    TOKEN_INVALID -> return@map DataState<String>(DataState.STATE.TOKEN_INVALID)
+                    else -> return@map DataState<String>(
                         DataState.STATE.FETCH_FAILED,
                         input.msg
                     )
@@ -162,7 +167,6 @@ object ProfileWebSource : BaseWebSource<ProfileService>(
             }
         }
     }
-
 
 
 }

@@ -101,38 +101,31 @@ class MyProfileViewModel(application: Application) : AndroidViewModel(applicatio
         }
 
     //Trigger：控制更改昵称请求的发送，其中携带了新昵称字符串
-    var changeNicknameController = MutableLiveData<StringTrigger>()
-
-
-    //状态数据：更改性别的结果
-    var changeGenderResult: LiveData<DataState<String?>>? = null
-        get() {
-            if (field == null) {
-                changeGenderResult =
-                    Transformations.switchMap(changeGenderController) { input: StringTrigger ->
-                        if (input.isActioning) {
-                            val userLocal = localUserRepository.getLoggedInUser()
-                            if (userLocal.isValid()) {
-                                return@switchMap profileRepository.changeGender(
-                                    userLocal.token!!,
-                                    input.data
-                                )
-                            } else {
-                                return@switchMap LiveDataUtils.getMutableLiveData(
-                                    DataState<String?>(
-                                        DataState.STATE.NOT_LOGGED_IN
-                                    )
-                                )
-                            }
-                        }
-                        MutableLiveData()
-                    }
-            }
-            return field!!
-        }
+    private var changeNicknameController = MutableLiveData<StringTrigger>()
 
     //Trigger：控制更改性别请求的发送，其中携带了新性别字符串
     private var changeGenderController = MutableLiveData<StringTrigger>()
+
+    //状态数据：更改性别的结果
+    var changeGenderResult: LiveData<DataState<String>> =
+        Transformations.switchMap(changeGenderController) { input: StringTrigger ->
+            if (input.isActioning) {
+                val userLocal = localUserRepository.getLoggedInUser()
+                if (userLocal.isValid()) {
+                    return@switchMap profileRepository.changeGender(
+                        userLocal.token!!,
+                        input.data
+                    )
+                } else {
+                    return@switchMap LiveDataUtils.getMutableLiveData(
+                        DataState<String>(
+                            DataState.STATE.NOT_LOGGED_IN
+                        )
+                    )
+                }
+            }
+            MutableLiveData()
+        }
 
 
     //状态数据：更改签名的结果
@@ -170,7 +163,7 @@ class MyProfileViewModel(application: Application) : AndroidViewModel(applicatio
     /**
      * 仓库区
      */
-    //仓库1：用户资料仓库
+//仓库1：用户资料仓库
     private val profileRepository: ProfileRepository = ProfileRepository.getInstance(application)
 
     //仓库2：本地用户仓库
@@ -199,7 +192,7 @@ class MyProfileViewModel(application: Application) : AndroidViewModel(applicatio
      * @param gender 新性别
      */
     fun startChangeGender(gender: UserLocal.GENDER) {
-        val genderStr = if (gender === UserLocal.GENDER.MALE) "MALE" else "FEMALE"
+        val genderStr = gender.name
         changeGenderController.value = StringTrigger.getActioning(genderStr)
     }
 

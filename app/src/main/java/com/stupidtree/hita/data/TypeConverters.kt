@@ -2,6 +2,7 @@ package com.stupidtree.hita.data
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
+import com.stupidtree.hita.data.model.service.UserLocal
 import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.model.timetable.TermSubject
 import com.stupidtree.hita.data.model.timetable.TimePeriodInDay
@@ -42,6 +43,18 @@ object TypeConverters {
 
     @JvmStatic
     @TypeConverter
+    fun genderToString(date: UserLocal.GENDER): String {
+        return date.name
+    }
+
+    @JvmStatic
+    @TypeConverter
+    fun stringToGender(str:String): UserLocal.GENDER {
+        return UserLocal.GENDER.valueOf(str)
+    }
+
+    @JvmStatic
+    @TypeConverter
     fun stringToSubjectType(string: String): TermSubject.TYPE? {
         return TermSubject.TYPE.valueOf(string)
     }
@@ -63,6 +76,8 @@ object TypeConverters {
         }
         return res
     }
+
+
 
 
 }

@@ -1,4 +1,4 @@
-package com.stupidtree.hita.ui.widgets
+package com.stupidtree.hita.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

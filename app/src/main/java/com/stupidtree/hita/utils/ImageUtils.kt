@@ -35,6 +35,18 @@ import java.util.*
  */
 object ImageUtils {
 
+    fun getResourceBitmap(context: Context,id:Int):Bitmap{
+        val vectorDrawable = ContextCompat.getDrawable(context,id)
+        val bitmap = Bitmap.createBitmap(
+            vectorDrawable!!.intrinsicWidth,
+            vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
+        vectorDrawable.draw(canvas)
+        return bitmap
+    }
+
     fun loadAvatarInto(context: Context, userId: String?, target: ImageView) {
         if (isEmpty(userId)) {
             target.setImageResource(R.drawable.ic_baseline_location_24)

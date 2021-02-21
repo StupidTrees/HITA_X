@@ -2,82 +2,103 @@
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="56dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="16dp"
-    android:layout_marginBottom="8dp"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    app:cardBackgroundColor="?attr/colorPrimary"
-    app:cardCornerRadius="28dp"
-    app:cardElevation="6dp">
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    app:cardBackgroundColor="?attr/backgroundColorSecond"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="0dp">
 
 
     <LinearLayout
-        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/element_round_primary_light"
+            android:backgroundTint="?attr/backgroundColorBottomAsTint"
+            android:backgroundTintMode="src_over"
+            android:padding="12dp"
+            android:tintMode="src_in"
+            app:srcCompat="@drawable/ic_baseline_access_alarm_24"
+            app:tint="?attr/colorPrimary" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="24dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.stupidtree.hita.ui.widgets.FocusTextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:singleLine="true"
+                    android:text="@string/give_me_notification_permission"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <com.stupidtree.hita.ui.widgets.FocusTextView
+                    android:id="@+id/subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:singleLine="true"
+                    android:text="@string/give_me_notification_permission"
+                    android:textColor="?attr/textColorSecondary"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:maxEms="6"
-                android:singleLine="true"
-                android:text="荔园一食堂"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|start"
-                android:layout_marginTop="2dp"
-                android:singleLine="true"
-                android:text="开始于2020-3-2"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:visibility="gone" />
-
+                android:alpha="0.4"
+                android:backgroundTintMode="src_over"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="16dp"
+                android:tintMode="src_in"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_baseline_delete_24"
+                app:theme="@style/button_ripple_white"
+                app:tint="?attr/colorControlNormal" />
         </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="-16dp"
-            android:buttonTint="@color/white"
-            android:saveEnabled="false" />
-
-        <ImageView
-            android:id="@+id/delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTintMode="src_over"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
-            android:padding="16dp"
-            android:tintMode="src_in"
-            app:srcCompat="@drawable/ic_baseline_delete_24"
-            app:theme="@style/button_ripple_white"
-            app:tint="@color/white" />
-
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

@@ -20,6 +20,8 @@ import com.stupidtree.hita.R
 import com.stupidtree.hita.databinding.ActivityMainBinding
 import com.stupidtree.hita.ui.base.BaseActivity
 import com.stupidtree.hita.ui.base.BaseTabAdapter
+import com.stupidtree.hita.ui.eas.EASActivity
+import com.stupidtree.hita.ui.eas.login.PopUpLoginEAS
 import com.stupidtree.hita.ui.main.timeline.FragmentTimeLine
 import com.stupidtree.hita.ui.main.timetable.outer.TimetableFragment
 import com.stupidtree.hita.utils.ActivityUtils
@@ -81,7 +83,21 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         binding.drawerNavigationview.setNavigationItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.drawer_nav_my_profile -> {
-                    ActivityUtils.startLoginEASActivity(getThis())
+                    ActivityUtils.showEasVerifyWindow(
+                        getThis(),
+                        directTo = EASActivity::class.java,
+                        cancelable = true,
+                        onResponseListener = object : PopUpLoginEAS.OnResponseListener {
+                            override fun onSuccess(window: PopUpLoginEAS) {
+                                ActivityUtils.startEASActivity(getThis())
+                                window.dismiss()
+                            }
+
+                            override fun onFailed(window: PopUpLoginEAS) {
+
+                            }
+
+                        })
                     true
                 }
                 R.id.drawer_nav_scan_qr -> {
@@ -171,13 +187,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 drawerAvatar?.setImageResource(R.drawable.place_holder_avatar)
                 binding.avatar.setImageResource(R.drawable.place_holder_avatar)
                 drawerHeader?.setOnClickListener { ActivityUtils.startWelcomeActivity(getThis()) }
-                binding.drawerNavigationview.setNavigationItemSelectedListener { item: MenuItem ->
-                    if (item.itemId == R.id.drawer_nav_my_profile) {
-                        ActivityUtils.startWelcomeActivity(getThis())
-                        return@setNavigationItemSelectedListener true
-                    }
-                    false
-                }
             }
         }
     }

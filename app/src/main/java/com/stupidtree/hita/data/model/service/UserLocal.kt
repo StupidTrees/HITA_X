@@ -12,7 +12,7 @@ import java.io.Serializable
 class UserLocal : Serializable {
     //定义性别的枚举类型
     enum class GENDER {
-        MALE, FEMALE
+        MALE, FEMALE,OTHER
     }
 
     var username //用户名

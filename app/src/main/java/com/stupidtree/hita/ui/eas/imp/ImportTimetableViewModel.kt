@@ -1,9 +1,7 @@
 package com.stupidtree.hita.ui.eas.imp
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
-import com.stupidtree.hita.data.model.eas.CourseItem
 import com.stupidtree.hita.data.model.eas.TermItem
 import com.stupidtree.hita.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hita.data.repository.EASRepository
@@ -44,8 +42,8 @@ class ImportTimetableViewModel(application: Application) : AndroidViewModel(appl
 
     val importTimetableResultLiveData = MediatorLiveData<DataState<Boolean>>()
 
-    val scheduleStructureLiveData: LiveData<DataState<MutableList<TimePeriodInDay>>> =
-        Transformations.switchMap(selectedTermLiveData) {
+    val scheduleStructureLiveData: MediatorLiveData<DataState<MutableList<TimePeriodInDay>>> =
+        MTransformations.switchMap(selectedTermLiveData) {
             return@switchMap it?.let { it1 -> easRepository.getScheduleStructure(it1) }
         }
 
@@ -71,7 +69,7 @@ class ImportTimetableViewModel(application: Application) : AndroidViewModel(appl
     fun startImportTimetable(): Boolean {
         selectedTermLiveData.value?.let { term ->
             startDateLiveData.value?.let { date ->
-                scheduleStructureLiveData.value?.let { schedule->
+                scheduleStructureLiveData.value?.let { schedule ->
                     if (schedule.data != null && date.state == DataState.STATE.SUCCESS && date.data != null) {
                         easRepository.startImportTimetableOfTerm(
                             term,
@@ -90,8 +88,15 @@ class ImportTimetableViewModel(application: Application) : AndroidViewModel(appl
     }
 
 
+    fun setStructureData(periodInDay: TimePeriodInDay, position: Int) {
+        if (position < scheduleStructureLiveData.value?.data?.size ?: 0) {
+            scheduleStructureLiveData.value?.data?.set(position, periodInDay)
+            scheduleStructureLiveData.value = scheduleStructureLiveData.value
+        }
+    }
+
     fun changeStartDate(date: Calendar) {
-        startDateLiveData.value = DataState(date, DataState.STATE.SPECIAL)
+        startDateLiveData.value = DataState(date)
     }
 
 }

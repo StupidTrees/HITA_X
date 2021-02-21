@@ -32,7 +32,9 @@ class TimetableRepository(application: Application) {
     fun getTimetables():LiveData<List<Timetable>>{
         return timetableDao.getTimetables()
     }
-
+    fun getTimetablesById(id:String):LiveData<Timetable>{
+        return timetableDao.getTimetableById(id)
+    }
 
 
     companion object {

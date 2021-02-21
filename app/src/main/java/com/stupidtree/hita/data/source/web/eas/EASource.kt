@@ -1,6 +1,7 @@
 package com.stupidtree.hita.data.source.web.eas
 
 import android.text.TextUtils
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.*
@@ -65,6 +66,8 @@ class EASource internal constructor() : EASService {
                 if (login) {
                     val easToken = EASToken() //登录成功，创建tokrn
                     easToken.cookies = cookies //设置cookies
+                    easToken.username = username
+                    easToken.password = password
                     res.postValue(DataState(easToken, DataState.STATE.SUCCESS))
                 } else {
                     res.postValue(DataState(DataState.STATE.FETCH_FAILED))
@@ -76,6 +79,41 @@ class EASource internal constructor() : EASService {
         }.start()
         return res
     }
+
+    /**
+     * 检查登录状态
+     */
+    override fun loginCheck(token: EASToken): LiveData<DataState<Boolean>> {
+        val res = MutableLiveData<DataState<Boolean>>()
+        Thread {
+            try {
+                val s = Jsoup.connect("$hostName/UserManager/queryxsxx")
+                    .timeout(timeout)
+                    .cookies(token.cookies)
+                    .headers(defaultRequestHeader)
+                    .header("X-Requested-With", "XMLHttpRequest")
+                    .ignoreContentType(true)
+                    .ignoreHttpErrors(true)
+                    .post();
+                try {
+                    val json = s.getElementsByTag("body").text()
+                    if (json.contains("session已失效")) {
+                        res.postValue(DataState(false))
+                    } else {
+                        val jo = JsonParser().parse(json).asJsonObject;
+                        val login = jo.has("XH")
+                        res.postValue(DataState(login))
+                    }
+                } catch (e: JsonSyntaxException) {
+                    res.postValue(DataState(false))
+                }
+            } catch (e: IOException) {
+                res.postValue(DataState(DataState.STATE.FETCH_FAILED))
+            }
+        }.start()
+        return res
+    }
+
 
     /**
      * 获取学年学期
@@ -112,7 +150,11 @@ class EASource internal constructor() : EASService {
                             }
                         }
                     }
-                    term?.let { terms.add(it) }
+
+                    term?.let {
+                        it.isCurrent = m["sfdqxq"] == "1"
+                        terms.add(it)
+                    }
                 }
                 res.postValue(DataState(terms, DataState.STATE.SUCCESS))
             } catch (e: IOException) {
@@ -170,7 +212,10 @@ class EASource internal constructor() : EASService {
     /**
      * 获取课程
      */
-    override fun getSubjectsOfTerm(token: EASToken, term: TermItem): LiveData<DataState<MutableList<TermSubject>>> {
+    override fun getSubjectsOfTerm(
+        token: EASToken,
+        term: TermItem
+    ): LiveData<DataState<MutableList<TermSubject>>> {
         val res = MutableLiveData<DataState<MutableList<TermSubject>>>()
         Thread {
             val result: MutableList<TermSubject> = ArrayList()
@@ -210,8 +255,9 @@ class EASource internal constructor() : EASService {
                         "限选" -> s.type = TermSubject.TYPE.OPT_A
                         "任选" -> s.type = TermSubject.TYPE.OPT_B
                     }
-                    if(JsonUtils.getStringData(subject, "xkfsdm")?.toLowerCase(Locale.ROOT)
-                            ?.contains("mooc") == true){
+                    if (JsonUtils.getStringData(subject, "xkfsdm")?.toLowerCase(Locale.ROOT)
+                            ?.contains("mooc") == true
+                    ) {
                         s.type = TermSubject.TYPE.MOOC
                     }
                     s.school = JsonUtils.getStringData(subject, "kkyxmc")
@@ -224,7 +270,7 @@ class EASource internal constructor() : EASService {
                 }
                 res.postValue(DataState(result))
             } catch (e: IOException) {
-                res.postValue(DataState(DataState.STATE.FETCH_FAILED,e.message))
+                res.postValue(DataState(DataState.STATE.FETCH_FAILED, e.message))
             }
         }.start()
         return res
@@ -430,17 +476,16 @@ class EASource internal constructor() : EASService {
                     from.timeInMillis = dateFormatter.parse(tp["kssj"].asString)!!.time
                     val to = Calendar.getInstance()
                     to.timeInMillis = dateFormatter.parse(tp["jssj"].asString)!!.time
-                    result.add(TimePeriodInDay(TimeInDay(from),TimeInDay(to)))
+                    result.add(TimePeriodInDay(TimeInDay(from), TimeInDay(to)))
                 }
                 res.postValue(DataState(result))
             } catch (e: Exception) {
                 e.printStackTrace()
-                res.postValue(DataState(DataState.STATE.FETCH_FAILED,e.message))
+                res.postValue(DataState(DataState.STATE.FETCH_FAILED, e.message))
             }
         }.start()
         return res
     }
-
 
 
     init {

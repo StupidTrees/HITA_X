@@ -3,7 +3,6 @@ package com.stupidtree.hita.data.repository
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hita.data.AppDatabase
 import com.stupidtree.hita.data.model.eas.CourseItem
@@ -13,10 +12,11 @@ import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.model.timetable.TermSubject
 import com.stupidtree.hita.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hita.data.model.timetable.Timetable
-import com.stupidtree.hita.data.source.preference.TimetablePreferenceSource
+import com.stupidtree.hita.data.source.preference.EasPreferenceSource
 import com.stupidtree.hita.data.source.web.eas.EASource
 import com.stupidtree.hita.data.source.web.service.EASService
 import com.stupidtree.hita.ui.base.DataState
+import com.stupidtree.hita.utils.LiveDataUtils
 import com.stupidtree.hita.utils.TimeUtils.getDateAtWOT
 import java.sql.Timestamp
 import java.util.*
@@ -24,35 +24,49 @@ import java.util.*
 class EASRepository internal constructor(application: Application) {
 
     private val easService: EASService = EASource()
-    private var token: EASToken? = null
+    private var easPreferenceSource = EasPreferenceSource.getInstance(application)
     private var eventItemDao = AppDatabase.getDatabase(application).eventItemDao()
     private var timetableDao = AppDatabase.getDatabase(application).timetableDao()
     private var subjectDao = AppDatabase.getDatabase(application).subjectDao()
-    private var timetablePreferenceSource = TimetablePreferenceSource.getInstance(application)
 
     /**
      * 进行登录
      */
     fun login(username: String, password: String): LiveData<DataState<Boolean>> {
         return Transformations.map(easService.login(username, password, null)) {
-            if (it.state == DataState.STATE.SUCCESS && it.data != null) {
-                token = it.data
+            if (it.state == DataState.STATE.SUCCESS) {
+                it.data?.let { it1 -> easPreferenceSource.saveEasToken(it1) }
                 return@map DataState(true, DataState.STATE.SUCCESS)
             }
             return@map DataState(false, it.state)
-        };
+        }
+    }
+
+    /**
+     * 验证登录
+     */
+    fun loginCheck(): LiveData<DataState<Boolean>> {
+        val token = easPreferenceSource.getEasToken()
+        if (!token.isLogin()) {
+            return LiveDataUtils.getMutableLiveData(DataState(false))
+        }
+        return Transformations.map(easService.loginCheck(token)) {
+            if (it.state == DataState.STATE.SUCCESS && it.data != true) {
+                easPreferenceSource.clearEasToken()
+            }
+            return@map it
+        }
     }
 
     /**
      * 获取学期开始日期
      */
     fun getStartDateOfTerm(term: TermItem): LiveData<DataState<Calendar>> {
-        token?.let {
-            return easService.getStartDate(it, term)
+        val easToken = easPreferenceSource.getEasToken()
+        if (easToken.isLogin()) {
+            return easService.getStartDate(easToken, term)
         }
-        val res = MutableLiveData<DataState<Calendar>>()
-        res.value = DataState(DataState.STATE.NOT_LOGGED_IN)
-        return res
+        return LiveDataUtils.getMutableLiveData<DataState<Calendar>>(DataState(DataState.STATE.NOT_LOGGED_IN))
     }
 
 
@@ -60,26 +74,27 @@ class EASRepository internal constructor(application: Application) {
      * 进行获取学年学期
      */
     fun getAllTerms(): LiveData<DataState<List<TermItem>>> {
-        return if (token != null) {
-            easService.getAllTerms(token!!)
-        } else {
-            val res = MutableLiveData<DataState<List<TermItem>>>()
-            res.value = DataState(DataState.STATE.NOT_LOGGED_IN)
-            res
+        val easToken = easPreferenceSource.getEasToken()
+        if (easToken.isLogin()) {
+            return easService.getAllTerms(easToken)
         }
+        return LiveDataUtils.getMutableLiveData<DataState<List<TermItem>>>(DataState(DataState.STATE.NOT_LOGGED_IN))
     }
 
     /**
      * 获取课表结构
      */
     fun getScheduleStructure(term: TermItem): LiveData<DataState<MutableList<TimePeriodInDay>>> {
-        return if (token != null) {
-            easService.getScheduleStructure(term, token!!)
-        } else {
-            val res = MutableLiveData<DataState<MutableList<TimePeriodInDay>>>()
-            res.value = DataState(DataState.STATE.NOT_LOGGED_IN)
-            res
+        val easToken = easPreferenceSource.getEasToken()
+        if (easToken.isLogin()) {
+            return easService.getScheduleStructure(term, easToken)
         }
+        return LiveDataUtils.getMutableLiveData<DataState<MutableList<TimePeriodInDay>>>(
+            DataState(
+                DataState.STATE.NOT_LOGGED_IN
+            )
+        )
+
     }
 
     /**
@@ -96,9 +111,11 @@ class EASRepository internal constructor(application: Application) {
         startDate.set(Calendar.MINUTE, 0)
         startDate.firstDayOfWeek = Calendar.MONDAY
         startDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-        if (token != null) {
+        val easToken = easPreferenceSource.getEasToken()
+        if (easToken.isLogin()) {
             timetableWebLiveData?.let { importTimetableLiveData.removeSource(it) }
-            timetableWebLiveData = easService.getTimetableOfTerm(term, token!!)
+            timetableWebLiveData =
+                easService.getTimetableOfTerm(term, easToken)
             importTimetableLiveData.addSource(timetableWebLiveData!!) {
                 if (it.state == DataState.STATE.SUCCESS) {
                     Thread {
@@ -174,12 +191,19 @@ class EASRepository internal constructor(application: Application) {
         }
     }
 
+    fun getEasToken(): EASToken {
+        return easPreferenceSource.getEasToken()
+    }
+
 
     companion object {
+        @Volatile
         private var instance: EASRepository? = null
         fun getInstance(application: Application): EASRepository {
-            if (instance == null) instance = EASRepository(application)
-            return instance!!
+            synchronized(EASRepository::class.java) {
+                if (instance == null) instance = EASRepository(application)
+                return instance!!
+            }
         }
     }
 }

@@ -12,6 +12,27 @@ import java.util.*
 
 
 object TimeUtils {
+
+    enum class SEASON {
+        SPRING, SUMMER, AUTUMN, WINTER
+    }
+
+    /**
+     * 获取季节（课表意义）
+     */
+    fun getSeason(ts: Long): SEASON {
+        val c = Calendar.getInstance()
+        c.timeInMillis = ts
+        return when (c[Calendar.MONTH] + 1) {
+            in 1..4 -> return SEASON.SPRING
+            in 5..7 -> return SEASON.SUMMER
+            in 8..10 -> return SEASON.AUTUMN
+            in 11..12 -> return SEASON.WINTER
+            else -> SEASON.WINTER
+        }
+    }
+
+
     /**
      * 是否已过去
      */

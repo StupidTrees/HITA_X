@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColorBottom"
-    tools:context=".ui.timetable.TimetableManagerActivity">
+    tools:context=".ui.timetable.manager.TimetableManagerActivity">
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -36,28 +36,20 @@
                 app:layout_scrollFlags="scroll"
                 app:title="@string/menu_timeable_curriculum" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
-                app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.98"
-                app:layout_scrollFlags="scroll" />
-
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/subjects_viewpager"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/backgroundColorBottom"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-    </androidx.viewpager.widget.ViewPager>
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:overScrollMode="never"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:layout_scrollFlags="scroll" />
 
     <LinearLayout
         android:id="@+id/none_layout"

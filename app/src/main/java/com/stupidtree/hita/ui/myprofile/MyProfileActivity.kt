@@ -39,9 +39,6 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
     }
 
     override fun initViews() {
-        //点击头像那一栏，调用系统相册选择图片
-        binding.avatarLayout.setOnClickListener { GalleryPicker.choosePhoto(getThis(), false) }
-
         //当viewModel的UserProfile数据发生变更时，通知UI更新
         viewModel.userProfileLiveData.observe(this, { userProfileDataState ->
 
@@ -67,7 +64,7 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
                 Toast.makeText(applicationContext, R.string.fail, Toast.LENGTH_SHORT).show()
             }
         })
-        viewModel.changeGenderResult?.observe(this, { stringDataState: DataState<String?> ->
+        viewModel.changeGenderResult.observe(this, { stringDataState ->
             if (stringDataState.state === DataState.STATE.SUCCESS) {
                 Toast.makeText(getThis(), R.string.avatar_change_success, Toast.LENGTH_SHORT).show()
                 viewModel.startRefresh()
@@ -85,7 +82,7 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
             }
         }
         binding.nicknameLayout.setOnClickListener {
-            val up = viewModel.userProfileLiveData?.value
+            val up = viewModel.userProfileLiveData.value
             if (up != null && up.state === DataState.STATE.SUCCESS) {
                 PopUpEditText()
                     .setTitle(R.string.set_nickname)
@@ -102,14 +99,14 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
 
         //点击更改性别，弹出选择框
         binding.genderLayout.setOnClickListener {
-            val up = viewModel.userProfileLiveData?.value
+            val up = viewModel.userProfileLiveData.value
             if (up != null && up.state === DataState.STATE.SUCCESS) {
                 PopUpSelectableList<UserLocal.GENDER>()
                     .setTitle(R.string.choose_gender)
                     .setInitValue(up.data!!.gender)
                     .setListData(
-                        arrayOf(getString(R.string.male), getString(R.string.female)),
-                        listOf(UserLocal.GENDER.MALE, UserLocal.GENDER.FEMALE)
+                        arrayOf(getString(R.string.male), getString(R.string.female),getString(R.string.other_gender)),
+                        listOf(UserLocal.GENDER.MALE, UserLocal.GENDER.FEMALE,UserLocal.GENDER.OTHER)
                     ).setOnConfirmListener(object :
                         PopUpSelectableList.OnConfirmListener<UserLocal.GENDER> {
 
@@ -136,6 +133,9 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
                     .show(supportFragmentManager, "edit")
             }
         }
+        //点击头像那一栏，调用系统相册选择图片
+        binding.avatarLayout.setOnClickListener { GalleryPicker.choosePhoto(getThis(), false) }
+
 
     }
 
@@ -155,7 +155,12 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
             binding.signature.setText(R.string.place_holder_no_signature)
         }
         binding.username.text = profile.username
-        binding.gender.setText(if (profile.gender == UserLocal.GENDER.MALE) R.string.male else R.string.female)
+        binding.gender.setText(when (profile.gender){
+            UserLocal.GENDER.MALE ->R.string.male
+            UserLocal.GENDER.FEMALE->R.string.female
+            UserLocal.GENDER.OTHER->R.string.other_gender
+            else -> R.string.other_gender
+        } )
     }
 
     override fun onStart() {

@@ -10,7 +10,7 @@ class TermItem(
      var termName: String
 ) {
     var name: String = yearName+termName
-
+    var isCurrent:Boolean = false
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

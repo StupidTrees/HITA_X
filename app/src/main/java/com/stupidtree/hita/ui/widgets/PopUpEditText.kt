@@ -4,6 +4,7 @@ import android.view.View
 import androidx.annotation.StringRes
 import com.stupidtree.hita.R
 import com.stupidtree.hita.databinding.DialogBottomEditTextBinding
+import com.stupidtree.hita.ui.base.TransparentBottomSheetDialog
 
 /**
  * 圆角的文本框底部弹窗

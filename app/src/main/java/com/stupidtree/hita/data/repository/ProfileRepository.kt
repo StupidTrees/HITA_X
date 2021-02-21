@@ -108,13 +108,13 @@ class ProfileRepository(application: Application) {
      * @param gender 新性别 MALE/FEMALE
      * @return 操作结果
      */
-    fun changeGender(token: String, gender: String): LiveData<DataState<String?>> {
+    fun changeGender(token: String, gender: String): LiveData<DataState<String>> {
         return Transformations.map(
             ProfileWebSource.changeGender(
                 token,
                 gender
             )
-        ) { input: DataState<String?> ->
+        ) { input ->
             if (input.state === DataState.STATE.SUCCESS) {
                 localUserRepository.changeLocalGender(gender)
             }

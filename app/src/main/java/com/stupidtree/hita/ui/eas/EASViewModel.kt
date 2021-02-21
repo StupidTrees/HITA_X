@@ -9,6 +9,7 @@ import com.stupidtree.hita.data.model.eas.TermItem
 import com.stupidtree.hita.data.repository.EASRepository
 import com.stupidtree.hita.ui.base.DataState
 import com.stupidtree.hita.ui.base.Trigger
+import com.stupidtree.hita.utils.LiveDataUtils
 
 class EASViewModel(application: Application) : AndroidViewModel(application){
     /**
@@ -28,6 +29,14 @@ class EASViewModel(application: Application) : AndroidViewModel(application){
             }
         }
 
+    private val loginCheckController = MutableLiveData<Trigger>()
+    val loginCheckResult:LiveData<DataState<Boolean>> = Transformations.switchMap(loginCheckController){
+        if(it.isActioning){
+            return@switchMap easRepository.loginCheck()
+        }
+        return@switchMap LiveDataUtils.getMutableLiveData(DataState(DataState.STATE.NOTHING))
+    }
+
     /**
      * 方法区
      */
@@ -35,5 +44,9 @@ class EASViewModel(application: Application) : AndroidViewModel(application){
         termsController.value = Trigger.actioning
     }
 
+
+    fun startLoginCheck(){
+        loginCheckController.value = Trigger.actioning
+    }
 
 }

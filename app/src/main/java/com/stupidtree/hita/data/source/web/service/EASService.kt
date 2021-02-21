@@ -20,6 +20,11 @@ interface EASService {
     fun login(username: String, password: String, code: String?): LiveData<DataState<EASToken>>
 
     /**
+     * 检查登录状态
+     */
+    fun loginCheck(token:EASToken):LiveData<DataState<Boolean>>
+
+    /**
      * 获取学年学期
      * @param token 登录凭证
      */

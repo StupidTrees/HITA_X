@@ -32,7 +32,7 @@ interface ProfileService {
     fun uploadAvatar(
         @Part file: MultipartBody.Part?,
         @Header("Authorization") token: String?
-    ): LiveData<ApiResponse<String>?>
+    ): LiveData<ApiResponse<String>>
 
     /**
      * 更换昵称
@@ -45,7 +45,7 @@ interface ProfileService {
     fun changeNickname(
         @Field("nickname") nickname: String?,
         @Header("Authorization") token: String?
-    ): LiveData<ApiResponse<Any?>?>
+    ): LiveData<ApiResponse<Any>>
 
     /**
      * 更换性别
@@ -58,7 +58,7 @@ interface ProfileService {
     fun changeGender(
         @Field("gender") gender: String?,
         @Header("Authorization") token: String?
-    ): LiveData<ApiResponse<Any?>?>
+    ): LiveData<ApiResponse<Any>>
 
 
     /**

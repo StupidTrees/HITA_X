@@ -19,6 +19,10 @@ interface TimetableDao{
     @Query("SELECT * FROM timetable")
     fun getTimetables(): LiveData<List<Timetable>>
 
+    @Query("SELECT * FROM timetable WHERE id is :id")
+    fun getTimetableById(id:String): LiveData<Timetable>
+
+
     /**
      * 保存课表
      */

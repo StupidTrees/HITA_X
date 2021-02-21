@@ -15,6 +15,7 @@ abstract class EASFragment<T : ViewModel, V : ViewBinding> : BaseFragment<T, V>(
 //        val xNXQItems: List<Map<String?, String?>?>?
 //        val keyToTitleMap: Map<String?, String?>?
     }
+    abstract fun refresh()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

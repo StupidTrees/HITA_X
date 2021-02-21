@@ -8,7 +8,7 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.stupidtree.hita.R
 import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.databinding.DialogBottomEventsBinding
-import com.stupidtree.hita.ui.widgets.TransparentBottomSheetDialog
+import com.stupidtree.hita.ui.base.TransparentBottomSheetDialog
 import java.util.ArrayList
 
 @SuppressLint("ValidFragment")

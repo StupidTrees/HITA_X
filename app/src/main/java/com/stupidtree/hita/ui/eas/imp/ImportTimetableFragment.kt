@@ -2,9 +2,6 @@ package com.stupidtree.hita.ui.eas.imp
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -20,7 +17,10 @@ import com.stupidtree.hita.ui.base.BaseListAdapter
 import com.stupidtree.hita.ui.base.BaseViewHolder
 import com.stupidtree.hita.ui.base.DataState
 import com.stupidtree.hita.ui.eas.EASFragment
+import com.stupidtree.hita.ui.widgets.PopUpCalendarPicker
 import com.stupidtree.hita.ui.widgets.PopUpCheckableList
+import com.stupidtree.hita.ui.widgets.PopUpTimePeriodPicker
+import com.stupidtree.hita.utils.ImageUtils
 import com.stupidtree.hita.utils.TextTools
 import java.util.*
 
@@ -34,33 +34,49 @@ class ImportTimetableFragment :
         viewModel.selectedTermLiveData.observe(this) {
             it?.let {
                 binding?.termText?.text = it.name
-                // binding?.pickXnxq?.setValue(it.name, it.yearCode + it.termCode)
+                binding?.cardName?.setTitle(it.name)
             }
         }
         viewModel.termsLiveData.observe(this) { data ->
-            if (data.state == DataState.STATE.SUCCESS && data.data != null) {
-                binding?.let {
-                    if (!data.data.isNullOrEmpty()) {
-                        viewModel.changeSelectedTerm(data.data!![0])
+            binding?.refresh?.isRefreshing = false
+            if (data.state == DataState.STATE.SUCCESS) {
+                if (!data.data.isNullOrEmpty()) {
+                    for (t in data.data!!) {
+                        if (t.isCurrent) {
+                            viewModel.changeSelectedTerm(t)
+                            return@observe
+                        }
                     }
+                    viewModel.changeSelectedTerm(data.data!![0])
                 }
             }
         }
         viewModel.startDateLiveData.observe(this) {
-            if ((it.state == DataState.STATE.SUCCESS || it.state == DataState.STATE.SPECIAL)&& it.data != null) {
-                binding?.startDate?.setValue(
-                    TextTools
-                        .getNormalDateText(requireContext(), it.data!!),
-                    it.data!!.timeInMillis.toString()
+            if ((it.state == DataState.STATE.SUCCESS || it.state == DataState.STATE.SPECIAL) && it.data != null) {
+                binding?.cardDate?.setTitle(
+                    TextTools.getNormalDateText(
+                        requireContext(),
+                        it.data!!
+                    )
                 )
-                binding?.calendarView?.date = it.data!!.timeInMillis
             } else {
-                binding?.startDate?.setValue(
-                    getString(R.string.no_valid_date), ""
-                )
+                binding?.cardDate?.setTitle(R.string.no_valid_date)
             }
         }
         viewModel.scheduleStructureLiveData.observe(this) {
+            if (it.data.isNullOrEmpty()) {
+                binding?.buttonImport?.background = ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.element_rounded_button_bg_grey
+                )
+                binding?.buttonImport?.isEnabled = false
+            } else {
+                binding?.buttonImport?.background = ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.element_rounded_button_bg_primary
+                )
+                binding?.buttonImport?.isEnabled = true
+            }
             if (it.state == DataState.STATE.SUCCESS) {
                 it.data?.let { data ->
                     scheduleStructureAdapter?.notifyItemChangedSmooth(data)
@@ -68,7 +84,6 @@ class ImportTimetableFragment :
             }
         }
         viewModel.importTimetableResultLiveData.observe(this) {
-            Log.e("it", it.toString())
             val iconId: Int
             if (it.state == DataState.STATE.SUCCESS) {
                 iconId = R.drawable.ic_baseline_done_24
@@ -77,14 +92,7 @@ class ImportTimetableFragment :
                 iconId = R.drawable.ic_baseline_error_24
                 Toast.makeText(requireContext(), R.string.import_failed, Toast.LENGTH_SHORT).show()
             }
-            val vectorDrawable = ContextCompat.getDrawable(requireContext(), iconId)
-            val bitmap = Bitmap.createBitmap(
-                vectorDrawable!!.intrinsicWidth,
-                vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888
-            )
-            val canvas = Canvas(bitmap)
-            vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
-            vectorDrawable.draw(canvas)
+            val bitmap = ImageUtils.getResourceBitmap(requireContext(), iconId)
             binding?.buttonImport?.doneLoadingAnimation(
                 getColorPrimary(), bitmap
             )
@@ -103,25 +111,22 @@ class ImportTimetableFragment :
                 .setOnConfirmListener(object :
                     PopUpCheckableList.OnConfirmListener<TermItem> {
                     override fun OnConfirm(title: String?, key: TermItem) {
-//                        binding?.pickXnxq?.setValue(
-//                            key.name, key.yearCode + key.termCode
-//                        )
                         viewModel.changeSelectedTerm(key)
                     }
-
                 }).show(requireFragmentManager(), "terms")
-
-
         }
         binding?.buttonImport?.setOnClickListener {
             if (viewModel.startImportTimetable()) {
                 binding?.buttonImport?.startAnimation()
             }
         }
-        binding?.calendarView?.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val c = Calendar.getInstance()
-            c.set(year,month,dayOfMonth)
-            viewModel.changeStartDate(c)
+        binding?.cardDate?.onCardClickListener = View.OnClickListener {
+            PopUpCalendarPicker().setInitValue(viewModel.startDateLiveData.value?.data?.timeInMillis)
+                .setOnConfirmListener(object : PopUpCalendarPicker.OnConfirmListener {
+                    override fun onConfirm(c: Calendar) {
+                        viewModel.changeStartDate(c)
+                    }
+                }).show(requireFragmentManager(), "pick")
         }
         initList()
     }
@@ -132,7 +137,28 @@ class ImportTimetableFragment :
     private fun initList() {
         scheduleStructureAdapter = SListAdapter(requireContext(), mutableListOf())
         binding?.scheduleStructure?.adapter = scheduleStructureAdapter
-        binding?.scheduleStructure?.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        binding?.scheduleStructure?.layoutManager = LinearLayoutManager(requireContext())
+        binding?.refresh?.setColorSchemeColors(getColorPrimary())
+        binding?.refresh?.setOnRefreshListener {
+            viewModel.startRefreshTerms()
+        }
+        scheduleStructureAdapter?.setOnItemClickListener(object :
+            BaseListAdapter.OnItemClickListener<TimePeriodInDay> {
+            override fun onItemClick(data: TimePeriodInDay, card: View?, position: Int) {
+                PopUpTimePeriodPicker().setInitialValue(data.from, data.to)
+                    .setDialogTitle(R.string.pick_time_period)
+                    .setOnDialogConformListener(object :
+                        PopUpTimePeriodPicker.OnDialogConformListener {
+                        override fun onClick(
+                            timePeriodInDay: TimePeriodInDay
+                        ) {
+                            viewModel.setStructureData(timePeriodInDay,position)
+                        }
+
+                    }).show(requireFragmentManager(), "pick")
+            }
+
+        })
     }
 
 
@@ -140,8 +166,12 @@ class ImportTimetableFragment :
         return FragmentEasImportBinding.inflate(layoutInflater)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
+        refresh()
+    }
+
+    override fun refresh() {
         viewModel.startRefreshTerms()
     }
 
@@ -175,10 +205,21 @@ class ImportTimetableFragment :
         }
 
         override fun bindHolder(holder: SHolder, data: TimePeriodInDay?, position: Int) {
-            holder.binding.title.text = mContext.getString(R.string.schedule_list_item_pattern,position + 1)
+            if (position == mBeans.size - 1) {
+                holder.binding.divider2.visibility = View.GONE
+            } else {
+                holder.binding.divider2.visibility = View.VISIBLE
+            }
+            holder.binding.item.setOnClickListener {
+                data?.let { it1 -> mOnItemClickListener?.onItemClick(it1, it, position) }
+            }
+            holder.binding.title.text =
+                mContext.getString(R.string.schedule_list_item_pattern, position + 1)
             data?.let {
                 holder.binding.subtitle.text = it.toString()
             }
         }
     }
+
+
 }

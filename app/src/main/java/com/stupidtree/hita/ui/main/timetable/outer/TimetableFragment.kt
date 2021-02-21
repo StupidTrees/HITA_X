@@ -1,27 +1,25 @@
 package com.stupidtree.hita.ui.main.timetable.outer
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 import com.stupidtree.hita.R
 import com.stupidtree.hita.data.model.timetable.Timetable
-import com.stupidtree.hita.databinding.FragmentTimeTableBinding
+import com.stupidtree.hita.databinding.FragmentTimetableBinding
 import com.stupidtree.hita.ui.base.BaseFragment
 import com.stupidtree.hita.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
-import com.stupidtree.hita.utils.TimeUtils
 import java.util.*
 import kotlin.math.abs
 
 class TimetableFragment :
-    BaseFragment<TimetableViewModel, FragmentTimeTableBinding>() {
+    BaseFragment<TimetableViewModel, FragmentTimetableBinding>() {
     private var pagerAdapter: TimeTablePagerAdapter? = null
     private var mainPageController: MainPageController? = null
     private var currentIndex = 0
 
 
-    override fun initViewBinding(): FragmentTimeTableBinding {
-        return FragmentTimeTableBinding.inflate(layoutInflater)
+    override fun initViewBinding(): FragmentTimetableBinding {
+        return FragmentTimetableBinding.inflate(layoutInflater)
     }
 
     override fun getViewModelClass(): Class<TimetableViewModel> {
@@ -117,13 +115,6 @@ class TimetableFragment :
         }
     }
 
-
-    private fun getCurrentDate(): Long {
-        viewModel.currentPageStartDate.value?.let {
-            return it
-        }
-        return -1
-    }
 
     private fun refreshWeekLayout(currentPageStart: Long, timetables: List<Timetable>) {
         val cdCalendar = Calendar.getInstance()

@@ -1,4 +1,4 @@
-package com.stupidtree.hita.ui.timetable
+package com.stupidtree.hita.ui.timetable.manager
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -12,9 +12,5 @@ class TimetableManagerViewModel(application: Application) : AndroidViewModel(app
      * 仓库区
      */
     private val timetableRepository = TimetableRepository.getInstance(application)
-
-
-    val currentTimetableLiveData:MutableLiveData<Timetable?> = MutableLiveData()
-
     val timetablesLiveData:LiveData<List<Timetable>> = timetableRepository.getTimetables()
 }

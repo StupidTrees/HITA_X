@@ -10,6 +10,7 @@ import com.stupidtree.hita.databinding.DialogBottomCheckableListBinding
 import com.stupidtree.hita.databinding.DialogBottomCheckableListItemBinding
 import com.stupidtree.hita.ui.base.BaseListAdapter
 import com.stupidtree.hita.ui.base.BaseViewHolder
+import com.stupidtree.hita.ui.base.TransparentBottomSheetDialog
 import java.util.*
 
 /**

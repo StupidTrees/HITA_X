@@ -1129,4 +1129,9 @@
     <string name="label_basic_profile">基本资料</string>
     <string name="prompt_nickname">显示名称</string>
     <string name="place_holder_no_signature">这个人很佛系，啥都没写</string>
+    <string name="other_gender">其他性别</string>
+    <string name="start_date_format">开始于</string>
+    <string name="eas_verify_title">统一身份认证</string>
+    <string name="timetable_structure_label">课表结构</string>
+    <string name="timetable_name">课表名称</string>
 </resources>

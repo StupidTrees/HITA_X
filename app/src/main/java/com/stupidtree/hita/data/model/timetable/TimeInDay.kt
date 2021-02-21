@@ -52,4 +52,24 @@ class TimeInDay {
     fun getDistanceInMinutes(hour: Int, minute: Int): Int {
         return (hour - this.hour) * 60 + minute - this.minute
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as TimeInDay
+
+        if (hour != other.hour) return false
+        if (minute != other.minute) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = hour
+        result = 31 * result + minute
+        return result
+    }
+
+
 }
