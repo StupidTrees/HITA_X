@@ -21,6 +21,9 @@ interface EventItemDao {
     @Query("SELECT * FROM events WHERE `from` >= :fromT AND `from` <= :toT AND `to` >= :fromT AND `to` <= :toT")
     fun getEventsDuring(fromT: Long, toT: Long): LiveData<List<EventItem>>
 
+    @Query("SELECT * FROM events WHERE `from` >= :fromT AND `from` <= :toT AND `to` >= :fromT AND `to` <= :toT")
+    fun getEventsDurin(fromT: Long, toT: Long):LiveData<List<EventItem>>
+
 
     @Query("SELECT * FROM events WHERE subjectId is :subjectId")
     fun getClassesOfSubjectSync(subjectId: String): List<EventItem>

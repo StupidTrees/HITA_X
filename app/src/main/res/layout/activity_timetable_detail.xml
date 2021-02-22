@@ -26,7 +26,7 @@
             app:expandedTitleGravity="left|bottom|center"
             app:expandedTitleMarginEnd="36dp"
             app:expandedTitleMarginStart="24dp"
-            app:expandedTitleTextAppearance="@style/text_style_28sp_bold_primary"
+            app:expandedTitleTextAppearance="@style/text_style_30sp_bold_primary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
 
             app:maxLines="4"
@@ -76,7 +76,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
-                    app:cardIcon="@drawable/ic_origami_paper_bird"
+                    app:cardIcon="@drawable/ic_timetable"
                     app:cardIconColor="?attr/colorAccent"
                     app:cardIconPadding="14dp"
                     app:cardSubtitleText="@string/timetable_name">
@@ -124,17 +124,39 @@
 
             </androidx.recyclerview.widget.RecyclerView>
 
-            <TextView
-                android:id="@+id/title_subject"
+            <LinearLayout
+                android:id="@+id/subjectLabel"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:gravity="center|start"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                android:text="@string/title_subjects"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/title_subject"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/title_subjects"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/reset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="16dp"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="16dp"
+                    android:theme="@style/button_ripple_control"
+                    android:tintMode="src_in"
+                    app:srcCompat="@drawable/ic_baseline_color_lens_24"
+                    app:tint="?attr/colorControlNormal" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/edit_layout"

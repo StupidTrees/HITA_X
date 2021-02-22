@@ -24,7 +24,7 @@
             app:expandedTitleGravity="left|bottom|center"
             app:expandedTitleMarginEnd="36dp"
             app:expandedTitleMarginStart="24dp"
-            app:expandedTitleTextAppearance="@style/text_style_28sp_bold_primary"
+            app:expandedTitleTextAppearance="@style/text_style_30sp_bold_primary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
 
             app:maxLines="4"

@@ -56,7 +56,7 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
     override fun initViews(view: View) {
         initDateTextViews()
         binding?.timetableView?.init(object : TimeTablePreferenceRoot {
-            override val isColorEnabled: Boolean = false
+            override val isColorEnabled: Boolean = true
             override val cardTitleColor: String = "white"
             override val subTitleColor: String = "white"
             override val iconColor: String = "white"

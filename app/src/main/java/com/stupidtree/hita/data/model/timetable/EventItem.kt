@@ -2,6 +2,7 @@ package com.stupidtree.hita.data.model.timetable
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.stupidtree.hita.utils.TimeUtils
 import java.io.Serializable
@@ -38,6 +39,10 @@ class EventItem :Serializable,Comparable<EventItem>{
     @ColumnInfo(name = "created_at")
     var createdAt //创建时间
             : Timestamp = Timestamp(System.currentTimeMillis())
+
+
+    @Ignore
+    var color:Int = 0//科目颜色，不进行存储
 
     override fun toString(): String {
         return "EventItem(id='$id', type=$type, name='$name', place=$place, teacher=$teacher, subjectId='$subjectId', timetableId='$timetableId', from=$from, to=$to, createdAt=$createdAt"
@@ -99,6 +104,12 @@ class EventItem :Serializable,Comparable<EventItem>{
         }
     }
 
+
+
+    override fun compareTo(other: EventItem): Int {
+        return from.compareTo(other.from)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -114,6 +125,9 @@ class EventItem :Serializable,Comparable<EventItem>{
         if (timetableId != other.timetableId) return false
         if (from != other.from) return false
         if (to != other.to) return false
+        if (fromNumber != other.fromNumber) return false
+        if (lastNumber != other.lastNumber) return false
+        if (color != other.color) return false
 
         return true
     }
@@ -128,11 +142,10 @@ class EventItem :Serializable,Comparable<EventItem>{
         result = 31 * result + timetableId.hashCode()
         result = 31 * result + from.hashCode()
         result = 31 * result + to.hashCode()
+        result = 31 * result + fromNumber
+        result = 31 * result + lastNumber
+        result = 31 * result + color
         return result
-    }
-
-    override fun compareTo(other: EventItem): Int {
-        return from.compareTo(other.from)
     }
 
     companion object{

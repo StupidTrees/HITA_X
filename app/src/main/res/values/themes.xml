@@ -24,6 +24,15 @@
     </style>
 
 
+    <!-- 欢迎页的风格 -->
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowFullscreen">true</item>
+        <!-- <item name="android:windowIsTranslucent">true</item> -->
+        <!-- 透明背景不要了 -->
+    </style>
+
+
     <!--    圆角透明背景的BottomSheetDialog主题-->
     <style name="TransparentBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/TransparentBottomSheetStyle</item>
@@ -90,11 +99,11 @@
     <style name="text_style_18sp_bold_primary">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">?attr/textColorPrimary</item>
-        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
-    <style name="text_style_28sp_bold_primary">
-        <item name="android:textSize">28sp</item>
+    <style name="text_style_30sp_bold_primary">
+        <item name="android:textSize">30sp</item>
         <item name="android:textColor">?attr/textColorPrimary</item>
         <item name="android:fontFamily">sans-serif-black</item>
     </style>

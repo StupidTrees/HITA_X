@@ -98,8 +98,10 @@
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:padding="16dp"
-                app:srcCompat="@drawable/element_round_grey"
-                app:theme="@style/button_ripple_accent_large" />
+                android:tintMode="src_over"
+                app:srcCompat="@drawable/element_round_double"
+                app:theme="@style/button_ripple_accent"
+                app:tint="?attr/colorPrimary" />
 
             <CheckBox
                 android:id="@+id/check"

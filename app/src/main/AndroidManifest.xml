@@ -29,19 +29,22 @@
             android:name=".ui.main.MainActivity"
 
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-        <activity android:name=".ui.eas.login.PopUpLoginEAS" />
         <activity android:name=".ui.eas.EASActivity" />
         <activity android:name=".ui.timetable.manager.TimetableManagerActivity" />
         <activity android:name=".ui.subject.SubjectActivity" />
         <activity android:name=".ui.welcome.WelcomeActivity" />
         <activity android:name=".ui.myprofile.MyProfileActivity" />
         <activity android:name=".ui.timetable.detail.TimetableDetailActivity" />
+        <activity android:name=".ui.ActivitySplash"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

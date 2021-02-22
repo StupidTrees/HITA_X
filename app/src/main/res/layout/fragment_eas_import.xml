@@ -45,16 +45,16 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:text="2020春季"
+                            android:text="             "
                             android:textColor="?attr/textColorPrimary"
-                            android:textSize="28sp"
+                            android:textSize="30sp"
                             android:textStyle="bold" />
 
                         <ImageView
                             android:layout_width="26dp"
                             android:layout_height="26dp"
                             android:layout_gravity="center"
-                            android:layout_marginStart="8dp"
+                            android:layout_marginStart="12dp"
                             android:alpha="0.6"
                             android:background="@drawable/element_rounded_button_bg_primary_lighter"
                             android:scaleType="fitXY"
@@ -128,7 +128,9 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="8dp"
                         android:layout_weight="1"
-                        app:cardIcon="@drawable/ic_origami_paper_bird"
+                        app:cardCheckable="false"
+                        app:cardHapticFeedback="false"
+                        app:cardIcon="@drawable/ic_timetable"
                         app:cardIconColor="?attr/colorAccent"
                         app:cardIconPadding="14dp"
                         app:cardSubtitleText="@string/timetable_name">
@@ -143,6 +145,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="1"
+                        app:cardHapticFeedback="true"
                         app:cardIcon="@drawable/ic_baseline_timetable_24"
                         app:cardIconColor="?attr/colorAccent"
                         app:cardIconPadding="10dp"

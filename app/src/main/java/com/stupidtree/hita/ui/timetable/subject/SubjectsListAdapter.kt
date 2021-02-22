@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.stupidtree.hita.R
 import com.stupidtree.hita.data.model.timetable.TermSubject
@@ -15,17 +16,23 @@ import com.stupidtree.hita.databinding.DynamicSubjectsFootBinding
 import com.stupidtree.hita.databinding.DynamicSubjectsItemBinding
 import com.stupidtree.hita.ui.base.BaseCheckableListAdapter
 import com.stupidtree.hita.ui.base.BaseViewHolder
+import com.stupidtree.hita.ui.timetable.detail.TimetableDetailViewModel
 import com.stupidtree.hita.ui.timetable.subject.SubjectsListAdapter.SubjectViewHolder
 import com.stupidtree.hita.utils.ColorBox
 
 @SuppressLint("ParcelCreator")
-class SubjectsListAdapter(context: Context, subjects: MutableList<Pair<TermSubject, Float>>) :
-        BaseCheckableListAdapter<Pair<TermSubject, Float>, SubjectViewHolder>(context, subjects) {
+class SubjectsListAdapter(
+    context: Context,
+    subjects: MutableList<TermSubject>,
+    val viewModel: TimetableDetailViewModel,
+    private val lifecycleOwner: LifecycleOwner
+) :
+    BaseCheckableListAdapter<TermSubject, SubjectViewHolder>(context, subjects) {
 
 
     override fun getItemViewType(position: Int): Int {
         if (position == mBeans.size) return FOOT
-        return if (mBeans[position].first.type == TermSubject.TYPE.TAG) TITLE else NORMAL
+        return if (mBeans[position].type == TermSubject.TYPE.TAG) TITLE else NORMAL
     }
 
     override fun getItemCount(): Int {
@@ -41,8 +48,8 @@ class SubjectsListAdapter(context: Context, subjects: MutableList<Pair<TermSubje
     }
 
 
-
-    class SubjectViewHolder(binding: ViewBinding) : BaseViewHolder<ViewBinding>(viewBinding = binding), CheckableViewHolder {
+    class SubjectViewHolder(binding: ViewBinding) :
+        BaseViewHolder<ViewBinding>(viewBinding = binding), CheckableViewHolder {
 
         override fun showCheckBox() {
             if (binding is DynamicSubjectsItemBinding) {
@@ -95,20 +102,28 @@ class SubjectsListAdapter(context: Context, subjects: MutableList<Pair<TermSubje
     }
 
 
-    override fun bindHolder(holder: SubjectViewHolder, data: Pair<TermSubject, Float>?, position: Int) {
+    override fun bindHolder(
+        holder: SubjectViewHolder,
+        data: TermSubject?,
+        position: Int
+    ) {
         super.bindHolder(holder, data, position)
         if (holder.binding is DynamicSubjectListTitleBinding) {
             val titleBinding = holder.binding as DynamicSubjectListTitleBinding
-            titleBinding.name.text = mBeans[position].first.name
+            titleBinding.name.text = mBeans[position].name
         } else if (holder.binding is DynamicSubjectsItemBinding) {
             val binding = holder.binding as DynamicSubjectsItemBinding
-            var color = -1
-            //val colorfulMode = timetableSP.getBoolean("subjects_color_enable", false)
-//            if (colorfulMode) {
-//                color = ColorBox.getSubjectColor(timetableSP, data?.first?.name)
-//            }
-            binding.name.text = data?.first?.name
-            if (color != -1) binding.icon.setColorFilter(color) else binding.icon.clearColorFilter()
+            binding.name.text = data?.name
+            if (data?.color != null) {
+                binding.icon.setColorFilter(data.color)
+            } else {
+                binding.icon.clearColorFilter()
+            }
+            data?.id?.let {
+                viewModel.getSubjectProgress(it).observe(lifecycleOwner){
+                    binding.progress.progress = (it.first/(it.second.toFloat()) * 100).toInt()
+                }
+            }
 //            val finalColor = color
 //            binding.icon.setOnClickListener(View.OnClickListener {
 //                if (!colorfulMode) return@OnClickListener
@@ -120,11 +135,9 @@ class SubjectsListAdapter(context: Context, subjects: MutableList<Pair<TermSubje
 //                            }
 //                        })
 //            })
-            val t = if (TextUtils.isEmpty(data?.first?.school)) mContext.getString(R.string.unknown_department) else data?.first?.school
+            val t =
+                if (TextUtils.isEmpty(data?.school)) mContext.getString(R.string.unknown_department) else data?.school
             binding.label.text = t
-            if (data != null) {
-                binding.progress.progress = (data.second * 100).toInt()
-            }
             if (isEditMode) {
                 binding.icon.visibility = View.GONE
             } else {

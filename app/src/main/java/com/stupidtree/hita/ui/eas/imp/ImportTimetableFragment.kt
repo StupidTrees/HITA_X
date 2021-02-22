@@ -100,6 +100,7 @@ class ImportTimetableFragment :
                 binding?.buttonImport?.revertAnimation()
             }, 600)
         }
+        binding?.cardName?.isEnabled = false
         binding?.termPick?.setOnClickListener {
             val names = mutableListOf<String>()
             for (i in viewModel.startGetAllTerms()) {

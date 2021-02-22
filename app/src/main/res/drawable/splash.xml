@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 背景颜色 -->
+    <item android:drawable="?attr/backgroundColorBottom"/>
+    <item
+
+        android:drawable="@drawable/logo"
+        android:gravity="center">
+        <!--        &lt;!&ndash; 图片 &ndash;&gt;-->
+        <!--        <bitmap android:tileMode="disabled"-->
+        <!--            android:src="@drawable/splash_logo"-->
+        <!--            android:gravity="center"-->
+        <!--            />-->
+    </item>
+</layer-list>

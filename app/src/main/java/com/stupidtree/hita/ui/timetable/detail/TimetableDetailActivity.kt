@@ -9,6 +9,7 @@ import com.stupidtree.hita.R
 import com.stupidtree.hita.data.model.timetable.TermSubject
 import com.stupidtree.hita.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hita.databinding.ActivityTimetableDetailBinding
+import com.stupidtree.hita.ui.base.BaseActivity
 import com.stupidtree.hita.ui.base.BaseActivityWithReceiver
 import com.stupidtree.hita.ui.base.BaseListAdapter
 import com.stupidtree.hita.ui.eas.imp.TimetableStructureListAdapter
@@ -16,6 +17,7 @@ import com.stupidtree.hita.ui.timetable.subject.SubjectsListAdapter
 import com.stupidtree.hita.ui.timetable.subject.TeachersListAdapter
 import com.stupidtree.hita.ui.widgets.PopUpCalendarPicker
 import com.stupidtree.hita.ui.widgets.PopUpEditText
+import com.stupidtree.hita.ui.widgets.PopUpText
 import com.stupidtree.hita.ui.widgets.PopUpTimePeriodPicker
 import com.stupidtree.hita.utils.ActivityUtils
 import com.stupidtree.hita.utils.EditModeHelper
@@ -24,12 +26,12 @@ import java.util.*
 import kotlin.Comparator
 
 class TimetableDetailActivity :
-    BaseActivityWithReceiver<TimetableDetailViewModel, ActivityTimetableDetailBinding>() {
+    BaseActivity<TimetableDetailViewModel, ActivityTimetableDetailBinding>() {
 
     private var subjectsAdapter: SubjectsListAdapter? = null
     private var teachersListAdapter: TeachersListAdapter? = null
     private lateinit var scheduleStructureAdapter: TimetableStructureListAdapter
-    private var editModeHelper: EditModeHelper<Pair<TermSubject, Float>>? = null
+    private var editModeHelper: EditModeHelper<TermSubject>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,17 +39,11 @@ class TimetableDetailActivity :
         setToolbarActionBack(binding.toolbar)
     }
 
-    override fun getIntentFilter(): IntentFilter {
-        val re = IntentFilter()
-        re.addAction("TIMETABLE_CHANGED")
-        return re
-    }
-
 
     override fun initViews() {
         bindLiveData()
         binding.usercenterSubjectsList.setItemViewCacheSize(20)
-        subjectsAdapter = SubjectsListAdapter(this, mutableListOf())
+        subjectsAdapter = SubjectsListAdapter(this, mutableListOf(), viewModel, this)
         binding.usercenterSubjectsList.layoutManager = LinearLayoutManager(this)
         binding.usercenterSubjectsList.adapter = subjectsAdapter
         teachersListAdapter = TeachersListAdapter(this, mutableListOf())
@@ -55,23 +51,23 @@ class TimetableDetailActivity :
         binding.teachersList.layoutManager =
             LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         subjectsAdapter?.setOnItemClickListener(object :
-            BaseListAdapter.OnItemClickListener<Pair<TermSubject, Float>> {
+            BaseListAdapter.OnItemClickListener<TermSubject> {
 
-            override fun onItemClick(data: Pair<TermSubject, Float>?, card: View?, position: Int) {
+            override fun onItemClick(data: TermSubject?, card: View?, position: Int) {
                 if (data != null) {
-                    ActivityUtils.startSubjectActivity(getThis(), data.first.id)
+                    ActivityUtils.startSubjectActivity(getThis(), data.id)
                 }
             }
         })
         subjectsAdapter?.setOnItemLongClickListener(object :
-            BaseListAdapter.OnItemLongClickListener<Pair<TermSubject, Float>> {
+            BaseListAdapter.OnItemLongClickListener<TermSubject> {
 
             override fun onItemLongClick(
-                data: Pair<TermSubject, Float>?,
+                data: TermSubject?,
                 view: View?,
                 position: Int
             ): Boolean {
-                if (data?.first?.type == TermSubject.TYPE.TAG) return false
+                if (data?.type == TermSubject.TYPE.TAG) return false
                 editModeHelper?.activateEditMode(position)
                 return true
             }
@@ -80,14 +76,14 @@ class TimetableDetailActivity :
             editModeHelper = EditModeHelper(
                 this,
                 it,
-                object : EditModeHelper.EditableContainer<Pair<TermSubject, Float>> {
+                object : EditModeHelper.EditableContainer<TermSubject> {
 
                     override fun onEditClosed() {
-                        binding.titleSubject.visibility = View.VISIBLE
+                        binding.subjectLabel.visibility = View.VISIBLE
                     }
 
                     override fun onEditStarted() {
-                        binding.titleSubject.visibility = View.GONE
+                        binding.subjectLabel.visibility = View.GONE
                     }
 
                     override fun onItemCheckedChanged(
@@ -98,7 +94,7 @@ class TimetableDetailActivity :
 
                     }
 
-                    override fun onDelete(toDelete: Collection<Pair<TermSubject, Float>>?) {
+                    override fun onDelete(toDelete: Collection<TermSubject>?) {
                     }
 
                 })
@@ -157,6 +153,15 @@ class TimetableDetailActivity :
             }
 
         }
+        binding.reset.setOnClickListener {
+            PopUpText().setTitle(R.string.dialog_title_random_allocate)
+                .setOnConfirmListener(object : PopUpText.OnConfirmListener {
+                    override fun OnConfirm() {
+                        viewModel.startResetSubjectColors()
+                    }
+
+                }).show(supportFragmentManager, "sure")
+        }
     }
 
     private fun bindLiveData() {
@@ -174,11 +179,16 @@ class TimetableDetailActivity :
                 subjectsAdapter?.notifyDataSetChanged(it)
                 binding.usercenterSubjectsList.scheduleLayoutAnimation()
             } else {
-                subjectsAdapter?.notifyItemChangedSmooth(it, false, Comparator { o1, o2 ->
-                    return@Comparator if (o1.second != o2.second) 1 else o1.first.name.compareTo(
-                        o2.first.name
-                    )
-                })
+                subjectsAdapter?.notifyItemChangedSmooth(
+                    it,
+                    object : BaseListAdapter.RefreshJudge<TermSubject> {
+                        override fun judge(oldData: TermSubject, newData: TermSubject): Boolean {
+                            return oldData.name != newData.name || oldData.color != newData.color
+                        }
+                    },
+                    Comparator { o1, o2 ->
+                        return@Comparator o1.name.compareTo(o2.name)
+                    })
             }
         }
         viewModel.teacherInfoLiveData.observe(this) {
@@ -207,12 +217,5 @@ class TimetableDetailActivity :
 
     override fun getViewModelClass(): Class<TimetableDetailViewModel> {
         return TimetableDetailViewModel::class.java
-    }
-
-    override var receiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-
-        }
-
     }
 }

@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/navigation_import"
-        android:icon="@drawable/ic_done_white_48dp"
+        android:icon="@drawable/ic_timetable"
         android:title="@string/title_import_timetable" />
 
 

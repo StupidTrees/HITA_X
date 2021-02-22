@@ -42,7 +42,8 @@
                     android:layout_gravity="center|start"
                     android:text="TextView"
                     android:textColor="?attr/textColorPrimary"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:visibility="gone" />
 
                 <!--                <ImageView-->
                 <!--                    android:id="@+id/add"-->

@@ -48,11 +48,19 @@ class TimetableListAdapter(context: Context, mBeans: MutableList<Timetable>) :
             data?.startTime?.time?.let {
                 holder.binding.icon.setImageResource(
                         when (TimeUtils.getSeason(it)) {
-                            TimeUtils.SEASON.SPRING -> R.drawable.ic_spring
-                            TimeUtils.SEASON.SUMMER -> R.drawable.ic_summer
-                            TimeUtils.SEASON.AUTUMN -> R.drawable.ic_autumn
-                            else -> R.drawable.ic_winter
+                            TimeUtils.SEASON.SPRING -> R.drawable.season_spring
+                            TimeUtils.SEASON.SUMMER -> R.drawable.season_summer
+                            TimeUtils.SEASON.AUTUMN -> R.drawable.season_autumn
+                            else -> R.drawable.season_winter
                         }
+                )
+                holder.binding.icon.setBackgroundResource(
+                    when (TimeUtils.getSeason(it)) {
+                        TimeUtils.SEASON.SPRING -> R.drawable.element_round_spring
+                        TimeUtils.SEASON.SUMMER -> R.drawable.element_round_summer
+                        TimeUtils.SEASON.AUTUMN -> R.drawable.element_round_autumn
+                        else -> R.drawable.element_round_winter
+                    }
                 )
             }
         } else if (holder is AHolder) {

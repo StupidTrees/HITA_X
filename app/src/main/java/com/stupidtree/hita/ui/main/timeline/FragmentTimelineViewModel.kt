@@ -6,9 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hita.data.model.timetable.EventItem
+import com.stupidtree.hita.data.repository.SubjectRepository
 import com.stupidtree.hita.data.repository.TimetableRepository
 import com.stupidtree.hita.ui.base.Trigger
 import java.util.*
+import javax.security.auth.Subject
 
 class FragmentTimelineViewModel(application: Application) : AndroidViewModel(application){
 
@@ -16,6 +18,11 @@ class FragmentTimelineViewModel(application: Application) : AndroidViewModel(app
      * 仓库区
      */
     private val timetableRepository = TimetableRepository.getInstance(application)
+    private val subjectRepository = SubjectRepository.getInstance(application)
+
+    /**
+     * 数据区
+     */
     private val todayEventsController:MutableLiveData<Trigger> = MutableLiveData()
     val todayEventsLiveData:LiveData<List<EventItem>> = Transformations.switchMap(todayEventsController){
         val now = Calendar.getInstance()

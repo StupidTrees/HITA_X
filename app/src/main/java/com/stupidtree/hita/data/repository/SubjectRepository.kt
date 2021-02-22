@@ -3,12 +3,13 @@ package com.stupidtree.hita.data.repository
 import android.app.Application
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hita.data.AppDatabase
 import com.stupidtree.hita.data.model.timetable.TermSubject
-import com.stupidtree.hita.ui.base.DataState
 import com.stupidtree.hita.ui.timetable.subject.TeacherInfo
+import com.stupidtree.hita.utils.ColorBox
 import com.stupidtree.hita.utils.TimeUtils
 
 class SubjectRepository(application: Application) {
@@ -19,28 +20,16 @@ class SubjectRepository(application: Application) {
     /**
      * 获取所有科目及其进度
      */
-    fun getSubjectsAndProgress(timetableId: String): LiveData<MutableList<Pair<TermSubject, Float>>> {
-        val result = MutableLiveData<MutableList<Pair<TermSubject, Float>>>()
-        Thread @WorkerThread {
-            val subjects = subjectDao.getSubjects(timetableId)
-            val res: MutableList<Pair<TermSubject, Float>> = mutableListOf()
-            for (subject in subjects) {
-                var finished = 0
-                var unfinished = 0
-                val events = eventItemDao.getClassesOfSubjectSync(subject.id)
-                for (ei in events) {
-                    if (TimeUtils.passed(ei.to)) finished++ else unfinished++
-                }
-                val x: Float = finished.toFloat() / (finished + unfinished)
-                res.add(Pair(subject, x))
-            }
-            result.postValue(res)
-        }.start()
-        return result
+    fun getSubjects(timetableId: String): LiveData<List<TermSubject>> {
+        return subjectDao.getSubjects(timetableId)
     }
 
 
     fun getSubjectById(subjectId: String): LiveData<TermSubject> {
+        return subjectDao.getSubjectById(subjectId)
+    }
+
+    fun getSubjectColors(subjectId: String): LiveData<TermSubject> {
         return subjectDao.getSubjectById(subjectId)
     }
 
@@ -62,19 +51,28 @@ class SubjectRepository(application: Application) {
         }
     }
 
-    fun getTeachersOfSubject(timetableId: String,subjectId: String):LiveData<List<String>>{
-        return eventItemDao.getTeachersOfSubject(timetableId,subjectId)
+    fun getTeachersOfSubject(timetableId: String, subjectId: String): LiveData<List<String>> {
+        return eventItemDao.getTeachersOfSubject(timetableId, subjectId)
     }
 
     /**
      * 动作：保存科目信息
      */
-    fun actionSaveSubjectInfo(subject: TermSubject){
-        Thread{
+    fun actionSaveSubjectInfo(subject: TermSubject) {
+        Thread {
             subjectDao.saveSubjectSync(subject)
         }.start()
     }
 
+    fun actionResetSubjectColors(timetableId: String) {
+        Thread {
+            val subjects = subjectDao.getSubjectsSync(timetableId)
+            for (s in subjects) {
+                s.color = ColorBox.randomColorMaterial()
+            }
+            subjectDao.saveSubjectsSync(subjects)
+        }.start()
+    }
 
     /**
      * 计算某一科目的进度

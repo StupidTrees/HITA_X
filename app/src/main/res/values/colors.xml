@@ -9,8 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
 
-    <color name="cruel_summer_primary"> #5E9CFE</color>
-    <color name="cruel_summer_fade">
-        #8849FF</color>
+    <color name="cruel_summer_primary"> #304ffe</color>
+    <color name="cruel_summer_fade">#305FFF</color>
 
 </resources>

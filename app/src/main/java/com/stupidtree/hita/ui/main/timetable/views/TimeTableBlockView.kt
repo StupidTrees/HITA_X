@@ -16,7 +16,8 @@ import com.stupidtree.hita.data.model.timetable.TimeInDay
 import com.stupidtree.hita.utils.ColorBox
 
 class TimeTableBlockView
-constructor(context: Context, var block: Any, var root: TimeTablePreferenceRoot) : FrameLayout(context) {
+constructor(context: Context, var block: Any, var root: TimeTablePreferenceRoot) :
+    FrameLayout(context) {
     lateinit var card: View
     var title: TextView? = null
     var subtitle: TextView? = null
@@ -48,8 +49,7 @@ constructor(context: Context, var block: Any, var root: TimeTablePreferenceRoot)
         icon = findViewById(R.id.icon)
         var subjectColor = 0
         if (root.isColorEnabled) {
-            val query: String = if (ei.type === EventItem.TYPE.EXAM) ei.name.substring(0, ei.name.length - 2) else ei.name
-            val getC: Int = ColorBox.getSubjectColor(root.tTPreference, query)
+            val getC: Int = ei.color
             card.backgroundTintList = ColorStateList.valueOf(getC)
             subjectColor = getC
         } else {
@@ -92,7 +92,7 @@ constructor(context: Context, var block: Any, var root: TimeTablePreferenceRoot)
         } else {
             icon?.visibility = GONE
         }
-        
+
         card.setOnClickListener { v -> onCardClickListener?.onClick(v, ei) }
         card.setOnLongClickListener { v: View ->
             return@setOnLongClickListener onCardLongClickListener?.onLongClick(v, ei) == true
@@ -129,17 +129,25 @@ constructor(context: Context, var block: Any, var root: TimeTablePreferenceRoot)
         val sb = StringBuilder()
         for (ei in list) sb.append(ei.name).append(";\n")
         title?.text = sb.toString()
-        if (onDuplicateCardClickListener != null) card.setOnClickListener { v -> onDuplicateCardClickListener?.onDuplicateClick(v, list) }
+        if (onDuplicateCardClickListener != null) card.setOnClickListener { v ->
+            onDuplicateCardClickListener?.onDuplicateClick(
+                v,
+                list
+            )
+        }
         if (onDuplicateCardLongClickListener != null) card.setOnLongClickListener { v ->
             onDuplicateCardLongClickListener?.let { return@let it.onDuplicateLongClick(v, list) }
             return@setOnLongClickListener false
         }
         val mainItem = list[0]
-        var subjectColor = -1
+        val subjectColor = -1
         if (root.isColorEnabled) {
-            val query: String = if (mainItem.type === EventItem.TYPE.EXAM && mainItem.name.endsWith("考试")) mainItem.name.substring(0, mainItem.name.length - 2) else mainItem.name
-            subjectColor = ColorBox.getSubjectColor(root.tTPreference, query)
-            card.backgroundTintList = ColorStateList.valueOf(subjectColor)
+            val query: String =
+                if (mainItem.type === EventItem.TYPE.EXAM && mainItem.name.endsWith("考试")) mainItem.name.substring(
+                    0,
+                    mainItem.name.length - 2
+                ) else mainItem.name
+            card.backgroundTintList = ColorStateList.valueOf(mainItem.color)
             when (root.cardTitleColor) {
                 "subject" -> title?.setTextColor(subjectColor)
                 "white" -> title?.setTextColor(Color.WHITE)

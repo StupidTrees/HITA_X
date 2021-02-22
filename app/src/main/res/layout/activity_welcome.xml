@@ -45,7 +45,7 @@
                     android:layout_gravity="center"
                     app:layout_collapseMode="parallax"
                     app:layout_collapseParallaxMultiplier="0.8"
-                    app:srcCompat="@drawable/element_round_primary" />
+                    app:srcCompat="@drawable/logo" />
 
                 <TextView
                     android:layout_width="wrap_content"

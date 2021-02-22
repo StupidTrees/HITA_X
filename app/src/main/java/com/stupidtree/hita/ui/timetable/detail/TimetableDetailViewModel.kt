@@ -27,8 +27,8 @@ class TimetableDetailViewModel(application: Application) : AndroidViewModel(appl
      */
     private val timetableController: MutableLiveData<StringTrigger> = MutableLiveData()
 
-    val subjectsLiveData:LiveData<MutableList<Pair<TermSubject,Float>>> = Transformations.switchMap(timetableController){
-        return@switchMap subjectsRepository.getSubjectsAndProgress(it.data)
+    val subjectsLiveData:LiveData<List<TermSubject>> = Transformations.switchMap(timetableController){
+        return@switchMap subjectsRepository.getSubjects(it.data)
     }
     val teacherInfoLiveData:LiveData<MutableList<TeacherInfo>> = Transformations.switchMap(timetableController){
         return@switchMap subjectsRepository.getTeachersInfo(it.data)
@@ -54,5 +54,15 @@ class TimetableDetailViewModel(application: Application) : AndroidViewModel(appl
         timetableLiveData.value?.let {
             timetableRepository.actionChangeTimetableStructure(it,tp,position)
         }
+    }
+
+    fun startResetSubjectColors(){
+        timetableLiveData.value?.let {
+            subjectsRepository.actionResetSubjectColors(it.id)
+        }
+    }
+
+    fun getSubjectProgress(subjectId:String):LiveData<Pair<Int,Int>>{
+        return subjectsRepository.getProgressOfSubject(subjectId,System.currentTimeMillis())
     }
 }

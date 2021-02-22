@@ -16,7 +16,7 @@ class TimetablePageViewModel(application: Application) : AndroidViewModel(applic
     val startDateLiveData: MutableLiveData<Long> = MutableLiveData()
     val eventsOfThisWeek: LiveData<List<EventItem>> = Transformations.switchMap(startDateLiveData) {
         val to = it + 1000 * 60 * 60 * 24 * 7
-        return@switchMap timetableRepository.getEventsDuring(it, to)
+        return@switchMap timetableRepository.getEventsDuringWithColor(it, to)
     }
 
     fun setStartDate(date: Long,force:Boolean = false) {
