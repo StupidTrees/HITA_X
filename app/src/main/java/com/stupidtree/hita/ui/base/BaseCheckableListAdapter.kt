@@ -66,13 +66,20 @@ abstract class BaseCheckableListAdapter<T, C : RecyclerView.ViewHolder> internal
     override fun bindHolder(holder: C, data: T?, position: Int) {
         if (holder !is CheckableViewHolder) return
         if (mOnItemLongClickListener != null) holder.setInternalOnLongClickListener { v ->
-            if (isEditMode) false else
-                mOnItemLongClickListener?.onItemLongClick(mBeans[position], v, position) == true
+            when {
+                isEditMode -> false
+                position < mBeans.size -> mOnItemLongClickListener?.onItemLongClick(mBeans[position], v, position) == true
+                else -> mOnItemLongClickListener?.onItemLongClick(null, v, position) == true
+            }
         }
         if (mOnItemClickListener != null) holder.setInternalOnClickListener { view ->
-            if (isEditMode) {
-                holder.toggleCheck()
-            } else mOnItemClickListener?.onItemClick(mBeans[position], view, position)
+            when {
+                isEditMode -> {
+                    holder.toggleCheck()
+                }
+                position < mBeans.size -> mOnItemClickListener?.onItemClick(mBeans[position], view, position)
+                else -> mOnItemClickListener?.onItemClick(null, view, position)
+            }
         }
         if (isEditMode) {
             holder.showCheckBox()

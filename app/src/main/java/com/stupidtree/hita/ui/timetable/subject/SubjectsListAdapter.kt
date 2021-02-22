@@ -19,7 +19,7 @@ import com.stupidtree.hita.ui.timetable.subject.SubjectsListAdapter.SubjectViewH
 import com.stupidtree.hita.utils.ColorBox
 
 @SuppressLint("ParcelCreator")
-class SubjectsListAdapter(context: Context, subjects: MutableList<Pair<TermSubject, Float>>, private val timetableSP: SharedPreferences) :
+class SubjectsListAdapter(context: Context, subjects: MutableList<Pair<TermSubject, Float>>) :
         BaseCheckableListAdapter<Pair<TermSubject, Float>, SubjectViewHolder>(context, subjects) {
 
 
@@ -103,10 +103,10 @@ class SubjectsListAdapter(context: Context, subjects: MutableList<Pair<TermSubje
         } else if (holder.binding is DynamicSubjectsItemBinding) {
             val binding = holder.binding as DynamicSubjectsItemBinding
             var color = -1
-            val colorfulMode = timetableSP.getBoolean("subjects_color_enable", false)
-            if (colorfulMode) {
-                color = ColorBox.getSubjectColor(timetableSP, data?.first?.name)
-            }
+            //val colorfulMode = timetableSP.getBoolean("subjects_color_enable", false)
+//            if (colorfulMode) {
+//                color = ColorBox.getSubjectColor(timetableSP, data?.first?.name)
+//            }
             binding.name.text = data?.first?.name
             if (color != -1) binding.icon.setColorFilter(color) else binding.icon.clearColorFilter()
 //            val finalColor = color

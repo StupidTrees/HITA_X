@@ -398,11 +398,11 @@ abstract class BaseListAdapter<T, H : RecyclerView.ViewHolder>(
     }
 
     interface OnItemClickListener<T> {
-        fun onItemClick(data: T, card: View?, position: Int)
+        fun onItemClick(data: T?, card: View?, position: Int)
     }
 
     interface OnItemLongClickListener<T> {
-        fun onItemLongClick(data: T, view: View?, position: Int): Boolean
+        fun onItemLongClick(data: T?, view: View?, position: Int): Boolean
     }
 
     interface RefreshJudge<T> {

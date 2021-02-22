@@ -1,6 +1,5 @@
 package com.stupidtree.hita.data.model.timetable
 
-import android.util.Log
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.stupidtree.hita.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
@@ -22,7 +21,7 @@ class Timetable {
             : Timestamp = Timestamp(0)
     var createdAt //创建时间
             : Timestamp = Timestamp(System.currentTimeMillis())
-    var scheduleStructure: List<TimePeriodInDay> = mutableListOf()//时间表结构
+    var scheduleStructure: List<TimePeriodInDay> = listOf()//时间表结构
 
 
     /**
@@ -40,4 +39,34 @@ class Timetable {
             }
         }
     }
+
+
+    fun setScheduleStructure(tp: TimePeriodInDay, position: Int) {
+        if (position < scheduleStructure.size) {
+            scheduleStructure[position].from = tp.from
+            scheduleStructure[position].to = tp.to
+        }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Timetable
+
+        if (id != other.id) return false
+        if (name != other.name) return false
+        if (code != other.code) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + (name?.hashCode() ?: 0)
+        result = 31 * result + (code?.hashCode() ?: 0)
+        return result
+    }
+
+
 }

@@ -5,15 +5,15 @@
     <item
         android:id="@+id/drawer_nav_my_profile"
         android:icon="@drawable/ic_menu_profile"
-        android:title="我的资料" />
+        android:title="教务" />
     <item
         android:id="@+id/drawer_nav_scan_qr"
         android:icon="@drawable/ic_menu_camera"
-        android:title="二维码" />
-    <item
-        android:id="@+id/drawer_nav_discover_friend"
-        android:icon="@drawable/ic_menu_discover"
-        android:title="发现朋友" />
+        android:title="课表管理" />
+<!--    <item-->
+<!--        android:id="@+id/drawer_nav_discover_friend"-->
+<!--        android:icon="@drawable/ic_menu_discover"-->
+<!--        android:title="发现朋友" />-->
 <!--    <item-->
 <!--        android:icon="@drawable/ic_menu_settings"-->
 <!--        android:title="@string/menu_setting" />-->

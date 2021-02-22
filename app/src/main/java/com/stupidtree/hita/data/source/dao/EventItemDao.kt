@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.ui.timetable.subject.TeacherInfo
+import java.sql.Timestamp
 
 @Dao
 interface EventItemDao {
@@ -33,12 +34,28 @@ interface EventItemDao {
     fun getTeachersOfTimetable(timetableId: String): LiveData<MutableList<TeacherInfo>>
 
     @Query("SELECT DISTINCT teacher FROM events WHERE subjectId is :subjectId AND timetableId is :timetableId AND  teacher is NOT NULL")
-    fun getTeachersOfSubject(timetableId: String,subjectId: String): LiveData<List<String>>
+    fun getTeachersOfSubject(timetableId: String, subjectId: String): LiveData<List<String>>
 
 
     @Query("SELECT count(*) from events where subjectId is :subjectId")
-    fun countClassesOfSubjectSync(subjectId: String):Int
+    fun countClassesOfSubjectSync(subjectId: String): Int
 
     @Query("SELECT count(*) from events where subjectId is :subjectId and `to` < :ts")
-    fun countClassesBeforeTimeOfSubjectSync(subjectId: String,ts:Long):Int
+    fun countClassesBeforeTimeOfSubjectSync(subjectId: String, ts: Long): Int
+
+    @Query("DELETE from events where timetableId in (:ids)")
+    fun deleteEventsFromTimetablesSync(ids: List<String>)
+
+    @Query("SELECT * from events where type is 'CLASS' and timetableId is :timetableId and fromNumber is :fromNumber")
+    fun getClassAtFromNumberSync(
+        timetableId: String,
+        fromNumber: Int
+    ): List<EventItem>
+
+    @Query("SELECT * from events where type is 'CLASS' and timetableId is :timetableId and fromNumber+lastNumber-1 is :toNumber")
+    fun getClassAtToNumberSync(
+        timetableId: String,
+        toNumber: Int
+    ): List<EventItem>
+
 }

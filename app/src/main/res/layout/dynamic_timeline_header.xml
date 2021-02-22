@@ -22,7 +22,7 @@
         android:id="@+id/bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="?attr/colorPrimary" />
+        app:srcCompat="@drawable/element_gradient" />
 
     <LinearLayout
         android:layout_width="match_parent"

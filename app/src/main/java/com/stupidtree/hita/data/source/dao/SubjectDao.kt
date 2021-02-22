@@ -22,6 +22,9 @@ interface SubjectDao{
     fun getSubjects(timetableId:String):List<TermSubject>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveSubject(data: TermSubject)
+    fun saveSubjectSync(data: TermSubject)
+
+    @Query("DELETE from subject where timetableId in (:ids)")
+    fun deleteSubjectsFromTimetablesSync(ids:List<String>)
 
 }

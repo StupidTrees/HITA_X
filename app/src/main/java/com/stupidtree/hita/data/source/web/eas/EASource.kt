@@ -19,6 +19,7 @@ import com.stupidtree.hita.utils.TextTools
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import java.io.IOException
+import java.lang.IllegalStateException
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.security.auth.Subject
@@ -123,7 +124,7 @@ class EASource internal constructor() : EASService {
         Thread {
             val terms = arrayListOf<TermItem>()
             try {
-                val s = Jsoup.connect("http://jw.hitsz.edu.cn/component/queryXnxq")
+                val s = Jsoup.connect("$hostName/component/queryXnxq")
                     .cookies(token.cookies)
                     .headers(defaultRequestHeader)
                     .header("X-Requested-With", "XMLHttpRequest")
@@ -131,32 +132,41 @@ class EASource internal constructor() : EASService {
                     .ignoreHttpErrors(true)
                     .post()
                 val json = s.getElementsByTag("body").first().text()
-                val jsonList = JsonParser().parse(json).asJsonObject["content"].asJsonArray
-                for (je in jsonList) {
-                    val m: MutableMap<String, String> = HashMap()
-                    for ((key, value) in je.asJsonObject.entrySet()) {
-                        m[key.replace("\"".toRegex(), "")] =
-                            value.toString().replace("\"".toRegex(), "")
-                    }
-                    val term = m["xn"]?.let {
-                        m["xnmc"]?.let { it1 ->
-                            m["xq"]?.let { it2 ->
-                                m["xqmc"]?.let { it3 ->
-                                    TermItem(
-                                        it,
-                                        it1, it2, it3
-                                    )
+                val jsonList = try {
+                    JsonParser().parse(json).asJsonObject["content"].asJsonArray
+                } catch (e: Exception) {
+                    null
+                }
+                if (jsonList != null) {
+                    for (je in jsonList) {
+                        val m: MutableMap<String, String> = HashMap()
+                        for ((key, value) in je.asJsonObject.entrySet()) {
+                            m[key.replace("\"".toRegex(), "")] =
+                                    value.toString().replace("\"".toRegex(), "")
+                        }
+                        val term = m["xn"]?.let {
+                            m["xnmc"]?.let { it1 ->
+                                m["xq"]?.let { it2 ->
+                                    m["xqmc"]?.let { it3 ->
+                                        TermItem(
+                                                it,
+                                                it1, it2, it3
+                                        )
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    term?.let {
-                        it.isCurrent = m["sfdqxq"] == "1"
-                        terms.add(it)
+                        term?.let {
+                            it.isCurrent = m["sfdqxq"] == "1"
+                            terms.add(it)
+                        }
                     }
+                    res.postValue(DataState(terms, DataState.STATE.SUCCESS))
+                }else{
+                    res.postValue(DataState(DataState.STATE.NOT_LOGGED_IN))
                 }
-                res.postValue(DataState(terms, DataState.STATE.SUCCESS))
+
             } catch (e: IOException) {
                 res.postValue(DataState(DataState.STATE.FETCH_FAILED))
             }

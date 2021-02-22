@@ -66,9 +66,11 @@ class PopUpCheckableList<T> : TransparentBottomSheetDialog<DialogBottomCheckable
     override fun initViews(v: View) {
         listAdapter = LAdapter(requireContext(), listRes!!)
         listAdapter.setOnItemClickListener(object : BaseListAdapter.OnItemClickListener<ItemData<T>> {
-            override fun onItemClick(data: ItemData<T>, card: View?, position: Int) {
+            override fun onItemClick(data: ItemData<T>?, card: View?, position: Int) {
                 if (onConfirmListener != null) {
-                    onConfirmListener!!.OnConfirm(data.name, data.data)
+                    if (data != null) {
+                        onConfirmListener!!.OnConfirm(data.name, data.data)
+                    }
                     dismiss()
                 }
             }

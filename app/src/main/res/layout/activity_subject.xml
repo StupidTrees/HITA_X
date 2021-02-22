@@ -243,7 +243,8 @@
                 android:fontFamily="sans-serif-black"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:text="@string/delete_subject"
-                android:textColor="?attr/colorAccent" />
+                android:textColor="?attr/colorAccent"
+                android:visibility="gone" />
 
 
         </LinearLayout>

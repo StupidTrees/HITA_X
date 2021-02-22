@@ -11,7 +11,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackgroundBorderless"
-    app:cardBackgroundColor="?attr/backgroundIconColorBottom"
+    app:cardBackgroundColor="?attr/backgroundColorSecond"
     app:cardCornerRadius="18dp"
     app:cardElevation="0dp">
 

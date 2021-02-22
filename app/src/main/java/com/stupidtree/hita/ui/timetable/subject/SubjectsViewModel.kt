@@ -6,32 +6,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hita.data.model.timetable.TermSubject
+import com.stupidtree.hita.data.model.timetable.Timetable
 import com.stupidtree.hita.data.repository.SubjectRepository
+import com.stupidtree.hita.ui.base.DataState
 import com.stupidtree.hita.ui.base.StringTrigger
+import com.stupidtree.hita.ui.base.Trigger
+import com.stupidtree.hita.utils.LiveDataUtils
 
 class SubjectsViewModel(application: Application) : AndroidViewModel(application) {
 
-    /**
-     * 仓库区
-     */
-    private val subjectsRepository = SubjectRepository.getInstance(application)
 
 
-    private val timetableIdLiveData = MutableLiveData<StringTrigger>()
-
-    val subjectsLiveData:LiveData<MutableList<Pair<TermSubject,Float>>> = Transformations.switchMap(timetableIdLiveData){
-        return@switchMap subjectsRepository.getSubjectsAndProgress(it.data)
-    }
-
-    private val subjectRepository = SubjectRepository.getInstance(application)
-
-    val teacherInfoLiveData:LiveData<MutableList<TeacherInfo>> = Transformations.switchMap(timetableIdLiveData){
-        return@switchMap subjectRepository.getTeachersInfo(it.data)
-    }
-
-
-    fun startRefresh(timetableId:String){
-        timetableIdLiveData.value = StringTrigger.getActioning(timetableId)
-    }
 
 }

@@ -31,8 +31,8 @@ class FragmentTimeLine : BaseFragment<FragmentTimelineViewModel, FragmentTimelin
         binding?.list?.adapter = listAdapter
         binding?.list?.layoutManager = LinearLayoutManager(requireContext())
         listAdapter!!.setOnItemClickListener(object : BaseListAdapter.OnItemClickListener<EventItem> {
-            override fun onItemClick(data: EventItem, card: View?, position: Int) {
-                EventsUtils.showEventItem(requireContext(), data)
+            override fun onItemClick(data: EventItem?, card: View?, position: Int) {
+                data?.let { EventsUtils.showEventItem(requireContext(), it) }
             }
         })
         listAdapter!!.setOnHintConfirmedListener(object : TimelineListAdapter.OnHintConfirmedListener {

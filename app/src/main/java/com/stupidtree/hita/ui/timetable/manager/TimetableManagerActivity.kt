@@ -1,68 +1,66 @@
 package com.stupidtree.hita.ui.timetable.manager
 
-import android.annotation.SuppressLint
-import android.content.*
 import android.os.Bundle
-import android.view.HapticFeedbackConstants
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.stupidtree.hita.R
 import com.stupidtree.hita.data.model.timetable.Timetable
 import com.stupidtree.hita.databinding.ActivityTimetableManagerBinding
-import com.stupidtree.hita.databinding.DynamicCurriculumItemBinding
 import com.stupidtree.hita.ui.base.BaseActivity
-import com.stupidtree.hita.ui.base.BaseActivityWithReceiver
 import com.stupidtree.hita.ui.base.BaseListAdapter
-import com.stupidtree.hita.ui.base.BaseViewHolder
-import com.stupidtree.hita.ui.widgets.PopUpText
 import com.stupidtree.hita.utils.ActivityUtils
-import com.stupidtree.hita.utils.TimeUtils
+import com.stupidtree.hita.utils.EditModeHelper
+import java.sql.Time
 
 class TimetableManagerActivity :
-    BaseActivity<TimetableManagerViewModel, ActivityTimetableManagerBinding>() {
+        BaseActivity<TimetableManagerViewModel, ActivityTimetableManagerBinding>(), EditModeHelper.EditableContainer<Timetable> {
 
-    private var listAdapter: CListAdapter? = null
-    private var timetableSP: SharedPreferences? = null
+    private lateinit var listAdapter: TimetableListAdapter
+    private var editModeHelper: EditModeHelper<Timetable>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setWindowParams(statusBar = true, darkColor = true, navi = false)
         setToolbarActionBack(binding.mainToolBar)
-        timetableSP = getSharedPreferences("timetable_pref", Context.MODE_PRIVATE)
     }
 
     override fun initViews() {
-        //binding.mainToolBar.inflateMenu(R.menu.toolbar_curriculum_manager)
-        binding.mainToolBar.setOnMenuItemClickListener { menuItem ->
-            if (menuItem.itemId == R.id.add) {
-                //FragmentImportCurriculum().show(getSupportFragmentManager(), "import")
-            }
-            true
-        }
-        listAdapter = CListAdapter(this, mutableListOf())
+        listAdapter = TimetableListAdapter(this, mutableListOf())
+        editModeHelper = EditModeHelper(this, listAdapter, this)
+        editModeHelper?.init(this, R.id.edit_layout, R.layout.edit_mode_bar_3)
+        editModeHelper?.smoothSwitch = true
         binding.list.adapter = listAdapter
         binding.list.layoutManager = GridLayoutManager(this, 2)
-        listAdapter?.setOnItemClickListener(object :
-            BaseListAdapter.OnItemClickListener<Timetable> {
-            override fun onItemClick(data: Timetable, card: View?, position: Int) {
-                ActivityUtils.startTimetableDetailActivity(getThis(), data.id)
+        listAdapter.setOnItemClickListener(object :
+                BaseListAdapter.OnItemClickListener<Timetable> {
+            override fun onItemClick(data: Timetable?, card: View?, position: Int) {
+                if (data == null) {
+                    viewModel.startNewTimetable()
+                } else {
+                    ActivityUtils.startTimetableDetailActivity(getThis(), data.id)
+                }
             }
 
+        })
+        listAdapter.setOnItemLongClickListener(object : BaseListAdapter.OnItemLongClickListener<Timetable> {
+            override fun onItemLongClick(data: Timetable?, view: View?, position: Int): Boolean {
+                editModeHelper?.activateEditMode(position)
+                return true
+            }
         })
         bindLiveData()
     }
 
     private fun bindLiveData() {
         viewModel.timetablesLiveData.observe(this) {
-            listAdapter?.notifyItemChangedSmooth(it)
-            binding.noneLayout.visibility = if(it.isNullOrEmpty()){
-                View.VISIBLE
-            }else{
-                View.GONE
-            }
+            listAdapter.notifyItemChangedSmooth(it, object : BaseListAdapter.RefreshJudge<Timetable> {
+                override fun judge(oldData: Timetable, newData: Timetable): Boolean {
+                    return oldData.name != newData.name
+                            || oldData.startTime != newData.startTime
+                            || oldData.id != newData.id
+                }
+
+            })
         }
     }
 
@@ -83,54 +81,6 @@ class TimetableManagerActivity :
 //    }
 
 
-    @SuppressLint("ParcelCreator")
-    inner class CListAdapter(context: Context, mBeans: MutableList<Timetable>) :
-        BaseListAdapter<Timetable, CListAdapter.CHolder>(context, mBeans) {
-
-
-        inner class CHolder(itemView: DynamicCurriculumItemBinding) :
-            BaseViewHolder<DynamicCurriculumItemBinding>(itemView)
-
-        override fun getViewBinding(parent: ViewGroup, viewType: Int): ViewBinding {
-            return DynamicCurriculumItemBinding.inflate(mInflater, parent, false)
-        }
-
-        override fun createViewHolder(viewBinding: ViewBinding, viewType: Int): CHolder {
-            return CHolder(viewBinding as DynamicCurriculumItemBinding)
-        }
-
-        @SuppressLint("SetTextI18n")
-        override fun bindHolder(holder: CHolder, data: Timetable?, position: Int) {
-            holder.binding.title.text = data?.name
-            holder.binding.card.setOnClickListener {
-                data?.let { it1 -> mOnItemClickListener?.onItemClick(it1, it, position) }
-            }
-            holder.binding.subtitle.text = TimeUtils.printDate(data?.startTime?.time)
-            holder.binding.delete.setOnClickListener { v ->
-                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-                PopUpText().setTitle(R.string.attention)
-                    .setText(getString(R.string.dialog_message_delete_curriculum))
-                    .setOnConfirmListener(object : PopUpText.OnConfirmListener {
-                        override fun OnConfirm() {
-
-                        }
-
-                    }).show(supportFragmentManager, "hint")
-            }
-            data?.startTime?.time?.let {
-                holder.binding.icon.setImageResource(
-                    when(TimeUtils.getSeason(it)){
-                        TimeUtils.SEASON.SPRING->R.drawable.ic_spring
-                        TimeUtils.SEASON.SUMMER->R.drawable.ic_summer
-                        TimeUtils.SEASON.AUTUMN->R.drawable.ic_autumn
-                        else->R.drawable.ic_winter
-                    }
-                )
-            }
-
-        }
-    }
-
     companion object {
         private const val CHOOSE_FILE_CODE = 0
     }
@@ -141,6 +91,29 @@ class TimetableManagerActivity :
 
     override fun getViewModelClass(): Class<TimetableManagerViewModel> {
         return TimetableManagerViewModel::class.java
+    }
+
+    override fun onEditClosed() {
+
+    }
+
+    override fun onEditStarted() {
+
+    }
+
+    override fun onItemCheckedChanged(position: Int, checked: Boolean, currentSelected: Int) {
+
+    }
+
+    override fun onDelete(toDelete: Collection<Timetable>?) {
+        val list = mutableListOf<Timetable>()
+        if (toDelete != null) {
+            for (t in toDelete) {
+                list.add(t)
+            }
+        }
+        viewModel.startDeleteTimetables(list)
+        editModeHelper?.closeEditMode()
     }
 
 }

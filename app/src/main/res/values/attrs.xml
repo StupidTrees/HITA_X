@@ -8,4 +8,5 @@
     <attr name="backgroundColorSecondAsTint" format="color" />
     <attr name="colorControlDisabled" format="color" />
     <attr name="backgroundIconColorBottom" format="color"/>
+    <attr name="colorFade" format="color" />
 </resources>

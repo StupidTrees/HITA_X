@@ -143,7 +143,7 @@ class EASRepository internal constructor(application: Application) {
                                 subject.name = item.name.toString()
                                 subject.timetableId = timetable.id
                                 subject.id = UUID.randomUUID().toString()
-                                subjectDao.saveSubject(subject)
+                                subjectDao.saveSubjectSync(subject)
                             }
 
                             for (week in item.weeks) {

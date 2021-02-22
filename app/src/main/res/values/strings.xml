@@ -1134,4 +1134,5 @@
     <string name="eas_verify_title">统一身份认证</string>
     <string name="timetable_structure_label">课表结构</string>
     <string name="timetable_name">课表名称</string>
+    <string name="default_timetable_name">新建课表</string>
 </resources>

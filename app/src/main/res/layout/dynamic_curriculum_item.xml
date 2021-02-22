@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="190dp"
     android:layout_margin="8dp"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackgroundBorderless"
@@ -81,22 +81,13 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/delete"
+            <CheckBox
+                android:id="@+id/check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:alpha="0.4"
-                android:backgroundTintMode="src_over"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:padding="16dp"
-                android:tintMode="src_in"
-                android:visibility="gone"
-                app:srcCompat="@drawable/ic_baseline_delete_24"
-                app:theme="@style/button_ripple_white"
-                app:tint="?attr/colorControlNormal" />
+                android:layout_gravity="bottom"
+                android:visibility="gone" />
+
         </LinearLayout>
 
     </LinearLayout>

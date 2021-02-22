@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hita.data.AppDatabase
 import com.stupidtree.hita.data.model.timetable.TermSubject
+import com.stupidtree.hita.ui.base.DataState
 import com.stupidtree.hita.ui.timetable.subject.TeacherInfo
 import com.stupidtree.hita.utils.TimeUtils
 
@@ -64,6 +65,16 @@ class SubjectRepository(application: Application) {
     fun getTeachersOfSubject(timetableId: String,subjectId: String):LiveData<List<String>>{
         return eventItemDao.getTeachersOfSubject(timetableId,subjectId)
     }
+
+    /**
+     * 动作：保存科目信息
+     */
+    fun actionSaveSubjectInfo(subject: TermSubject){
+        Thread{
+            subjectDao.saveSubjectSync(subject)
+        }.start()
+    }
+
 
     /**
      * 计算某一科目的进度

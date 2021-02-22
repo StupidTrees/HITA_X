@@ -1,26 +1,25 @@
 package com.stupidtree.hita.utils
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 import com.stupidtree.hita.R
 import com.stupidtree.hita.ui.base.BaseCheckableListAdapter
+import com.stupidtree.hita.ui.widgets.PopUpText
 import java.util.*
 
 class EditModeHelper<T>(val mContext: Context, private val listAdapter: BaseCheckableListAdapter<T, *>,
-val editableContainer: EditableContainer<T>)
-{
+                        val editableContainer: EditableContainer<T>) {
     var isEditMode = false
-    private set
-            private
+        private set
+
+    private
     var editLayout: ViewGroup? = null
     private var cancel: ImageView? = null
     private var selectAll: ImageView? = null
@@ -63,7 +62,7 @@ val editableContainer: EditableContainer<T>)
 
     fun init(a: View, containerId: Int) {
         val inflater: LayoutInflater = LayoutInflater.from(mContext)
-        val viewGroup: ViewGroup = a.findViewById<ViewGroup>(containerId)
+        val viewGroup: ViewGroup = a.findViewById(containerId)
         for (i in 0 until viewGroup.childCount) {
             containerPoorChildren.add(viewGroup.getChildAt(i))
         }
@@ -74,24 +73,21 @@ val editableContainer: EditableContainer<T>)
 
     fun init(a: Activity, containerId: Int, editBarLayout: Int) {
         val inflater: LayoutInflater = LayoutInflater.from(mContext)
-        val viewGroup: ViewGroup = a.findViewById<ViewGroup>(containerId)
+        val viewGroup: ViewGroup = a.findViewById(containerId)
         for (i in 0 until viewGroup.childCount) {
             containerPoorChildren.add(viewGroup.getChildAt(i))
         }
         val barView: View = inflater.inflate(editBarLayout, viewGroup)
-        // viewGroup.addView(barView);
         init(barView)
     }
 
     fun init(a: View, containerId: Int, editBarLayout: Int) {
         val inflater: LayoutInflater = LayoutInflater.from(mContext)
         val viewGroup: ViewGroup = a.findViewById<ViewGroup>(containerId)
-        for (i in 0 until viewGroup.getChildCount()) {
+        for (i in 0 until viewGroup.childCount) {
             containerPoorChildren.add(viewGroup.getChildAt(i))
         }
         val barView: View = inflater.inflate(editBarLayout, viewGroup)
-
-        // viewGroup.addView(barView);
         init(barView)
     }
 
@@ -109,13 +105,9 @@ val editableContainer: EditableContainer<T>)
             }
         })
         cancel?.setOnClickListener { closeEditMode() }
-        delete?.setOnClickListener { v ->
-            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-            val ad: AlertDialog = AlertDialog.Builder(mContext).setTitle(R.string.dialog_title_sure_delete)
-                    .setPositiveButton(R.string.button_confirm) { _, _ -> editableContainer.onDelete(listAdapter.checkedItem) }.setNegativeButton(R.string.button_cancel, object : DialogInterface.OnClickListener {
-                        override fun onClick(dialog: DialogInterface, which: Int) {}
-                    }).create()
-            ad.show()
+        delete?.setOnClickListener { view ->
+            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+            showDeleteConfirmDialog()
         }
         selectAll?.setOnClickListener {
             if (!listAdapter.selectAll()) {
@@ -138,13 +130,11 @@ val editableContainer: EditableContainer<T>)
                 if (selectedNum == 0) closeEditMode()
             }
         })
-        cancel!!.setOnClickListener { closeEditMode() }
-        delete!!.setOnClickListener {
-            val ad: AlertDialog = AlertDialog.Builder(mContext).setTitle(R.string.dialog_title_sure_delete)
-                    .setPositiveButton(R.string.button_confirm) { _, _ -> editableContainer.onDelete(listAdapter.checkedItem) }.setNegativeButton(R.string.button_cancel) { _, which -> }.create()
-            ad.show()
+        cancel?.setOnClickListener { closeEditMode() }
+        delete?.setOnClickListener {
+            showDeleteConfirmDialog()
         }
-        selectAll!!.setOnClickListener {
+        selectAll?.setOnClickListener {
             if (smoothSwitch) {
                 if (!listAdapter.selectAllSmooth()) {
                     closeEditMode()
@@ -156,6 +146,19 @@ val editableContainer: EditableContainer<T>)
             }
         }
         closeEditMode()
+    }
+
+    private fun showDeleteConfirmDialog() {
+        if(mContext is AppCompatActivity){
+            PopUpText().setTitle(R.string.dialog_title_sure_delete)
+                    .setOnConfirmListener(object : PopUpText.OnConfirmListener {
+                        override fun OnConfirm() {
+                            editableContainer.onDelete(listAdapter.checkedItem)
+                        }
+
+                    }).show(mContext.supportFragmentManager,"sure")
+        }
+
     }
 
     interface EditableContainer<T> {
