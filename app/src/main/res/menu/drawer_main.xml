@@ -2,14 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
+
     <item
         android:id="@+id/drawer_nav_my_profile"
         android:icon="@drawable/ic_menu_profile"
-        android:title="教务" />
+        android:title="@string/my_profile_title" />
     <item
-        android:id="@+id/drawer_nav_scan_qr"
-        android:icon="@drawable/ic_menu_camera"
-        android:title="课表管理" />
+        android:id="@+id/drawer_nav_search"
+        android:icon="@drawable/ic_menu_search"
+        android:title="@string/search" />
+    <item
+        android:id="@+id/drawer_nav_timetable_manager"
+        android:icon="@drawable/ic_menu_settings"
+        android:title="@string/menu_timeable_curriculum" />
+    <item
+        android:id="@+id/drawer_nav_eas"
+        android:icon="@drawable/ic_menu_more"
+        android:title="@string/main_drawer_menu_jwts" />
 <!--    <item-->
 <!--        android:id="@+id/drawer_nav_discover_friend"-->
 <!--        android:icon="@drawable/ic_menu_discover"-->

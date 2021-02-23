@@ -26,7 +26,7 @@ abstract class BaseSearchResultViewModel<T>(application: Application) :
 
     fun changeSearchText(text: String): Boolean {
         val old = searchTriggerLiveData.value
-        if (text != old?.text) {
+        if (text != old?.text && text.isNotBlank()) {
             searchTriggerLiveData.value =
                 SearchTrigger.getActioning(text, old?.pageSize?:0, 0, false)
             return true

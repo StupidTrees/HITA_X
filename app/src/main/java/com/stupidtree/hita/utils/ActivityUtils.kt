@@ -39,6 +39,12 @@ object ActivityUtils {
 
     }
 
+    fun startSearchActivity(from: Context) {
+        val i = Intent(from, SearchActivity::class.java)
+        from.startActivity(i)
+
+    }
+
     fun startMyProfileActivity(from: Context) {
         val i = Intent(from, MyProfileActivity::class.java)
         from.startActivity(i)

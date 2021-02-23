@@ -4,8 +4,8 @@
     >
 
     <gradient
-        android:startColor="?attr/colorPrimary"
-        android:endColor="?attr/colorPrimary"
+        android:endColor="@color/white"
+        android:startColor="#cfffffff"
         android:angle="45" />
 <!--    <solid android:color="?attr/backgroundColorSecond"-->
 

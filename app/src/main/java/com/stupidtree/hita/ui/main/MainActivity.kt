@@ -31,7 +31,7 @@ import com.stupidtree.hita.utils.ImageUtils
  * 很显然，这是主界面
  */
 class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
-    TimetableFragment.MainPageController,FragmentTimeLine.MainPageController {
+    TimetableFragment.MainPageController, FragmentTimeLine.MainPageController {
 
     /**
      * 抽屉里的View
@@ -81,8 +81,15 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         })
 
         binding.drawerNavigationview.setNavigationItemSelectedListener { item: MenuItem ->
+            var jumped = true
             when (item.itemId) {
+                R.id.drawer_nav_search -> {
+                    ActivityUtils.startSearchActivity(getThis())
+                }
                 R.id.drawer_nav_my_profile -> {
+                    ActivityUtils.startMyProfileActivity(getThis())
+                }
+                R.id.drawer_nav_eas -> {
                     ActivityUtils.showEasVerifyWindow(
                         getThis(),
                         directTo = EASActivity::class.java,
@@ -97,14 +104,16 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                             }
 
                         })
-                    true
                 }
-                R.id.drawer_nav_scan_qr -> {
+                R.id.drawer_nav_timetable_manager -> {
                     ActivityUtils.startTimetableManager(getThis())
-                    true
                 }
-                else -> false
+                else -> jumped = false
             }
+//            if (jumped) {
+//                binding.drawer.closeDrawer(GravityCompat.START)
+//            }
+            jumped
         }
     }
 
