@@ -11,7 +11,7 @@
         <item name="colorSecondaryVariant">@color/cruel_summer_primary</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">#00000000</item>
         <!-- Customize your theme here. -->
         <item name="backgroundColorBottom">#FFFFFFFF</item>
         <item name="backgroundColorBottomAsTint">#CFFFFFFF</item>
@@ -21,6 +21,9 @@
         <item name="textColorSecondary">#FF808080</item>
         <item name="colorControlDisabled">#FFE0E0E0</item>
         <item name="backgroundIconColorBottom">#11304ffe</item>
+
+        <!--透明状态栏-->
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
 

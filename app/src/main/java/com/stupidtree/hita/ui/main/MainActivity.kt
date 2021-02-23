@@ -31,7 +31,7 @@ import com.stupidtree.hita.utils.ImageUtils
  * 很显然，这是主界面
  */
 class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
-    TimetableFragment.MainPageController {
+    TimetableFragment.MainPageController,FragmentTimeLine.MainPageController {
 
     /**
      * 抽屉里的View
@@ -86,7 +86,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                     ActivityUtils.showEasVerifyWindow(
                         getThis(),
                         directTo = EASActivity::class.java,
-                        cancelable = true,
                         onResponseListener = object : PopUpLoginEAS.OnResponseListener {
                             override fun onSuccess(window: PopUpLoginEAS) {
                                 ActivityUtils.startEASActivity(getThis())
@@ -194,8 +193,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
 
     override fun onBackPressed() {
         //super.onBackPressed();
-        if (binding.drawer.isDrawerOpen(GravityCompat.END)) {
-            binding.drawer.closeDrawer(GravityCompat.END)
+        if (binding.drawer.isDrawerOpen(GravityCompat.START)) {
+            binding.drawer.closeDrawer(GravityCompat.START)
             return
         }
         //返回桌面而非退出
@@ -227,5 +226,9 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     override fun setSingleTitle(string: String) {
         binding.timetableTitle.text = string
         binding.timetableNameCard.visibility = GONE
+    }
+
+    override fun setTimelineTitleText(string: String) {
+        binding.todayTitle.text = string
     }
 }

@@ -2,13 +2,12 @@ package com.stupidtree.hita.ui.widgets
 
 import android.view.View
 import androidx.annotation.StringRes
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.stupidtree.hita.R
 import com.stupidtree.hita.databinding.DialogBottomCalendarBinding
 import com.stupidtree.hita.ui.base.TransparentBottomSheetDialog
-import com.stupidtree.hita.utils.TimeUtils
-import com.stupidtree.hita.utils.TimeUtils.TTY_REPLACE
+import com.stupidtree.hita.utils.TimeTools
+import com.stupidtree.hita.utils.TimeTools.TTY_REPLACE
 import java.util.*
 
 /**
@@ -69,7 +68,7 @@ class PopUpCalendarPicker : TransparentBottomSheetDialog<DialogBottomCalendarBin
             dateLiveData.value = c
         }
         dateLiveData.observe(this) {
-            binding.title.text = TimeUtils.getDateString(requireContext(), it, true, TTY_REPLACE)
+            binding.title.text = TimeTools.getDateString(requireContext(), it, true, TTY_REPLACE)
         }
     }
 

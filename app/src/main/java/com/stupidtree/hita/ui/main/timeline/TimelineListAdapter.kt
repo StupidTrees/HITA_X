@@ -12,7 +12,6 @@ import android.view.animation.RotateAnimation
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alorma.timeline.TimelineView
 import com.github.lzyzsd.circleprogress.ArcProgress
@@ -22,7 +21,7 @@ import com.stupidtree.hita.data.model.timetable.TimeInDay
 import com.stupidtree.hita.ui.base.BaseListAdapterClassic
 import com.stupidtree.hita.utils.MaterialCircleAnimator
 import com.stupidtree.hita.utils.TextTools
-import com.stupidtree.hita.utils.TimeUtils
+import com.stupidtree.hita.utils.TimeTools
 import net.cachapa.expandablelayout.ExpandableLayout
 import java.util.*
 
@@ -216,7 +215,7 @@ class TimelineListAdapter(
             if (position == mBeans.size + 1) return FOOT
             var type = FOOT
             if (mBeans[position - 1].type === EventItem.TYPE.TAG) return HINT
-            if (TimeUtils.passed(mBeans[position - 1].to)) type = PASSED
+            if (TimeTools.passed(mBeans[position - 1].to)) type = PASSED
             else if (mBeans[position - 1].type == EventItem.TYPE.EXAM || mBeans[position - 1].type == EventItem.TYPE.CLASS) type =
                     CLASS
             type

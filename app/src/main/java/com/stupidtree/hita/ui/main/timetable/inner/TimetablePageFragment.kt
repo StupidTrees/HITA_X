@@ -2,7 +2,6 @@ package com.stupidtree.hita.ui.main.timetable.inner
 
 import android.content.SharedPreferences
 import android.graphics.Color
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
@@ -14,7 +13,6 @@ import com.stupidtree.hita.ui.base.BaseFragment
 import com.stupidtree.hita.ui.main.timetable.views.TimeTableBlockView.TimeTablePreferenceRoot
 import com.stupidtree.hita.ui.main.timetable.views.TimeTableView
 import com.stupidtree.hita.utils.EventsUtils
-import com.stupidtree.hita.utils.TimeUtils
 import java.util.*
 
 class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimetablePageBinding>() {

@@ -1,10 +1,8 @@
 package com.stupidtree.hita.ui.subject
 
 import android.animation.ValueAnimator
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
@@ -15,9 +13,10 @@ import com.stupidtree.hita.databinding.ActivitySubjectBinding
 import com.stupidtree.hita.ui.base.BaseActivity
 import com.stupidtree.hita.ui.base.BaseListAdapter
 import com.stupidtree.hita.ui.widgets.PopUpSelectableList
+import com.stupidtree.hita.utils.ActivityUtils
 import com.stupidtree.hita.utils.EditModeHelper
 import com.stupidtree.hita.utils.EventsUtils
-import com.stupidtree.hita.utils.TimeUtils
+import com.stupidtree.hita.utils.TimeTools
 import java.lang.StringBuilder
 import java.text.DecimalFormat
 import java.util.*
@@ -70,7 +69,7 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
             var finished = 0
             var unfinished = 0
             for (ei in it) {
-                if (TimeUtils.passed(ei.to)) finished++ else unfinished++
+                if (TimeTools.passed(ei.to)) finished++ else unfinished++
             }
             val percentage = finished.toFloat() * 100.0f / (finished + unfinished).toFloat()
             val va: ValueAnimator =
@@ -154,11 +153,12 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
             }
         }
         binding.cardTeacher.onCardClickListener = View.OnClickListener {
-//            ActivityUtils.searchFor(
-//                getThis(),
-//                cardTeacher.getTitleStr(),
-//                "teacher"
-//            )
+            viewModel.teachersLiveData.value?.let {
+                val sb = it.joinToString(separator = ",")
+                ActivityUtils.searchFor(
+                    getThis(), sb,ActivityUtils.SearchType.TEACHER)
+            }
+
         }
         binding.cardCredit.onCardClickListener = View.OnClickListener {
             val items = mutableListOf<String>()

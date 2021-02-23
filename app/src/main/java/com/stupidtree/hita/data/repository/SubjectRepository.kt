@@ -1,16 +1,13 @@
 package com.stupidtree.hita.data.repository
 
 import android.app.Application
-import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hita.data.AppDatabase
 import com.stupidtree.hita.data.model.timetable.TermSubject
-import com.stupidtree.hita.ui.timetable.subject.TeacherInfo
+import com.stupidtree.hita.ui.timetable.detail.TeacherInfo
 import com.stupidtree.hita.utils.ColorBox
-import com.stupidtree.hita.utils.TimeUtils
 
 class SubjectRepository(application: Application) {
     private val eventItemDao = AppDatabase.getDatabase(application).eventItemDao()

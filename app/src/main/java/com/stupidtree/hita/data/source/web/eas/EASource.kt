@@ -142,15 +142,15 @@ class EASource internal constructor() : EASService {
                         val m: MutableMap<String, String> = HashMap()
                         for ((key, value) in je.asJsonObject.entrySet()) {
                             m[key.replace("\"".toRegex(), "")] =
-                                    value.toString().replace("\"".toRegex(), "")
+                                value.toString().replace("\"".toRegex(), "")
                         }
                         val term = m["xn"]?.let {
                             m["xnmc"]?.let { it1 ->
                                 m["xq"]?.let { it2 ->
                                     m["xqmc"]?.let { it3 ->
                                         TermItem(
-                                                it,
-                                                it1, it2, it3
+                                            it,
+                                            it1, it2, it3
                                         )
                                     }
                                 }
@@ -163,7 +163,7 @@ class EASource internal constructor() : EASService {
                         }
                     }
                     res.postValue(DataState(terms, DataState.STATE.SUCCESS))
-                }else{
+                } else {
                     res.postValue(DataState(DataState.STATE.NOT_LOGGED_IN))
                 }
 
@@ -180,18 +180,18 @@ class EASource internal constructor() : EASService {
     override fun getStartDate(token: EASToken, term: TermItem): LiveData<DataState<Calendar>> {
         val res = MutableLiveData<DataState<Calendar>>()
         Thread {
-            val s = Jsoup.connect("http://jw.hitsz.edu.cn/Xiaoli/queryMonthList")
-                .timeout(timeout)
-                .cookies(token.cookies)
-                .headers(defaultRequestHeader)
-                .header("X-Requested-With", "XMLHttpRequest")
-                .data("zyw", "zh")
-                .data("pxn", term.yearCode)
-                .data("pxq", term.termCode)
-                .ignoreContentType(true)
-                .ignoreHttpErrors(true)
-                .post()
             try {
+                val s = Jsoup.connect("http://jw.hitsz.edu.cn/Xiaoli/queryMonthList")
+                    .timeout(timeout)
+                    .cookies(token.cookies)
+                    .headers(defaultRequestHeader)
+                    .header("X-Requested-With", "XMLHttpRequest")
+                    .data("zyw", "zh")
+                    .data("pxn", term.yearCode)
+                    .data("pxq", term.termCode)
+                    .ignoreContentType(true)
+                    .ignoreHttpErrors(true)
+                    .post()
                 val json = s.getElementsByTag("body").text()
                 val monthList = JsonParser().parse(json).asJsonObject["monlist"].asJsonArray
                 if (monthList.size() == 0) throw EASException.newDialogMessageExpection("该学期尚未开放！")

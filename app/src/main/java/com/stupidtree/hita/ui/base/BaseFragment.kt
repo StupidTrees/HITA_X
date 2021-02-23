@@ -30,7 +30,7 @@ abstract class BaseFragment<T : ViewModel,V:ViewBinding> : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = initViewBinding()
         getViewModelClass().let {
-            viewModel = if (it.superclass == AndroidViewModel::class.java) {
+            viewModel = if (it.superclass == AndroidViewModel::class.java|| it.superclass.superclass == AndroidViewModel::class.java) {
                 ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(it)
             } else {
                 ViewModelProvider(this).get(it)

@@ -72,12 +72,6 @@ abstract class BaseListAdapterClassic<T, H : RecyclerView.ViewHolder>(
     open val indexBias: Int
         get() = 0
 
-    constructor(parcel: Parcel) : this(
-            TODO("mContext"),
-            TODO("mBeans")) {
-
-    }
-
 
     fun willNotifyNormalChange(): Boolean { //当位置不发生变化时，是否刷新该item
         return true

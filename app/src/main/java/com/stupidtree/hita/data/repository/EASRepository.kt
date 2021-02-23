@@ -17,7 +17,7 @@ import com.stupidtree.hita.data.source.web.eas.EASource
 import com.stupidtree.hita.data.source.web.service.EASService
 import com.stupidtree.hita.ui.base.DataState
 import com.stupidtree.hita.utils.LiveDataUtils
-import com.stupidtree.hita.utils.TimeUtils.getDateAtWOT
+import com.stupidtree.hita.utils.TimeTools.getDateAtWOT
 import java.sql.Timestamp
 import java.util.*
 
@@ -177,7 +177,7 @@ class EASRepository internal constructor(application: Application) {
                         timetable.endTime = Timestamp(maxTs)
                         timetable.code = term.getCode()
                         timetable.scheduleStructure = schedule
-                        timetableDao.saveTimetable(timetable)
+                        timetableDao.saveTimetableSync(timetable)
 
 
                         importTimetableLiveData.postValue(DataState(false, DataState.STATE.SUCCESS))

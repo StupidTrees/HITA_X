@@ -6,8 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.stupidtree.hita.data.model.timetable.EventItem
-import com.stupidtree.hita.ui.timetable.subject.TeacherInfo
-import java.sql.Timestamp
+import com.stupidtree.hita.ui.timetable.detail.TeacherInfo
 
 @Dao
 interface EventItemDao {
@@ -22,7 +21,7 @@ interface EventItemDao {
     fun getEventsDuring(fromT: Long, toT: Long): LiveData<List<EventItem>>
 
     @Query("SELECT * FROM events WHERE `from` >= :fromT AND `from` <= :toT AND `to` >= :fromT AND `to` <= :toT")
-    fun getEventsDurin(fromT: Long, toT: Long):LiveData<List<EventItem>>
+    fun getEventsDurin(fromT: Long, toT: Long): LiveData<List<EventItem>>
 
 
     @Query("SELECT * FROM events WHERE subjectId is :subjectId")
@@ -60,5 +59,11 @@ interface EventItemDao {
         timetableId: String,
         toNumber: Int
     ): List<EventItem>
+
+    /**
+     * 将某课表的所有课程时间加上offset
+     */
+    @Query("update events set `from` = (`from`+:offset) , `to` = (`to` + :offset) where  timetableId is :timetableId and type is 'CLASS'")
+    fun updateClassesAddOffset(timetableId: String, offset: Long)
 
 }

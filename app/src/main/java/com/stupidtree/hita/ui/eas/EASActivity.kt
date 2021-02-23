@@ -29,7 +29,7 @@ class EASActivity : BaseActivity<EASViewModel, ActivityEasBinding>(), EASFragmen
             if (it.state == DataState.STATE.SUCCESS && it.data != true) {
                 ActivityUtils.showEasVerifyWindow<EASActivity>(
                     getThis(),
-                    cancelable = false,
+                    lock = true,
                     onResponseListener = object : PopUpLoginEAS.OnResponseListener {
                         override fun onSuccess(window: PopUpLoginEAS) {
                             window.dismiss()

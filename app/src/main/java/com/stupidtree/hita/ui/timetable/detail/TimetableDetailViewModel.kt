@@ -11,7 +11,6 @@ import com.stupidtree.hita.data.model.timetable.Timetable
 import com.stupidtree.hita.data.repository.SubjectRepository
 import com.stupidtree.hita.data.repository.TimetableRepository
 import com.stupidtree.hita.ui.base.StringTrigger
-import com.stupidtree.hita.ui.timetable.subject.TeacherInfo
 
 class TimetableDetailViewModel(application: Application) : AndroidViewModel(application) {
     /**
@@ -42,6 +41,11 @@ class TimetableDetailViewModel(application: Application) : AndroidViewModel(appl
     /**
      * 方法
      */
+
+    fun getSubjectProgress(subjectId:String):LiveData<Pair<Int,Int>>{
+        return subjectsRepository.getProgressOfSubject(subjectId,System.currentTimeMillis())
+    }
+
     fun startRefresh(id:String){
         timetableController.value = StringTrigger.getActioning(id)
     }
@@ -56,13 +60,17 @@ class TimetableDetailViewModel(application: Application) : AndroidViewModel(appl
         }
     }
 
+    fun startChangeTimetableStartTime(startTime:Long){
+        timetableLiveData.value?.let {
+            timetableRepository.actionChangeTimetableStartDate(it,startTime)
+        }
+    }
+
     fun startResetSubjectColors(){
         timetableLiveData.value?.let {
             subjectsRepository.actionResetSubjectColors(it.id)
         }
     }
 
-    fun getSubjectProgress(subjectId:String):LiveData<Pair<Int,Int>>{
-        return subjectsRepository.getProgressOfSubject(subjectId,System.currentTimeMillis())
-    }
+
 }

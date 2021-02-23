@@ -25,8 +25,8 @@ class TermItem(
     }
 
     override fun hashCode(): Int {
-        var result = yearCode.hashCode() ?: 0
-        result = 31 * result + (termCode.hashCode() ?: 0)
+        var result = yearCode.hashCode()
+        result = 31 * result + termCode.hashCode()
         return result
     }
 

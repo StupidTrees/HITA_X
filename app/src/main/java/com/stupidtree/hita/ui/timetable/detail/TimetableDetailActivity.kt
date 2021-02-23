@@ -10,11 +10,8 @@ import com.stupidtree.hita.data.model.timetable.TermSubject
 import com.stupidtree.hita.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hita.databinding.ActivityTimetableDetailBinding
 import com.stupidtree.hita.ui.base.BaseActivity
-import com.stupidtree.hita.ui.base.BaseActivityWithReceiver
 import com.stupidtree.hita.ui.base.BaseListAdapter
 import com.stupidtree.hita.ui.eas.imp.TimetableStructureListAdapter
-import com.stupidtree.hita.ui.timetable.subject.SubjectsListAdapter
-import com.stupidtree.hita.ui.timetable.subject.TeachersListAdapter
 import com.stupidtree.hita.ui.widgets.PopUpCalendarPicker
 import com.stupidtree.hita.ui.widgets.PopUpEditText
 import com.stupidtree.hita.ui.widgets.PopUpText
@@ -50,6 +47,12 @@ class TimetableDetailActivity :
         binding.teachersList.adapter = teachersListAdapter
         binding.teachersList.layoutManager =
             LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        teachersListAdapter?.setOnItemClickListener(object:BaseListAdapter.OnItemClickListener<TeacherInfo>{
+            override fun onItemClick(data: TeacherInfo?, card: View?, position: Int) {
+                ActivityUtils.searchFor(getThis(),data?.name,ActivityUtils.SearchType.TEACHER)
+            }
+
+        })
         subjectsAdapter?.setOnItemClickListener(object :
             BaseListAdapter.OnItemClickListener<TermSubject> {
 
@@ -129,10 +132,7 @@ class TimetableDetailActivity :
                 .setOnConfirmListener(object : PopUpCalendarPicker.OnConfirmListener {
                     override fun onConfirm(c: Calendar) {
                         viewModel.timetableLiveData.value?.let {
-                            c.firstDayOfWeek = Calendar.MONDAY
-                            c[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
-                            it.startTime.time = c.timeInMillis
-                            viewModel.startSaveTimetableInfo()
+                            viewModel.startChangeTimetableStartTime(c.timeInMillis)
                         }
                     }
                 }).show(supportFragmentManager, "pick")

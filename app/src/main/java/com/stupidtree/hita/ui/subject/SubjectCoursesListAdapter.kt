@@ -14,20 +14,20 @@ import com.stupidtree.hita.databinding.DynamicSubjectCourseitemPassedBinding
 import com.stupidtree.hita.databinding.DynamicSubjectCourseitemTagBinding
 import com.stupidtree.hita.ui.base.BaseCheckableListAdapter
 import com.stupidtree.hita.ui.base.BaseViewHolder
-import com.stupidtree.hita.utils.TimeUtils
+import com.stupidtree.hita.utils.TimeTools
 import java.util.*
 
 @SuppressLint("ParcelCreator")
 class SubjectCoursesListAdapter(context: Context, list: MutableList<EventItem>) :
-    BaseCheckableListAdapter<EventItem, BaseViewHolder<*>>(
-        context,
-        list
-    ) {
+        BaseCheckableListAdapter<EventItem, BaseViewHolder<*>>(
+                context,
+                list
+        ) {
 
     override fun getItemViewType(position: Int): Int {
         return when {
             mBeans[position].type === EventItem.TYPE.TAG -> TAG
-            TimeUtils.passed(mBeans[position].to) -> PASSED
+            TimeTools.passed(mBeans[position].to) -> PASSED
             else -> TODO
         }
     }
@@ -44,37 +44,43 @@ class SubjectCoursesListAdapter(context: Context, list: MutableList<EventItem>) 
             } else {
                 holder.binding.icon.rotation = 180f
             }
-            holder.binding.item.setOnClickListener { data?.let { it1 ->
-                mOnItemClickListener?.onItemClick(
-                    it1,it,position)
-            } }
+            holder.binding.item.setOnClickListener {
+                data?.let { it1 ->
+                    mOnItemClickListener?.onItemClick(
+                            it1, it, position)
+                }
+            }
         } else if (holder is NormalViewHolder) {
             holder.binding.subjectCourselistMonth.text =
-                TimeUtils.getDateString(mContext, c, true, TimeUtils.TTY_REPLACE)
+                    TimeTools.getDateString(mContext, c, true, TimeTools.TTY_REPLACE)
             if (isEditMode) holder.binding.icon.visibility = GONE
             else holder.binding.icon.visibility = VISIBLE
-            holder.binding.item.setOnClickListener { data?.let { it1 ->
-                mOnItemClickListener?.onItemClick(
-                    it1,it,position)
-            } }
+            holder.binding.item.setOnClickListener {
+                data?.let { it1 ->
+                    mOnItemClickListener?.onItemClick(
+                            it1, it, position)
+                }
+            }
         } else if (holder is PassedViewHolder) {
             holder.binding.subjectCourselistMonth.text =
-                TimeUtils.getDateString(mContext, c, true, TimeUtils.TTY_REPLACE)
+                    TimeTools.getDateString(mContext, c, true, TimeTools.TTY_REPLACE)
             if (isEditMode) holder.binding.icon.visibility = GONE
             else holder.binding.icon.visibility = VISIBLE
-            holder.binding.item.setOnClickListener { data?.let { it1 ->
-                mOnItemClickListener?.onItemClick(
-                    it1,it,position)
-            } }
+            holder.binding.item.setOnClickListener {
+                data?.let { it1 ->
+                    mOnItemClickListener?.onItemClick(
+                            it1, it, position)
+                }
+            }
         }
 
     }
 
 
     class NormalViewHolder(viewBinding: DynamicSubjectCourseitemBinding) :
-        BaseViewHolder<DynamicSubjectCourseitemBinding>(
-            viewBinding
-        ), CheckableViewHolder {
+            BaseViewHolder<DynamicSubjectCourseitemBinding>(
+                    viewBinding
+            ), CheckableViewHolder {
         override fun showCheckBox() {
             binding.check.visibility = VISIBLE
         }
@@ -96,7 +102,7 @@ class SubjectCoursesListAdapter(context: Context, list: MutableList<EventItem>) 
         }
 
         override fun setInternalOnClickListener(listener: View.OnClickListener) {
-            binding.item.setOnClickListener { listener }
+            binding.item.setOnClickListener (listener)
         }
 
         override fun setInternalOnCheckedChangeListener(listener: CompoundButton.OnCheckedChangeListener) {
@@ -105,9 +111,9 @@ class SubjectCoursesListAdapter(context: Context, list: MutableList<EventItem>) 
     }
 
     class PassedViewHolder(viewBinding: DynamicSubjectCourseitemPassedBinding) :
-        BaseViewHolder<DynamicSubjectCourseitemPassedBinding>(
-            viewBinding
-        ),CheckableViewHolder {
+            BaseViewHolder<DynamicSubjectCourseitemPassedBinding>(
+                    viewBinding
+            ), CheckableViewHolder {
         override fun showCheckBox() {
             binding.check.visibility = VISIBLE
         }
@@ -129,7 +135,7 @@ class SubjectCoursesListAdapter(context: Context, list: MutableList<EventItem>) 
         }
 
         override fun setInternalOnClickListener(listener: View.OnClickListener) {
-            binding.item.setOnClickListener { listener }
+            binding.item.setOnClickListener(listener)
         }
 
         override fun setInternalOnCheckedChangeListener(listener: CompoundButton.OnCheckedChangeListener) {
@@ -138,9 +144,9 @@ class SubjectCoursesListAdapter(context: Context, list: MutableList<EventItem>) 
     }
 
     class TagViewHolder(viewBinding: DynamicSubjectCourseitemTagBinding) :
-        BaseViewHolder<DynamicSubjectCourseitemTagBinding>(
-            viewBinding
-        )
+            BaseViewHolder<DynamicSubjectCourseitemTagBinding>(
+                    viewBinding
+            )
 
     companion object {
         private const val PASSED = 672

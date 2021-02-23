@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.stupidtree.hita.R
 import com.stupidtree.hita.data.model.timetable.Timetable
-import com.stupidtree.hita.databinding.DynamicCurriculumAddBinding
-import com.stupidtree.hita.databinding.DynamicCurriculumItemBinding
+import com.stupidtree.hita.databinding.ActivityTimetableManagerItemAddBinding
+import com.stupidtree.hita.databinding.ActivityTimetableManagerItemBinding
 import com.stupidtree.hita.ui.base.BaseCheckableListAdapter
 import com.stupidtree.hita.ui.base.BaseViewHolder
-import com.stupidtree.hita.utils.TimeUtils
+import com.stupidtree.hita.utils.TimeTools
 
 
 @SuppressLint("ParcelCreator")
@@ -22,8 +22,8 @@ class TimetableListAdapter(context: Context, mBeans: MutableList<Timetable>) :
 
 
     override fun getViewBinding(parent: ViewGroup, viewType: Int): ViewBinding {
-        return if (viewType == TYPE_ITEM) DynamicCurriculumItemBinding.inflate(mInflater, parent, false)
-        else DynamicCurriculumAddBinding.inflate(mInflater, parent, false)
+        return if (viewType == TYPE_ITEM) ActivityTimetableManagerItemBinding.inflate(mInflater, parent, false)
+        else ActivityTimetableManagerItemAddBinding.inflate(mInflater, parent, false)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -33,9 +33,9 @@ class TimetableListAdapter(context: Context, mBeans: MutableList<Timetable>) :
 
     override fun createViewHolder(viewBinding: ViewBinding, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TYPE_ITEM) {
-            CHolder(viewBinding as DynamicCurriculumItemBinding)
+            CHolder(viewBinding as ActivityTimetableManagerItemBinding)
         } else {
-            AHolder(viewBinding as DynamicCurriculumAddBinding)
+            AHolder(viewBinding as ActivityTimetableManagerItemAddBinding)
         }
     }
 
@@ -44,21 +44,21 @@ class TimetableListAdapter(context: Context, mBeans: MutableList<Timetable>) :
         super.bindHolder(holder, data, position)
         if (holder is CHolder) {
             holder.binding.title.text = data?.name
-            holder.binding.subtitle.text = TimeUtils.printDate(data?.startTime?.time)
+            holder.binding.subtitle.text = TimeTools.printDate(data?.startTime?.time)
             data?.startTime?.time?.let {
                 holder.binding.icon.setImageResource(
-                        when (TimeUtils.getSeason(it)) {
-                            TimeUtils.SEASON.SPRING -> R.drawable.season_spring
-                            TimeUtils.SEASON.SUMMER -> R.drawable.season_summer
-                            TimeUtils.SEASON.AUTUMN -> R.drawable.season_autumn
+                        when (TimeTools.getSeason(it)) {
+                            TimeTools.SEASON.SPRING -> R.drawable.season_spring
+                            TimeTools.SEASON.SUMMER -> R.drawable.season_summer
+                            TimeTools.SEASON.AUTUMN -> R.drawable.season_autumn
                             else -> R.drawable.season_winter
                         }
                 )
                 holder.binding.icon.setBackgroundResource(
-                    when (TimeUtils.getSeason(it)) {
-                        TimeUtils.SEASON.SPRING -> R.drawable.element_round_spring
-                        TimeUtils.SEASON.SUMMER -> R.drawable.element_round_summer
-                        TimeUtils.SEASON.AUTUMN -> R.drawable.element_round_autumn
+                    when (TimeTools.getSeason(it)) {
+                        TimeTools.SEASON.SPRING -> R.drawable.element_round_spring
+                        TimeTools.SEASON.SUMMER -> R.drawable.element_round_summer
+                        TimeTools.SEASON.AUTUMN -> R.drawable.element_round_autumn
                         else -> R.drawable.element_round_winter
                     }
                 )
@@ -77,8 +77,8 @@ class TimetableListAdapter(context: Context, mBeans: MutableList<Timetable>) :
         return super.getItemCount() + 1
     }
 
-    inner class CHolder(itemView: DynamicCurriculumItemBinding) :
-            BaseViewHolder<DynamicCurriculumItemBinding>(itemView), CheckableViewHolder {
+    inner class CHolder(itemView: ActivityTimetableManagerItemBinding) :
+            BaseViewHolder<ActivityTimetableManagerItemBinding>(itemView), CheckableViewHolder {
         override fun showCheckBox() {
             binding.check.visibility = View.VISIBLE
         }
@@ -110,7 +110,7 @@ class TimetableListAdapter(context: Context, mBeans: MutableList<Timetable>) :
 
     }
 
-    inner class AHolder(viewBinding: DynamicCurriculumAddBinding) : BaseViewHolder<DynamicCurriculumAddBinding>(viewBinding)
+    inner class AHolder(viewBinding: ActivityTimetableManagerItemAddBinding) : BaseViewHolder<ActivityTimetableManagerItemAddBinding>(viewBinding)
 
     companion object {
         const val TYPE_ADD = 301

@@ -1,5 +1,7 @@
 package com.stupidtree.hita.ui.eas.login
 
+import android.app.Activity
+import android.content.DialogInterface
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -14,6 +16,7 @@ import com.stupidtree.hita.utils.ImageUtils
 class PopUpLoginEAS :
     TransparentModeledBottomSheetDialog<LoginEASViewModel, DialogBottomEasVerifyBinding>() {
 
+    var lock = false
     var onResponseListener: OnResponseListener? = null
 
     override fun getViewModelClass(): Class<LoginEASViewModel> {
@@ -87,6 +90,14 @@ class PopUpLoginEAS :
         return R.layout.dialog_bottom_eas_verify
     }
 
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        if(lock){
+            if(context is Activity){
+                (context as Activity).finish()
+            }
+        }
+    }
     override fun onStart() {
         super.onStart()
         val token = EASRepository.getInstance(requireActivity().application)

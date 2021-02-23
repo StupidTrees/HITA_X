@@ -9,7 +9,7 @@ import com.stupidtree.hita.databinding.DialogBottomTimetableClassBinding
 import com.stupidtree.hita.ui.base.BaseFragment
 import com.stupidtree.hita.ui.subject.SubjectActivity
 import com.stupidtree.hita.utils.ActivityUtils
-import com.stupidtree.hita.utils.TimeUtils
+import com.stupidtree.hita.utils.TimeTools
 import java.util.*
 
 class EventItemFragment : BaseFragment<EventItemViewModel, DialogBottomTimetableClassBinding>() {
@@ -41,15 +41,13 @@ class EventItemFragment : BaseFragment<EventItemViewModel, DialogBottomTimetable
             TimeInDay(eventItem.to).toString()
         )
         binding?.ttDlgName?.text = getString(eventItem.name)
-        val numberString = StringBuilder()
-        for (i in eventItem.fromNumber until eventItem.fromNumber + eventItem.lastNumber) {
-            numberString.append(i).append(",")
+        binding?.timeNumber?.text = (eventItem.fromNumber until eventItem.fromNumber + eventItem.lastNumber).joinToString(separator = ", ")
+        binding?.ttDlgValue3Detail?.setOnClickListener {
+            viewModel.eventItemLiveData.value?.let {
+                ActivityUtils.searchFor(requireContext(),it.teacher,ActivityUtils.SearchType.TEACHER)
+            }
+
         }
-        binding?.timeNumber?.text = numberString
-//        teacher_detail!!.setOnClickListener(View.OnClickListener {
-//            if (TextUtils.isEmpty(eventItem.tag3)) return@OnClickListener
-//            ActivityUtils.searchFor(requireContext(), eventItem.tag3, "teacher")
-//        })
 //        if (TextUtils.isEmpty(eventItem.tag2)) {
 //            classroom_detail_icon!!.visibility = View.GONE
 //        } else {
@@ -87,7 +85,7 @@ class EventItemFragment : BaseFragment<EventItemViewModel, DialogBottomTimetable
         val c = Calendar.getInstance()
         c.timeInMillis = eventItem.from.time
         binding?.date?.text =
-            TimeUtils.getDateString(requireContext(), c, false, TimeUtils.TTY_FOLLOWING)
+            TimeTools.getDateString(requireContext(), c, false, TimeTools.TTY_FOLLOWING)
     }
 
 

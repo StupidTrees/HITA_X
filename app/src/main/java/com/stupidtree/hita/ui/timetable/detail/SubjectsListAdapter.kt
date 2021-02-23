@@ -1,8 +1,7 @@
-package com.stupidtree.hita.ui.timetable.subject
+package com.stupidtree.hita.ui.timetable.detail
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +15,7 @@ import com.stupidtree.hita.databinding.DynamicSubjectsFootBinding
 import com.stupidtree.hita.databinding.DynamicSubjectsItemBinding
 import com.stupidtree.hita.ui.base.BaseCheckableListAdapter
 import com.stupidtree.hita.ui.base.BaseViewHolder
-import com.stupidtree.hita.ui.timetable.detail.TimetableDetailViewModel
-import com.stupidtree.hita.ui.timetable.subject.SubjectsListAdapter.SubjectViewHolder
-import com.stupidtree.hita.utils.ColorBox
+import com.stupidtree.hita.ui.timetable.detail.SubjectsListAdapter.SubjectViewHolder
 
 @SuppressLint("ParcelCreator")
 class SubjectsListAdapter(

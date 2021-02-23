@@ -1,5 +1,6 @@
 package com.stupidtree.hita.ui.widgets
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
@@ -17,17 +18,14 @@ import java.util.*
  * 圆角的文本框底部弹窗
  */
 class PopUpCheckableList<T> : TransparentBottomSheetDialog<DialogBottomCheckableListBinding>() {
-    /**
-     * View绑定区
-     */
 
 
-    var init_title: String?=null
+    var initTitle: String? = null
 
     /**
      * 适配器区
      */
-    internal lateinit var listAdapter: LAdapter<T>
+    private lateinit var listAdapter: LAdapter<T>
 
     /**
      * 不得已放在UI里的数据
@@ -40,14 +38,14 @@ class PopUpCheckableList<T> : TransparentBottomSheetDialog<DialogBottomCheckable
     }
 
     fun setTitle(title: String): PopUpCheckableList<T> {
-        init_title = title
+        initTitle = title
         return this
     }
 
     fun setListData(titles: List<String?>, keys: List<T>): PopUpCheckableList<T> {
         listRes = ArrayList()
-        for (i in 0 until Math.min(titles.size, keys.size)) {
-            (listRes as ArrayList<ItemData<T?>>).add(ItemData(titles[i], keys[i]))
+        for (i in 0 until titles.size.coerceAtMost(keys.size)) {
+            listRes?.add(ItemData(titles[i], keys[i]))
         }
         return this
     }
@@ -78,8 +76,8 @@ class PopUpCheckableList<T> : TransparentBottomSheetDialog<DialogBottomCheckable
         val list = binding.list
         list.adapter = listAdapter
         list.layoutManager = LinearLayoutManager(requireContext())
-        if (init_title != null) {
-           binding.title.setText(init_title!!)
+        if (initTitle != null) {
+            binding.title.text = initTitle!!
         }
     }
 
@@ -97,6 +95,7 @@ class PopUpCheckableList<T> : TransparentBottomSheetDialog<DialogBottomCheckable
     }
 
 
+    @SuppressLint("ParcelCreator")
     internal class LAdapter<C>(mContext: Context, mBeans: MutableList<ItemData<C>>) : BaseListAdapter<ItemData<C>, LAdapter.LHolder>(mContext, mBeans) {
 
 
@@ -110,18 +109,16 @@ class PopUpCheckableList<T> : TransparentBottomSheetDialog<DialogBottomCheckable
         }
 
 
-
-
         override fun createViewHolder(viewBinding: ViewBinding, viewType: Int): LHolder {
             return LHolder(viewBinding as DialogBottomCheckableListItemBinding)
         }
 
-        class LHolder(view:DialogBottomCheckableListItemBinding) : BaseViewHolder<DialogBottomCheckableListItemBinding>(view) {
+        class LHolder(view: DialogBottomCheckableListItemBinding) : BaseViewHolder<DialogBottomCheckableListItemBinding>(view) {
 
         }
 
         override fun getViewBinding(parent: ViewGroup, viewType: Int): ViewBinding {
-            return DialogBottomCheckableListItemBinding.inflate(mInflater,parent,false)
+            return DialogBottomCheckableListItemBinding.inflate(mInflater, parent, false)
         }
     }
 

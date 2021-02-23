@@ -18,20 +18,20 @@ import com.stupidtree.hita.R
  * 本项目所有Activity的基类
  * @param <TextRecord> 泛型T指定的是这个页面绑定的ViewModel
 </TextRecord> */
-abstract class BaseActivity<T : ViewModel, V: ViewBinding> : AppCompatActivity() {
+abstract class BaseActivity<T : ViewModel, V : ViewBinding> : AppCompatActivity() {
     /**
      * 每个Acitivity绑定一个ViewModel
      */
     protected lateinit var viewModel: T
 
-    protected lateinit var binding:V
+    protected lateinit var binding: V
 
     /**
      * 所有继承BaseActivity的Activity都要实现以下几个函数
      */
 
     //获取这个Activity的布局id
-    protected abstract fun initViewBinding():V
+    protected abstract fun initViewBinding(): V
 
     //获取ViewModel的具体类型
     protected abstract fun getViewModelClass(): Class<T>
@@ -93,7 +93,7 @@ abstract class BaseActivity<T : ViewModel, V: ViewBinding> : AppCompatActivity()
      * 获取这个Activity本身
      * @return Activity自己
      */
-    fun getThis(): BaseActivity<T,V> {
+    fun getThis(): BaseActivity<T, V> {
         return this
     }
 
@@ -114,6 +114,7 @@ abstract class BaseActivity<T : ViewModel, V: ViewBinding> : AppCompatActivity()
         theme.resolveAttribute(R.attr.colorControlNormal, typedValue, true)
         return typedValue.data
     }
+
     fun getBackgroundColorSecondAsTint(): Int {
         val typedValue = TypedValue()
         theme.resolveAttribute(R.attr.backgroundColorSecondAsTint, typedValue, true)

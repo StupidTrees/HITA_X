@@ -31,7 +31,7 @@ interface TimetableDao{
      * 保存课表
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveTimetable(data:Timetable)
+    fun saveTimetableSync(data:Timetable)
 
     @Delete
     fun deleteTimetablesSync(timetables:List<Timetable>)

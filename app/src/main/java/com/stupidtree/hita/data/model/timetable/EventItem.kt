@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import com.stupidtree.hita.utils.TimeUtils
+import com.stupidtree.hita.utils.TimeTools
 import java.io.Serializable
 import java.sql.Timestamp
 import java.util.*
@@ -67,7 +67,7 @@ class EventItem :Serializable,Comparable<EventItem>{
      * 获取周几，周一为1
      */
     fun getDow():Int{
-        return TimeUtils.getDow(from.time)
+        return TimeTools.getDow(from.time)
     }
 
     /**

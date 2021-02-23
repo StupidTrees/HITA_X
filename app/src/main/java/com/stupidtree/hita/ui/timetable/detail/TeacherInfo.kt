@@ -1,4 +1,4 @@
-package com.stupidtree.hita.ui.timetable.subject
+package com.stupidtree.hita.ui.timetable.detail
 
 import androidx.room.ColumnInfo
 

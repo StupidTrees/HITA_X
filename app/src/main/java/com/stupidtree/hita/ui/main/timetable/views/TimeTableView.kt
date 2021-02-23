@@ -3,14 +3,13 @@ package com.stupidtree.hita.ui.main.timetable.views
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.stupidtree.hita.R
 import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.model.timetable.TimeInDay
 import com.stupidtree.hita.ui.main.timetable.views.TimeTableBlockView.*
-import com.stupidtree.hita.utils.TimeUtils
+import com.stupidtree.hita.utils.TimeTools
 import java.util.*
 
 class TimeTableView : ViewGroup {
@@ -53,7 +52,7 @@ class TimeTableView : ViewGroup {
     constructor(context: Context?) : super(context) {}
 
     override fun dispatchDraw(canvas: Canvas) {
-        if (TimeUtils.isSameWeekWithStartDate(startDate, System.currentTimeMillis())) {
+        if (TimeTools.isSameWeekWithStartDate(startDate, System.currentTimeMillis())) {
             drawTodayRect(canvas)
         }
         drawLabels(canvas)
@@ -77,7 +76,7 @@ class TimeTableView : ViewGroup {
     }
 
     private fun drawTodayRect(canvas: Canvas) {
-        val left: Int = sectionWidth * (TimeUtils.currentDOW() - 1)
+        val left: Int = sectionWidth * (TimeTools.currentDOW() - 1)
         val right = left + sectionWidth
         val paint = Paint()
         paint.color = root!!.todayBGColor

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundColorBottom">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/toolbar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="24dp"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.9">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_avatar"
+                    android:layout_width="84dp"
+                    android:layout_height="84dp"
+                    android:layout_gravity="start|top"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="104dp"
+                    app:cardBackgroundColor="?attr/backgroundColorSecond"
+                    app:cardCornerRadius="42dp"
+                    app:cardElevation="16dp"
+                    app:cardMaxElevation="6dp">
+
+                    <ImageView
+                        android:id="@+id/teacher_avatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center|top"
+                        android:transitionName="image" />
+
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center|start"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/teacher_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="24dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="?attr/colorAccent"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/teacher_post"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|start"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/element_rounded_button_bg_grey"
+                        android:backgroundTint="?attr/backgroundColorBottomAsTint"
+                        android:backgroundTintMode="src_over"
+                        android:paddingStart="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="?attr/textColorSecondary"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/teacher_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|start"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="?attr/textColorSecondary" />
+
+                <TextView
+                    android:id="@+id/teacher_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|start"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="200dp"
+                    android:background="@drawable/element_rounded_button_bg_primary_light"
+                    android:maxEms="18"
+                    android:paddingStart="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="4dp"
+                    android:singleLine="true"
+                    android:textColor="?attr/colorAccent"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="24dp"
+                android:minHeight="0dp"
+                app:layout_collapseMode="pin"
+                app:theme="?attr/toolbarStyle" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="100dp"
+                    android:foreground="@drawable/tabs_fading_edge_end">
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:overScrollMode="never"
+                        android:paddingStart="24dp"
+                        android:paddingEnd="10dp"
+                        app:tabGravity="center"
+                        app:tabIndicatorColor="@android:color/transparent"
+                        app:tabIndicatorFullWidth="false"
+                        app:tabMode="scrollable"
+                        app:tabPaddingEnd="12dp"
+                        app:tabPaddingStart="0dp"
+                        app:tabPaddingTop="24dp"
+                        app:tabSelectedTextColor="?attr/colorAccent">
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Monday" />
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tuesday" />
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Wednesday" />
+                    </com.google.android.material.tabs.TabLayout>
+                </FrameLayout>
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layoutAnimation="@anim/recycler_layout_animation_fade"
+                    android:overScrollMode="never" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="24dp"
+        android:focusable="true"
+        android:text="@string/contact"
+        android:textColor="@color/white"
+        android:theme="@style/Theme.MaterialComponents"
+        app:icon="@drawable/ic_baseline_email_24"
+        app:iconTint="@color/white"
+        app:layout_anchor="@+id/appbar"
+        app:layout_anchorGravity="bottom|end"
+        tools:ignore="RtlHardcoded" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:visibility="gone"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:orientation="vertical"
+            android:paddingTop="36dp">
+
+            <ImageView
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/element_round_primary_light"
+                android:padding="18dp"
+                app:srcCompat="@drawable/ic_empty"
+                app:tint="?attr/colorPrimary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:alpha="0.8"
+                android:text="@string/teacher_no_page"
+                android:textColor="?attr/textColorSecondary" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

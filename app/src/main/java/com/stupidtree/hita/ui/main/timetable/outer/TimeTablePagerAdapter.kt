@@ -2,14 +2,12 @@ package com.stupidtree.hita.ui.main.timetable.outer
 
 import android.util.Log
 import android.view.ViewGroup
-import android.view.ViewParent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.stupidtree.hita.ui.main.timetable.inner.TimetablePageFragment
 import com.stupidtree.hita.ui.main.timetable.outer.TimetableFragment.Companion.WINDOW_SIZE
-import com.stupidtree.hita.utils.TimeUtils
 import kotlin.math.roundToInt
 
 class TimeTablePagerAdapter(

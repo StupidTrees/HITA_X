@@ -1,20 +1,16 @@
 package com.stupidtree.hita.data.repository
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import com.stupidtree.hita.R
 import com.stupidtree.hita.data.AppDatabase
-import com.stupidtree.hita.data.model.eas.TermItem
 import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hita.data.model.timetable.Timetable
-import com.stupidtree.hita.ui.base.DataState
 import com.stupidtree.hita.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
+import com.stupidtree.hita.utils.TimeTools
 import java.lang.NumberFormatException
-import java.sql.Time
 import java.util.*
 
 class TimetableRepository(val application: Application) {
@@ -100,24 +96,36 @@ class TimetableRepository(val application: Application) {
                 }
             }
             val newTable = Timetable()
-            newTable.startTime.time = System.currentTimeMillis()
-            newTable.endTime.time = System.currentTimeMillis()+WEEK_MILLS
+            val c = TimeTools.getMonday(System.currentTimeMillis())
+            newTable.startTime.time = c.timeInMillis
+            newTable.endTime.time = c.timeInMillis + WEEK_MILLS
             newTable.name =
                 application.getString(R.string.default_timetable_name) + (max + 1).toString()
-            timetableDao.saveTimetable(newTable)
+            timetableDao.saveTimetableSync(newTable)
         }.start()
     }
 
     fun actionSaveTimetable(timetable: Timetable) {
         Thread {
-            timetableDao.saveTimetable(timetable)
+            timetableDao.saveTimetableSync(timetable)
+        }.start()
+    }
+
+    fun actionChangeTimetableStartDate(timetable: Timetable, startTime: Long) {
+        val calendar = TimeTools.getMonday(startTime)
+        val offset = calendar.timeInMillis - timetable.startTime.time
+        timetable.endTime.time = timetable.endTime.time + offset
+        timetable.startTime.time = calendar.timeInMillis
+        Thread {
+            timetableDao.saveTimetableSync(timetable)
+            eventItemDao.updateClassesAddOffset(timetableId = timetable.id, offset)
         }.start()
     }
 
     fun actionChangeTimetableStructure(timetable: Timetable, tp: TimePeriodInDay, position: Int) {
         timetable.setScheduleStructure(tp, position)
         Thread {
-            timetableDao.saveTimetable(timetable)
+            timetableDao.saveTimetableSync(timetable)
             val fromToChange = eventItemDao.getClassAtFromNumberSync(timetable.id, position + 1)
             val tmp = Calendar.getInstance()
             for (e in fromToChange) {

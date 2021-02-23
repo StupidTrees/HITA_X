@@ -139,7 +139,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
-        android:clickable="true"
+        android:clickable="false"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center"
@@ -205,6 +205,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="4dp"
                     android:clickable="false"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_baseline_search_24"
                     app:tint="?attr/colorAccent" />
             </LinearLayout>

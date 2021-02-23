@@ -37,7 +37,8 @@
         <activity android:name=".ui.welcome.WelcomeActivity" />
         <activity android:name=".ui.myprofile.MyProfileActivity" />
         <activity android:name=".ui.timetable.detail.TimetableDetailActivity" />
-        <activity android:name=".ui.ActivitySplash"
+        <activity
+            android:name=".ui.ActivitySplash"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,6 +46,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.teacher.ActivityTeacherOfficial" />
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

@@ -120,6 +120,7 @@
                 android:animateLayoutChanges="false"
                 android:animationCache="false"
                 android:layoutAnimation="@anim/recycler_layout_animation_slide_from_right"
+                android:nestedScrollingEnabled="false"
                 android:overScrollMode="never">
 
             </androidx.recyclerview.widget.RecyclerView>
