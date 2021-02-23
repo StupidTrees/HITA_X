@@ -3,6 +3,7 @@ package com.stupidtree.hita.ui.teacher
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -44,6 +45,11 @@ open class ActivityTeacherOfficial :
             binding.cardAvatar.scaleX = scale
             binding.cardAvatar.scaleY = scale
             binding.cardAvatar.translationY = mHeadImgScale * verticalOffset
+            if(scale<0.5){
+                binding.fab.shrink()
+            }else{
+                binding.fab.extend()
+            }
         })
     }
 

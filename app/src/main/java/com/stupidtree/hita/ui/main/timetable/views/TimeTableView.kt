@@ -92,6 +92,7 @@ class TimeTableView : ViewGroup {
         mLinePaint.style = Paint.Style.STROKE
         mLinePaint.strokeWidth = 1f
         mLinePaint.color = timelineColor
+        mLinePaint.alpha = 50
         mLinePaint.pathEffect = mPathEffect
         val temp = TimeInDay(0, 0)
         for (i in startTime.hour..23) {

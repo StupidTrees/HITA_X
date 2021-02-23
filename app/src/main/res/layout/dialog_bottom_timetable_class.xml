@@ -72,16 +72,15 @@
         android:paddingBottom="10dp">
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center|top"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="?attr/backgroundColorBottomAsTint"
             android:backgroundTintMode="src_over"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_baseline_access_alarm_24"
-            app:tint="?attr/colorAccent" />
+            app:srcCompat="@drawable/ic_bo_teacher" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -93,6 +92,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:layout_marginBottom="2dp"
                 android:layout_weight="1"
                 android:clickable="false"
                 android:gravity="left|center"
@@ -117,7 +117,7 @@
                     android:singleLine="true"
                     android:text="张彪"
                     android:textColor="?attr/textColorPrimary"
-                    android:textSize="18sp"
+                    android:textSize="19sp"
                     tools:ignore="HardcodedText" />
 
                 <ImageView
@@ -148,16 +148,15 @@
         android:paddingBottom="10dp">
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center|top"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="?attr/backgroundColorBottomAsTint"
             android:backgroundTintMode="src_over"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_baseline_access_alarm_24"
-            app:tint="?attr/colorAccent" />
+            app:srcCompat="@drawable/ic_bo_location" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -170,6 +169,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
                 android:layout_weight="1"
                 android:clickable="false"
                 android:gravity="left|center"
@@ -195,7 +195,7 @@
                     android:singleLine="false"
                     android:text="T3502"
                     android:textColor="?attr/textColorPrimary"
-                    android:textSize="18sp"
+                    android:textSize="19sp"
                     tools:ignore="HardcodedText" />
 
                 <ImageView
@@ -224,16 +224,15 @@
         android:paddingBottom="10dp">
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center|top"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="?attr/backgroundColorBottomAsTint"
             android:backgroundTintMode="src_over"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_baseline_access_alarm_24"
-            app:tint="?attr/colorAccent" />
+            app:srcCompat="@drawable/ic_bo_time" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -243,6 +242,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/dialog_time"
@@ -258,7 +258,7 @@
                 android:singleLine="true"
                 android:text="10:30-11:00"
                 android:textColor="?attr/textColorPrimary"
-                android:textSize="18sp"
+                android:textSize="19sp"
                 tools:ignore="HardcodedText,RtlHardcoded" />
         </LinearLayout>
     </LinearLayout>
@@ -274,16 +274,15 @@
         android:paddingBottom="10dp">
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center|top"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="?attr/backgroundColorBottomAsTint"
             android:backgroundTintMode="src_over"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_baseline_access_alarm_24"
-            app:tint="?attr/colorAccent"
+            app:srcCompat="@drawable/ic_bo_time"
             tools:ignore="ContentDescription" />
 
         <LinearLayout
@@ -295,6 +294,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/dialog_period"
@@ -311,7 +311,7 @@
                 android:singleLine="true"
                 android:text="1,2"
                 android:textColor="?attr/textColorPrimary"
-                android:textSize="18sp"
+                android:textSize="19sp"
                 tools:ignore="HardcodedText,RtlHardcoded" />
         </LinearLayout>
     </LinearLayout>
@@ -327,16 +327,15 @@
         android:paddingBottom="10dp">
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center|top"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="?attr/backgroundColorBottomAsTint"
             android:backgroundTintMode="src_over"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_baseline_access_alarm_24"
-            app:tint="?attr/colorAccent" />
+            app:srcCompat="@drawable/ic_bo_date" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -346,6 +345,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/dialog_date"
@@ -361,7 +361,7 @@
                 android:singleLine="false"
                 android:text="3月24日\n第三周星期日(今天)"
                 android:textColor="?attr/textColorPrimary"
-                android:textSize="18sp"
+                android:textSize="19sp"
                 tools:ignore="HardcodedText,RtlHardcoded" />
         </LinearLayout>
     </LinearLayout>
@@ -376,15 +376,14 @@
         android:paddingBottom="10dp">
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center|top"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="20dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_baseline_access_alarm_24"
-            app:tint="?attr/colorAccent" />
+            app:srcCompat="@drawable/ic_bo_distribution" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -394,6 +393,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
                 android:text="@string/dialog_this_course_s"
                 android:textColor="?attr/textColorSecondary"
                 android:textSize="12sp" />
@@ -404,7 +404,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/dialog_this_course_p"
                 android:textColor="?attr/textColorPrimary"
-                android:textSize="18sp" />
+                android:textSize="19sp" />
 
             <ProgressBar
                 android:id="@+id/course_progress"

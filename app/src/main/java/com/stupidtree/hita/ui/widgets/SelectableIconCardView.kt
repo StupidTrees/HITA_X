@@ -1,6 +1,9 @@
 package com.stupidtree.hita.ui.widgets
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -14,12 +17,14 @@ import com.stupidtree.hita.R
 
 class SelectableIconCardView : FrameLayout {
     var icon: ImageView? = null
+    var iconBG: ImageView? = null
     var card: CardView? = null
     var title: TextView? = null
     var subtitle: TextView? = null
     var checkable = false
     var iconId = 0
-    var accentColor = 0
+    var iconColor = 0
+    var backgroundTint = -1
     var titleStr: String? = null
     var subtitleStr: String? = null
     var isChecked = false
@@ -37,29 +42,55 @@ class SelectableIconCardView : FrameLayout {
         initCard(context)
     }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         typedSICardView(attrs, defStyleAttr)
         initCard(context)
     }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+    constructor(
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
+    ) : super(context, attrs, defStyleAttr, defStyleRes) {
         typedSICardView(attrs, defStyleAttr)
     }
 
 
     private fun typedSICardView(attrs: AttributeSet?, defStyleAttr: Int) {
-        val a = context.theme.obtainStyledAttributes(attrs, R.styleable.SelectableIconCardView, defStyleAttr, 0)
+        val a = context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.SelectableIconCardView,
+            defStyleAttr,
+            0
+        )
         val n = a.indexCount
         for (i in 0..n) {
             when (val attr = a.getIndex(i)) {
-                R.styleable.SelectableIconCardView_cardCheckable -> checkable = a.getBoolean(attr, true)
-                R.styleable.SelectableIconCardView_cardIcon -> iconId = a.getResourceId(attr, R.drawable.ic_baseline_access_alarm_24)
-                R.styleable.SelectableIconCardView_cardIconColor -> accentColor = a.getColor(attr, R.attr.colorAccent)
+                R.styleable.SelectableIconCardView_cardCheckable -> checkable =
+                    a.getBoolean(attr, true)
+                R.styleable.SelectableIconCardView_cardIcon -> iconId =
+                    a.getResourceId(attr, R.drawable.ic_baseline_access_alarm_24)
+                R.styleable.SelectableIconCardView_cardIconColor -> iconColor =
+                    a.getColor(attr, R.attr.colorPrimary)
+                R.styleable.SelectableIconCardView_cardBGTint -> backgroundTint =
+                    a.getColor(attr, -1)
+
                 R.styleable.SelectableIconCardView_cardTitleText -> titleStr = a.getString(attr)
-                R.styleable.SelectableIconCardView_cardSubtitleText -> subtitleStr = a.getString(attr)
-                R.styleable.SelectableIconCardView_cardHapticFeedback -> hapticFeedback = a.getBoolean(attr, true)
-                R.styleable.SelectableIconCardView_cardIconPadding -> iconPadding = a.getDimensionPixelSize(attr, TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt())
+                R.styleable.SelectableIconCardView_cardSubtitleText -> subtitleStr =
+                    a.getString(attr)
+                R.styleable.SelectableIconCardView_cardHapticFeedback -> hapticFeedback =
+                    a.getBoolean(attr, true)
+                R.styleable.SelectableIconCardView_cardIconPadding -> iconPadding =
+                    a.getDimensionPixelSize(
+                        attr, TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics
+                        ).toInt()
+                    )
             }
         }
     }
@@ -67,6 +98,7 @@ class SelectableIconCardView : FrameLayout {
     private fun initCard(context: Context?) {
         inflate(context, R.layout.dynamic_selectable_icon_card, this)
         icon = findViewById(R.id.icon)
+        iconBG = findViewById(R.id.iconBG)
         card = findViewById(R.id.card)
         title = findViewById(R.id.title)
         subtitle = findViewById(R.id.subtitle)
@@ -79,6 +111,7 @@ class SelectableIconCardView : FrameLayout {
             toggle()
         }
         icon?.setPadding(iconPadding, iconPadding, iconPadding, iconPadding)
+
         refreshState()
     }
 
@@ -113,12 +146,17 @@ class SelectableIconCardView : FrameLayout {
 
     private fun refreshState() {
         if (isEnabled) {
+            icon?.setBackgroundResource(R.drawable.element_round_white_light)
             if (isChecked || !checkable) {
-                icon!!.setColorFilter(accentColor)
-                icon!!.setBackgroundResource(R.drawable.element_round_primary)
+                icon!!.setColorFilter(iconColor)
+                if (backgroundTint != -1) {
+                    iconBG?.setColorFilter(backgroundTint)
+                }else{
+                    iconBG?.setColorFilter(iconColor)
+                }
             } else {
                 icon!!.clearColorFilter()
-                icon!!.setBackgroundResource(R.drawable.element_round_primary)
+                iconBG?.setColorFilter(Color.GRAY)
             }
         } else {
             icon!!.clearColorFilter()

@@ -26,11 +26,13 @@
     <attr name="cardCheckable" format="boolean" />
     <attr name="cardHapticFeedback" format="boolean" />
     <attr name="cardIconPadding" format="dimension" />
+    <attr name="cardBGTint" format="color" />
     <declare-styleable name="SelectableIconCardView">
         <attr name="cardTitleText" />
         <attr name="cardSubtitleText" />
         <attr name="cardIcon" />
         <attr name="cardIconColor" />
+        <attr name="cardBGTint" />
         <attr name="cardCheckable" />
         <attr name="cardHapticFeedback" />
         <attr name="cardIconPadding" />

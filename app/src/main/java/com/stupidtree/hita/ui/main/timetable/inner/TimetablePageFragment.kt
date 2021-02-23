@@ -72,13 +72,13 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
             }
 
             override val cardOpacity: Int
-                get() = 75
+                get() = 90
             override val cardHeight: Int
                 get() = 180
             override val startTime: TimeInDay
                 get() = TimeInDay(8, 0)
             override val todayBGColor: Int
-                get() = Color.parseColor("#22000000")
+                get() = Color.parseColor("#11000000")
             override val titleGravity: Int
                 get() = Gravity.CENTER
             override val colorPrimary: Int

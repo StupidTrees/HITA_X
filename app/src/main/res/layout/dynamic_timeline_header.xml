@@ -78,7 +78,7 @@
                 android:layout_height="110dp"
                 android:layout_gravity="center"
                 android:background="@drawable/element_round_white_light"
-                android:padding="16dp"
+                android:padding="24dp"
                 android:scaleType="centerInside"
                 android:visibility="invisible"
                 app:srcCompat="@drawable/ic_timeline_head_free"

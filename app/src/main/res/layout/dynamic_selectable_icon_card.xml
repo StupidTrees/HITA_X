@@ -22,17 +22,24 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:background="@drawable/element_rounded_button_bg_grey"
-                android:backgroundTint="?attr/backgroundColorBottomAsTint"
-                android:backgroundTintMode="src_over"
-                android:padding="8dp"
-                android:tintMode="src_in"
-                app:srcCompat="@drawable/ic_baseline_access_alarm_24"
-                app:tint="?attr/colorControlNormal" />
+            <FrameLayout
+                android:layout_width="64dp"
+                android:layout_height="64dp">
+
+                <ImageView
+                    android:id="@+id/iconBG"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    app:srcCompat="@drawable/element_round_white_light" />
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:padding="8dp"
+                    android:tintMode="src_in"
+                    app:srcCompat="@drawable/ic_bx_teacher" />
+            </FrameLayout>
 
             <com.stupidtree.hita.ui.widgets.FocusTextView
                 android:id="@+id/title"
@@ -40,14 +47,15 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="16dp"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:text="@string/give_me_notification_permission"
                 android:textColor="?attr/textColorPrimary"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <com.stupidtree.hita.ui.widgets.FocusTextView
                 android:id="@+id/subtitle"

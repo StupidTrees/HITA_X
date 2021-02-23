@@ -48,6 +48,7 @@
         android:layout_height="match_parent"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layoutAnimation="@anim/recycler_layout_animation_slide_from_right"
         android:overScrollMode="never"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         app:layout_scrollFlags="scroll" />

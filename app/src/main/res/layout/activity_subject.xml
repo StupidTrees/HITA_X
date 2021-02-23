@@ -87,23 +87,23 @@
                         app:arc_progress="0"
                         app:arc_stroke_width="12dp"
                         app:arc_text_color="?attr/colorAccent"
-                        app:arc_text_size="28sp"
+                        app:arc_text_size="24dp"
                         app:arc_unfinished_color="?attr/backgroundIconColorBottom" />
                 </androidx.cardview.widget.CardView>
 
                 <com.stupidtree.hita.ui.widgets.SelectableIconCardView
-                    android:id="@+id/card_teacher"
+                    android:id="@+id/card_type"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="24dp"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
-                    app:cardCheckable="false"
-                    app:cardIcon="@drawable/ic_teacher"
-                    app:cardIconColor="?attr/colorAccent"
-                    app:cardIconPadding="14dp"
-                    app:cardSubtitleText="@string/subject_teacher">
+                    app:cardBGTint="#efb336"
+                    app:cardIcon="@drawable/ic_bx_type"
+                    app:cardIconColor="#00000000"
+                    app:cardIconPadding="12dp"
+                    app:cardSubtitleText="@string/subject_type">
 
                 </com.stupidtree.hita.ui.widgets.SelectableIconCardView>
 
@@ -115,7 +115,7 @@
                 android:orientation="horizontal">
 
                 <com.stupidtree.hita.ui.widgets.SelectableIconCardView
-                    android:id="@+id/card_type"
+                    android:id="@+id/card_teacher"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:layout_marginStart="24dp"
@@ -123,10 +123,12 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
-                    app:cardIcon="@drawable/ic_type"
-                    app:cardIconColor="?attr/colorAccent"
-                    app:cardIconPadding="14dp"
-                    app:cardSubtitleText="@string/subject_type">
+                    app:cardBGTint="#7dc5eb"
+                    app:cardCheckable="false"
+                    app:cardIcon="@drawable/ic_bx_teacher"
+                    app:cardIconColor="#00000000"
+                    app:cardIconPadding="11dp"
+                    app:cardSubtitleText="@string/subject_teacher">
 
                 </com.stupidtree.hita.ui.widgets.SelectableIconCardView>
 
@@ -138,9 +140,10 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="24dp"
                     android:layout_weight="1"
-                    app:cardIcon="@drawable/ic_baseline_toys_24"
-                    app:cardIconColor="?attr/colorAccent"
-                    app:cardIconPadding="10dp"
+                    app:cardBGTint="#7cba59"
+                    app:cardIcon="@drawable/ic_bx_credit"
+                    app:cardIconColor="#00000000"
+                    app:cardIconPadding="14dp"
                     app:cardSubtitleText="@string/subject_credit">
 
                 </com.stupidtree.hita.ui.widgets.SelectableIconCardView>

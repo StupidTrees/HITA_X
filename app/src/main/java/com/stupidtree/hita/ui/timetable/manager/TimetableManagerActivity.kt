@@ -53,14 +53,20 @@ class TimetableManagerActivity :
 
     private fun bindLiveData() {
         viewModel.timetablesLiveData.observe(this) {
-            listAdapter.notifyItemChangedSmooth(it, object : BaseListAdapter.RefreshJudge<Timetable> {
-                override fun judge(oldData: Timetable, newData: Timetable): Boolean {
-                    return oldData.name != newData.name
-                            || oldData.startTime != newData.startTime
-                            || oldData.id != newData.id
-                }
+            if(listAdapter.beans.isEmpty()){
+                listAdapter.notifyDataSetChanged(it)
+                binding.list.scheduleLayoutAnimation()
+            }else{
+                listAdapter.notifyItemChangedSmooth(it, object : BaseListAdapter.RefreshJudge<Timetable> {
+                    override fun judge(oldData: Timetable, newData: Timetable): Boolean {
+                        return oldData.name != newData.name
+                                || oldData.startTime != newData.startTime
+                                || oldData.id != newData.id
+                    }
 
-            })
+                })
+            }
+
         }
     }
 

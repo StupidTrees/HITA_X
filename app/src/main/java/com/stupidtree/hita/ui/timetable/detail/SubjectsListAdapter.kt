@@ -2,10 +2,15 @@ package com.stupidtree.hita.ui.timetable.detail
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import androidx.core.graphics.*
+import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.stupidtree.hita.R
@@ -117,10 +122,22 @@ class SubjectsListAdapter(
                 binding.icon.clearColorFilter()
             }
             data?.id?.let {
-                viewModel.getSubjectProgress(it).observe(lifecycleOwner){
-                    binding.progress.progress = (it.first/(it.second.toFloat()) * 100).toInt()
+                viewModel.getSubjectProgress(it).observe(lifecycleOwner) {
+                    binding.progress.progress = (it.first / (it.second.toFloat()) * 100).toInt()
                 }
             }
+            data?.let {
+                binding.progress.progressTintList = ColorStateList.valueOf(it.color)
+                val c = Color.argb(
+                    Color.alpha(it.color) / 4,
+                    Color.red(it.color),
+                    Color.green(it.color),
+                    Color.blue(it.color)
+                )
+                binding.progress.backgroundTintMode = PorterDuff.Mode.SRC_IN
+                binding.progress.backgroundTintList = ColorStateList.valueOf(c)
+            }
+
 //            val finalColor = color
 //            binding.icon.setOnClickListener(View.OnClickListener {
 //                if (!colorfulMode) return@OnClickListener
