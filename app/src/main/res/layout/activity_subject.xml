@@ -68,42 +68,67 @@
                     android:layout_height="160dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="16dp"
                     android:layout_weight="1"
                     android:transitionName="card"
                     app:cardBackgroundColor="?attr/backgroundColorSecond"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="0dp">
 
-                    <com.github.lzyzsd.circleprogress.ArcProgress
-                        android:id="@+id/subject_progress"
-                        android:layout_width="110dp"
-                        android:layout_height="110dp"
-                        android:layout_gravity="center"
-                        app:arc_bottom_text="@string/subject_progress_text"
-                        app:arc_bottom_text_size="10sp"
-                        app:arc_finished_color="?attr/colorAccent"
-                        app:arc_max="100"
-                        app:arc_progress="0"
-                        app:arc_stroke_width="12dp"
-                        app:arc_text_color="?attr/colorAccent"
-                        app:arc_text_size="24dp"
-                        app:arc_unfinished_color="?attr/backgroundIconColorBottom" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.github.lzyzsd.circleprogress.ArcProgress
+                            android:id="@+id/subject_progress"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_gravity="center"
+                            app:arc_bottom_text="@string/progress"
+                            app:arc_bottom_text_size="10sp"
+                            app:arc_finished_color="?attr/colorAccent"
+                            app:arc_max="100"
+                            app:arc_progress="0"
+                            app:arc_stroke_width="16dp"
+                            app:arc_text_color="?attr/colorAccent"
+                            app:arc_text_size="24sp"
+                            app:arc_unfinished_color="?attr/backgroundIconColorBottom" />
+
+                        <com.stupidtree.hita.ui.widgets.FocusTextView
+                            android:id="@+id/subject_progress_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="16dp"
+                            android:ellipsize="marquee"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:singleLine="true"
+                            android:text="0%"
+                            android:textColor="?attr/textColorPrimary"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
                 </androidx.cardview.widget.CardView>
 
                 <com.stupidtree.hita.ui.widgets.SelectableIconCardView
-                    android:id="@+id/card_type"
+                    android:id="@+id/card_credit"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="24dp"
-                    android:layout_marginBottom="8dp"
                     android:layout_weight="1"
-                    app:cardBGTint="#efb336"
-                    app:cardIcon="@drawable/ic_bx_type"
+                    app:cardBGTint="#ea9518"
+                    app:cardIcon="@drawable/ic_bx_credit"
                     app:cardIconColor="#00000000"
                     app:cardIconPadding="12dp"
-                    app:cardSubtitleText="@string/subject_type">
+                    app:cardSubtitleText="@string/subject_credit">
 
                 </com.stupidtree.hita.ui.widgets.SelectableIconCardView>
 
@@ -112,39 +137,37 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
                 android:orientation="horizontal">
+
+                <com.stupidtree.hita.ui.widgets.SelectableIconCardView
+                    android:id="@+id/card_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    app:cardBGTint="#1296db"
+                    app:cardIcon="@drawable/ic_bx_type"
+                    app:cardIconColor="#00000000"
+                    app:cardIconPadding="12dp"
+                    app:cardSubtitleText="@string/subject_type">
+
+                </com.stupidtree.hita.ui.widgets.SelectableIconCardView>
 
                 <com.stupidtree.hita.ui.widgets.SelectableIconCardView
                     android:id="@+id/card_teacher"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="24dp"
                     android:layout_weight="1"
-                    app:cardBGTint="#7dc5eb"
+                    app:cardBGTint="#d42379"
                     app:cardCheckable="false"
                     app:cardIcon="@drawable/ic_bx_teacher"
                     app:cardIconColor="#00000000"
-                    app:cardIconPadding="11dp"
+                    app:cardIconPadding="12dp"
                     app:cardSubtitleText="@string/subject_teacher">
-
-                </com.stupidtree.hita.ui.widgets.SelectableIconCardView>
-
-                <com.stupidtree.hita.ui.widgets.SelectableIconCardView
-                    android:id="@+id/card_credit"
-                    android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_weight="1"
-                    app:cardBGTint="#7cba59"
-                    app:cardIcon="@drawable/ic_bx_credit"
-                    app:cardIconColor="#00000000"
-                    app:cardIconPadding="14dp"
-                    app:cardSubtitleText="@string/subject_credit">
 
                 </com.stupidtree.hita.ui.widgets.SelectableIconCardView>
 

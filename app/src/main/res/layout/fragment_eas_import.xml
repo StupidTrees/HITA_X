@@ -45,7 +45,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:text="             "
                             android:textColor="?attr/textColorPrimary"
                             android:textSize="30sp"
                             android:textStyle="bold" />
@@ -145,7 +144,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="1"
-                        app:cardHapticFeedback="true"
+                        app:cardHapticFeedback="false"
                         app:cardIcon="@drawable/ic_baseline_timetable_24"
                         app:cardIconColor="?attr/colorAccent"
                         app:cardIconPadding="10dp"
@@ -172,10 +171,10 @@
                         android:id="@+id/schedule_structure"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
                         android:layout_weight="1"
-                        android:overScrollMode="never">
+                        android:overScrollMode="never"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
 
                     </androidx.recyclerview.widget.RecyclerView>
                 </androidx.cardview.widget.CardView>

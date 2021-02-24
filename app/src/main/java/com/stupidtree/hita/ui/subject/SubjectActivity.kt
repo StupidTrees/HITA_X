@@ -78,6 +78,7 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
             va.interpolator = DecelerateInterpolator(2f)
             va.addUpdateListener { animation ->
                 binding.subjectProgress.progress = animation.animatedValue as Int
+                binding.subjectProgressTitle.text = getString(R.string.percentage,animation.animatedValue)
             }
             va.startDelay = 160
             va.start()

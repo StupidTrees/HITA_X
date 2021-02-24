@@ -126,6 +126,7 @@ class EASource internal constructor() : EASService {
             try {
                 val s = Jsoup.connect("$hostName/component/queryXnxq")
                     .cookies(token.cookies)
+                    .timeout(timeout)
                     .headers(defaultRequestHeader)
                     .header("X-Requested-With", "XMLHttpRequest")
                     .ignoreContentType(true)
@@ -166,7 +167,6 @@ class EASource internal constructor() : EASService {
                 } else {
                     res.postValue(DataState(DataState.STATE.NOT_LOGGED_IN))
                 }
-
             } catch (e: IOException) {
                 res.postValue(DataState(DataState.STATE.FETCH_FAILED))
             }

@@ -17,17 +17,17 @@ class EASViewModel(application: Application) : AndroidViewModel(application){
      */
     private val easRepository = EASRepository.getInstance(application)
 
-    /**
-     * LiveData区
-     */
-
-    private val termsController:MutableLiveData<Trigger> = MutableLiveData()
-    val termsLiveData:LiveData<DataState<List<TermItem>>>
-        get() {
-            return Transformations.switchMap(termsController){
-                return@switchMap easRepository.getAllTerms()
-            }
-        }
+//    /**
+//     * LiveData区
+//     */
+//
+//    private val termsController:MutableLiveData<Trigger> = MutableLiveData()
+//    val termsLiveData:LiveData<DataState<List<TermItem>>>
+//        get() {
+//            return Transformations.switchMap(termsController){
+//                return@switchMap easRepository.getAllTerms()
+//            }
+//        }
 
     private val loginCheckController = MutableLiveData<Trigger>()
     val loginCheckResult:LiveData<DataState<Boolean>> = Transformations.switchMap(loginCheckController){
@@ -40,9 +40,9 @@ class EASViewModel(application: Application) : AndroidViewModel(application){
     /**
      * 方法区
      */
-    fun startRefreshTerms(){
-        termsController.value = Trigger.actioning
-    }
+//    fun startRefreshTerms(){
+//        termsController.value = Trigger.actioning
+//    }
 
 
     fun startLoginCheck(){

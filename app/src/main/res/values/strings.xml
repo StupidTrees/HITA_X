@@ -1135,4 +1135,6 @@
     <string name="timetable_structure_label">课表结构</string>
     <string name="timetable_name">课表名称</string>
     <string name="default_timetable_name">新建课表</string>
+    <string name="load_failed">加载失败</string>
+    <string name="percentage">%d%%</string>
 </resources>

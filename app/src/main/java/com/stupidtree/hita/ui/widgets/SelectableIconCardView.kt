@@ -161,6 +161,7 @@ class SelectableIconCardView : FrameLayout {
         } else {
             icon!!.clearColorFilter()
             icon!!.setBackgroundResource(R.drawable.element_round_grey)
+            icon!!.setColorFilter(Color.GRAY)
         }
     }
 
