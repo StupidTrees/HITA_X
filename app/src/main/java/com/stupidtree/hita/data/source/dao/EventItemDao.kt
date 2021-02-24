@@ -40,10 +40,11 @@ interface EventItemDao {
 
 
     @Query("SELECT count(*) from events where subjectId is :subjectId")
-    fun countClassesOfSubjectSync(subjectId: String): Int
+    fun countClassesOfSubject(subjectId: String): LiveData<Int>
 
     @Query("SELECT count(*) from events where subjectId is :subjectId and `to` < :ts")
-    fun countClassesBeforeTimeOfSubjectSync(subjectId: String, ts: Long): Int
+    fun countClassesBeforeTimeOfSubject(subjectId: String, ts: Long): LiveData<Int>
+
 
     @Query("DELETE from events where timetableId in (:ids)")
     fun deleteEventsFromTimetablesSync(ids: List<String>)
@@ -59,6 +60,11 @@ interface EventItemDao {
         timetableId: String,
         toNumber: Int
     ): List<EventItem>
+
+
+    @Query("DELETE from events where subjectId in (:ids)")
+    fun deleteEventsFromSubjectsSync(ids: List<String>)
+
 
     /**
      * 将某课表的所有课程时间加上offset

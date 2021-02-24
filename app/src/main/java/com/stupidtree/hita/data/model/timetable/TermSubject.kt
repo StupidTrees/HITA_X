@@ -2,7 +2,7 @@ package com.stupidtree.hita.data.model.timetable
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.stupidtree.hita.utils.ColorBox
+import com.stupidtree.hita.utils.ColorTools
 import java.sql.Timestamp
 import java.util.*
 
@@ -34,6 +34,6 @@ class TermSubject{
             : String? = null
     var createdAt //创建时间
             : Timestamp = Timestamp(System.currentTimeMillis())
-    var color:Int = ColorBox.randomColorMaterial()
+    var color:Int = ColorTools.randomColorMaterial()
 
 }

@@ -2,12 +2,13 @@ package com.stupidtree.hita.data.repository
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hita.data.AppDatabase
 import com.stupidtree.hita.data.model.timetable.TermSubject
 import com.stupidtree.hita.ui.timetable.detail.TeacherInfo
-import com.stupidtree.hita.utils.ColorBox
+import com.stupidtree.hita.utils.ColorTools
+import javax.security.auth.Subject
 
 class SubjectRepository(application: Application) {
     private val eventItemDao = AppDatabase.getDatabase(application).eventItemDao()
@@ -65,9 +66,24 @@ class SubjectRepository(application: Application) {
         Thread {
             val subjects = subjectDao.getSubjectsSync(timetableId)
             for (s in subjects) {
-                s.color = ColorBox.randomColorMaterial()
+                s.color = ColorTools.randomColorMaterial()
             }
             subjectDao.saveSubjectsSync(subjects)
+        }.start()
+    }
+
+
+    /**
+     * 动作：删除科目及其事件
+     */
+    fun actionDeleteSubjects(subjects:List<TermSubject>){
+        Thread{
+            subjectDao.deleteSubjectsSync(subjects)
+            val ids = mutableListOf<String>()
+            for(s in subjects){
+                ids.add(s.id)
+            }
+            eventItemDao.deleteEventsFromSubjectsSync(ids)
         }.start()
     }
 
@@ -77,15 +93,12 @@ class SubjectRepository(application: Application) {
      *
      */
     fun getProgressOfSubject(subjectId: String, ts: Long): LiveData<Pair<Int, Int>> {
-        val res = MutableLiveData<Pair<Int, Int>>()
-        Thread {
-            val total = eventItemDao.countClassesOfSubjectSync(subjectId)
-            val finished = eventItemDao.countClassesBeforeTimeOfSubjectSync(
-                subjectId,
-                ts
-            )
-            res.postValue(Pair(finished, total))
-        }.start()
+        val res = MediatorLiveData<Pair<Int, Int>>()
+        res.addSource(eventItemDao.countClassesOfSubject(subjectId)) { total ->
+            res.addSource(eventItemDao.countClassesBeforeTimeOfSubject(subjectId, ts)) { finished ->
+                res.value = Pair(finished, total)
+            }
+        }
         return res
     }
 

@@ -1,10 +1,9 @@
 package com.stupidtree.hita.utils
 
-import android.content.SharedPreferences
 import android.graphics.Color
 import java.util.*
 
-object ColorBox {
+object ColorTools {
     var colors_material = arrayOf(
         "#ef5350",
         "#ec407a",
@@ -23,17 +22,16 @@ object ColorBox {
         val random = Random()
         return Color.parseColor(colors_material[random.nextInt(colors_material.size - 1)])
     }
-
-    fun getSubjectColor(SP: SharedPreferences, subjectName: String?): Int {
-        var color = SP.getInt("color:$subjectName", -1)
-        if (color == -1) {
-            color = randomColorMaterial()
-            SP.edit().putInt("color:$subjectName", color).apply()
-        }
-        return color
+    
+    
+    fun changeAlpha(color:Int,alpha:Float):Int{
+        return Color.argb(
+                (255*alpha).toInt(),
+                Color.red(color),
+                Color.green(color),
+                Color.blue(color)
+        )
     }
-
-    fun changeSubjectColor(SP: SharedPreferences, subjectName: String, color: Int) {
-        SP.edit().putInt("color:$subjectName", color).apply()
-    }
+    
+    
 }

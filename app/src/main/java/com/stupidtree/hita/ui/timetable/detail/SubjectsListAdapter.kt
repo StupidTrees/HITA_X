@@ -3,14 +3,11 @@ package com.stupidtree.hita.ui.timetable.detail
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import androidx.core.graphics.*
-import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.stupidtree.hita.R
@@ -21,15 +18,16 @@ import com.stupidtree.hita.databinding.DynamicSubjectsItemBinding
 import com.stupidtree.hita.ui.base.BaseCheckableListAdapter
 import com.stupidtree.hita.ui.base.BaseViewHolder
 import com.stupidtree.hita.ui.timetable.detail.SubjectsListAdapter.SubjectViewHolder
+import com.stupidtree.hita.utils.ColorTools
 
 @SuppressLint("ParcelCreator")
 class SubjectsListAdapter(
-    context: Context,
-    subjects: MutableList<TermSubject>,
-    val viewModel: TimetableDetailViewModel,
-    private val lifecycleOwner: LifecycleOwner
+        context: Context,
+        subjects: MutableList<TermSubject>,
+        val viewModel: TimetableDetailViewModel,
+        private val lifecycleOwner: LifecycleOwner
 ) :
-    BaseCheckableListAdapter<TermSubject, SubjectViewHolder>(context, subjects) {
+        BaseCheckableListAdapter<TermSubject, SubjectViewHolder>(context, subjects) {
 
 
     override fun getItemViewType(position: Int): Int {
@@ -51,7 +49,7 @@ class SubjectsListAdapter(
 
 
     class SubjectViewHolder(binding: ViewBinding) :
-        BaseViewHolder<ViewBinding>(viewBinding = binding), CheckableViewHolder {
+            BaseViewHolder<ViewBinding>(viewBinding = binding), CheckableViewHolder {
 
         override fun showCheckBox() {
             if (binding is DynamicSubjectsItemBinding) {
@@ -105,9 +103,9 @@ class SubjectsListAdapter(
 
 
     override fun bindHolder(
-        holder: SubjectViewHolder,
-        data: TermSubject?,
-        position: Int
+            holder: SubjectViewHolder,
+            data: TermSubject?,
+            position: Int
     ) {
         super.bindHolder(holder, data, position)
         if (holder.binding is DynamicSubjectListTitleBinding) {
@@ -121,21 +119,16 @@ class SubjectsListAdapter(
             } else {
                 binding.icon.clearColorFilter()
             }
-            data?.id?.let {
-                viewModel.getSubjectProgress(it).observe(lifecycleOwner) {
+            data?.id?.let { str ->
+                viewModel.getSubjectProgress(str).observe(lifecycleOwner) {
                     binding.progress.progress = (it.first / (it.second.toFloat()) * 100).toInt()
                 }
             }
             data?.let {
                 binding.progress.progressTintList = ColorStateList.valueOf(it.color)
-                val c = Color.argb(
-                    Color.alpha(it.color) / 4,
-                    Color.red(it.color),
-                    Color.green(it.color),
-                    Color.blue(it.color)
-                )
-                binding.progress.backgroundTintMode = PorterDuff.Mode.SRC_IN
-                binding.progress.backgroundTintList = ColorStateList.valueOf(c)
+
+                binding.progress.progressBackgroundTintMode = PorterDuff.Mode.SRC_IN
+                binding.progress.progressBackgroundTintList = ColorStateList.valueOf(ColorTools.changeAlpha(it.color, 0.2f))
             }
 
 //            val finalColor = color
@@ -150,7 +143,7 @@ class SubjectsListAdapter(
 //                        })
 //            })
             val t =
-                if (TextUtils.isEmpty(data?.school)) mContext.getString(R.string.unknown_department) else data?.school
+                    if (TextUtils.isEmpty(data?.school)) mContext.getString(R.string.unknown_department) else data?.school
             binding.label.text = t
             if (isEditMode) {
                 binding.icon.visibility = View.GONE

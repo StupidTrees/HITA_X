@@ -1,10 +1,7 @@
 package com.stupidtree.hita.data.source.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.model.timetable.SubjectColor
 import com.stupidtree.hita.data.model.timetable.TermSubject
@@ -37,5 +34,8 @@ interface SubjectDao {
 
     @Query("DELETE from subject where timetableId in (:ids)")
     fun deleteSubjectsFromTimetablesSync(ids: List<String>)
+
+    @Delete
+    fun deleteSubjectsSync(subjects: List<TermSubject>)
 
 }

@@ -124,10 +124,10 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="24dp"
                     android:layout_weight="1"
-                    app:cardBGTint="#ea9518"
+                    app:cardBGTint="?attr/colorPrimary"
                     app:cardIcon="@drawable/ic_bx_credit"
                     app:cardIconColor="#00000000"
-                    app:cardIconPadding="12dp"
+                    app:cardIconPadding="14dp"
                     app:cardSubtitleText="@string/subject_credit">
 
                 </com.stupidtree.hita.ui.widgets.SelectableIconCardView>
@@ -147,10 +147,10 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    app:cardBGTint="#1296db"
+                    app:cardBGTint="?attr/colorPrimary"
                     app:cardIcon="@drawable/ic_bx_type"
                     app:cardIconColor="#00000000"
-                    app:cardIconPadding="12dp"
+                    app:cardIconPadding="14dp"
                     app:cardSubtitleText="@string/subject_type">
 
                 </com.stupidtree.hita.ui.widgets.SelectableIconCardView>
@@ -162,11 +162,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="24dp"
                     android:layout_weight="1"
-                    app:cardBGTint="#d42379"
+                    app:cardBGTint="?attr/colorPrimary"
                     app:cardCheckable="false"
                     app:cardIcon="@drawable/ic_bx_teacher"
                     app:cardIconColor="#00000000"
-                    app:cardIconPadding="12dp"
+                    app:cardIconPadding="14dp"
                     app:cardSubtitleText="@string/subject_teacher">
 
                 </com.stupidtree.hita.ui.widgets.SelectableIconCardView>

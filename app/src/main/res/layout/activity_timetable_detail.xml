@@ -110,7 +110,8 @@
                 android:text="@string/title_teachers"
                 android:textColor="?attr/textColorPrimary"
                 android:textSize="22sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/teachers_list"
@@ -137,7 +138,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center|start"
-                    android:paddingStart="24dp"
+                    android:paddingStart="32dp"
                     android:paddingEnd="24dp"
                     android:text="@string/title_subjects"
                     android:textColor="?attr/textColorPrimary"
@@ -188,7 +189,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:gravity="center|start"
-                android:paddingStart="24dp"
+                android:paddingStart="32dp"
                 android:paddingEnd="24dp"
                 android:text="@string/timetable_structure_label"
                 android:textColor="?attr/textColorPrimary"

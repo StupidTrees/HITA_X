@@ -13,7 +13,6 @@ import android.widget.TextView
 import com.stupidtree.hita.R
 import com.stupidtree.hita.data.model.timetable.EventItem
 import com.stupidtree.hita.data.model.timetable.TimeInDay
-import com.stupidtree.hita.utils.ColorBox
 
 class TimeTableBlockView
 constructor(context: Context, var block: Any, var root: TimeTablePreferenceRoot) :

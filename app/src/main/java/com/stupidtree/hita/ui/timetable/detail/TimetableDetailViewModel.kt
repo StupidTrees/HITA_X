@@ -11,6 +11,7 @@ import com.stupidtree.hita.data.model.timetable.Timetable
 import com.stupidtree.hita.data.repository.SubjectRepository
 import com.stupidtree.hita.data.repository.TimetableRepository
 import com.stupidtree.hita.ui.base.StringTrigger
+import java.util.*
 
 class TimetableDetailViewModel(application: Application) : AndroidViewModel(application) {
     /**
@@ -70,6 +71,10 @@ class TimetableDetailViewModel(application: Application) : AndroidViewModel(appl
         timetableLiveData.value?.let {
             subjectsRepository.actionResetSubjectColors(it.id)
         }
+    }
+
+    fun startDeleteSubjects(subjects:Collection<TermSubject>){
+        subjectsRepository.actionDeleteSubjects(subjects.toList())
     }
 
 

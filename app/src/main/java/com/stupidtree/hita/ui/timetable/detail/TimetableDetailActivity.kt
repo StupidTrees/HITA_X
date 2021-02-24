@@ -98,6 +98,8 @@ class TimetableDetailActivity :
                     }
 
                     override fun onDelete(toDelete: Collection<TermSubject>?) {
+                        editModeHelper?.closeEditMode()
+                        toDelete?.let { it1 -> viewModel.startDeleteSubjects(it1) }
                     }
 
                 })
