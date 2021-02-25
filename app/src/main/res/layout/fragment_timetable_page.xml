@@ -109,7 +109,7 @@
 
     </LinearLayout>
 
-    <com.stupidtree.hita.ui.main.timetable.views.TimeTableView
+    <com.stupidtree.hitax.ui.main.timetable.views.TimeTableView
         android:id="@+id/timetableView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

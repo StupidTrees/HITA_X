@@ -96,7 +96,7 @@
                             app:arc_text_size="24sp"
                             app:arc_unfinished_color="?attr/backgroundIconColorBottom" />
 
-                        <com.stupidtree.hita.ui.widgets.FocusTextView
+                        <com.stupidtree.hitax.ui.widgets.FocusTextView
                             android:id="@+id/subject_progress_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -117,7 +117,46 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <com.stupidtree.hita.ui.widgets.SelectableIconCardView
+                <com.stupidtree.hitax.ui.widgets.SelectableIconCardView
+                    android:id="@+id/card_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_weight="1"
+                    app:cardBGTint="?attr/colorPrimary"
+                    app:cardIcon="@drawable/ic_bx_type"
+                    app:cardIconColor="#00000000"
+                    app:cardIconPadding="14dp"
+                    app:cardSubtitleText="@string/subject_type">
+
+                </com.stupidtree.hitax.ui.widgets.SelectableIconCardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <com.stupidtree.hitax.ui.widgets.SelectableIconCardView
+                    android:id="@+id/card_teacher"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    app:cardBGTint="?attr/colorPrimary"
+                    app:cardCheckable="false"
+                    app:cardIcon="@drawable/ic_bx_teacher"
+                    app:cardIconColor="#00000000"
+                    app:cardIconPadding="14dp"
+                    app:cardSubtitleText="@string/subject_teacher">
+
+                </com.stupidtree.hitax.ui.widgets.SelectableIconCardView>
+
+                <com.stupidtree.hitax.ui.widgets.SelectableIconCardView
                     android:id="@+id/card_credit"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
@@ -130,46 +169,7 @@
                     app:cardIconPadding="14dp"
                     app:cardSubtitleText="@string/subject_credit">
 
-                </com.stupidtree.hita.ui.widgets.SelectableIconCardView>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="16dp"
-                android:orientation="horizontal">
-
-                <com.stupidtree.hita.ui.widgets.SelectableIconCardView
-                    android:id="@+id/card_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    app:cardBGTint="?attr/colorPrimary"
-                    app:cardIcon="@drawable/ic_bx_type"
-                    app:cardIconColor="#00000000"
-                    app:cardIconPadding="14dp"
-                    app:cardSubtitleText="@string/subject_type">
-
-                </com.stupidtree.hita.ui.widgets.SelectableIconCardView>
-
-                <com.stupidtree.hita.ui.widgets.SelectableIconCardView
-                    android:id="@+id/card_teacher"
-                    android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_weight="1"
-                    app:cardBGTint="?attr/colorPrimary"
-                    app:cardCheckable="false"
-                    app:cardIcon="@drawable/ic_bx_teacher"
-                    app:cardIconColor="#00000000"
-                    app:cardIconPadding="14dp"
-                    app:cardSubtitleText="@string/subject_teacher">
-
-                </com.stupidtree.hita.ui.widgets.SelectableIconCardView>
+                </com.stupidtree.hitax.ui.widgets.SelectableIconCardView>
 
             </LinearLayout>
 

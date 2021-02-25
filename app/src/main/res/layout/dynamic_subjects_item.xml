@@ -99,7 +99,7 @@
                 android:foreground="?attr/selectableItemBackground"
                 android:padding="16dp"
                 android:tintMode="src_over"
-                app:srcCompat="@drawable/element_round_double"
+                app:srcCompat="@drawable/element_round_white_fade"
                 app:theme="@style/button_ripple_accent"
                 app:tint="?attr/colorPrimary" />
 

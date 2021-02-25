@@ -10,6 +10,18 @@
 
 
     <color name="cruel_summer_primary">#304ffe</color>
-    <color name="cruel_summer_fade">#305FFF</color>
+    <color name="cruel_summer_fade">#3C8CE7</color>
+
+
+
+    <color name="subject3">#ec407a</color>
+    <color name="subject4">#FF9E00</color>
+    <color name="subject5">#7c4dff</color>
+    <color name="subject7">#536dfe</color>
+    <color name="subject8">#2196f3</color>
+    <color name="subject9">#26c6da</color>
+    <color name="subject10">#009688</color>
+    <color name="subject1">#7cba59</color>
+    <color name="subject6">#E96D71</color>
 
 </resources>

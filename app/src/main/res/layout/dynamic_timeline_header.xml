@@ -15,8 +15,8 @@
     android:theme="@style/unbound_ripple_white_light"
     android:visibility="visible"
     app:cardBackgroundColor="?attr/backgroundColorSecond"
-    app:cardCornerRadius="18dp"
-    app:cardElevation="24dp">
+    app:cardCornerRadius="20dp"
+    app:cardElevation="14dp">
 
     <ImageView
         android:id="@+id/bg"
@@ -176,7 +176,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/element_rounded_button_bg_white"
                 android:orientation="horizontal"
                 android:visibility="visible">

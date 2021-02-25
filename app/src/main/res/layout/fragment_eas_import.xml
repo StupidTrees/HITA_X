@@ -63,7 +63,7 @@
 
                     </LinearLayout>
 
-                    <com.stupidtree.hita.ui.widgets.RoundedBarView
+                    <com.stupidtree.hitax.ui.widgets.RoundedBarView
                         android:id="@+id/pick_xnxq"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                         app:foregroundColor="?attr/textColorSecondary"
                         app:iconPadding="4dp">
 
-                    </com.stupidtree.hita.ui.widgets.RoundedBarView>
+                    </com.stupidtree.hitax.ui.widgets.RoundedBarView>
 
                     <Space
                         android:layout_width="wrap_content"
@@ -118,7 +118,7 @@
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal">
 
-                    <com.stupidtree.hita.ui.widgets.SelectableIconCardView
+                    <com.stupidtree.hitax.ui.widgets.SelectableIconCardView
                         android:id="@+id/card_name"
                         android:layout_width="match_parent"
                         android:layout_height="160dp"
@@ -134,9 +134,9 @@
                         app:cardIconPadding="14dp"
                         app:cardSubtitleText="@string/timetable_name">
 
-                    </com.stupidtree.hita.ui.widgets.SelectableIconCardView>
+                    </com.stupidtree.hitax.ui.widgets.SelectableIconCardView>
 
-                    <com.stupidtree.hita.ui.widgets.SelectableIconCardView
+                    <com.stupidtree.hitax.ui.widgets.SelectableIconCardView
                         android:id="@+id/card_date"
                         android:layout_width="match_parent"
                         android:layout_height="160dp"
@@ -150,7 +150,7 @@
                         app:cardIconPadding="10dp"
                         app:cardSubtitleText="@string/start_date_of_curriculum">
 
-                    </com.stupidtree.hita.ui.widgets.SelectableIconCardView>
+                    </com.stupidtree.hitax.ui.widgets.SelectableIconCardView>
 
                 </LinearLayout>
 

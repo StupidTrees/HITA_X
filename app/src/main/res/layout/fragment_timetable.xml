@@ -179,7 +179,7 @@
 
         </LinearLayout>
 
-        <com.stupidtree.hita.ui.widgets.VerticalNestedScrollView
+        <com.stupidtree.hitax.ui.widgets.VerticalNestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
@@ -190,20 +190,20 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <com.stupidtree.hita.ui.main.timetable.views.LeftLabelView
+                <com.stupidtree.hitax.ui.main.timetable.views.LeftLabelView
                     android:layout_width="@dimen/timetable_label_width"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/timetable_date_height"
                     custom:timeLabelColor="?attr/textColorSecondary"
                     custom:timeLabelSize="11sp" />
 
-                <com.stupidtree.hita.ui.widgets.WrapContentHeightViewPager
+                <com.stupidtree.hitax.ui.widgets.WrapContentHeightViewPager
                     android:id="@+id/pager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:overScrollMode="never" />
             </LinearLayout>
-        </com.stupidtree.hita.ui.widgets.VerticalNestedScrollView>
+        </com.stupidtree.hitax.ui.widgets.VerticalNestedScrollView>
 
 
     </LinearLayout>
