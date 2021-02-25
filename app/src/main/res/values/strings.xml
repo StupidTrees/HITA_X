@@ -306,7 +306,7 @@
     <string name="subject_title_scores">成绩</string>
     <string name="subject_score_none">还没有成绩信息，试试登录教务系统同步吧</string>
     <string name="subject_color">课程颜色</string>
-    <string name="search_hint">明天下午...</string>
+    <string name="search_hint">输入关键字...</string>
     <string name="check_for_update">检查更新</string>
     <string name="start_download">开始下载</string>
     <string name="install">安装</string>
@@ -1137,4 +1137,8 @@
     <string name="default_timetable_name">新建课表</string>
     <string name="load_failed">加载失败</string>
     <string name="percentage">%d%%</string>
+    <string name="title_navigation">功能中心</string>
+    <string name="title_timetable_manager">课表管理</string>
+    <string name="recent_timetable">最近课表</string>
+    <string name="timetable_count_format">共%d个课表</string>
 </resources>

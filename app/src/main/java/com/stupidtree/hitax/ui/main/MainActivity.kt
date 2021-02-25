@@ -21,7 +21,9 @@ import com.stupidtree.hitax.databinding.ActivityMainBinding
 import com.stupidtree.hitax.ui.base.BaseActivity
 import com.stupidtree.hitax.ui.base.BaseTabAdapter
 import com.stupidtree.hitax.ui.eas.EASActivity
+import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
+import com.stupidtree.hitax.ui.main.navigation.NavigationFragment
 import com.stupidtree.hitax.ui.main.timeline.FragmentTimeLine
 import com.stupidtree.hitax.ui.main.timetable.outer.TimetableFragment
 import com.stupidtree.hitax.utils.ActivityUtils
@@ -89,22 +91,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 R.id.drawer_nav_my_profile -> {
                     ActivityUtils.startMyProfileActivity(getThis())
                 }
-                R.id.drawer_nav_eas -> {
-                    ActivityUtils.showEasVerifyWindow(
-                        getThis(),
-                        directTo = EASActivity::class.java,
-                        onResponseListener = object : PopUpLoginEAS.OnResponseListener {
-                            override fun onSuccess(window: PopUpLoginEAS) {
-                                ActivityUtils.startEASActivity(getThis())
-                                window.dismiss()
-                            }
-
-                            override fun onFailed(window: PopUpLoginEAS) {
-
-                            }
-
-                        })
-                }
                 R.id.drawer_nav_timetable_manager -> {
                     ActivityUtils.startTimetableManager(getThis())
                 }
@@ -125,10 +111,13 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     override fun initViews() {
         setUpDrawer()
         //  binding.title.text = binding.navView.menu.getItem(0).title
-        binding.pager.adapter = object : BaseTabAdapter(supportFragmentManager, 2) {
+        binding.pager.adapter = object : BaseTabAdapter(supportFragmentManager, 3) {
             override fun initItem(position: Int): Fragment {
-                return if (position == 0) FragmentTimeLine()
-                else TimetableFragment()
+                return when (position) {
+                    0 -> FragmentTimeLine()
+                    1 -> TimetableFragment()
+                    else -> NavigationFragment()
+                }
             }
 
             override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
@@ -145,15 +134,23 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             }
 
             override fun onPageSelected(position: Int) {
+                binding.navView.menu.getItem(position).isChecked = true
                 when (position) {
                     0 -> {
                         binding.timetableLayout.visibility = GONE
+                        binding.navigationLayout.visibility = GONE
                         binding.todayLayout.visibility = VISIBLE
                     }
                     1 -> {
                         binding.timetableLayout.visibility = VISIBLE
                         binding.todayLayout.visibility = GONE
-                    }
+                        binding.navigationLayout.visibility = GONE
+                         }
+                    2 -> {
+                        binding.timetableLayout.visibility = GONE
+                        binding.todayLayout.visibility = GONE
+                        binding.navigationLayout.visibility = VISIBLE
+                      }
 
                 }
 //                val item = binding.navView.menu.getItem(position)
@@ -168,6 +165,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             when (item.itemId) {
                 R.id.navigation_timeline -> binding.pager.currentItem = 0
                 R.id.navigation_timetable -> binding.pager.currentItem = 1
+                R.id.navigation_navigation -> binding.pager.currentItem = 2
             }
             binding.navView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
             true

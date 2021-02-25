@@ -15,10 +15,6 @@
         android:id="@+id/drawer_nav_timetable_manager"
         android:icon="@drawable/ic_menu_settings"
         android:title="@string/menu_timeable_curriculum" />
-    <item
-        android:id="@+id/drawer_nav_eas"
-        android:icon="@drawable/ic_menu_discover"
-        android:title="@string/main_drawer_menu_jwts" />
 <!--    <item-->
 <!--        android:id="@+id/drawer_nav_discover_friend"-->
 <!--        android:icon="@drawable/ic_menu_discover"-->

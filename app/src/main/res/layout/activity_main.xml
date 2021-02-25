@@ -46,6 +46,25 @@
                         tools:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
                     <LinearLayout
+                        android:id="@+id/navigation_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/navigation_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/title_navigation"
+                            android:textColor="?attr/textColorPrimary"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/today_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -128,7 +147,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <com.stupidtree.hitax.ui.widgets.LockedViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

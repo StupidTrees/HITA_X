@@ -7,10 +7,11 @@ import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.data.repository.EASRepository
 import com.stupidtree.hitax.ui.base.DataState
 import com.stupidtree.hitax.ui.base.Trigger
+import com.stupidtree.hitax.ui.eas.EASViewModel
 import com.stupidtree.hitax.utils.MTransformations
 import java.util.*
 
-class ImportTimetableViewModel(application: Application) : AndroidViewModel(application) {
+class ImportTimetableViewModel(application: Application) : EASViewModel(application) {
     /**
      * 仓库区
      */

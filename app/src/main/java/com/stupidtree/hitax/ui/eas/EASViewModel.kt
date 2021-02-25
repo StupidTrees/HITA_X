@@ -10,23 +10,12 @@ import com.stupidtree.hitax.ui.base.DataState
 import com.stupidtree.hitax.ui.base.Trigger
 import com.stupidtree.hitax.utils.LiveDataUtils
 
-class EASViewModel(application: Application) : AndroidViewModel(application){
+abstract class EASViewModel(application: Application) : AndroidViewModel(application){
     /**
      * 仓库区
      */
     private val easRepository = EASRepository.getInstance(application)
 
-//    /**
-//     * LiveData区
-//     */
-//
-//    private val termsController:MutableLiveData<Trigger> = MutableLiveData()
-//    val termsLiveData:LiveData<DataState<List<TermItem>>>
-//        get() {
-//            return Transformations.switchMap(termsController){
-//                return@switchMap easRepository.getAllTerms()
-//            }
-//        }
 
     private val loginCheckController = MutableLiveData<Trigger>()
     val loginCheckResult:LiveData<DataState<Boolean>> = Transformations.switchMap(loginCheckController){
@@ -39,11 +28,6 @@ class EASViewModel(application: Application) : AndroidViewModel(application){
     /**
      * 方法区
      */
-//    fun startRefreshTerms(){
-//        termsController.value = Trigger.actioning
-//    }
-
-
     fun startLoginCheck(){
         loginCheckController.value = Trigger.actioning
     }

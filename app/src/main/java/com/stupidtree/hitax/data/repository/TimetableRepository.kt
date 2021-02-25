@@ -68,6 +68,13 @@ class TimetableRepository(val application: Application) {
         return timetableDao.getTimetableById(id)
     }
 
+    fun getRecentTimetable():LiveData<Timetable?>{
+        return timetableDao.getTimetableClosestToTimestamp(System.currentTimeMillis())
+    }
+
+    fun getTimetableCount():LiveData<Int>{
+        return timetableDao.geeTimetableCount()
+    }
     fun actionDeleteTimetables(timetables: List<Timetable>) {
         val ids = mutableListOf<String>()
         for (tt in timetables) {

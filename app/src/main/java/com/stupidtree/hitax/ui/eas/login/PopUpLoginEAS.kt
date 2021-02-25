@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.HapticFeedbackConstants
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.stupidtree.hitax.R
@@ -25,6 +26,11 @@ class PopUpLoginEAS :
 
     override fun initViews(view: View) {
         viewModel.loginResultLiveData.observe(this) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                binding?.buttonLogin?.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+            }else{
+                binding?.buttonLogin?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            }
             val iconId: Int = if (it.state == DataState.STATE.SUCCESS) {
                 R.drawable.ic_baseline_done_24
             } else {
@@ -46,6 +52,7 @@ class PopUpLoginEAS :
         }
         binding?.buttonLogin?.setOnClickListener {
             if (isFormValid()) {
+                it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
                 binding?.buttonLogin?.startAnimation()
                 viewModel.startLogin(
                     binding?.username?.text.toString(),
@@ -82,7 +89,7 @@ class PopUpLoginEAS :
     }
 
     interface OnResponseListener {
-        fun onSuccess(window:PopUpLoginEAS)
+        fun onSuccess(window: PopUpLoginEAS)
         fun onFailed(window: PopUpLoginEAS)
     }
 
@@ -92,12 +99,13 @@ class PopUpLoginEAS :
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        if(lock){
-            if(context is Activity){
+        if (lock) {
+            if (context is Activity) {
                 (context as Activity).finish()
             }
         }
     }
+
     override fun onStart() {
         super.onStart()
         val token = EASRepository.getInstance(requireActivity().application)

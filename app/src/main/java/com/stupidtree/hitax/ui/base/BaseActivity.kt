@@ -46,7 +46,7 @@ abstract class BaseActivity<T : ViewModel, V : ViewBinding> : AppCompatActivity(
         //ButterKnife.bind(this)
         //对ViewModel进行初始化
         getViewModelClass().let {
-            viewModel = if (it.superclass == AndroidViewModel::class.java) {
+            viewModel = if (it.superclass == AndroidViewModel::class.java || it.superclass.superclass == AndroidViewModel::class.java) {
                 ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(it)
             } else {
                 ViewModelProvider(this).get(it)

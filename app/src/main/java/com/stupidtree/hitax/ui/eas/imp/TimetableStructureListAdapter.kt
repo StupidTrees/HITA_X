@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
-import com.stupidtree.hitax.databinding.FragmentEasImportListItemBinding
+import com.stupidtree.hitax.databinding.ActivityEasImportListItemBinding
 import com.stupidtree.hitax.ui.base.BaseListAdapter
 import com.stupidtree.hitax.ui.base.BaseViewHolder
 
@@ -18,15 +18,15 @@ class TimetableStructureListAdapter(mContext: Context, mBeans: MutableList<TimeP
         ) {
 
 
-    class SHolder(viewBinding: FragmentEasImportListItemBinding) :
-            BaseViewHolder<FragmentEasImportListItemBinding>(viewBinding)
+    class SHolder(viewBinding: ActivityEasImportListItemBinding) :
+            BaseViewHolder<ActivityEasImportListItemBinding>(viewBinding)
 
     override fun getViewBinding(parent: ViewGroup, viewType: Int): ViewBinding {
-        return FragmentEasImportListItemBinding.inflate(mInflater, parent, false)
+        return ActivityEasImportListItemBinding.inflate(mInflater, parent, false)
     }
 
     override fun createViewHolder(viewBinding: ViewBinding, viewType: Int): SHolder {
-        return SHolder(viewBinding = viewBinding as FragmentEasImportListItemBinding)
+        return SHolder(viewBinding = viewBinding as ActivityEasImportListItemBinding)
     }
 
     override fun bindHolder(holder: SHolder, data: TimePeriodInDay?, position: Int) {

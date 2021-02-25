@@ -65,6 +65,12 @@
         <item name="android:colorControlHighlight">?attr/colorControlNormal</item>
         <item name="android:radius">24dp</item>
     </style>
+    <style name="button_ripple_control_large">
+        <item name="android:colorControlHighlight">?attr/colorControlNormal</item>
+        <item name="android:radius">32dp</item>
+    </style>
+
+
 
     <style name="unbound_ripple_white_light">
         <item name="android:colorControlHighlight">#44FFFFFF</item>
@@ -82,7 +88,7 @@
 
     <style name="button_ripple_accent_large">
         <item name="android:colorControlHighlight">?attr/colorPrimary</item>
-        <item name="android:radius">36dp</item>
+        <item name="android:radius">32dp</item>
     </style>
 
 

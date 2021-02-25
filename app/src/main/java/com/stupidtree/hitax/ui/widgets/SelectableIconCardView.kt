@@ -109,7 +109,9 @@ class SelectableIconCardView : FrameLayout {
             toggle()
         }
         icon?.setPadding(iconPadding, iconPadding, iconPadding, iconPadding)
-
+        if(subtitleStr.isNullOrBlank()){
+            subtitle?.visibility = GONE
+        }
         refreshState()
     }
 
@@ -122,9 +124,22 @@ class SelectableIconCardView : FrameLayout {
     }
 
     fun setSubtitle(text: Int) {
-        subtitle!!.setText(text)
+        subtitle?.setText(text)
+        if(subtitle?.text.isNullOrBlank()){
+            subtitle?.visibility = GONE
+        }else{
+            subtitle?.visibility = VISIBLE
+        }
     }
 
+    fun setSubtitle(text: String?) {
+        subtitle?.text = text
+        if(text.isNullOrBlank()){
+            subtitle?.visibility = GONE
+        }else{
+            subtitle?.visibility = VISIBLE
+        }
+    }
     fun check(checked: Boolean) {
         if (!checkable) return
         isChecked = checked

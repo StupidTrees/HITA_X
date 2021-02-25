@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.stupidtree.hitax.data.repository.EASRepository
 import com.stupidtree.hitax.ui.base.BaseActivity
-import com.stupidtree.hitax.ui.eas.EASActivity
+import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
 import com.stupidtree.hitax.ui.myprofile.MyProfileActivity
 import com.stupidtree.hitax.ui.search.SearchActivity
@@ -82,8 +82,8 @@ object ActivityUtils {
     }
 
 
-    fun startEASActivity(from: Context) {
-        val i = Intent(from, EASActivity::class.java)
+    fun startImportTimetableActivity(from: Context) {
+        val i = Intent(from, ImportTimetableActivity::class.java)
         from.startActivity(i)
     }
 
