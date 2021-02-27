@@ -1,6 +1,5 @@
 package com.stupidtree.hitax.ui.eas.imp
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.HapticFeedbackConstants
 import android.view.View
@@ -36,6 +35,7 @@ class ImportTimetableActivity :
     }
 
     override fun initViews() {
+        super.initViews()
         bindLiveData()
         initList()
         binding.toolbar.title = ""
@@ -47,7 +47,6 @@ class ImportTimetableActivity :
                     getThis(),
                     8f
                 )) * (1 - scale)
-            binding.termText.alpha = 0.4f + 0.6f*scale
             binding.termPick.scaleX = 0.5f * (1 + scale)
             binding.termPick.scaleY = 0.5f * (1 + scale)
             binding.termPick.translationY =
@@ -215,12 +214,9 @@ class ImportTimetableActivity :
         return ActivityEasImportBinding.inflate(layoutInflater)
     }
 
-    override fun onStart() {
-        super.onStart()
-        refresh()
-    }
 
-    private fun refresh() {
+
+    override fun refresh() {
         binding.buttonImport.background = ContextCompat.getDrawable(
             getThis(),
             R.drawable.element_rounded_button_bg_grey
@@ -230,15 +226,7 @@ class ImportTimetableActivity :
         viewModel.startRefreshTerms()
     }
 
-    companion object {
-        fun newInstance(): ImportTimetableActivity {
-            return ImportTimetableActivity()
-        }
-    }
-
     override fun getViewModelClass(): Class<ImportTimetableViewModel> {
         return ImportTimetableViewModel::class.java
     }
-
-
 }

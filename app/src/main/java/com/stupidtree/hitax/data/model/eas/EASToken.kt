@@ -10,7 +10,7 @@ class EASToken {
 
 
     fun isLogin(): Boolean {
-        return cookies.isNotEmpty()
+        return !cookies.isNullOrEmpty()
     }
 
     override fun toString(): String {

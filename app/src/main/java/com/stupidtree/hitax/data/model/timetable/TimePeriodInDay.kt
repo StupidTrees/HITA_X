@@ -1,13 +1,15 @@
 package com.stupidtree.hitax.data.model.timetable
 
-class TimePeriodInDay(f:TimeInDay,t:TimeInDay) {
-    var from:TimeInDay = f
-    var to:TimeInDay = t
+import java.util.*
+
+class TimePeriodInDay(f: TimeInDay, t: TimeInDay) {
+    var from: TimeInDay = f
+    var to: TimeInDay = t
     override fun toString(): String {
         return "$from-$to"
     }
 
-    fun getLengthInMinutes():Int{
+    fun getLengthInMinutes(): Int {
         return from.getDistanceInMinutes(to)
     }
 
@@ -29,5 +31,12 @@ class TimePeriodInDay(f:TimeInDay,t:TimeInDay) {
         return result
     }
 
+
+    fun contains(ts: Long): Boolean {
+        val c = Calendar.getInstance()
+        c.timeInMillis = ts
+        val t = TimeInDay(c)
+        return from.before(t) && t.before(to)
+    }
 
 }

@@ -4,6 +4,8 @@ import android.content.Context
 import android.text.TextUtils
 import android.util.Log
 import com.stupidtree.hitax.R
+import com.stupidtree.hitax.data.model.timetable.TimeInDay
+import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
@@ -192,7 +194,29 @@ object TimeTools {
 //        return rawText
 //    }
 
-
+    /**
+     *  获得当前是第几节课
+     *  返回结果为节数*10（+5）.+5表示课间
+     */
+    fun getCurrentScheduleNumber(it:List<TimePeriodInDay>):Int{
+        var current = 0
+        val ts = System.currentTimeMillis()
+        val tp = TimeInDay(Calendar.getInstance())
+        for (i in it.indices) {
+            when {
+                it[i].contains(ts) -> {
+                    current = 10 * (i + 1)
+                    break
+                }
+                tp.before(it[i].from) -> {
+                    current += 5
+                    break
+                }
+                tp.after(it[i].to) -> current += 10
+            }
+        }
+        return current
+    }
     private fun getWKTag(context: Context, currentWk: Int, week: Int): String {
         return when (currentWk) {
             week -> context.getString(R.string.name_this_week)

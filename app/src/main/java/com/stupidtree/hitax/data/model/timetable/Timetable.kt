@@ -28,8 +28,14 @@ class Timetable {
      * 获取某时间戳所对应的周数 =
      */
     fun getWeekNumber(ts: Long): Int {
-        if (ts > endTime.time) return -1
-        val x = ((ts - startTime.time) / WEEK_MILLS.toFloat()).roundToInt()
+        val c = Calendar.getInstance()
+        c.timeInMillis = ts
+        c.firstDayOfWeek = Calendar.MONDAY
+        c[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
+        c[Calendar.HOUR_OF_DAY] = 0
+        c[Calendar.MINUTE] = 0
+        if (c.timeInMillis > endTime.time) return -1
+        val x = ((c.timeInMillis - startTime.time) / WEEK_MILLS.toFloat()).roundToInt()
         return when {
             x < 0 -> {
                 -1

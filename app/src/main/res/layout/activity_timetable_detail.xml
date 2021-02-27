@@ -19,16 +19,14 @@
         <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
             android:id="@+id/collapse"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="160dp"
             android:minHeight="56dp"
             app:collapsedTitleGravity="left|center"
-            app:collapsedTitleTextAppearance="@style/text_style_18sp_bold_primary"
             app:expandedTitleGravity="left|bottom|center"
-            app:expandedTitleMarginEnd="36dp"
-            app:expandedTitleMarginStart="24dp"
-            app:expandedTitleTextAppearance="@style/text_style_30sp_bold_primary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:expandedTitleMargin="24dp"
 
+            app:expandedTitleMarginBottom="8dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:maxLines="4"
             app:scrimAnimationDuration="200"
             app:statusBarScrim="#00000000"
@@ -43,7 +41,6 @@
                 app:layout_collapseMode="pin" />
 
         </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
-
 
     </com.google.android.material.appbar.AppBarLayout>
 

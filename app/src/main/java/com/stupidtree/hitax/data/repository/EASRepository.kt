@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
+import com.google.gson.JsonParser
 import com.stupidtree.hitax.data.AppDatabase
 import com.stupidtree.hitax.data.model.eas.CourseItem
 import com.stupidtree.hitax.data.model.eas.EASToken
@@ -16,8 +17,12 @@ import com.stupidtree.hitax.data.source.preference.EasPreferenceSource
 import com.stupidtree.hitax.data.source.web.eas.EASource
 import com.stupidtree.hitax.data.source.web.service.EASService
 import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.hitax.ui.eas.classroom.BuildingItem
+import com.stupidtree.hitax.ui.eas.classroom.ClassroomItem
 import com.stupidtree.hitax.utils.LiveDataUtils
 import com.stupidtree.hitax.utils.TimeTools.getDateAtWOT
+import org.jsoup.Connection
+import org.jsoup.Jsoup
 import java.sql.Timestamp
 import java.util.*
 
@@ -98,6 +103,29 @@ class EASRepository internal constructor(application: Application) {
     }
 
     /**
+     * 获取教学楼列表
+     */
+    fun getTeachingBuildings():LiveData<DataState<List<BuildingItem>>>{
+        val easToken = easPreferenceSource.getEasToken()
+        if (easToken.isLogin()) {
+            return easService.getTeachingBuildings(easToken)
+        }
+        return LiveDataUtils.getMutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
+
+    }
+
+    /**
+     * 查询空教室
+     */
+    fun queryEmptyClassroom(term: TermItem,buildingItem: BuildingItem,week:Int):LiveData<DataState<List<ClassroomItem>>>{
+        val easToken = easPreferenceSource.getEasToken()
+        if (easToken.isLogin()) {
+            return easService.queryEmptyClassroom(easToken,term,buildingItem, listOf(week.toString()))
+        }
+        return LiveDataUtils.getMutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
+    }
+
+    /**
      * 动作：导入课表
      */
     private var timetableWebLiveData: LiveData<DataState<List<CourseItem>>>? = null
@@ -120,7 +148,7 @@ class EASRepository internal constructor(application: Application) {
                 if (it.state == DataState.STATE.SUCCESS) {
                     Thread {
                         //更新timetable信息
-                        var timetable = timetableDao.getTimetableByEASCode(term.getCode())
+                        var timetable = timetableDao.getTimetableByEASCodeSync(term.getCode())
                         if (timetable == null) {
                             timetable = Timetable()
                         } else {
@@ -194,6 +222,7 @@ class EASRepository internal constructor(application: Application) {
     fun getEasToken(): EASToken {
         return easPreferenceSource.getEasToken()
     }
+
 
 
     companion object {

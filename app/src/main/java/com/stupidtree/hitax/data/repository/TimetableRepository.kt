@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.AppDatabase
+import com.stupidtree.hitax.data.model.eas.TermItem
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.data.model.timetable.Timetable
@@ -66,6 +67,25 @@ class TimetableRepository(val application: Application) {
 
     fun getTimetablesById(id: String): LiveData<Timetable> {
         return timetableDao.getTimetableById(id)
+    }
+
+    fun getTimetableByEasCode(code:String):LiveData<Timetable?>{
+        return timetableDao.getTimetableByEASCode(code)
+    }
+
+    /**
+     * 获得某学期（本地可能没有）的当前周数
+     */
+    fun getCurrentWeekOfTimetable(termItem: TermItem?):LiveData<Int>{
+        val result = MediatorLiveData<Int>()
+        result.addSource(timetableDao.getTimetableByEASCode(termItem?.getCode()?:"")){
+            it?.let {
+                result.value = it.getWeekNumber(System.currentTimeMillis())
+            }?: kotlin.run {
+                result.value = 1
+            }
+        }
+        return result
     }
 
     fun getRecentTimetable():LiveData<Timetable?>{

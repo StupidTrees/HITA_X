@@ -1,20 +1,14 @@
 package com.stupidtree.hitax.utils
 
 import com.google.gson.JsonObject
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 
 /**
  * 此类整合了一些JSON格式数据解析有关的函数
  */
 object JsonUtils {
-    fun getIntegerData(jo: JsonObject, key: String?): Int? {
-        return try {
-            jo[key].asInt
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-    }
-
     fun getStringData(jo: JsonObject, key: String?): String? {
         return try {
             jo[key].asString
@@ -23,11 +17,17 @@ object JsonUtils {
         }
     }
 
-    fun getObjectData(jo: JsonObject, key: String?): JsonObject? {
+    fun getJsonObject(jo: String): JSONObject? {
         return try {
-            jo[key].asJsonObject
-        } catch (e: Exception) {
-            e.printStackTrace()
+            JSONObject(jo)
+        } catch (e: JSONException) {
+            null
+        }
+    }
+    fun getJsonArray(ja: String): JSONArray? {
+        return try {
+            JSONArray(ja)
+        } catch (e: JSONException) {
             null
         }
     }

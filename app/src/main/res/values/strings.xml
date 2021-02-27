@@ -1141,4 +1141,7 @@
     <string name="title_timetable_manager">课表管理</string>
     <string name="recent_timetable">最近课表</string>
     <string name="timetable_count_format">共%d个课表</string>
+    <string name="pick_quety_term">选择查询学期</string>
+    <string name="pick_query_building">选择查询教学楼</string>
+    <string name="empty_classroom_format">%s 空闲情况</string>
 </resources>

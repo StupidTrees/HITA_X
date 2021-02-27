@@ -11,8 +11,7 @@
 
     <color name="cruel_summer_primary">#304ffe</color>
     <color name="cruel_summer_fade">#3C8CE7</color>
-
-
+    <color name="cruel_summer_primary_disabled">#cbd4e2</color>
 
     <color name="subject3">#ec407a</color>
     <color name="subject4">#FF9E00</color>

@@ -7,6 +7,8 @@ import com.stupidtree.hitax.data.model.eas.TermItem
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.hitax.ui.eas.classroom.BuildingItem
+import com.stupidtree.hitax.ui.eas.classroom.ClassroomItem
 import java.util.*
 
 interface EASService {
@@ -53,4 +55,18 @@ interface EASService {
     fun getScheduleStructure(term: TermItem,token: EASToken):LiveData<DataState<MutableList<TimePeriodInDay>>>
 
 
+    /**
+     * 获取教学楼列表
+     */
+    fun getTeachingBuildings(token: EASToken):LiveData<DataState<List<BuildingItem>>>
+
+    /**
+     * 查询空教室
+     */
+     fun queryEmptyClassroom(
+        token: EASToken,
+        term: TermItem,
+        building: BuildingItem,
+        weeks: List<String>
+    ): LiveData<DataState<List<ClassroomItem>>>
 }

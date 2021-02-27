@@ -4,6 +4,7 @@ import android.view.View
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.FragmentNavigationBinding
 import com.stupidtree.hitax.ui.base.BaseFragment
+import com.stupidtree.hitax.ui.eas.classroom.EmptyClassroomActivity
 import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
 import com.stupidtree.hitax.utils.ActivityUtils
@@ -43,7 +44,23 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
                 directTo = ImportTimetableActivity::class.java,
                 onResponseListener = object : PopUpLoginEAS.OnResponseListener {
                     override fun onSuccess(window: PopUpLoginEAS) {
-                        ActivityUtils.startImportTimetableActivity(requireContext())
+                        ActivityUtils.startActivity(requireContext(),ImportTimetableActivity::class.java)
+                        window.dismiss()
+                    }
+
+                    override fun onFailed(window: PopUpLoginEAS) {
+
+                    }
+
+                })
+        }
+        binding?.cardEmptyClassroom?.setOnClickListener {
+            ActivityUtils.showEasVerifyWindow(
+                requireContext(),
+                directTo = EmptyClassroomActivity::class.java,
+                onResponseListener = object : PopUpLoginEAS.OnResponseListener {
+                    override fun onSuccess(window: PopUpLoginEAS) {
+                        ActivityUtils.startActivity(requireContext(),EmptyClassroomActivity::class.java)
                         window.dismiss()
                     }
 

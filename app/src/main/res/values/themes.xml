@@ -7,6 +7,7 @@
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorFade">@color/cruel_summer_fade</item>
+        <item name="colorPrimaryDisabled">@color/cruel_summer_primary_disabled</item>
         <item name="colorSecondary">@color/cruel_summer_primary</item>
         <item name="colorSecondaryVariant">@color/cruel_summer_primary</item>
         <item name="colorOnSecondary">@color/black</item>

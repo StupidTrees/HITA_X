@@ -50,6 +50,7 @@
             android:name="com.stupidtree.hitax.ui.search.SearchActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.eas.imp.ImportTimetableActivity" />
+        <activity android:name=".ui.eas.classroom.EmptyClassroomActivity" />
     </application>
 
 </manifest>

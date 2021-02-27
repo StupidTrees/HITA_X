@@ -12,7 +12,10 @@ interface TimetableDao {
      * 根据教务代码查找课表
      */
     @Query("SELECT * FROM timetable WHERE code is :easCode")
-    fun getTimetableByEASCode(easCode: String): Timetable?
+    fun getTimetableByEASCodeSync(easCode: String): Timetable?
+
+    @Query("SELECT * FROM timetable WHERE code is :easCode")
+    fun getTimetableByEASCode(easCode: String): LiveData<Timetable?>
 
     @Query("SELECT * FROM timetable order by -startTime")
     fun getTimetables(): LiveData<List<Timetable>>

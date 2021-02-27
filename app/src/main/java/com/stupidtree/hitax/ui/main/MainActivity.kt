@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.GravityCompat
@@ -28,6 +29,7 @@ import com.stupidtree.hitax.ui.main.timeline.FragmentTimeLine
 import com.stupidtree.hitax.ui.main.timetable.outer.TimetableFragment
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.ImageUtils
+import me.ibrahimsn.lib.OnItemSelectedListener
 
 /**
  * 很显然，这是主界面
@@ -134,7 +136,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             }
 
             override fun onPageSelected(position: Int) {
-                binding.navView.menu.getItem(position).isChecked = true
+                binding.navView.itemActiveIndex = position//.getItem(position).isChecked = true
                 when (position) {
                     0 -> {
                         binding.timetableLayout.visibility = GONE
@@ -161,15 +163,23 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
 
             override fun onPageScrollStateChanged(state: Int) {}
         })
-        binding.navView.setOnNavigationItemSelectedListener { item: MenuItem ->
-            when (item.itemId) {
-                R.id.navigation_timeline -> binding.pager.currentItem = 0
-                R.id.navigation_timetable -> binding.pager.currentItem = 1
-                R.id.navigation_navigation -> binding.pager.currentItem = 2
+        binding.navView.onItemSelectedListener = object:            OnItemSelectedListener {
+            override fun onItemSelect(pos: Int): Boolean {
+                binding.navView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+                binding.pager.currentItem = pos
+                return true
             }
-            binding.navView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-            true
+
         }
+//        binding.navView.setOnNavigationItemSelectedListener { item: MenuItem ->
+//            when (item.itemId) {
+//                R.id.navigation_timeline -> binding.pager.currentItem = 0
+//                R.id.navigation_timetable -> binding.pager.currentItem = 1
+//                R.id.navigation_navigation -> binding.pager.currentItem = 2
+//            }
+//            binding.navView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+//            true
+//        }
         binding.avatar.setOnClickListener { binding.drawer.openDrawer(GravityCompat.START) }
 
         viewModel.loggedInUserLiveData.observe(this) {

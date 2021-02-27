@@ -3,8 +3,11 @@ package com.stupidtree.hitax.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import com.stupidtree.hitax.data.repository.EASRepository
 import com.stupidtree.hitax.ui.base.BaseActivity
+import com.stupidtree.hitax.ui.eas.EASActivity
+import com.stupidtree.hitax.ui.eas.classroom.EmptyClassroomActivity
 import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
 import com.stupidtree.hitax.ui.myprofile.MyProfileActivity
@@ -67,7 +70,7 @@ object ActivityUtils {
         onResponseListener: PopUpLoginEAS.OnResponseListener
     ) {
         if (from is BaseActivity<*, *>) {
-            if (EASRepository.getInstance(from.application).getEasToken().isLogin()) {
+            if (EASRepository.getInstance((from as AppCompatActivity).application).getEasToken().isLogin()) {
                 directTo?.let {
                     val i = Intent(from, directTo)
                     from.startActivity(i)
@@ -82,8 +85,9 @@ object ActivityUtils {
     }
 
 
-    fun startImportTimetableActivity(from: Context) {
-        val i = Intent(from, ImportTimetableActivity::class.java)
+
+    fun<T:Activity> startActivity(from: Context,activity:Class<T>) {
+        val i = Intent(from, activity)
         from.startActivity(i)
     }
 
@@ -103,4 +107,5 @@ object ActivityUtils {
         i.putExtra("id", id)
         from.startActivity(i)
     }
+
 }

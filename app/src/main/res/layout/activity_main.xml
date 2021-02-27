@@ -154,13 +154,28 @@
             android:layout_marginBottom="56dp"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
+        <me.ibrahimsn.lib.SmoothBottomBar
             android:id="@+id/nav_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
             android:layout_gravity="bottom"
-            android:background="@color/white"
-            app:menu="@menu/main_bottom_nav_menu" />
+            app:backgroundColor="?attr/backgroundColorBottom"
+            app:duration="180"
+            app:iconSize="21dp"
+            app:iconTint="?attr/colorPrimaryDisabled"
+            app:iconTintActive="?attr/colorPrimary"
+            app:indicatorColor="?attr/backgroundIconColorBottom"
+            app:indicatorRadius="24dp"
+            app:itemPadding="8dp"
+            app:menu="@menu/main_bottom_nav_menu"
+            app:sideMargins="24dp"
+            app:textColor="?attr/colorPrimary"
+            app:textSize="12sp" />
+
+        <!--        app:itemFontFamily=""-->
+
+        <!--        app:activeItem=""-->
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

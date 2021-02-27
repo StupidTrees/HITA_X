@@ -38,7 +38,9 @@ class TimeInDay {
         return compareTo(timeInDay) < 0
     }
 
-
+    fun after(timeInDay: TimeInDay): Boolean {
+        return compareTo(timeInDay) >= 0
+    }
     fun getDistanceInMinutes(ei: TimeInDay): Int {
         return getDistanceInMinutes(ei.hour, ei.minute)
     }
