@@ -26,7 +26,7 @@ class EasPreferenceSource(context: Context) {
 
 
     fun clearEasToken() {
-        preference.edit().putString("cookie",null).apply()
+        preference.edit().putString("cookies",null).apply()
     }
 
     fun getEasToken(): EASToken {

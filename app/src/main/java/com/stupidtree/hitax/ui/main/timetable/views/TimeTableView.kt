@@ -84,10 +84,6 @@ class TimeTableView : ViewGroup {
         canvas.drawRect(left.toFloat(), 0f, right.toFloat(), mHeight.toFloat(), paint)
     }
 
-    fun setStartDate(ts: Long) {
-        startDate.timeInMillis = ts
-        invalidate()
-    }
 
     private fun drawLabels(canvas: Canvas) {
         mLinePaint.style = Paint.Style.STROKE
@@ -122,6 +118,14 @@ class TimeTableView : ViewGroup {
         }
         invalidate()
         sectionHeight = this.styleSheet!!.cardHeight
+    }
+
+    /**
+     * 仅更新startDate
+     */
+    fun setStartDate(ts: Long) {
+        startDate.timeInMillis = ts
+        invalidate()
     }
 
 //    override fun onTouchEvent(event: MotionEvent): Boolean {

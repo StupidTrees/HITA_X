@@ -15,14 +15,47 @@
         android:layout_margin="8dp"
         android:orientation="horizontal">
 
-        <ImageView
+        <androidx.cardview.widget.CardView
             android:id="@+id/reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="?attr/backgroundColorBottomAsTint"
+            android:backgroundTintMode="src_over"
             android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:padding="16dp"
-            android:theme="@style/button_ripple_accent"
-            app:srcCompat="@drawable/ic_baseline_color_lens_24" />
+            app:cardBackgroundColor="?attr/colorPrimary"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:tint="?attr/colorPrimary"
+                android:orientation="horizontal"
+                android:paddingEnd="16dp"
+                tools:ignore="RtlSymmetry">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/ic_baseline_color_lens_24"
+                    app:tint="?attr/colorPrimary" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="@string/curriculum_manager_randomly_allocate_color"
+                    android:textColor="?attr/colorPrimary"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
     </LinearLayout>
 
     <LinearLayout

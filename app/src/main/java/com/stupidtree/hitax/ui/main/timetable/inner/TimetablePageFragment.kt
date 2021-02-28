@@ -120,7 +120,7 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
         viewModel.startDateLiveData.observe(this) { date ->
             val startDate = Calendar.getInstance()
             startDate.timeInMillis = date
-            binding?.timetableView?.setStartDate(date)
+            //
             /*显示上方日期*/
             topDateTexts[0]?.text = requireContext().resources.getStringArray(R.array.months)[startDate[Calendar.MONTH]]
             val temp = Calendar.getInstance()
@@ -138,6 +138,8 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
                         binding?.timetableView?.childCount ?: 0 < it.first.size) {
                     viewModel.dataHashCode = dataHash
                     binding?.timetableView?.notifyRefresh(date, it.first,it.second)
+                }else{
+                    binding?.timetableView?.setStartDate(date)
                 }
             }
         }

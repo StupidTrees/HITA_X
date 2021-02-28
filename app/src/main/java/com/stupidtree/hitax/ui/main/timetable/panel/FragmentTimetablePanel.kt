@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import android.view.HapticFeedbackConstants
 import android.view.View
 import com.stupidtree.hitax.R
+import com.stupidtree.hitax.data.model.timetable.TimeInDay
 import com.stupidtree.hitax.databinding.FragmentTimetablePanelBinding
 import com.stupidtree.hitax.ui.base.TransparentModeledBottomSheetDialog
 
@@ -45,7 +46,7 @@ class FragmentTimetablePanel : TransparentModeledBottomSheetDialog<TimetablePane
             binding?.drawbglines?.isChecked = it
         }
         viewModel.startDateLiveData.observe(this) {
-            binding?.from?.text = "${it / 100}:${it % 100}"
+            binding?.from?.text = TimeInDay(it/100,it%100).toString()
         }
         viewModel.colorEnableLiveData.observe(this) {
             binding?.colorEnable?.isChecked = it

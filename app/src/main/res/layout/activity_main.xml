@@ -139,8 +139,8 @@
                             android:layout_height="wrap_content"
                             android:foreground="?attr/selectableItemBackgroundBorderless"
                             android:padding="16dp"
-                            android:theme="@style/button_ripple_accent"
-                            app:srcCompat="@drawable/ic_baseline_color_lens_24" />
+                            android:theme="@style/button_ripple_control"
+                            app:srcCompat="@drawable/ic_theme" />
 
                     </LinearLayout>
 
@@ -167,6 +167,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="56dp"
+            android:overScrollMode="never"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
         <me.ibrahimsn.lib.SmoothBottomBar

@@ -37,7 +37,6 @@ class EmptyClassroomViewModel(application: Application) : EASViewModel(applicati
     val timetableStructureLiveData: LiveData<DataState<MutableList<TimePeriodInDay>>> = Transformations.switchMap(selectedTermLiveData) {
         return@switchMap easRepository.getScheduleStructure(it)
     }
-
     val classroomLiveData: MediatorLiveData<DataState<List<ClassroomItem>>> =
         MTransformations.switchMap(timetableStructureLiveData) {
             val res = MediatorLiveData<DataState<List<ClassroomItem>>>()

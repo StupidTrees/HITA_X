@@ -23,11 +23,6 @@ class EmptyClassroomActivity :
         setToolbarActionBack(binding.toolbar)
     }
 
-    override fun onStart() {
-        super.onStart()
-        refresh()
-    }
-
 
     override fun initViewBinding(): ActivityEasClassroomBinding {
         return ActivityEasClassroomBinding.inflate(layoutInflater)
@@ -91,6 +86,7 @@ class EmptyClassroomActivity :
     }
 
     override fun initViews() {
+        super.initViews()
         bindLiveData()
         binding.refresh.setColorSchemeColors(getColorPrimary())
         listAdapter = EmptyClassroomListAdapter(this, mutableListOf(), viewModel)

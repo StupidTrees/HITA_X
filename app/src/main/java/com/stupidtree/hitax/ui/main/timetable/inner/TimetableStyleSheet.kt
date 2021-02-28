@@ -20,7 +20,7 @@ class TimetableStyleSheet {
             startTimeInDay = TimeInDay(varue / 100, varue % 100)
             field = varue
         }
-    var todayBGColor: Int = Color.parseColor("#22000000")
+    var todayBGColor: Int = Color.parseColor("#10000000")
     var titleGravity: Int = Gravity.CENTER
     var titleAlpha: Int = 100
     var subtitleAlpha: Int = 60
