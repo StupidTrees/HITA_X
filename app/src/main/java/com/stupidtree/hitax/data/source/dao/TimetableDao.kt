@@ -29,8 +29,15 @@ interface TimetableDao {
     @Query("SELECT name from timetable where name like :defaultName")
     fun getTimetableNamesWithDefaultSync(defaultName: String): List<String>
 
+    /**
+     * 获得离某时间戳最近的时间表
+     */
     @Query("SELECT * from timetable where (:ts-startTime in (select min(:ts-startTime) from timetable where :ts>startTime)) limit 1")
     fun getTimetableClosestToTimestamp(ts: Long): LiveData<Timetable?>
+
+    @Query("SELECT * from timetable where (:ts-startTime in (select min(:ts-startTime) from timetable where :ts>startTime)) limit 1")
+    fun getTimetableClosestToTimestampSync(ts: Long): Timetable?
+
 
     @Query("select count(*) from timetable")
     fun geeTimetableCount(): LiveData<Int>

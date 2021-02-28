@@ -1,12 +1,8 @@
 package com.stupidtree.hitax.data.source.web.eas
 
 import android.text.TextUtils
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import com.stupidtree.hitax.data.model.eas.CourseItem
 import com.stupidtree.hitax.data.model.eas.EASToken
 import com.stupidtree.hitax.data.model.eas.TermItem
@@ -171,7 +167,7 @@ class EASource internal constructor() : EASService {
         val res = MutableLiveData<DataState<Calendar>>()
         Thread {
             try {
-                val s = Jsoup.connect("http://jw.hitsz.edu.cn/Xiaoli/queryMonthList")
+                val s = Jsoup.connect("$hostName/Xiaoli/queryMonthList")
                     .timeout(timeout)
                     .cookies(token.cookies)
                     .headers(defaultRequestHeader)
@@ -220,7 +216,7 @@ class EASource internal constructor() : EASService {
         Thread {
             val result: MutableList<TermSubject> = ArrayList()
             try {
-                val r = Jsoup.connect("http://jw.hitsz.edu.cn/Xsxk/queryYxkc")
+                val r = Jsoup.connect("$hostName/Xsxk/queryYxkc")
                     .timeout(timeout)
                     .cookies(token.cookies)
                     .headers(defaultRequestHeader)
@@ -287,7 +283,7 @@ class EASource internal constructor() : EASService {
         Thread {
             val result: MutableList<CourseItem> = ArrayList()
             try {
-                val r = Jsoup.connect("http://jw.hitsz.edu.cn/xszykb/queryxszykbzong")
+                val r = Jsoup.connect("$hostName/xszykb/queryxszykbzong")
                     .timeout(timeout)
                     .cookies(token.cookies)
                     .headers(defaultRequestHeader)
@@ -447,7 +443,7 @@ class EASource internal constructor() : EASService {
         Thread {
             val result: MutableList<TimePeriodInDay> = ArrayList()
             try {
-                val r = Jsoup.connect("http://jw.hitsz.edu.cn/component/queryKbjg")
+                val r = Jsoup.connect("$hostName/component/queryKbjg")
                     .timeout(timeout)
                     .cookies(token.cookies)
                     .headers(defaultRequestHeader)
@@ -492,7 +488,7 @@ class EASource internal constructor() : EASService {
         Thread {
             val res = mutableListOf<BuildingItem>()
             try {
-                val r = Jsoup.connect("http://jw.hitsz.edu.cn/pksd/queryjxlList")
+                val r = Jsoup.connect("$hostName/pksd/queryjxlList")
                     .cookies(token.cookies).headers(defaultRequestHeader)
                     .method(Connection.Method.POST)
                     .ignoreContentType(true)
@@ -535,7 +531,7 @@ class EASource internal constructor() : EASService {
                 e.printStackTrace()
             }
             try {
-                val r = Jsoup.connect("http://jw.hitsz.edu.cn/cdkb/querycdzyleftzhou")
+                val r = Jsoup.connect("$hostName/cdkb/querycdzyleftzhou")
                     .cookies(token.cookies).headers(defaultRequestHeader)
                     .method(Connection.Method.POST)
                     .ignoreContentType(true)
@@ -562,7 +558,7 @@ class EASource internal constructor() : EASService {
 //                hm.addProperty("kj", jo?.optString("SFKJ"))
                     res.add(classroom)
                 }
-                val r2 = Jsoup.connect("http://jw.hitsz.edu.cn/cdkb/querycdzyrightzhou")
+                val r2 = Jsoup.connect("$hostName/cdkb/querycdzyrightzhou")
                     .cookies(token.cookies).headers(defaultRequestHeader)
                     .method(Connection.Method.POST)
                     .ignoreContentType(true)

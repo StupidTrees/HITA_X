@@ -1,16 +1,12 @@
 package com.stupidtree.hitax.ui.main.timetable.inner
 
-import android.content.SharedPreferences
-import android.graphics.Color
-import android.view.Gravity
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.EventItem
-import com.stupidtree.hitax.data.model.timetable.TimeInDay
 import com.stupidtree.hitax.databinding.FragmentTimetablePageBinding
 import com.stupidtree.hitax.ui.base.BaseFragment
-import com.stupidtree.hitax.ui.main.timetable.views.TimeTableBlockView.TimeTablePreferenceRoot
 import com.stupidtree.hitax.ui.main.timetable.views.TimeTableView
 import com.stupidtree.hitax.utils.EventsUtils
 import java.util.*
@@ -53,57 +49,7 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
 
     override fun initViews(view: View) {
         initDateTextViews()
-        binding?.timetableView?.init(object : TimeTablePreferenceRoot {
-            override val isColorEnabled: Boolean = true
-            override val cardTitleColor: String = "white"
-            override val subTitleColor: String = "white"
-            override val iconColor: String = "white"
-
-            override fun willBoldText(): Boolean {
-                return true
-            }
-
-            override fun drawBGLine(): Boolean {
-                return true
-            }
-
-            override fun cardIconEnabled(): Boolean {
-                return true
-            }
-
-            override val cardOpacity: Int
-                get() = 95
-            override val cardHeight: Int
-                get() = 180
-            override val startTime: TimeInDay
-                get() = TimeInDay(8, 0)
-            override val todayBGColor: Int
-                get() = Color.parseColor("#11000000")
-            override val titleGravity: Int
-                get() = Gravity.CENTER
-            override val colorPrimary: Int
-                get() = getColorPrimary()
-            override val colorAccent: Int
-                get() = getColorPrimary()
-            override val titleAlpha: Int
-                get() = 100
-            override val subtitleAlpha: Int
-                get() = 60
-
-            override fun animEnabled(): Boolean {
-                return false
-            }
-
-            override val cardBackground: String
-                get() = "primary"
-            override val tTPreference: SharedPreferences
-                get() = tTPreference
-
-            override fun drawNowLine(): Boolean {
-                return true
-            }
-
-        })
+        binding?.timetableView?.init()
         binding?.timetableView?.setOnCardClickListener(object : TimeTableView.OnCardClickListener {
             override fun onEventClick(v: View, eventItem: EventItem) {
                 EventsUtils.showEventItem(requireContext(), eventItem)
@@ -160,19 +106,17 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
                 return true
             }
         })
-        viewModel.eventsOfThisWeek.observe(this) {
-            // arguments?.getLong("date")?.let { date ->
-            viewModel.startDateLiveData.value?.let { date ->
-                //Log.e("data","${this},${TimeUtils.printDate(date)}")
-                val dataHash = it.hashCode()
-                if (dataHash != viewModel.dataHashCode ||
-                        binding?.timetableView?.childCount ?: 0 < it.size) {
-                    viewModel.dataHashCode = dataHash
-                    binding?.timetableView?.notifyRefresh(date, it)
-                }
-            }
-            // }
-        }
+//        viewModel.eventsOfThisWeek.observe(this) {
+//            viewModel.startDateLiveData.value?.let { date ->
+//                val dataHash = it.hashCode()
+//                if (dataHash != viewModel.dataHashCode ||
+//                        binding?.timetableView?.childCount ?: 0 < it.size) {
+//                    viewModel.dataHashCode = dataHash
+//                    binding?.timetableView?.notifyRefresh(date, it,viewModel.timetableStyleLiveData.value!!)
+//                }
+//            }
+//            // }
+//        }
         viewModel.startDateLiveData.observe(this) { date ->
             val startDate = Calendar.getInstance()
             startDate.timeInMillis = date
@@ -184,6 +128,17 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
                 temp.time = startDate.time
                 temp.add(Calendar.DATE, k - 1)
                 topDateTexts[k]!!.text = temp[Calendar.DAY_OF_MONTH].toString()
+            }
+        }
+        viewModel.timetableViewLiveData.observe(this){
+            viewModel.startDateLiveData.value?.let { date ->
+                val dataHash = it.hashCode()
+                if (it.second!=binding?.timetableView?.styleSheet//样式不同也更新
+                        ||dataHash != viewModel.dataHashCode ||
+                        binding?.timetableView?.childCount ?: 0 < it.first.size) {
+                    viewModel.dataHashCode = dataHash
+                    binding?.timetableView?.notifyRefresh(date, it.first,it.second)
+                }
             }
         }
     }

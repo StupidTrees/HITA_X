@@ -12,7 +12,7 @@ import com.stupidtree.hitax.utils.ColorTools
 class SubjectRepository(application: Application) {
     private val eventItemDao = AppDatabase.getDatabase(application).eventItemDao()
     private val subjectDao = AppDatabase.getDatabase(application).subjectDao()
-
+    private val timetableDao = AppDatabase.getDatabase(application).timetableDao()
 
     /**
      * 获取所有科目及其进度
@@ -61,6 +61,20 @@ class SubjectRepository(application: Application) {
         }.start()
     }
 
+    fun actionResetRecentSubjectColors() {
+        Thread {
+            val timetable = timetableDao.getTimetableClosestToTimestampSync(System.currentTimeMillis())
+            timetable?.let {
+                val subjects = subjectDao.getSubjectsSync(it.id)
+                for (s in subjects) {
+                    s.color = ColorTools.randomColorMaterial()
+                }
+                subjectDao.saveSubjectsSync(subjects)
+            }
+
+        }.start()
+    }
+
     fun actionResetSubjectColors(timetableId: String) {
         Thread {
             val subjects = subjectDao.getSubjectsSync(timetableId)
@@ -75,11 +89,11 @@ class SubjectRepository(application: Application) {
     /**
      * 动作：删除科目及其事件
      */
-    fun actionDeleteSubjects(subjects:List<TermSubject>){
-        Thread{
+    fun actionDeleteSubjects(subjects: List<TermSubject>) {
+        Thread {
             subjectDao.deleteSubjectsSync(subjects)
             val ids = mutableListOf<String>()
-            for(s in subjects){
+            for (s in subjects) {
                 ids.add(s.id)
             }
             eventItemDao.deleteEventsFromSubjectsSync(ids)

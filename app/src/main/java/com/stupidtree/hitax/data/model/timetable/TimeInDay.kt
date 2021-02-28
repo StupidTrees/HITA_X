@@ -51,7 +51,7 @@ class TimeInDay {
         return getDistanceInMinutes(h, m)
     }
 
-    fun getDistanceInMinutes(hour: Int, minute: Int): Int {
+    private fun getDistanceInMinutes(hour: Int, minute: Int): Int {
         return (hour - this.hour) * 60 + minute - this.minute
     }
 

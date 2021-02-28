@@ -17,7 +17,6 @@ class FragmentTimelineViewModel(application: Application) : AndroidViewModel(app
      * 仓库区
      */
     private val timetableRepository = TimetableRepository.getInstance(application)
-    private val subjectRepository = SubjectRepository.getInstance(application)
 
     /**
      * 数据区

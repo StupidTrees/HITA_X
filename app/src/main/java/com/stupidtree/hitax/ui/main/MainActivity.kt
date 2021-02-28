@@ -26,7 +26,9 @@ import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
 import com.stupidtree.hitax.ui.main.navigation.NavigationFragment
 import com.stupidtree.hitax.ui.main.timeline.FragmentTimeLine
+import com.stupidtree.hitax.ui.main.timetable.inner.TimetablePageFragment
 import com.stupidtree.hitax.ui.main.timetable.outer.TimetableFragment
+import com.stupidtree.hitax.ui.main.timetable.panel.FragmentTimetablePanel
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.ImageUtils
 import me.ibrahimsn.lib.OnItemSelectedListener
@@ -181,6 +183,11 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
 //            true
 //        }
         binding.avatar.setOnClickListener { binding.drawer.openDrawer(GravityCompat.START) }
+
+        binding.timetableSetting.setOnClickListener {
+            FragmentTimetablePanel().show(supportFragmentManager,"panel")
+        }
+
 
         viewModel.loggedInUserLiveData.observe(this) {
             Log.e("user", it.toString())

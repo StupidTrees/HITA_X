@@ -12,7 +12,7 @@ import java.util.*
 import kotlin.math.abs
 
 class TimetableFragment :
-    BaseFragment<TimetableViewModel, FragmentTimetableBinding>() {
+        BaseFragment<TimetableViewModel, FragmentTimetableBinding>() {
     private var pagerAdapter: TimeTablePagerAdapter? = null
     private var mainPageController: MainPageController? = null
     private var currentIndex = 0
@@ -58,15 +58,18 @@ class TimetableFragment :
                 refreshWeekLayout(date, it)
             }
         }
+        viewModel.startDateLiveData.observe(this) {
+            binding?.labels?.setStartDate(it / 100, it % 100)
+        }
         binding?.pager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
             }
 
             override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
             ) {
 
             }
@@ -91,19 +94,6 @@ class TimetableFragment :
                             }
                         }
                     }
-//                    when (position) {
-//                        currentIndex - 1 -> {
-//                            viewModel.addStartDate(-WEEK_MILLS)
-//                            pagerAdapter?.scrollLeft(oldWindowStart - WEEK_MILLS)
-//                        }
-//                        currentIndex + 1 -> {
-//                            viewModel.addStartDate(WEEK_MILLS)
-//                            pagerAdapter?.scrollRight(oldWindowStart + WEEK_MILLS)
-//                        }
-//                        else -> {
-//
-//                        }
-//                    }
                 }
 
                 currentIndex = position
@@ -176,7 +166,7 @@ class TimetableFragment :
     }
 
     companion object {
-        const val WINDOW_SIZE:Int = 5
+        const val WINDOW_SIZE: Int = 5
     }
 
 }

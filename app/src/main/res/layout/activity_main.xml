@@ -85,7 +85,7 @@
 
                     <LinearLayout
                         android:id="@+id/timetable_layout"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
                         android:visibility="gone">
@@ -127,6 +127,21 @@
                                 android:textColor="?attr/textColorPrimary"
                                 android:textSize="12sp" />
                         </androidx.cardview.widget.CardView>
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <ImageView
+                            android:id="@+id/timetable_setting"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:padding="16dp"
+                            android:theme="@style/button_ripple_accent"
+                            app:srcCompat="@drawable/ic_baseline_color_lens_24" />
+
                     </LinearLayout>
 
                     <!--                <ImageView-->

@@ -67,7 +67,6 @@ class FragmentTimeLine : BaseFragment<FragmentTimelineViewModel, FragmentTimelin
                 val newL: MutableList<EventItem> = ArrayList(listAdapter!!.mBeans)
                 newL.remove(hint)
                 listAdapter!!.notifyItemChangedSmooth(newL)
-                //defaultSP.edit().putBoolean(hintTag, true).apply()
             }
         })
     }

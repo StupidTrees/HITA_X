@@ -18,30 +18,30 @@ class LeftLabelView : View {
     }
 
     constructor(context: Context?, attrs: AttributeSet, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
+            context,
+            attrs,
+            defStyleAttr
     ) {
         typedTimeTableView(attrs, defStyleAttr)
     }
 
     private fun typedTimeTableView(attrs: AttributeSet, defStyleAttr: Int) {
         val a = context.theme.obtainStyledAttributes(
-            attrs,
-            R.styleable.LeftLabelView,
-            defStyleAttr,
-            0
+                attrs,
+                R.styleable.LeftLabelView,
+                defStyleAttr,
+                0
         )
         val n = a.indexCount
         for (i in 0..n) {
             when (val attr = a.getIndex(i)) {
                 R.styleable.LeftLabelView_timeLabelSize -> labelSize = a.getDimensionPixelSize(
-                    attr, TypedValue.applyDimension(
+                        attr, TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_SP, 8f, resources.displayMetrics
-                    ).toInt()
+                ).toInt()
                 )
                 R.styleable.LeftLabelView_timeLabelColor -> labelColor =
-                    a.getColor(attr, Color.BLACK)
+                        a.getColor(attr, Color.BLACK)
             }
         }
     }
@@ -60,9 +60,15 @@ class LeftLabelView : View {
         mLabelPaint.textAlign = Paint.Align.LEFT
         for (i in startDate.hour..23) {
             temp.hour = i
-             val top = ((i-startDate.hour) * sectionHeight)
+            val top = ((startDate.getDistanceInMinutes(temp)/60f) * sectionHeight)
             canvas.drawText(
-                temp.toString(), 0f, (top + labelSize).toFloat(), mLabelPaint)
+                    temp.toString(), 0f, (top + labelSize), mLabelPaint)
         }
+    }
+
+    fun setStartDate(hour: Int, minute: Int) {
+        startDate.hour = hour
+        startDate.minute = minute
+        invalidate()
     }
 }

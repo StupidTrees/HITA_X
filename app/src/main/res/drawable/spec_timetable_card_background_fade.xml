@@ -3,8 +3,10 @@
     android:shape="rectangle"
     >
 
-    <solid
-        android:color="@color/white"/>
+    <gradient
+        android:endColor="@color/white"
+        android:startColor="#beffffff"
+        android:angle="45" />
 <!--    <solid android:color="?attr/backgroundColorSecond"-->
 
 <!--        />-->

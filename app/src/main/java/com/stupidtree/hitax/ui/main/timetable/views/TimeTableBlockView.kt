@@ -1,22 +1,21 @@
 package com.stupidtree.hitax.ui.main.timetable.views
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.EventItem
-import com.stupidtree.hitax.data.model.timetable.TimeInDay
+import com.stupidtree.hitax.ui.main.timetable.inner.TimetableStyleSheet
 
-class TimeTableBlockView
-constructor(context: Context, var block: Any, var root: TimeTablePreferenceRoot) :
-    FrameLayout(context) {
+class TimeTableBlockView constructor(context: Context, var block: Any, var styleSheet: TimetableStyleSheet) :
+        FrameLayout(context) {
     lateinit var card: View
     var title: TextView? = null
     var subtitle: TextView? = null
@@ -38,55 +37,55 @@ constructor(context: Context, var block: Any, var root: TimeTablePreferenceRoot)
         fun onDuplicateClick(v: View, list: List<EventItem>)
     }
 
-    private fun initEventCard(context: Context) {
+    private fun getColor(color: Int): Int {
+        val typedValue = TypedValue()
+        context.theme.resolveAttribute(color, typedValue, true)
+        return typedValue.data
+    }
 
+    private fun initEventCard(context: Context) {
         val ei = block as EventItem
         inflate(context, R.layout.fragment_timetable_class_card, this)
         card = findViewById(R.id.card)
         title = findViewById(R.id.title)
         subtitle = findViewById(R.id.subtitle)
         icon = findViewById(R.id.icon)
-        var subjectColor = 0
-        if (root.isColorEnabled) {
-            val getC: Int = ei.color
-            card.backgroundTintList = ColorStateList.valueOf(getC)
-            subjectColor = getC
-        } else {
-            if (root.cardBackground == "primary") {
-                card.backgroundTintList = ColorStateList.valueOf(root.colorPrimary)
-            } else if (root.cardBackground == "accent") {
-                card.backgroundTintList = ColorStateList.valueOf(root.colorAccent)
-            }
+        if(styleSheet.isFadeEnabled){
+            card.setBackgroundResource(R.drawable.spec_timetable_card_background_fade)
+        }else{
+            card.setBackgroundResource(R.drawable.spec_timetable_card_background)
         }
-        when (root.cardTitleColor) {
-            "subject" -> if (root.isColorEnabled) {
-                title?.setTextColor(subjectColor)
-            } else title?.setTextColor(root.colorPrimary)
+        if (styleSheet.isColorEnabled) {
+            card.backgroundTintList = ColorStateList.valueOf(ei.color)
+        } else {
+            card.backgroundTintList = ColorStateList.valueOf(getColor(R.attr.colorPrimary))
+        }
+        when (styleSheet.cardTitleColor) {
+            "subject" -> if (styleSheet.isColorEnabled) {
+                title?.setTextColor(ei.color)
+            } else title?.setTextColor(getColor(R.attr.colorPrimary))
             "white" -> title?.setTextColor(Color.WHITE)
             "black" -> title?.setTextColor(Color.BLACK)
-            "primary" -> title?.setTextColor(root.colorPrimary)
-            "accent" -> title?.setTextColor(root.colorAccent)
+            "primary" -> title?.setTextColor(getColor(R.attr.colorPrimary))
         }
-        when (root.subTitleColor) {
-            "subject" -> if (root.isColorEnabled) {
-                subtitle?.setTextColor(subjectColor)
-            } else subtitle?.setTextColor(root.colorPrimary)
+        when (styleSheet.subTitleColor) {
+            "subject" -> if (styleSheet.isColorEnabled) {
+                subtitle?.setTextColor(ei.color)
+            } else subtitle?.setTextColor(getColor(R.attr.colorPrimary))
             "white" -> subtitle?.setTextColor(Color.WHITE)
             "black" -> subtitle?.setTextColor(Color.BLACK)
-            "primary" -> subtitle?.setTextColor(root.colorPrimary)
-            "accent" -> subtitle?.setTextColor(root.colorAccent)
+            "primary" -> subtitle?.setTextColor(getColor(R.attr.colorPrimary))
         }
-        if (root.cardIconEnabled()) {
+        if (styleSheet.cardIconEnabled) {
             icon?.visibility = VISIBLE
             icon?.setColorFilter(Color.WHITE)
-            when (root.iconColor) {
-                "subject" -> if (root.isColorEnabled) {
-                    icon?.setColorFilter(subjectColor)
-                } else icon?.setColorFilter(root.colorPrimary)
+            when (styleSheet.iconColor) {
+                "subject" -> if (styleSheet.isColorEnabled) {
+                    icon?.setColorFilter(ei.color)
+                } else icon?.setColorFilter(getColor(R.attr.colorPrimary))
                 "white" -> icon?.setColorFilter(Color.WHITE)
                 "black" -> icon?.setColorFilter(Color.BLACK)
-                "primary" -> icon?.setColorFilter(root.colorPrimary)
-                "accent" -> icon?.setColorFilter(root.colorAccent)
+                "primary" -> icon?.setColorFilter(getColor(R.attr.colorPrimary))
             }
         } else {
             icon?.visibility = GONE
@@ -98,14 +97,14 @@ constructor(context: Context, var block: Any, var root: TimeTablePreferenceRoot)
         }
         title?.text = ei.name
         subtitle?.text = if (TextUtils.isEmpty(ei.place)) "" else ei.place
-        card.background.mutate().alpha = (255 * (root.cardOpacity.toFloat() / 100)).toInt()
-        if (root.willBoldText()) {
+        card.background.mutate().alpha = (255 * (styleSheet.cardOpacity.toFloat() / 100)).toInt()
+        if (styleSheet.isBoldText) {
             title?.typeface = Typeface.DEFAULT_BOLD
             subtitle?.typeface = Typeface.DEFAULT_BOLD
         }
-        title?.alpha = root.titleAlpha.toFloat() / 100
-        subtitle?.alpha = root.subtitleAlpha.toFloat() / 100
-        title?.gravity = root.titleGravity
+        title?.alpha = styleSheet.titleAlpha.toFloat() / 100
+        subtitle?.alpha = styleSheet.subtitleAlpha.toFloat() / 100
+        title?.gravity = styleSheet.titleGravity
     }
 
 
@@ -130,8 +129,8 @@ constructor(context: Context, var block: Any, var root: TimeTablePreferenceRoot)
         title?.text = sb.toString()
         if (onDuplicateCardClickListener != null) card.setOnClickListener { v ->
             onDuplicateCardClickListener?.onDuplicateClick(
-                v,
-                list
+                    v,
+                    list
             )
         }
         if (onDuplicateCardLongClickListener != null) card.setOnLongClickListener { v ->
@@ -139,86 +138,50 @@ constructor(context: Context, var block: Any, var root: TimeTablePreferenceRoot)
             return@setOnLongClickListener false
         }
         val mainItem = list[0]
-        val subjectColor = -1
-        if (root.isColorEnabled) {
-            val query: String =
-                if (mainItem.type === EventItem.TYPE.EXAM && mainItem.name.endsWith("考试")) mainItem.name.substring(
-                    0,
-                    mainItem.name.length - 2
-                ) else mainItem.name
+        if (styleSheet.isColorEnabled) {
             card.backgroundTintList = ColorStateList.valueOf(mainItem.color)
-            when (root.cardTitleColor) {
-                "subject" -> title?.setTextColor(subjectColor)
+            when (styleSheet.cardTitleColor) {
+                "subject" -> title?.setTextColor(mainItem.color)
                 "white" -> title?.setTextColor(Color.WHITE)
                 "black" -> title?.setTextColor(Color.BLACK)
-                "primary" -> title?.setTextColor(root.colorPrimary)
-                "accent" -> title?.setTextColor(root.colorAccent)
+                "primary" -> title?.setTextColor(getColor(R.attr.colorPrimary))
             }
         } else {
-            if (root.cardBackground == "primary") {
-                card.backgroundTintList = ColorStateList.valueOf(root.colorPrimary)
-            } else if (root.cardBackground == "accent") {
-                card.backgroundTintList = ColorStateList.valueOf(root.colorAccent)
-            }
-            when (root.cardTitleColor) {
+            card.backgroundTintList = ColorStateList.valueOf(getColor(R.attr.colorPrimary))
+            when (styleSheet.cardTitleColor) {
                 "white" -> title?.setTextColor(Color.WHITE)
                 "black" -> title?.setTextColor(Color.BLACK)
-                "primary" -> title?.setTextColor(root.colorPrimary)
-                "accent" -> title?.setTextColor(root.colorAccent)
+                "primary" -> title?.setTextColor(getColor(R.attr.colorPrimary))
             }
         }
         if (icon != null) {
-            if (root.cardIconEnabled()) {
+            if (styleSheet.isColorEnabled) {
                 icon?.visibility = VISIBLE
                 icon?.setColorFilter(Color.WHITE)
-                when (root.iconColor) {
-                    "subject" -> if (root.isColorEnabled) {
-                        icon?.setColorFilter(subjectColor)
-                    } else icon?.setColorFilter(root.colorPrimary)
+                when (styleSheet.iconColor) {
+                    "subject" -> if (styleSheet.isColorEnabled) {
+                        icon?.setColorFilter(mainItem.color)
+                    } else icon?.setColorFilter(getColor(R.attr.colorPrimary))
                     "white" -> icon?.setColorFilter(Color.WHITE)
                     "black" -> icon?.setColorFilter(Color.BLACK)
-                    "primary" -> icon?.setColorFilter(root.colorPrimary)
-                    "accent" -> icon?.setColorFilter(root.colorAccent)
+                    "primary" -> icon?.setColorFilter(getColor(R.attr.colorPrimary))
                 }
             } else {
                 icon?.visibility = GONE
             }
         }
-        card.background.mutate().alpha = (255 * (root.cardOpacity.toFloat() / 100)).toInt()
-        if (root.willBoldText()) {
+        card.background.mutate().alpha = (255 * (styleSheet.cardOpacity.toFloat() / 100)).toInt()
+        if (styleSheet.isBoldText) {
             title?.typeface = Typeface.DEFAULT_BOLD
         }
-        title?.alpha = root.titleAlpha.toFloat() / 100
-        title?.gravity = root.titleGravity
+        title?.alpha = styleSheet.titleAlpha.toFloat() / 100
+        title?.gravity = styleSheet.titleGravity
     }
 
     interface OnDuplicateCardLongClickListener {
         fun onDuplicateLongClick(v: View, list: List<EventItem>): Boolean
     }
 
-    interface TimeTablePreferenceRoot {
-        //        int locateFragment(FragmentTimeTablePage page);
-        val isColorEnabled: Boolean
-        val cardTitleColor: String?
-        val subTitleColor: String?
-        val iconColor: String?
-        fun willBoldText(): Boolean
-        fun drawBGLine(): Boolean
-        fun cardIconEnabled(): Boolean
-        val cardOpacity: Int
-        val cardHeight: Int
-        val startTime: TimeInDay
-        val todayBGColor: Int
-        val titleGravity: Int
-        val colorPrimary: Int
-        val colorAccent: Int
-        val titleAlpha: Int
-        val subtitleAlpha: Int
-        fun animEnabled(): Boolean
-        val cardBackground: String
-        val tTPreference: SharedPreferences
-        fun drawNowLine(): Boolean
-    }
 
     fun getDow(): Int {
         if (block is EventItem) {
