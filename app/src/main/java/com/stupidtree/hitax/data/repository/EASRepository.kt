@@ -14,6 +14,7 @@ import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.hitax.data.source.preference.EasPreferenceSource
+import com.stupidtree.hitax.data.source.web.eas.EASJSource
 import com.stupidtree.hitax.data.source.web.eas.EASource
 import com.stupidtree.hitax.data.source.web.service.EASService
 import com.stupidtree.hitax.ui.base.DataState
@@ -28,7 +29,7 @@ import java.util.*
 
 class EASRepository internal constructor(application: Application) {
 
-    private val easService: EASService = EASource()
+    private val easService: EASService = EASJSource(application)
     private var easPreferenceSource = EasPreferenceSource.getInstance(application)
     private var eventItemDao = AppDatabase.getDatabase(application).eventItemDao()
     private var timetableDao = AppDatabase.getDatabase(application).timetableDao()

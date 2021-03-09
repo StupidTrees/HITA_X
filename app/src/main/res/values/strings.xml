@@ -26,7 +26,6 @@
     <string name="schedule_list_item_pattern">第%d节课</string>
 
 
-
     <string name="timeline_head_free_title">今日空闲</string>
     <string name="timeline_head_free_subtitle">享受当下！</string>
     <string name="timeline_head_goodnight_title">夜深了</string>
@@ -1145,4 +1144,5 @@
     <string name="pick_query_building">选择查询教学楼</string>
     <string name="empty_classroom_format">%s 空闲情况</string>
     <string name="fade_enabled">启用背景渐变</string>
+    <string name="title_activity_profile">ProfileActivity</string>
 </resources>

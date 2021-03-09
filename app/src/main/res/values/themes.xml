@@ -41,6 +41,7 @@
     <style name="TransparentBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/TransparentBottomSheetStyle</item>
     </style>
+
     <style name="TransparentBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
         <item name="behavior_peekHeight">400dp</item>
@@ -52,6 +53,7 @@
         <item name="actionMenuTextColor">#FFFFFF</item>
         <item name="android:titleTextAppearance">@style/Toolbar_Light_TitleStyle</item>
     </style>
+
     <style name="Toolbar_Light_TitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textColor">#ffffff</item>
     </style>
@@ -66,11 +68,11 @@
         <item name="android:colorControlHighlight">?attr/colorControlNormal</item>
         <item name="android:radius">24dp</item>
     </style>
+
     <style name="button_ripple_control_large">
         <item name="android:colorControlHighlight">?attr/colorControlNormal</item>
         <item name="android:radius">32dp</item>
     </style>
-
 
 
     <style name="unbound_ripple_white_light">
@@ -91,7 +93,6 @@
         <item name="android:colorControlHighlight">?attr/colorPrimary</item>
         <item name="android:radius">32dp</item>
     </style>
-
 
 
     <style name="text_style_18sp_bold_white">
@@ -117,4 +118,13 @@
         <item name="android:textColor">?attr/textColorPrimary</item>
         <item name="android:fontFamily">sans-serif-black</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

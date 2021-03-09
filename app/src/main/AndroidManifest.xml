@@ -16,8 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.myprofile.ProfileActivity"
+            android:exported="true"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <provider
-            android:name="com.stupidtree.hitax.MFileProvider"
+            android:name=".MFileProvider"
             android:authorities="com.stupidtree.hitax.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -26,18 +32,15 @@
                 android:resource="@xml/file_paths" />
         </provider> <!-- 加上他，否则无法从相册选取图片 -->
         <activity
-            android:name="com.stupidtree.hitax.ui.main.MainActivity"
-
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name="com.stupidtree.hitax.ui.timetable.manager.TimetableManagerActivity" />
-        <activity android:name="com.stupidtree.hitax.ui.subject.SubjectActivity" />
-        <activity android:name="com.stupidtree.hitax.ui.welcome.WelcomeActivity" />
-        <activity android:name="com.stupidtree.hitax.ui.myprofile.MyProfileActivity" />
-        <activity android:name="com.stupidtree.hitax.ui.timetable.detail.TimetableDetailActivity" />
+            android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".ui.timetable.manager.TimetableManagerActivity" />
+        <activity android:name=".ui.subject.SubjectActivity" />
+        <activity android:name=".ui.welcome.WelcomeActivity" />
+        <activity android:name=".ui.myprofile.MyProfileActivity" />
+        <activity android:name=".ui.timetable.detail.TimetableDetailActivity" />
         <activity
-            android:name="com.stupidtree.hitax.ui.ActivitySplash"
+            android:name=".ui.ActivitySplash"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,9 +48,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.stupidtree.hitax.ui.teacher.ActivityTeacherOfficial" />
+        <activity android:name=".ui.teacher.ActivityTeacherOfficial" />
         <activity
-            android:name="com.stupidtree.hitax.ui.search.SearchActivity"
+            android:name=".ui.search.SearchActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.eas.imp.ImportTimetableActivity" />
         <activity android:name=".ui.eas.classroom.EmptyClassroomActivity" />

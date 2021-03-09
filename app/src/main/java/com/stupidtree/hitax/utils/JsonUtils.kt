@@ -1,5 +1,6 @@
 package com.stupidtree.hitax.utils
 
+import androidx.compose.runtime.key
 import com.google.gson.JsonObject
 import org.json.JSONArray
 import org.json.JSONException
@@ -17,13 +18,28 @@ object JsonUtils {
         }
     }
 
-    fun getJsonObject(jo: String): JSONObject? {
-        return try {
+    fun getJsonObject(jo: String?): JSONObject? {
+        return if(jo==null) null
+        else try {
             JSONObject(jo)
         } catch (e: JSONException) {
             null
         }
     }
+
+    fun jsonStringToMap(jo: String?): Map<String, String> {
+        return jsonToMap(getJsonObject(jo))
+    }
+    fun jsonToMap(jo: JSONObject?): Map<String, String> {
+        val res = mutableMapOf<String, String>()
+        if (jo != null) {
+            for (key in jo.keys()) {
+                res[key] = jo[key].toString()
+            }
+        }
+        return res
+    }
+
     fun getJsonArray(ja: String): JSONArray? {
         return try {
             JSONArray(ja)

@@ -4,26 +4,28 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import com.stupidtree.hitax.utils.FileProviderUtils
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.stupidtree.hitax.R
-import com.stupidtree.hitax.data.model.service.UserLocal
 import com.stupidtree.hitax.data.model.service.UserProfile
-import com.stupidtree.hitax.databinding.ActivityMyProfileBinding
-import com.stupidtree.hitax.ui.base.BaseActivity
+import com.stupidtree.hitax.ui.base.BaseActivityCompose
 import com.stupidtree.hitax.ui.base.DataState
-import com.stupidtree.hitax.ui.widgets.PopUpEditText
-import com.stupidtree.hitax.ui.widgets.PopUpSelectableList
+import com.stupidtree.hitax.utils.FileProviderUtils
 import com.stupidtree.hitax.utils.GalleryPicker
-import com.stupidtree.hitax.utils.ImageUtils
 
 /**
  * ”我的个人资料“ Activity
  */
-class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBinding>() {
-
-    override fun getViewModelClass(): Class<MyProfileViewModel> {
-        return MyProfileViewModel::class.java
-    }
+class MyProfileActivity : BaseActivityCompose<MyProfileViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +34,38 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
             darkColor = true,
             navi = false
         )
-        setToolbarActionBack(binding.toolbar)
+        setContent{
+            ProfileLayout(viewModel = viewModel)
+        }
+    }
 
-        // cropImgUri = Uri.parse("file:///" + Environment.getExternalStorageDirectory() + "/avatar_cropped.jpg")
+
+    @Composable
+    fun ProfileLayout(viewModel: MyProfileViewModel) {
+        val profile: DataState<UserProfile> by viewModel.userProfileLiveData.observeAsState(
+            DataState(DataState.STATE.NOT_LOGGED_IN)
+        )
+        profile.data?.let {
+            Column(modifier = Modifier.padding(4.dp)) {
+                Row {
+                    Text(getString(R.string.username))
+                    Text(it.username ?: "")
+                }
+                Row {
+                    Text(getString(R.string.prompt_nickname))
+                    Text(it.nickname ?: "")
+                }
+
+            }
+        }
+
+    }
+
+
+    @Preview
+    @Composable
+    fun Test() {
+        ProfileLayout(viewModel)
     }
 
     override fun initViews() {
@@ -42,7 +73,10 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
         viewModel.userProfileLiveData.observe(this, { userProfileDataState ->
 
             if (userProfileDataState.state === DataState.STATE.SUCCESS) {
-                userProfileDataState.data?.let { setUserProfile(it) }
+                userProfileDataState.data?.let {
+                    //setUserProfile(it)
+                    //profileLayout(it)
+                }
             } else {
                 Toast.makeText(getThis(), "加载失败", Toast.LENGTH_SHORT).show()
             }
@@ -80,61 +114,60 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
                 Toast.makeText(applicationContext, R.string.fail, Toast.LENGTH_SHORT).show()
             }
         }
-        binding.nicknameLayout.setOnClickListener {
-            val up = viewModel.userProfileLiveData.value
-            if (up != null && up.state === DataState.STATE.SUCCESS) {
-                PopUpEditText()
-                    .setTitle(R.string.set_nickname)
-                    .setText(up.data!!.nickname)
-                    .setOnConfirmListener(object : PopUpEditText.OnConfirmListener {
-                        override fun OnConfirm(text: String) {
-                            //控制viewModel发起更改昵称请求
-                            viewModel.startChangeNickname(text)
-                        }
-                    })
-                    .show(supportFragmentManager, "edit")
-            }
-        }
-
-        //点击更改性别，弹出选择框
-        binding.genderLayout.setOnClickListener {
-            val up = viewModel.userProfileLiveData.value
-            if (up != null && up.state === DataState.STATE.SUCCESS) {
-                PopUpSelectableList<UserLocal.GENDER>()
-                    .setTitle(R.string.choose_gender)
-                    .setInitValue(up.data!!.gender)
-                    .setListData(
-                        arrayOf(getString(R.string.male), getString(R.string.female),getString(R.string.other_gender)),
-                        listOf(UserLocal.GENDER.MALE, UserLocal.GENDER.FEMALE,UserLocal.GENDER.OTHER)
-                    ).setOnConfirmListener(object :
-                        PopUpSelectableList.OnConfirmListener<UserLocal.GENDER> {
-
-                        override fun onConfirm(title: String?, key: UserLocal.GENDER) {
-                            viewModel.startChangeGender(key)
-                        }
-                    })
-                    .show(supportFragmentManager, "select")
-            }
-        }
-
-        binding.signatureLayout.setOnClickListener {
-            val up = viewModel.userProfileLiveData.value
-            if (up != null && up.state === DataState.STATE.SUCCESS) {
-                PopUpEditText()
-                    .setTitle(R.string.choose_signature)
-                    .setText(up.data!!.signature)
-                    .setOnConfirmListener(object : PopUpEditText.OnConfirmListener {
-                        override fun OnConfirm(text: String) {
-                            //控制viewModel发起更改签名请求
-                            viewModel.startChangeSignature(text)
-                        }
-                    })
-                    .show(supportFragmentManager, "edit")
-            }
-        }
-        //点击头像那一栏，调用系统相册选择图片
-        binding.avatarLayout.setOnClickListener { GalleryPicker.choosePhoto(getThis(), false) }
-
+//        binding.nicknameLayout.setOnClickListener {
+//            val up = viewModel.userProfileLiveData.value
+//            if (up != null && up.state === DataState.STATE.SUCCESS) {
+//                PopUpEditText()
+//                    .setTitle(R.string.set_nickname)
+//                    .setText(up.data!!.nickname)
+//                    .setOnConfirmListener(object : PopUpEditText.OnConfirmListener {
+//                        override fun OnConfirm(text: String) {
+//                            //控制viewModel发起更改昵称请求
+//                            viewModel.startChangeNickname(text)
+//                        }
+//                    })
+//                    .show(supportFragmentManager, "edit")
+//            }
+//        }
+//        //点击更改性别，弹出选择框
+//        binding.genderLayout.setOnClickListener {
+//            val up = viewModel.userProfileLiveData.value
+//            if (up != null && up.state === DataState.STATE.SUCCESS) {
+//                PopUpSelectableList<UserLocal.GENDER>()
+//                    .setTitle(R.string.choose_gender)
+//                    .setInitValue(up.data!!.gender)
+//                    .setListData(
+//                        arrayOf(getString(R.string.male), getString(R.string.female),getString(R.string.other_gender)),
+//                        listOf(UserLocal.GENDER.MALE, UserLocal.GENDER.FEMALE,UserLocal.GENDER.OTHER)
+//                    ).setOnConfirmListener(object :
+//                        PopUpSelectableList.OnConfirmListener<UserLocal.GENDER> {
+//
+//                        override fun onConfirm(title: String?, key: UserLocal.GENDER) {
+//                            viewModel.startChangeGender(key)
+//                        }
+//                    })
+//                    .show(supportFragmentManager, "select")
+//            }
+//        }
+//
+//        binding.signatureLayout.setOnClickListener {
+//            val up = viewModel.userProfileLiveData.value
+//            if (up != null && up.state === DataState.STATE.SUCCESS) {
+//                PopUpEditText()
+//                    .setTitle(R.string.choose_signature)
+//                    .setText(up.data!!.signature)
+//                    .setOnConfirmListener(object : PopUpEditText.OnConfirmListener {
+//                        override fun OnConfirm(text: String) {
+//                            //控制viewModel发起更改签名请求
+//                            viewModel.startChangeSignature(text)
+//                        }
+//                    })
+//                    .show(supportFragmentManager, "edit")
+//            }
+//        }
+//        //点击头像那一栏，调用系统相册选择图片
+//        binding.avatarLayout.setOnClickListener { GalleryPicker.choosePhoto(getThis(), false) }
+//
 
     }
 
@@ -144,22 +177,22 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
      * @param profile 用户资料对象
      */
     private fun setUserProfile(profile: UserProfile) {
-        //设置头像
-        ImageUtils.loadAvatarInto(getThis(), profile.id, binding.avatar)
-        //设置各种文本信息
-        binding.nickname.text = profile.nickname
-        if (!profile.signature.isNullOrEmpty()) {
-            binding.signature.text = profile.signature
-        } else {
-            binding.signature.setText(R.string.place_holder_no_signature)
-        }
-        binding.username.text = profile.username
-        binding.gender.setText(when (profile.gender){
-            UserLocal.GENDER.MALE ->R.string.male
-            UserLocal.GENDER.FEMALE->R.string.female
-            UserLocal.GENDER.OTHER->R.string.other_gender
-            else -> R.string.other_gender
-        } )
+//        //设置头像
+//        ImageUtils.loadAvatarInto(getThis(), profile.id, binding.avatar)
+//        //设置各种文本信息
+//        binding.nickname.text = profile.nickname
+//        if (!profile.signature.isNullOrEmpty()) {
+//            binding.signature.text = profile.signature
+//        } else {
+//            binding.signature.setText(R.string.place_holder_no_signature)
+//        }
+//        binding.username.text = profile.username
+//        binding.gender.setText(when (profile.gender){
+//            UserLocal.GENDER.MALE ->R.string.male
+//            UserLocal.GENDER.FEMALE->R.string.female
+//            UserLocal.GENDER.OTHER->R.string.other_gender
+//            else -> R.string.other_gender
+//        } )
     }
 
     override fun onStart() {
@@ -205,6 +238,12 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
         }
     }
 
+
+    override fun getViewModelClass(): Class<MyProfileViewModel> {
+        return MyProfileViewModel::class.java
+    }
+
+
     companion object {
         /**
          * 这些是调用系统相册选择、裁剪图片要用到的状态码
@@ -214,7 +253,4 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
         const val RC_CROP_PHOTO = 12
     }
 
-    override fun initViewBinding(): ActivityMyProfileBinding {
-        return ActivityMyProfileBinding.inflate(layoutInflater)
-    }
 }
