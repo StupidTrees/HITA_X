@@ -31,6 +31,7 @@ import com.stupidtree.hitax.ui.main.timetable.outer.TimetableFragment
 import com.stupidtree.hitax.ui.main.timetable.panel.FragmentTimetablePanel
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.ImageUtils
+import com.stupidtree.sync.StupidSync
 import me.ibrahimsn.lib.OnItemSelectedListener
 
 /**
@@ -49,7 +50,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(binding.toolbar)
-        setWindowParams(statusBar = true, darkColor = true, navi = false)
+
     }
 
 
@@ -185,7 +186,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         binding.avatar.setOnClickListener { binding.drawer.openDrawer(GravityCompat.START) }
 
         binding.timetableSetting.setOnClickListener {
-            FragmentTimetablePanel().show(supportFragmentManager,"panel")
+            StupidSync.sync().observe(this){
+
+            }
+            //FragmentTimetablePanel().show(supportFragmentManager,"panel")
         }
 
 

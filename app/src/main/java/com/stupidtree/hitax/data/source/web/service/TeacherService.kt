@@ -1,7 +1,7 @@
 package com.stupidtree.hitax.data.source.web.service
 
 import androidx.lifecycle.LiveData
-import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.ui.search.teacher.TeacherSearched
 
 interface TeacherService {

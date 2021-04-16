@@ -1,8 +1,8 @@
 package com.stupidtree.hitax.ui.welcome.signup
 
 
-import com.stupidtree.hitax.data.model.service.UserLocal
-import com.stupidtree.hitax.ui.base.Trigger
+import com.stupidtree.stupiduser.data.model.service.UserLocal
+import com.stupidtree.component.data.Trigger
 
 class SignUpTrigger : Trigger() {
     var username: String? = null

@@ -10,10 +10,11 @@ import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.appbar.AppBarLayout
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.ActivityTeacherOfficialBinding
 import com.stupidtree.hitax.ui.base.BaseActivity
-import com.stupidtree.hitax.ui.base.DataState
+
 
 open class ActivityTeacherOfficial :
     BaseActivity<TeacherViewModel, ActivityTeacherOfficialBinding>() {
@@ -23,7 +24,7 @@ open class ActivityTeacherOfficial :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setWindowParams(statusBar = true, darkColor = true, navi = false)
+
         setToolbarActionBack(binding.toolbar)
     }
 

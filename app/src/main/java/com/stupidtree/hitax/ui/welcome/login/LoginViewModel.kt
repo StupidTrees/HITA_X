@@ -30,7 +30,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     //用户仓库
     private val userRepository: UserRepository = UserRepository.getInstance(application)
 
-    val loginResult: LiveData<LoginResult>
+    val loginResult: LiveData<com.stupidtree.stupiduser.data.model.LoginResult>
         get() = Transformations.switchMap(loginState) { input: LoginTrigger ->
             if (input.isActioning) {
                 return@switchMap userRepository.login(input.username!!, input.password!!)

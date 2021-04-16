@@ -4,10 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.MediatorLiveData
-import com.stupidtree.hitax.data.source.preference.SharedPreferenceBooleanLiveData
-import com.stupidtree.hitax.data.source.preference.SharedPreferenceIntLiveData
-import com.stupidtree.hitax.data.source.preference.booleanLiveData
-import com.stupidtree.hitax.data.source.preference.intLiveData
+import com.stupidtree.component.data.booleanLiveData
+import com.stupidtree.component.data.intLiveData
 import com.stupidtree.hitax.ui.main.timetable.inner.TimetableStyleSheet
 
 class TimetableStyleRepository(application: Application) {

@@ -1,8 +1,12 @@
 package com.stupidtree.hitax.ui.base
 
+import android.content.res.Configuration
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +43,7 @@ abstract class BaseActivity<T : ViewModel, V : ViewBinding> : AppCompatActivity(
     //为Activity中的View设置行为
     protected abstract fun initViews()
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTranslucentStatusBar()
         super.onCreate(savedInstanceState)
         binding = initViewBinding()
         setContentView(binding.root)
@@ -59,18 +64,36 @@ abstract class BaseActivity<T : ViewModel, V : ViewBinding> : AppCompatActivity(
 
     /**
      * 设置Activity的窗口属性
-     * @param statusBar 是否让状态栏沉浸
-     * @param darkColor 状态栏图标的颜色是否显示为深色
-     * @param navi 是否让导航栏沉浸（一些手机底部会开启三大金刚）
      */
-    protected fun setWindowParams(statusBar: Boolean, darkColor: Boolean, navi: Boolean) {
-        if (darkColor) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        } else {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+    protected open fun setTranslucentStatusBar() {
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
+        when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.statusBarColor = Color.TRANSPARENT
+            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.statusBarColor = Color.TRANSPARENT
+            }
         }
-        /* if (AppCompatDelegate.getDefaultNightMode()!=AppCompatDelegate.MODE_NIGHT_YES&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.M&&darkColor)getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR); */if (statusBar) window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        if (navi) window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+            } // Night mode is not active, we're using the light theme
+            Configuration.UI_MODE_NIGHT_YES -> {
+                window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+            } // Night mode is active, we're using dark theme
+        }
+
     }
 
     /**

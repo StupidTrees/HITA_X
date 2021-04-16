@@ -3,14 +3,14 @@ package com.stupidtree.hitax.data.source.web
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.stupidtree.hitax.data.model.service.ApiResponse
-import com.stupidtree.hitax.data.model.service.UserProfile
-import com.stupidtree.hitax.data.source.web.service.LiveDataCallAdapter
+import com.stupidtree.component.web.BaseWebSource
+import com.stupidtree.stupiduser.data.model.service.ApiResponse
+import com.stupidtree.stupiduser.data.model.service.UserProfile
 import com.stupidtree.hitax.data.source.web.service.ProfileService
 import com.stupidtree.hitax.data.source.web.service.codes.SUCCESS
 import com.stupidtree.hitax.data.source.web.service.codes.TOKEN_INVALID
-import com.stupidtree.hitax.ui.base.DataState
-import com.stupidtree.hitax.utils.HttpUtils
+import com.stupidtree.component.data.DataState
+import com.stupidtree.component.web.LiveDataCallAdapter
 import okhttp3.MultipartBody
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -43,7 +43,7 @@ object ProfileWebSource : BaseWebSource<ProfileService>(
         return Transformations.map(
             service.changeSignature(
                 signature,
-                HttpUtils.getHeaderAuth(token)
+                com.stupidtree.stupiduser.util.HttpUtils.getHeaderAuth(token)
             )
         ) { input: ApiResponse<Any?>? ->
             if (input != null) {
@@ -70,7 +70,7 @@ object ProfileWebSource : BaseWebSource<ProfileService>(
         return Transformations.map(
             service.changeNickname(
                 nickname,
-                HttpUtils.getHeaderAuth(token)
+                com.stupidtree.stupiduser.util.HttpUtils.getHeaderAuth(token)
             )
         ) { input ->
             if (input != null) {
@@ -93,7 +93,7 @@ object ProfileWebSource : BaseWebSource<ProfileService>(
      * @return 资料
      */
     fun getUserProfile(token: String): LiveData<DataState<UserProfile>> {
-        return Transformations.map(service.getUserProfile(HttpUtils.getHeaderAuth(token))) { input ->
+        return Transformations.map(service.getUserProfile(com.stupidtree.stupiduser.util.HttpUtils.getHeaderAuth(token))) { input ->
 
             if (input != null) {
                 when (input.code) {
@@ -117,7 +117,7 @@ object ProfileWebSource : BaseWebSource<ProfileService>(
         return Transformations.map(
             service.changeGender(
                 gender,
-                HttpUtils.getHeaderAuth(token)
+                com.stupidtree.stupiduser.util.HttpUtils.getHeaderAuth(token)
             )
         ) { input ->
             if (input != null) {
@@ -145,7 +145,7 @@ object ProfileWebSource : BaseWebSource<ProfileService>(
         return Transformations.map(
             service.uploadAvatar(
                 file,
-                HttpUtils.getHeaderAuth(token)
+                com.stupidtree.stupiduser.util.HttpUtils.getHeaderAuth(token)
             )
         ) { input ->
             Log.e("avatar", input.toString())

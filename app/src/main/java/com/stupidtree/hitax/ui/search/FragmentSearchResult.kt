@@ -12,7 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.ui.base.BaseFragmentClassic
 import com.stupidtree.hitax.ui.base.BaseListAdapterClassic
-import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.ui.search.FragmentSearchResult.SearchListAdapter.SimpleHolder
 
 abstract class FragmentSearchResult<T, V : BaseSearchResultViewModel<T>> :

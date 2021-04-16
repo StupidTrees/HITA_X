@@ -37,13 +37,13 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
             }
             if (loginResult != null) {
                 when (loginResult.state) {
-                    LoginResult.STATES.SUCCESS -> {
+                    com.stupidtree.stupiduser.data.model.LoginResult.STATES.SUCCESS -> {
                         requireActivity().finish()
                     }
-                    LoginResult.STATES.WRONG_USERNAME -> {
+                    com.stupidtree.stupiduser.data.model.LoginResult.STATES.WRONG_USERNAME -> {
                         binding?.username?.error = getString(loginResult.message)
                     }
-                    LoginResult.STATES.WRONG_PASSWORD -> {
+                    com.stupidtree.stupiduser.data.model.LoginResult.STATES.WRONG_PASSWORD -> {
                         binding?.password?.error = getString(loginResult.message)
                     }
                     else -> {

@@ -11,6 +11,10 @@ interface SubjectDao {
     @Query("SELECT * FROM subject WHERE id is :id")
     fun getSubjectById(id: String): LiveData<TermSubject>
 
+    @Query("SELECT * FROM subject WHERE id in (:ids)")
+    fun getSubjectsInIdsSync(ids: List<String>): List<TermSubject>
+
+
     @Query("SELECT * FROM subject WHERE timetableId is :timetableId AND name is :name")
     fun getSubjectByName(timetableId: String, name: String?): TermSubject?
 
@@ -28,10 +32,17 @@ interface SubjectDao {
     fun saveSubjectSync(data: TermSubject)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveSubjectsSync(data:List<TermSubject>)
+    fun saveSubjectsSync(data: List<TermSubject>)
 
     @Query("DELETE from subject where timetableId in (:ids)")
     fun deleteSubjectsFromTimetablesSync(ids: List<String>)
+
+    @Query("delete from subject where id in (:ids)")
+    fun deleteSubjectsInIdsSync(ids: List<String>)
+
+
+    @Query("select id from subject where timetableId in (:ids)")
+    fun getSubjectIdsOfTimetablesSync(ids: List<String>): List<String>
 
     @Delete
     fun deleteSubjectsSync(subjects: List<TermSubject>)

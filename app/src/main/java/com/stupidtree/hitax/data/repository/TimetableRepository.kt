@@ -11,10 +11,15 @@ import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.hitax.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
 import com.stupidtree.hitax.utils.TimeTools
+import com.stupidtree.sync.StupidSync
+import com.stupidtree.sync.data.model.History
 import java.lang.NumberFormatException
 import java.util.*
+import java.util.concurrent.Executors
 
 class TimetableRepository(val application: Application) {
+    private val historyTag = "timetable"
+    private val executor = Executors.newSingleThreadExecutor()
     private val eventItemDao = AppDatabase.getDatabase(application).eventItemDao()
     private val timetableDao = AppDatabase.getDatabase(application).timetableDao()
     private val subjectDao = AppDatabase.getDatabase(application).subjectDao()
@@ -69,46 +74,55 @@ class TimetableRepository(val application: Application) {
         return timetableDao.getTimetableById(id)
     }
 
-    fun getTimetableByEasCode(code:String):LiveData<Timetable?>{
+    fun getTimetableByEasCode(code: String): LiveData<Timetable?> {
         return timetableDao.getTimetableByEASCode(code)
     }
 
     /**
      * 获得某学期（本地可能没有）的当前周数
      */
-    fun getCurrentWeekOfTimetable(termItem: TermItem?):LiveData<Int>{
+    fun getCurrentWeekOfTimetable(termItem: TermItem?): LiveData<Int> {
         val result = MediatorLiveData<Int>()
-        result.addSource(timetableDao.getTimetableByEASCode(termItem?.getCode()?:"")){
+        result.addSource(timetableDao.getTimetableByEASCode(termItem?.getCode() ?: "")) {
             it?.let {
                 result.value = it.getWeekNumber(System.currentTimeMillis())
-            }?: kotlin.run {
+            } ?: kotlin.run {
                 result.value = 1
             }
         }
         return result
     }
 
-    fun getRecentTimetable():LiveData<Timetable?>{
+    fun getRecentTimetable(): LiveData<Timetable?> {
         return timetableDao.getTimetableClosestToTimestamp(System.currentTimeMillis())
     }
 
-    fun getTimetableCount():LiveData<Int>{
+    fun getTimetableCount(): LiveData<Int> {
         return timetableDao.geeTimetableCount()
     }
+
     fun actionDeleteTimetables(timetables: List<Timetable>) {
         val ids = mutableListOf<String>()
         for (tt in timetables) {
             ids.add(tt.id)
         }
-        Thread {
+        executor.execute {
+            val eventIds = eventItemDao.getEventIdsFromTimetablesSync(ids)
+            StupidSync.putHistorySync("event", History.ACTION.REMOVE, eventIds)
+            val subjectIds = subjectDao.getSubjectIdsOfTimetablesSync(ids)
+            StupidSync.putHistorySync("subject", History.ACTION.REMOVE, subjectIds)
+
             timetableDao.deleteTimetablesSync(timetables)
             eventItemDao.deleteEventsFromTimetablesSync(ids)
             subjectDao.deleteSubjectsFromTimetablesSync(ids)
-        }.start()
+            StupidSync.putHistorySync(historyTag, History.ACTION.REMOVE, ids)
+
+        }
+
     }
 
     fun actionNewTimetable() {
-        Thread {
+        executor.execute {
             val defaultTables =
                 timetableDao.getTimetableNamesWithDefaultSync(application.getString(R.string.default_timetable_name) + "%")
             var max = 0
@@ -129,13 +143,15 @@ class TimetableRepository(val application: Application) {
             newTable.name =
                 application.getString(R.string.default_timetable_name) + (max + 1).toString()
             timetableDao.saveTimetableSync(newTable)
-        }.start()
+            StupidSync.putHistorySync("timetable", History.ACTION.REQUIRE, listOf(newTable.id))
+        }
     }
 
     fun actionSaveTimetable(timetable: Timetable) {
-        Thread {
+        executor.execute {
             timetableDao.saveTimetableSync(timetable)
-        }.start()
+            StupidSync.putHistorySync("timetable", History.ACTION.REQUIRE, listOf(timetable.id))
+        }
     }
 
     fun actionChangeTimetableStartDate(timetable: Timetable, startTime: Long) {
@@ -143,36 +159,40 @@ class TimetableRepository(val application: Application) {
         val offset = calendar.timeInMillis - timetable.startTime.time
         timetable.endTime.time = timetable.endTime.time + offset
         timetable.startTime.time = calendar.timeInMillis
-        Thread {
+        executor.execute {
             timetableDao.saveTimetableSync(timetable)
             eventItemDao.updateClassesAddOffset(timetableId = timetable.id, offset)
-        }.start()
+            StupidSync.putHistorySync("timetable", History.ACTION.REQUIRE, listOf(timetable.id))
+        }
     }
 
     fun actionChangeTimetableStructure(timetable: Timetable, tp: TimePeriodInDay, position: Int) {
         timetable.setScheduleStructure(tp, position)
-        Thread {
+        executor.execute {
             timetableDao.saveTimetableSync(timetable)
+            StupidSync.putHistorySync("timetable", History.ACTION.REQUIRE, listOf(timetable.id))
             val fromToChange = eventItemDao.getClassAtFromNumberSync(timetable.id, position + 1)
             val tmp = Calendar.getInstance()
+            val ids = mutableListOf<String>()
             for (e in fromToChange) {
+                ids.add(e.id)
                 tmp.timeInMillis = e.from.time
                 tmp.set(Calendar.HOUR_OF_DAY, tp.from.hour)
                 tmp.set(Calendar.MINUTE, tp.from.minute)
                 e.from.time = tmp.timeInMillis
             }
             eventItemDao.saveEvents(fromToChange)
-
             val endToChange = eventItemDao.getClassAtToNumberSync(timetable.id, position + 1)
             for (e in endToChange) {
+                ids.add(e.id)
                 tmp.timeInMillis = e.to.time
                 tmp.set(Calendar.HOUR_OF_DAY, tp.to.hour)
                 tmp.set(Calendar.MINUTE, tp.to.minute)
                 e.to.time = tmp.timeInMillis
             }
             eventItemDao.saveEvents(endToChange)
-
-        }.start()
+            StupidSync.putHistorySync("event", History.ACTION.REQUIRE, ids)
+        }
     }
 
 

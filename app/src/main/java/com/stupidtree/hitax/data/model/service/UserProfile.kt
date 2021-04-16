@@ -3,7 +3,7 @@ package com.stupidtree.hitax.data.model.service
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.Gson
-import com.stupidtree.hitax.data.model.service.UserLocal.GENDER
+import com.stupidtree.stupiduser.data.model.service.UserLocal.GENDER
 
 /**
  * 显示在用户资料页的用户资料Model

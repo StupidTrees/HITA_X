@@ -6,8 +6,8 @@ import com.stupidtree.hitax.data.model.eas.TermItem
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.data.repository.EASRepository
 import com.stupidtree.hitax.data.repository.TimetableRepository
-import com.stupidtree.hitax.ui.base.DataState
-import com.stupidtree.hitax.ui.base.Trigger
+import com.stupidtree.component.data.DataState
+import com.stupidtree.component.data.Trigger
 import com.stupidtree.hitax.ui.eas.EASViewModel
 import com.stupidtree.hitax.utils.MTransformations
 

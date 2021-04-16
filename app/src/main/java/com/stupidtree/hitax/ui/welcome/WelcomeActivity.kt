@@ -19,7 +19,7 @@ class WelcomeActivity : BaseActivity<WelcomeViewModel,ActivityWelcomeBinding>() 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setWindowParams(statusBar = true, darkColor = true, navi = true)
+        //setWindowParams(statusBar = true, darkColor = true, navi = true)
         binding.toolbar.title = ""
         setToolbarActionBack(binding.toolbar)
     }
@@ -59,4 +59,5 @@ class WelcomeActivity : BaseActivity<WelcomeViewModel,ActivityWelcomeBinding>() 
     override fun getViewModelClass(): Class<WelcomeViewModel> {
         return WelcomeViewModel::class.java
     }
+
 }

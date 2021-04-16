@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hitax.data.repository.EASRepository
-import com.stupidtree.hitax.ui.base.DataState
-import com.stupidtree.hitax.ui.base.Trigger
+import com.stupidtree.component.data.DataState
+import com.stupidtree.component.data.Trigger
 import com.stupidtree.hitax.utils.LiveDataUtils
 
 abstract class EASViewModel(application: Application) : AndroidViewModel(application){

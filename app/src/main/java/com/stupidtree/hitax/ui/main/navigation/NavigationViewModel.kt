@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.hitax.data.repository.TimetableRepository
-import com.stupidtree.hitax.ui.base.Trigger
+import com.stupidtree.component.data.Trigger
 
 class NavigationViewModel(application: Application) : AndroidViewModel(application) {
 

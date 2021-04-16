@@ -12,7 +12,7 @@ import com.stupidtree.hitax.data.model.eas.TermItem
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.databinding.ActivityEasImportBinding
 import com.stupidtree.hitax.ui.base.BaseListAdapter
-import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.ui.eas.EASActivity
 import com.stupidtree.hitax.ui.widgets.PopUpCalendarPicker
 import com.stupidtree.hitax.ui.widgets.PopUpCheckableList
@@ -30,7 +30,7 @@ class ImportTimetableActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setWindowParams(statusBar = true, darkColor = true, navi = false)
+
         setToolbarActionBack(binding.toolbar)
     }
 

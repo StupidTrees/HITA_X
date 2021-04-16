@@ -14,7 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import com.stupidtree.hitax.R
-import com.stupidtree.hitax.data.source.preference.UserPreferenceSource
+import com.stupidtree.stupiduser.data.source.preference.UserPreferenceSource
 
 /**
  * 此类封装了加载用户头像的各个方法

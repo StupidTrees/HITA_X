@@ -2,6 +2,8 @@ package com.stupidtree.hitax.ui.main.timetable.panel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.stupidtree.component.data.SharedPreferenceBooleanLiveData
+import com.stupidtree.component.data.SharedPreferenceIntLiveData
 import com.stupidtree.hitax.data.repository.SubjectRepository
 import com.stupidtree.hitax.data.repository.TimetableRepository
 import com.stupidtree.hitax.data.repository.TimetableStyleRepository
@@ -9,9 +11,6 @@ import com.stupidtree.hitax.data.repository.TimetableStyleRepository.Companion.K
 import com.stupidtree.hitax.data.repository.TimetableStyleRepository.Companion.KEY_DRAW_BG_LINE
 import com.stupidtree.hitax.data.repository.TimetableStyleRepository.Companion.KEY_FADE_ENABLE
 import com.stupidtree.hitax.data.repository.TimetableStyleRepository.Companion.KEY_START_DATE
-import com.stupidtree.hitax.data.source.preference.SharedPreferenceBooleanLiveData
-import com.stupidtree.hitax.data.source.preference.SharedPreferenceIntLiveData
-
 class TimetablePanelViewModel(application: Application) : AndroidViewModel(application) {
 
     private val timetableStyleRepository = TimetableStyleRepository.getInstance(application)

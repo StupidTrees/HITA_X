@@ -9,6 +9,7 @@
 
     <application
         android:allowBackup="true"
+        android:name=".HApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
@@ -16,11 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".ui.myprofile.ProfileActivity"
-            android:exported="true"
-            android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <provider
             android:name=".MFileProvider"
@@ -33,7 +29,7 @@
         </provider> <!-- 加上他，否则无法从相册选取图片 -->
         <activity
             android:name=".ui.main.MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="fullSensor" />
         <activity android:name=".ui.timetable.manager.TimetableManagerActivity" />
         <activity android:name=".ui.subject.SubjectActivity" />
         <activity android:name=".ui.welcome.WelcomeActivity" />

@@ -8,7 +8,7 @@ import androidx.lifecycle.Transformations
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.hitax.data.repository.TimetableRepository
 import com.stupidtree.hitax.data.repository.TimetableStyleRepository
-import com.stupidtree.hitax.ui.base.Trigger
+import com.stupidtree.component.data.Trigger
 import com.stupidtree.hitax.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
 import com.stupidtree.hitax.ui.main.timetable.outer.TimetableFragment.Companion.WINDOW_SIZE
 import java.util.*

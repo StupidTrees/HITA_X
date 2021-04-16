@@ -5,9 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.stupidtree.hitax.data.model.service.UserLocal
-import com.stupidtree.hitax.data.repository.LocalUserRepository
-import com.stupidtree.hitax.ui.base.Trigger
+import com.stupidtree.stupiduser.data.model.service.UserLocal
+import com.stupidtree.component.data.Trigger
+import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 
 class MainViewModel(application: Application) : AndroidViewModel(application){
     /**

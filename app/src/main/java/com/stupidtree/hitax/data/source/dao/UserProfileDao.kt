@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.stupidtree.hitax.data.model.service.UserProfile
+import com.stupidtree.stupiduser.data.model.service.UserProfile
 
 @Dao
 interface UserProfileDao {
@@ -17,7 +17,7 @@ interface UserProfileDao {
     fun saveProfiles(data: List<UserProfile>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveProfile(data:UserProfile)
+    fun saveProfile(data: UserProfile)
 
 
     @Query("DELETE FROM profile")

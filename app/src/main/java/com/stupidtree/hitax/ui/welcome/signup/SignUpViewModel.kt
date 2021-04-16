@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hitax.R
-import com.stupidtree.hitax.data.model.service.UserLocal
+import com.stupidtree.stupiduser.data.model.service.UserLocal
 import com.stupidtree.hitax.data.repository.UserRepository
 import com.stupidtree.hitax.ui.welcome.signup.SignUpTrigger.Companion.getRequestState
 import com.stupidtree.hitax.utils.TextTools
@@ -35,7 +35,7 @@ class SignUpViewModel(application: Application) : AndroidViewModel(application) 
         get() = signUpFormState
 
     //通知用户仓库进行注册，并从中获取返回结果的liveData
-    val signUpResult: LiveData<SignUpResult>
+    val signUpResult: LiveData<com.stupidtree.stupiduser.data.model.SignUpResult>
         get() = Transformations.switchMap(signUpController) { input ->
             if (input.isActioning) {
                 //通知用户仓库进行注册，并从中获取返回结果的liveData

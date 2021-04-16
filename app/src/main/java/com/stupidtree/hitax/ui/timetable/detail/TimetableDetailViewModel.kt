@@ -5,12 +5,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.stupidtree.component.data.StringTrigger
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.hitax.data.repository.SubjectRepository
 import com.stupidtree.hitax.data.repository.TimetableRepository
-import com.stupidtree.hitax.ui.base.StringTrigger
 import java.util.*
 
 class TimetableDetailViewModel(application: Application) : AndroidViewModel(application) {

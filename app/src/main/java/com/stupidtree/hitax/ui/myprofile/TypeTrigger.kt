@@ -1,6 +1,7 @@
 package com.stupidtree.hitax.ui.myprofile
 
-import com.stupidtree.hitax.ui.base.Trigger
+import com.stupidtree.component.data.Trigger
+
 
 class TypeTrigger : Trigger() {
     var type = 0

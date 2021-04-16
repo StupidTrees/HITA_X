@@ -6,9 +6,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import com.stupidtree.hitax.data.repository.EASRepository
 import com.stupidtree.hitax.ui.base.BaseActivity
-import com.stupidtree.hitax.ui.eas.EASActivity
-import com.stupidtree.hitax.ui.eas.classroom.EmptyClassroomActivity
-import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
 import com.stupidtree.hitax.ui.myprofile.MyProfileActivity
 import com.stupidtree.hitax.ui.search.SearchActivity

@@ -3,10 +3,8 @@ package com.stupidtree.hitax.data.repository
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.stupidtree.hitax.data.source.preference.UserPreferenceSource
-import com.stupidtree.hitax.data.source.web.UserWebSource
-import com.stupidtree.hitax.ui.welcome.login.LoginResult
-import com.stupidtree.hitax.ui.welcome.signup.SignUpResult
+import com.stupidtree.stupiduser.data.source.preference.UserPreferenceSource
+import com.stupidtree.stupiduser.data.source.web.UserWebSource
 
 /**
  * 层次：Repository层
@@ -22,10 +20,10 @@ class UserRepository private constructor(context: Context) {
      * @param password 密码
      * @return 登录结果
      */
-    fun login(username: String, password: String): LiveData<LoginResult> {
-        return Transformations.map(UserWebSource.login(username, password)) { input: LoginResult ->
+    fun login(username: String, password: String): LiveData<com.stupidtree.stupiduser.data.model.LoginResult> {
+        return Transformations.map(UserWebSource.login(username, password)) { input: com.stupidtree.stupiduser.data.model.LoginResult ->
 
-            if (input.state === LoginResult.STATES.SUCCESS) {
+            if (input.state === com.stupidtree.stupiduser.data.model.LoginResult.STATES.SUCCESS) {
                 userPreferenceSource.saveLocalUser(input.userLocal!!)
             }
             input
@@ -41,10 +39,10 @@ class UserRepository private constructor(context: Context) {
      * @return 注册结果
      */
     fun signUp(username: String?, password: String?,
-               gender: String?, nickname: String?): LiveData<SignUpResult> {
-        return Transformations.map(UserWebSource.signUp(username, password, gender, nickname)) { input: SignUpResult?->
+               gender: String?, nickname: String?): LiveData<com.stupidtree.stupiduser.data.model.SignUpResult> {
+        return Transformations.map(UserWebSource.signUp(username, password, gender, nickname)) { input: com.stupidtree.stupiduser.data.model.SignUpResult?->
             if (input != null) {
-                if (input.state === SignUpResult.STATES.SUCCESS) {
+                if (input.state === com.stupidtree.stupiduser.data.model.SignUpResult.STATES.SUCCESS) {
                     userPreferenceSource.saveLocalUser(input.userLocal!!)
                 }
             }

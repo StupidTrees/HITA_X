@@ -7,7 +7,7 @@ import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.eas.TermItem
 import com.stupidtree.hitax.databinding.ActivityEasClassroomBinding
 import com.stupidtree.hitax.ui.base.BaseListAdapter
-import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.ui.eas.EASActivity
 import com.stupidtree.hitax.ui.eas.classroom.detail.EmptyClassroomDetailFragment
 import com.stupidtree.hitax.ui.widgets.PopUpCheckableList
@@ -19,7 +19,6 @@ class EmptyClassroomActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setWindowParams(statusBar = true, darkColor = true, navi = false)
         setToolbarActionBack(binding.toolbar)
     }
 

@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.stupidtree.hitax.data.model.service.UserProfile
+import com.stupidtree.stupiduser.data.model.service.UserProfile
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.hitax.data.source.dao.EventItemDao
 import com.stupidtree.hitax.data.source.dao.SubjectDao
 import com.stupidtree.hitax.data.source.dao.TimetableDao
-import com.stupidtree.hitax.data.source.dao.UserProfileDao
+import com.stupidtree.stupiduser.data.source.dao.UserProfileDao
 
 @Database(
     entities = [EventItem::class, TermSubject::class, Timetable::class, UserProfile::class],

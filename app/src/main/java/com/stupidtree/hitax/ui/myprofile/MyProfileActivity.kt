@@ -5,20 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.stupidtree.hitax.R
-import com.stupidtree.hitax.data.model.service.UserProfile
+import com.stupidtree.stupiduser.data.model.service.UserProfile
 import com.stupidtree.hitax.ui.base.BaseActivityCompose
-import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.utils.FileProviderUtils
 import com.stupidtree.hitax.utils.GalleryPicker
 
@@ -35,38 +25,11 @@ class MyProfileActivity : BaseActivityCompose<MyProfileViewModel>() {
             navi = false
         )
         setContent{
-            ProfileLayout(viewModel = viewModel)
+            ProfilePage(viewModel = viewModel)
         }
     }
 
 
-    @Composable
-    fun ProfileLayout(viewModel: MyProfileViewModel) {
-        val profile: DataState<UserProfile> by viewModel.userProfileLiveData.observeAsState(
-            DataState(DataState.STATE.NOT_LOGGED_IN)
-        )
-        profile.data?.let {
-            Column(modifier = Modifier.padding(4.dp)) {
-                Row {
-                    Text(getString(R.string.username))
-                    Text(it.username ?: "")
-                }
-                Row {
-                    Text(getString(R.string.prompt_nickname))
-                    Text(it.nickname ?: "")
-                }
-
-            }
-        }
-
-    }
-
-
-    @Preview
-    @Composable
-    fun Test() {
-        ProfileLayout(viewModel)
-    }
 
     override fun initViews() {
         //当viewModel的UserProfile数据发生变更时，通知UI更新

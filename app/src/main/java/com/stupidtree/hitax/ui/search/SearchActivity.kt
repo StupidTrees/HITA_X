@@ -22,7 +22,7 @@ class SearchActivity : BaseActivity<SearchViewModel, ActivitySearchBinding>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setWindowParams(statusBar = true, darkColor = true, navi = false)
+
         setToolbarActionBack(binding.toolbar)
     }
 

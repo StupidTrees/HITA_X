@@ -7,6 +7,13 @@ import android.view.WindowManager
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
@@ -37,11 +44,15 @@ abstract class BaseActivityCompose<T : ViewModel> : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //对ViewModel进行初始化
         getViewModelClass().let {
-            viewModel = if (it.superclass == AndroidViewModel::class.java || it.superclass.superclass == AndroidViewModel::class.java) {
-                ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(it)
-            } else {
-                ViewModelProvider(this).get(it)
-            }
+            viewModel =
+                if (it.superclass == AndroidViewModel::class.java || it.superclass.superclass == AndroidViewModel::class.java) {
+                    ViewModelProvider(
+                        this,
+                        ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+                    ).get(it)
+                } else {
+                    ViewModelProvider(this).get(it)
+                }
         }
 
         //调用这个函数
@@ -60,7 +71,9 @@ abstract class BaseActivityCompose<T : ViewModel> : AppCompatActivity() {
         } else {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
         }
-        /* if (AppCompatDelegate.getDefaultNightMode()!=AppCompatDelegate.MODE_NIGHT_YES&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.M&&darkColor)getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR); */if (statusBar) window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        /* if (AppCompatDelegate.getDefaultNightMode()!=AppCompatDelegate.MODE_NIGHT_YES&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.M&&darkColor)getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR); */if (statusBar) window.addFlags(
+            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+        )
         if (navi) window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
     }
 
@@ -95,3 +108,5 @@ abstract class BaseActivityCompose<T : ViewModel> : AppCompatActivity() {
     }
 
 }
+
+

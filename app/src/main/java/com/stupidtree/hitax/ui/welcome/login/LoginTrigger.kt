@@ -1,6 +1,6 @@
 package com.stupidtree.hitax.ui.welcome.login
 
-import com.stupidtree.hitax.ui.base.Trigger
+import com.stupidtree.component.data.Trigger
 
 /**
  * 包含用户名和密码的登录Trigger

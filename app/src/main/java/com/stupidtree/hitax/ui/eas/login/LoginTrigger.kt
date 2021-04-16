@@ -1,6 +1,6 @@
 package com.stupidtree.hitax.ui.eas.login
 
-import com.stupidtree.hitax.ui.base.Trigger
+import com.stupidtree.component.data.Trigger
 
 class LoginTrigger : Trigger() {
     lateinit var username: String

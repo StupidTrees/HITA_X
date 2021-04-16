@@ -8,8 +8,13 @@ import com.stupidtree.hitax.data.AppDatabase
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.ui.timetable.detail.TeacherInfo
 import com.stupidtree.hitax.utils.ColorTools
+import com.stupidtree.sync.StupidSync
+import com.stupidtree.sync.data.model.History
+import java.util.concurrent.Executors
 
 class SubjectRepository(application: Application) {
+    private val historyTag = "subject"
+    private val executor = Executors.newSingleThreadScheduledExecutor()
     private val eventItemDao = AppDatabase.getDatabase(application).eventItemDao()
     private val subjectDao = AppDatabase.getDatabase(application).subjectDao()
     private val timetableDao = AppDatabase.getDatabase(application).timetableDao()
@@ -56,33 +61,37 @@ class SubjectRepository(application: Application) {
      * 动作：保存科目信息
      */
     fun actionSaveSubjectInfo(subject: TermSubject) {
-        Thread {
+        executor.execute {
             subjectDao.saveSubjectSync(subject)
-        }.start()
+            StupidSync.putHistorySync(historyTag, History.ACTION.REQUIRE, listOf(subject.id))
+        }
     }
 
     fun actionResetRecentSubjectColors() {
-        Thread {
-            val timetable = timetableDao.getTimetableClosestToTimestampSync(System.currentTimeMillis())
+        executor.execute {
+            val timetable =
+                timetableDao.getTimetableClosestToTimestampSync(System.currentTimeMillis())
             timetable?.let {
                 val subjects = subjectDao.getSubjectsSync(it.id)
                 for (s in subjects) {
                     s.color = ColorTools.randomColorMaterial()
                 }
                 subjectDao.saveSubjectsSync(subjects)
+                StupidSync.putHistorySync(historyTag, History.ACTION.REQUIRE, subjects.getIds())
             }
 
-        }.start()
+        }
     }
 
     fun actionResetSubjectColors(timetableId: String) {
-        Thread {
+        executor.execute {
             val subjects = subjectDao.getSubjectsSync(timetableId)
             for (s in subjects) {
                 s.color = ColorTools.randomColorMaterial()
             }
             subjectDao.saveSubjectsSync(subjects)
-        }.start()
+            StupidSync.putHistorySync(historyTag, History.ACTION.REQUIRE, subjects.getIds())
+        }
     }
 
 
@@ -90,14 +99,12 @@ class SubjectRepository(application: Application) {
      * 动作：删除科目及其事件
      */
     fun actionDeleteSubjects(subjects: List<TermSubject>) {
-        Thread {
+        executor.execute {
             subjectDao.deleteSubjectsSync(subjects)
-            val ids = mutableListOf<String>()
-            for (s in subjects) {
-                ids.add(s.id)
-            }
+            val ids = subjects.getIds()
+            StupidSync.putHistorySync(historyTag, History.ACTION.REMOVE, ids)
             eventItemDao.deleteEventsFromSubjectsSync(ids)
-        }.start()
+        }
     }
 
     /**
@@ -121,5 +128,13 @@ class SubjectRepository(application: Application) {
             if (instance == null) instance = SubjectRepository(application)
             return instance!!
         }
+    }
+
+    fun List<TermSubject>.getIds(): List<String> {
+        val ids = mutableListOf<String>()
+        for (s in this) {
+            ids.add(s.id)
+        }
+        return ids
     }
 }

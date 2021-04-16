@@ -49,6 +49,12 @@ interface EventItemDao {
     @Query("DELETE from events where timetableId in (:ids)")
     fun deleteEventsFromTimetablesSync(ids: List<String>)
 
+    @Query("select id from events where timetableId in (:ids)")
+    fun getEventIdsFromTimetablesSync(ids: List<String>):List<String>
+
+    @Query("select * from events where id in (:ids)")
+    fun getEventInIdsSync(ids: List<String>):List<EventItem>
+
     @Query("SELECT * from events where type is 'CLASS' and timetableId is :timetableId and fromNumber is :fromNumber")
     fun getClassAtFromNumberSync(
         timetableId: String,
@@ -65,6 +71,8 @@ interface EventItemDao {
     @Query("DELETE from events where subjectId in (:ids)")
     fun deleteEventsFromSubjectsSync(ids: List<String>)
 
+    @Query("delete from events where id in (:ids)")
+    fun deleteEventsInIdsSync(ids: List<String>)
 
     /**
      * 将某课表的所有课程时间加上offset

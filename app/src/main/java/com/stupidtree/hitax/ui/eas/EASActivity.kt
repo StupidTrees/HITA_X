@@ -3,7 +3,7 @@ package com.stupidtree.hitax.ui.eas
 import android.app.Activity
 import androidx.viewbinding.ViewBinding
 import com.stupidtree.hitax.ui.base.BaseActivity
-import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
 import com.stupidtree.hitax.utils.ActivityUtils
 

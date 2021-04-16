@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
-import com.google.gson.JsonParser
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.data.AppDatabase
 import com.stupidtree.hitax.data.model.eas.CourseItem
 import com.stupidtree.hitax.data.model.eas.EASToken
@@ -14,22 +14,19 @@ import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.hitax.data.source.preference.EasPreferenceSource
-import com.stupidtree.hitax.data.source.web.eas.EASJSource
 import com.stupidtree.hitax.data.source.web.eas.EASource
 import com.stupidtree.hitax.data.source.web.service.EASService
-import com.stupidtree.hitax.ui.base.DataState
 import com.stupidtree.hitax.ui.eas.classroom.BuildingItem
 import com.stupidtree.hitax.ui.eas.classroom.ClassroomItem
 import com.stupidtree.hitax.utils.LiveDataUtils
 import com.stupidtree.hitax.utils.TimeTools.getDateAtWOT
-import org.jsoup.Connection
-import org.jsoup.Jsoup
+import com.stupidtree.sync.StupidSync
+import com.stupidtree.sync.data.model.History
 import java.sql.Timestamp
 import java.util.*
 
 class EASRepository internal constructor(application: Application) {
-
-    private val easService: EASService = EASJSource(application)
+    private val easService: EASService = EASource()
     private var easPreferenceSource = EasPreferenceSource.getInstance(application)
     private var eventItemDao = AppDatabase.getDatabase(application).eventItemDao()
     private var timetableDao = AppDatabase.getDatabase(application).timetableDao()
@@ -106,7 +103,7 @@ class EASRepository internal constructor(application: Application) {
     /**
      * 获取教学楼列表
      */
-    fun getTeachingBuildings():LiveData<DataState<List<BuildingItem>>>{
+    fun getTeachingBuildings(): LiveData<DataState<List<BuildingItem>>> {
         val easToken = easPreferenceSource.getEasToken()
         if (easToken.isLogin()) {
             return easService.getTeachingBuildings(easToken)
@@ -118,10 +115,19 @@ class EASRepository internal constructor(application: Application) {
     /**
      * 查询空教室
      */
-    fun queryEmptyClassroom(term: TermItem,buildingItem: BuildingItem,week:Int):LiveData<DataState<List<ClassroomItem>>>{
+    fun queryEmptyClassroom(
+        term: TermItem,
+        buildingItem: BuildingItem,
+        week: Int
+    ): LiveData<DataState<List<ClassroomItem>>> {
         val easToken = easPreferenceSource.getEasToken()
         if (easToken.isLogin()) {
-            return easService.queryEmptyClassroom(easToken,term,buildingItem, listOf(week.toString()))
+            return easService.queryEmptyClassroom(
+                easToken,
+                term,
+                buildingItem,
+                listOf(week.toString())
+            )
         }
         return LiveDataUtils.getMutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
     }
@@ -154,9 +160,16 @@ class EASRepository internal constructor(application: Application) {
                             timetable = Timetable()
                         } else {
                             //若存在，则先清空原有课表课程
+                            val eventIds =
+                                eventItemDao.getEventIdsFromTimetablesSync(listOf(timetable.id))
+                            StupidSync.putHistorySync("event", History.ACTION.REMOVE, eventIds)
                             eventItemDao.deleteCourseFromTimetable(timetable.id)
                         }
-
+                        StupidSync.putHistorySync(
+                            "timetable",
+                            History.ACTION.REQUIRE,
+                            listOf(timetable.id)
+                        )
                         //记录最后的时间戳，作为学期结束的标志
                         var maxTs: Long = 0
                         //添加时间表
@@ -174,7 +187,11 @@ class EASRepository internal constructor(application: Application) {
                                 subject.id = UUID.randomUUID().toString()
                                 subjectDao.saveSubjectSync(subject)
                             }
-
+                            StupidSync.putHistorySync(
+                                "subject",
+                                History.ACTION.REQUIRE,
+                                listOf(subject.id)
+                            )
                             for (week in item.weeks) {
                                 val from = getDateAtWOT(startDate, week, item.dow)
                                 val to = getDateAtWOT(startDate, week, item.dow)
@@ -199,6 +216,7 @@ class EASRepository internal constructor(application: Application) {
 
                         }
                         eventItemDao.saveEvents(events)
+                        StupidSync.putHistorySync("event", History.ACTION.REQUIRE, events.getIds())
 
                         //更新timetable对象
                         timetable.name = term.yearName + term.termName
@@ -225,15 +243,22 @@ class EASRepository internal constructor(application: Application) {
     }
 
 
-
     companion object {
         @Volatile
         private var instance: EASRepository? = null
         fun getInstance(application: Application): EASRepository {
-            synchronized(EASRepository::class.java) {
+            synchronized(EASService::class.java) {
                 if (instance == null) instance = EASRepository(application)
                 return instance!!
             }
         }
     }
+}
+
+private fun List<EventItem>.getIds(): List<String> {
+    val res = mutableListOf<String>()
+    for (e in this) {
+        res.add(e.id)
+    }
+    return res
 }
