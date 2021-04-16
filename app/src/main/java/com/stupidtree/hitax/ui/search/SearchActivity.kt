@@ -68,7 +68,7 @@ class SearchActivity : BaseActivity<SearchViewModel, ActivitySearchBinding>(),
 
     override fun initViews() {
         binding.toolbar.title = ""
-        binding.searchview.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+        binding.searchview.setOnEditorActionListener (object : TextView.OnEditorActionListener {
             override fun onEditorAction(textView: TextView, i: Int, keyEvent: KeyEvent?): Boolean {
                 if (textView.text.toString().isBlank()) return false
                 if (i == EditorInfo.IME_ACTION_GO || i == EditorInfo.IME_ACTION_SEARCH) {
