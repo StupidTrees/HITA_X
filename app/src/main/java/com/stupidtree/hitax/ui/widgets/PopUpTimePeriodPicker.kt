@@ -6,7 +6,7 @@ import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.TimeInDay
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.databinding.DialogBottomTimePeriodPickerBinding
-import com.stupidtree.hitax.ui.base.TransparentBottomSheetDialog
+import com.stupidtree.style.widgets.TransparentBottomSheetDialog
 import java.util.*
 
 class PopUpTimePeriodPicker() :

@@ -4,10 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import com.stupidtree.hita.theta.ThetaActivity
 import com.stupidtree.hitax.data.repository.EASRepository
-import com.stupidtree.hitax.ui.base.BaseActivity
+import com.stupidtree.style.base.BaseActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
 import com.stupidtree.hitax.ui.myprofile.MyProfileActivity
+import com.stupidtree.hitax.ui.profile.ProfileActivity
 import com.stupidtree.hitax.ui.search.SearchActivity
 import com.stupidtree.hitax.ui.subject.SubjectActivity
 import com.stupidtree.hitax.ui.teacher.ActivityTeacherOfficial
@@ -67,7 +69,9 @@ object ActivityUtils {
         onResponseListener: PopUpLoginEAS.OnResponseListener
     ) {
         if (from is BaseActivity<*, *>) {
-            if (EASRepository.getInstance((from as AppCompatActivity).application).getEasToken().isLogin()) {
+            if (EASRepository.getInstance((from as AppCompatActivity).application).getEasToken()
+                    .isLogin()
+            ) {
                 directTo?.let {
                     val i = Intent(from, directTo)
                     from.startActivity(i)
@@ -82,8 +86,7 @@ object ActivityUtils {
     }
 
 
-
-    fun<T:Activity> startActivity(from: Context,activity:Class<T>) {
+    fun <T : Activity> startActivity(from: Context, activity: Class<T>) {
         val i = Intent(from, activity)
         from.startActivity(i)
     }
@@ -105,4 +108,14 @@ object ActivityUtils {
         from.startActivity(i)
     }
 
+    fun startThetaActivity(from: Context) {
+        val i = Intent(from, ThetaActivity::class.java)
+        from.startActivity(i)
+    }
+
+    fun startProfileActivity(from: Context, userId: String?) {
+        val i = Intent(from, ProfileActivity::class.java)
+        i.putExtra("id", userId)
+        from.startActivity(i)
+    }
 }

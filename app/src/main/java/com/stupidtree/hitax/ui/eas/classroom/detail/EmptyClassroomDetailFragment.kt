@@ -8,9 +8,9 @@ import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.eas.TermItem
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.databinding.ActivityEasClassroomSecondBinding
-import com.stupidtree.hitax.ui.base.TransparentBottomSheetDialog
 import com.stupidtree.hitax.ui.eas.classroom.ClassroomItem
 import com.stupidtree.hitax.utils.TimeTools
+import com.stupidtree.style.widgets.TransparentBottomSheetDialog
 
 class EmptyClassroomDetailFragment(
     private val term: TermItem,

@@ -3,7 +3,7 @@ package com.stupidtree.hitax.utils
 import android.content.Context
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.EventItem
-import com.stupidtree.hitax.ui.base.BaseActivity
+import com.stupidtree.style.base.BaseActivity
 import com.stupidtree.hitax.ui.event.FragmentTimeInfoSheet
 import java.util.*
 

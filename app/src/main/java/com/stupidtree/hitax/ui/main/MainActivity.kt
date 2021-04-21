@@ -19,8 +19,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.ActivityMainBinding
-import com.stupidtree.hitax.ui.base.BaseActivity
-import com.stupidtree.hitax.ui.base.BaseTabAdapter
+import com.stupidtree.style.base.BaseActivity
+import com.stupidtree.style.base.BaseTabAdapter
 import com.stupidtree.hitax.ui.eas.EASActivity
 import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
@@ -31,8 +31,10 @@ import com.stupidtree.hitax.ui.main.timetable.outer.TimetableFragment
 import com.stupidtree.hitax.ui.main.timetable.panel.FragmentTimetablePanel
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.ImageUtils
+import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 import com.stupidtree.sync.StupidSync
 import me.ibrahimsn.lib.OnItemSelectedListener
+import java.lang.Exception
 
 /**
  * 很显然，这是主界面
@@ -150,12 +152,12 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                         binding.timetableLayout.visibility = VISIBLE
                         binding.todayLayout.visibility = GONE
                         binding.navigationLayout.visibility = GONE
-                         }
+                    }
                     2 -> {
                         binding.timetableLayout.visibility = GONE
                         binding.todayLayout.visibility = GONE
                         binding.navigationLayout.visibility = VISIBLE
-                      }
+                    }
 
                 }
 //                val item = binding.navView.menu.getItem(position)
@@ -166,7 +168,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
 
             override fun onPageScrollStateChanged(state: Int) {}
         })
-        binding.navView.onItemSelectedListener = object:            OnItemSelectedListener {
+        binding.navView.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelect(pos: Int): Boolean {
                 binding.navView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
                 binding.pager.currentItem = pos
@@ -186,10 +188,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         binding.avatar.setOnClickListener { binding.drawer.openDrawer(GravityCompat.START) }
 
         binding.timetableSetting.setOnClickListener {
-            StupidSync.sync().observe(this){
-
-            }
-            //FragmentTimetablePanel().show(supportFragmentManager,"panel")
+            FragmentTimetablePanel().show(supportFragmentManager,"panel")
         }
 
 
@@ -197,14 +196,23 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             Log.e("user", it.toString())
             if (it.isValid()) { //如果已登录
                 //装载头像
-                ImageUtils.loadLocalAvatarInto(this, it.id, drawerAvatar!!)
-                ImageUtils.loadLocalAvatarInto(this, it.id, binding.avatar)
+                com.stupidtree.stupiduser.util.ImageUtils.loadLocalAvatarInto(
+                    this,
+                    it.id,
+                    drawerAvatar!!
+                )
+                com.stupidtree.stupiduser.util.ImageUtils.loadLocalAvatarInto(
+                    this,
+                    it.id,
+                    binding.avatar
+                )
                 //设置各种文字
                 drawerUsername?.text = it.username
                 drawerNickname?.text = it.nickname
                 drawerHeader?.setOnClickListener {
-                    ActivityUtils.startMyProfileActivity(
-                        getThis()
+                    ActivityUtils.startProfileActivity(
+                        getThis(),
+                        LocalUserRepository.getInstance(applicationContext).getLoggedInUser().id
                     )
                 }
             } else {

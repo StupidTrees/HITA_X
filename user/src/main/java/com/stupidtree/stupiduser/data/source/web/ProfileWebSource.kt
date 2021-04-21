@@ -6,11 +6,12 @@ import androidx.lifecycle.Transformations
 import com.stupidtree.component.data.DataState
 import com.stupidtree.component.web.BaseWebSource
 import com.stupidtree.component.web.LiveDataCallAdapter
-import com.stupidtree.stupiduser.data.model.service.ApiResponse
-import com.stupidtree.stupiduser.data.model.service.UserProfile
+import com.stupidtree.stupiduser.data.model.ApiResponse
+import com.stupidtree.stupiduser.data.model.UserProfile
 import com.stupidtree.hitax.data.source.web.service.ProfileService
 import com.stupidtree.hitax.data.source.web.service.codes.SUCCESS
 import com.stupidtree.hitax.data.source.web.service.codes.TOKEN_INVALID
+import com.stupidtree.stupiduser.data.model.FollowResult
 import com.stupidtree.stupiduser.util.HttpUtils
 import okhttp3.MultipartBody
 import retrofit2.Retrofit
@@ -93,8 +94,8 @@ object ProfileWebSource : BaseWebSource<ProfileService>(
      * @param token 用户令牌
      * @return 资料
      */
-    fun getUserProfile(token: String): LiveData<DataState<UserProfile>> {
-        return Transformations.map(service.getUserProfile(HttpUtils.getHeaderAuth(token))) { input ->
+    fun getUserProfile(token: String,userId:String): LiveData<DataState<UserProfile>> {
+        return Transformations.map(service.getUserProfile(HttpUtils.getHeaderAuth(token),userId)) { input ->
 
             if (input != null) {
                 when (input.code) {
@@ -106,6 +107,20 @@ object ProfileWebSource : BaseWebSource<ProfileService>(
             DataState(DataState.STATE.FETCH_FAILED)
         }
     }
+    fun follow(token: String,userId:String,follow:Boolean): LiveData<DataState<FollowResult>> {
+        return Transformations.map(service.follow(HttpUtils.getHeaderAuth(token),userId,follow)) { input ->
+
+            if (input != null) {
+                when (input.code) {
+                    SUCCESS -> input.data?.let { return@map DataState(it) }
+                    TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                    else -> return@map DataState(DataState.STATE.FETCH_FAILED)
+                }
+            }
+            DataState(DataState.STATE.FETCH_FAILED)
+        }
+    }
+
 
 
     /**

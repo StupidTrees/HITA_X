@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.stupidtree.hitax.R
-import com.stupidtree.stupiduser.data.model.service.UserProfile
+import com.stupidtree.stupiduser.data.model.UserProfile
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.ui.theme.AppTheme
 import com.stupidtree.hitax.ui.theme.AppBar

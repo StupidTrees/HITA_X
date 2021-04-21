@@ -3,7 +3,7 @@ package com.stupidtree.hitax.ui.main.navigation
 import android.view.View
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.FragmentNavigationBinding
-import com.stupidtree.hitax.ui.base.BaseFragment
+import com.stupidtree.style.base.BaseFragment
 import com.stupidtree.hitax.ui.eas.classroom.EmptyClassroomActivity
 import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
@@ -69,6 +69,9 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
                     }
 
                 })
+        }
+        binding?.cardNews?.setOnClickListener {
+            ActivityUtils.startThetaActivity(requireActivity())
         }
     }
 

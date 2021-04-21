@@ -1,7 +1,6 @@
 package com.stupidtree.stupiduser.data.model
 
 import androidx.annotation.StringRes
-import com.stupidtree.stupiduser.data.model.service.UserLocal
 
 class SignUpResult {
     enum class STATES {

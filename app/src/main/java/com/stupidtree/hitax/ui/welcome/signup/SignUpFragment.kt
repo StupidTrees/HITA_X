@@ -5,9 +5,9 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import com.stupidtree.hitax.R
-import com.stupidtree.stupiduser.data.model.service.UserLocal
+import com.stupidtree.stupiduser.data.model.UserLocal
 import com.stupidtree.hitax.databinding.FragmentSignUpBinding
-import com.stupidtree.hitax.ui.base.BaseFragment
+import com.stupidtree.style.base.BaseFragment
 
 class SignUpFragment : BaseFragment<SignUpViewModel, FragmentSignUpBinding>() {
 

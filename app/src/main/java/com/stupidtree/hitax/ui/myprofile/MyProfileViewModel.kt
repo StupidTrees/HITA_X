@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.stupidtree.component.data.DataState
 import com.stupidtree.component.data.StringTrigger
-import com.stupidtree.stupiduser.data.model.service.UserProfile
-import com.stupidtree.stupiduser.data.model.service.UserLocal
+import com.stupidtree.stupiduser.data.model.UserProfile
+import com.stupidtree.stupiduser.data.model.UserLocal
 import com.stupidtree.hitax.utils.LiveDataUtils
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 import com.stupidtree.stupiduser.data.repository.ProfileRepository

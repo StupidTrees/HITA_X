@@ -8,8 +8,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:allowBackup="true"
         android:name=".HApplication"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
@@ -17,16 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <provider
-            android:name=".MFileProvider"
-            android:authorities="com.stupidtree.hitax.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider> <!-- 加上他，否则无法从相册选取图片 -->
         <activity
             android:name=".ui.main.MainActivity"
             android:screenOrientation="fullSensor" />
@@ -50,6 +40,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.eas.imp.ImportTimetableActivity" />
         <activity android:name=".ui.eas.classroom.EmptyClassroomActivity" />
+        <activity android:name=".ui.profile.ProfileActivity" />
     </application>
 
 </manifest>

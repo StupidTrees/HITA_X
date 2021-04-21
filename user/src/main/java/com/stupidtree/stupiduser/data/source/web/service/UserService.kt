@@ -1,8 +1,8 @@
 package com.stupidtree.hitax.data.source.web.service
 
 import androidx.lifecycle.LiveData
-import com.stupidtree.stupiduser.data.model.service.ApiResponse
-import com.stupidtree.stupiduser.data.model.service.UserLocal
+import com.stupidtree.stupiduser.data.model.ApiResponse
+import com.stupidtree.stupiduser.data.model.UserLocal
 import retrofit2.http.*
 
 /**

@@ -2,7 +2,6 @@ package com.stupidtree.stupiduser.data.model
 
 import androidx.annotation.StringRes
 import com.google.gson.Gson
-import com.stupidtree.stupiduser.data.model.service.UserLocal
 
 /**
  * 封装了登录结果，预计要弃用

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+
+
+
+    <!--    圆角透明背景的BottomSheetDialog主题-->
+    <style name="TransparentBottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+         
+        <item name="bottomSheetStyle">@style/TransparentBottomSheetStyle</item>
+    </style>
+    <style name="TransparentBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="behavior_peekHeight">400dp</item>
+    </style>
+
+
+
+    <!--    按钮圆形小水波的效果-->
+    <style name="ripplePrimarySmall">
+        <item name="android:colorControlHighlight">?attr/colorPrimary</item>
+        <item name="android:radius">16dp</item>
+    </style>
+    <style name="ripplePrimaryTiny">
+        <item name="android:colorControlHighlight">?attr/colorPrimary</item>
+        <item name="android:radius">12dp</item>
+    </style>
+    <style name="rippleControl">
+        <item name="android:radius">24dp</item>
+    </style>
+    <style name="rippleWhite">
+        <item name="android:colorControlHighlight">@android:color/white</item>
+        <item name="android:radius">24dp</item>
+    </style>
+    <style name="rippleControlSmall">
+        <item name="android:radius">16dp</item>
+    </style>
+</resources>

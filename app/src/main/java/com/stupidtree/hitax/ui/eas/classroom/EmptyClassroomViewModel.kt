@@ -9,7 +9,7 @@ import com.stupidtree.hitax.data.repository.TimetableRepository
 import com.stupidtree.component.data.DataState
 import com.stupidtree.component.data.Trigger
 import com.stupidtree.hitax.ui.eas.EASViewModel
-import com.stupidtree.hitax.utils.MTransformations
+import com.stupidtree.component.data.MTransformations
 
 class EmptyClassroomViewModel(application: Application) : EASViewModel(application) {
     /**

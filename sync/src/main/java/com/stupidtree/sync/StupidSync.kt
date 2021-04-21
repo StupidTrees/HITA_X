@@ -1,10 +1,12 @@
 package com.stupidtree.sync
 
 import android.content.Context
+import android.os.Looper
 import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.stupidtree.component.data.DataState
 import com.stupidtree.sync.data.model.History
@@ -14,6 +16,7 @@ import com.stupidtree.sync.data.source.web.SyncWebSource
 import com.stupidtree.sync.util.Snowflake
 import org.json.JSONObject
 import java.util.concurrent.Executors
+import java.util.logging.Handler
 
 object StupidSync {
 
@@ -65,16 +68,21 @@ object StupidSync {
     }
 
 
-    fun sync(): LiveData<DataState<Boolean>> {
-        val result = MediatorLiveData<DataState<Boolean>>()
-        if (uid == null || historyDao == null) return result
+    interface SyncCallback {
+        fun onSuccess()
+        fun onFailed(e: java.lang.Exception)
+    }
+
+    fun sync(callback: SyncCallback) {
+        if (uid == null || historyDao == null) {
+            callback.onFailed(java.lang.Exception("uid is empty"))
+            return
+        }
         executor.execute {
             try {
                 val latestIdLocal = historyDao?.getLatestId(uid!!)
                 val resp = SyncWebSource.sync(uid!!, latestIdLocal ?: 0).execute()
-
                 resp.body()?.data?.let {
-
                     if (it.action == SyncResult.ACTION.PUSH) {
                         pushSync(it.latestId)
                     } else if (it.action == SyncResult.ACTION.PULL) {
@@ -92,12 +100,18 @@ object StupidSync {
                         historyDao?.addHistories(histories)
                     }
                 }
+                android.os.Handler(Looper.getMainLooper()).post {
+                    callback.onSuccess()
+                }
+
             } catch (e: Exception) {
                 e.printStackTrace()
+                android.os.Handler(Looper.getMainLooper()).post {
+                    callback.onFailed(e)
+                }
+
             }
         }
-        return result
-
     }
 
     @WorkerThread

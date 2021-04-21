@@ -13,7 +13,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.ActivityTeacherOfficialBinding
-import com.stupidtree.hitax.ui.base.BaseActivity
+import com.stupidtree.style.base.BaseActivity
 
 
 open class ActivityTeacherOfficial :

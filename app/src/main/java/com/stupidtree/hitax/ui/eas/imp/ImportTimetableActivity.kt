@@ -11,11 +11,11 @@ import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.eas.TermItem
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.databinding.ActivityEasImportBinding
-import com.stupidtree.hitax.ui.base.BaseListAdapter
+import com.stupidtree.style.base.BaseListAdapter
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.ui.eas.EASActivity
 import com.stupidtree.hitax.ui.widgets.PopUpCalendarPicker
-import com.stupidtree.hitax.ui.widgets.PopUpCheckableList
+import com.stupidtree.style.widgets.PopUpCheckableList
 import com.stupidtree.hitax.ui.widgets.PopUpTimePeriodPicker
 import com.stupidtree.hitax.utils.ImageUtils
 import com.stupidtree.hitax.utils.ImageUtils.dp2px

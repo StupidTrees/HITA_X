@@ -10,20 +10,20 @@ import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.databinding.ActivitySubjectBinding
-import com.stupidtree.hitax.ui.base.BaseActivity
-import com.stupidtree.hitax.ui.base.BaseListAdapter
-import com.stupidtree.hitax.ui.widgets.PopUpSelectableList
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.EditModeHelper
 import com.stupidtree.hitax.utils.EventsUtils
 import com.stupidtree.hitax.utils.TimeTools
+import com.stupidtree.style.base.BaseActivity
+import com.stupidtree.style.base.BaseListAdapter
+import com.stupidtree.style.widgets.PopUpSelectableList
 import java.lang.StringBuilder
 import java.text.DecimalFormat
 import java.util.*
 import java.util.regex.Pattern
 
 class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>(),
-        EditModeHelper.EditableContainer<EventItem> {
+    EditModeHelper.EditableContainer<EventItem> {
     var firstEnterCourse = true
     private lateinit var listAdapter: SubjectCoursesListAdapter
     lateinit var editModeHelper: EditModeHelper<EventItem>
@@ -54,11 +54,11 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
                 val temp: MutableList<EventItem> = ArrayList(it.subList(0, max))
                 if (it.size > 5) temp.add(EventItem.getTagInstance("more"))
                 if (max > 0) listAdapter.notifyItemChangedSmooth(
-                        temp,
-                        true
+                    temp,
+                    true
                 ) { o1, o2 ->
                     if (o1.type === EventItem.TYPE.TAG && o2.type === EventItem.TYPE.TAG) 0 else o1.compareTo(
-                            o2
+                        o2
                     )
                 }
             }
@@ -73,12 +73,13 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
             }
             val percentage = finished.toFloat() * 100.0f / (finished + unfinished).toFloat()
             val va: ValueAnimator =
-                    ValueAnimator.ofInt(binding.subjectProgress.progress, percentage.toInt())
+                ValueAnimator.ofInt(binding.subjectProgress.progress, percentage.toInt())
             va.duration = 700
             va.interpolator = DecelerateInterpolator(2f)
             va.addUpdateListener { animation ->
                 binding.subjectProgress.progress = animation.animatedValue as Int
-                binding.subjectProgressTitle.text = getString(R.string.percentage,animation.animatedValue)
+                binding.subjectProgressTitle.text =
+                    getString(R.string.percentage, animation.animatedValue as Int)
             }
             va.startDelay = 160
             va.start()
@@ -129,35 +130,37 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
         binding.cardType.onCardClickListener = View.OnClickListener {
             viewModel.subjectLiveData.value?.let { subject ->
                 PopUpSelectableList<TermSubject.TYPE>()
-                        .setListData(
-                                arrayOf(
-                                        getString(R.string.subject_exam),
-                                        getString(R.string.not_counted_in_GPA),
-                                        getString(R.string.subject_mooc)
-                                ),
-                                listOf(
-                                        TermSubject.TYPE.COM_A,
-                                        TermSubject.TYPE.COM_B,
-                                        TermSubject.TYPE.MOOC
-                                )
+                    .setListData(
+                        listOf(
+                            getString(R.string.subject_exam),
+                            getString(R.string.not_counted_in_GPA),
+                            getString(R.string.subject_mooc)
+                        ),
+                        listOf(
+                            TermSubject.TYPE.COM_A,
+                            TermSubject.TYPE.COM_B,
+                            TermSubject.TYPE.MOOC
                         )
-                        .setInitValue(subject.type)
-                        .setTitle(R.string.subject_type)
-                        .setOnConfirmListener(object : PopUpSelectableList.OnConfirmListener<TermSubject.TYPE> {
-                            override fun onConfirm(title: String?, key: TermSubject.TYPE) {
-                                subject.type = key
-                                viewModel.startSaveSubject()
-                            }
+                    )
+                    .setInitValue(subject.type)
+                    .setTitle(R.string.subject_type)
+                    .setOnConfirmListener(object :
+                        PopUpSelectableList.OnConfirmListener<TermSubject.TYPE> {
+                        override fun onConfirm(title: String?, key: TermSubject.TYPE) {
+                            subject.type = key
+                            viewModel.startSaveSubject()
+                        }
 
-                        })
-                        .show(supportFragmentManager, "pick")
+                    })
+                    .show(supportFragmentManager, "pick")
             }
         }
         binding.cardTeacher.onCardClickListener = View.OnClickListener {
             viewModel.teachersLiveData.value?.let {
                 val sb = it.joinToString(separator = ",")
                 ActivityUtils.searchFor(
-                    getThis(), sb,ActivityUtils.SearchType.TEACHER)
+                    getThis(), sb, ActivityUtils.SearchType.TEACHER
+                )
             }
 
         }
@@ -171,20 +174,20 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
             }
             viewModel.subjectLiveData.value?.let {
                 PopUpSelectableList<String>()
-                        .setTitle(R.string.subject_credit)
-                        .setListData(
-                                items.toTypedArray(),
-                                items,
-                        )
-                        .setInitValue(df.format(it.credit))
-                        .setOnConfirmListener(object : PopUpSelectableList.OnConfirmListener<String> {
-                            override fun onConfirm(title: String?, key: String) {
-                                it.credit = df.parse(key) as Float
-                                viewModel.startSaveSubject()
-                            }
+                    .setTitle(R.string.subject_credit)
+                    .setListData(
+                        items,
+                        items,
+                    )
+                    .setInitValue(df.format(it.credit))
+                    .setOnConfirmListener(object : PopUpSelectableList.OnConfirmListener<String> {
+                        override fun onConfirm(title: String?, key: String) {
+                            it.credit = df.parse(key) as Float
+                            viewModel.startSaveSubject()
+                        }
 
-                        })
-                        .show(supportFragmentManager, "pick")
+                    })
+                    .show(supportFragmentManager, "pick")
             }
 
         }
@@ -195,7 +198,7 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
         return when (type) {
             TermSubject.TYPE.MOOC -> getString(R.string.subject_mooc)
             TermSubject.TYPE.COM_A -> getString(
-                    R.string.subject_exam
+                R.string.subject_exam
             )
             else -> getString(R.string.not_counted_in_GPA)
         }
@@ -225,11 +228,11 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
         listAdapter = SubjectCoursesListAdapter(this, mutableListOf())
         binding.subjectRecycler.adapter = listAdapter
         binding.subjectRecycler.layoutManager = ChipsLayoutManager.newBuilder(this)
-                .setOrientation(ChipsLayoutManager.HORIZONTAL)
-                .setMaxViewsInRow(4)
-                .build()
+            .setOrientation(ChipsLayoutManager.HORIZONTAL)
+            .setMaxViewsInRow(4)
+            .build()
         listAdapter.setOnItemClickListener(object :
-                BaseListAdapter.OnItemClickListener<EventItem> {
+            BaseListAdapter.OnItemClickListener<EventItem> {
             override fun onItemClick(data: EventItem?, card: View?, position: Int) {
                 data?.let {
                     if (it.type === EventItem.TYPE.TAG) {
@@ -239,7 +242,7 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
             }
         })
         listAdapter.setOnItemLongClickListener(object :
-                BaseListAdapter.OnItemLongClickListener<EventItem> {
+            BaseListAdapter.OnItemLongClickListener<EventItem> {
             override fun onItemLongClick(data: EventItem?, view: View?, position: Int): Boolean {
                 if (editModeHelper.isEditMode) return false
                 editModeHelper.activateEditMode(position)
@@ -258,11 +261,11 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
             else o1.compareTo(o2)
         }
         val refreshJudge: BaseListAdapter.RefreshJudge<EventItem> =
-                object : BaseListAdapter.RefreshJudge<EventItem> {
-                    override fun judge(oldData: EventItem, newData: EventItem): Boolean {
-                        return newData.type === EventItem.TYPE.TAG
-                    }
+            object : BaseListAdapter.RefreshJudge<EventItem> {
+                override fun judge(oldData: EventItem, newData: EventItem): Boolean {
+                    return newData.type === EventItem.TYPE.TAG
                 }
+            }
         viewModel.classesLiveData.value?.let {
             isCourseExpanded = if (isCourseExpanded) {
                 val max = it.size.coerceAtMost(5)

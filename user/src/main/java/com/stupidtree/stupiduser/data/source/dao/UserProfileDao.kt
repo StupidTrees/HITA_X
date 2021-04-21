@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.stupidtree.stupiduser.data.model.service.UserProfile
+import com.stupidtree.stupiduser.data.model.UserProfile
 
 @Dao
 interface UserProfileDao {

@@ -7,6 +7,8 @@ import com.stupidtree.stupiduser.data.source.preference.UserPreferenceSource
 import com.stupidtree.stupiduser.data.source.web.UserWebSource
 import com.stupidtree.stupiduser.data.model.LoginResult
 import com.stupidtree.stupiduser.data.model.SignUpResult
+import com.stupidtree.sync.StupidSync
+import java.lang.Exception
 
 /**
  * 层次：Repository层
@@ -27,6 +29,16 @@ class UserRepository private constructor(context: Context) {
 
             if (input.state === LoginResult.STATES.SUCCESS) {
                 userPreferenceSource.saveLocalUser(input.userLocal!!)
+                StupidSync.sync(object : StupidSync.SyncCallback {
+                    override fun onSuccess() {
+
+                    }
+
+                    override fun onFailed(e: Exception) {
+
+                    }
+
+                })
             }
             input
         }

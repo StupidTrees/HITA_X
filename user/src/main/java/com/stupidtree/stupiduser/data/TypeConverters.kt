@@ -1,8 +1,7 @@
 package com.stupidtree.stupiduser.data
 
 import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.stupidtree.stupiduser.data.model.service.UserLocal
+import com.stupidtree.stupiduser.data.model.UserLocal
 import java.sql.Timestamp
 
 /**

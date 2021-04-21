@@ -3,7 +3,8 @@ package com.stupidtree.stupiduser.data.source.preference
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import com.stupidtree.stupiduser.data.model.service.UserLocal
+import com.stupidtree.stupiduser.data.model.UserLocal
+import com.stupidtree.sync.StupidSync
 import java.util.*
 
 /**
@@ -17,6 +18,7 @@ class UserPreferenceSource(private val context: Context) {
         context.getSharedPreferences(SP_NAME_LOCAL_USER, Context.MODE_PRIVATE)
 
     fun saveLocalUser(user: UserLocal) {
+        StupidSync.setUID(user.id)
         preference.edit()
             .putString("id", user.id)
             .putString("username", user.username)

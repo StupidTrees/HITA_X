@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.component.web.BaseWebSource
 import com.stupidtree.component.web.LiveDataCallAdapter
-import com.stupidtree.stupiduser.data.model.service.ApiResponse
-import com.stupidtree.stupiduser.data.model.service.UserLocal
+import com.stupidtree.stupiduser.data.model.ApiResponse
+import com.stupidtree.stupiduser.data.model.UserLocal
 import com.stupidtree.hitax.data.source.web.service.UserService
 import com.stupidtree.hitax.data.source.web.service.codes.SUCCESS
 import com.stupidtree.hitax.data.source.web.service.codes.USER_ALREADY_EXISTS

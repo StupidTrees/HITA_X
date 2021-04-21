@@ -1,17 +1,16 @@
 package com.stupidtree.stupiduser.data.repository
 
-import android.app.Application
 import android.content.Context
 import com.stupidtree.stupiduser.data.UserDatabase
 import com.stupidtree.stupiduser.data.UserDatabase.Companion.getDatabase
-import com.stupidtree.stupiduser.data.model.service.UserLocal
+import com.stupidtree.stupiduser.data.model.UserLocal
 import com.stupidtree.stupiduser.data.source.preference.UserPreferenceSource
 
 /**
  * 层次：Repository
  * ”我的“页面的Repository，同时也是全局的本地用户仓库
  */
-class LocalUserRepository(application: Application) {
+class LocalUserRepository(application: Context) {
 
     //数据源：SharedPreference性质的本地状态数据源
     var mePreferenceSource: UserPreferenceSource = UserPreferenceSource(application)
@@ -91,9 +90,9 @@ class LocalUserRepository(application: Application) {
         //也是单例模式
         @Volatile
         private var instance: LocalUserRepository? = null
-        fun getInstance(application: Application): LocalUserRepository {
+        fun getInstance(context:Context): LocalUserRepository {
             if (null == instance) {
-                instance = LocalUserRepository(application)
+                instance = LocalUserRepository(context)
             }
             return instance!!
         }

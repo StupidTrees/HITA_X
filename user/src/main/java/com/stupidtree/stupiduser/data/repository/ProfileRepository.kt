@@ -6,7 +6,8 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.component.data.DataState
 import com.stupidtree.stupiduser.data.UserDatabase
-import com.stupidtree.stupiduser.data.model.service.UserProfile
+import com.stupidtree.stupiduser.data.model.FollowResult
+import com.stupidtree.stupiduser.data.model.UserProfile
 import com.stupidtree.stupiduser.data.source.web.ProfileWebSource
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -38,7 +39,7 @@ class ProfileRepository(application: Application) {
                 result.value = DataState(it)
             }
         }
-        result.addSource(ProfileWebSource.getUserProfile(token)) {
+        result.addSource(ProfileWebSource.getUserProfile(token,userId)) {
             if (it.state == DataState.STATE.SUCCESS) {
                 Thread {
                     it.data?.let { it1 -> userProfileDao.saveProfile(it1) }
@@ -46,6 +47,10 @@ class ProfileRepository(application: Application) {
             }
         }
         return result
+    }
+
+    fun follow(token: String,userId:String,follow:Boolean): LiveData<DataState<FollowResult>>{
+        return ProfileWebSource.follow(token,userId,follow)
     }
 
     /**

@@ -1,20 +1,26 @@
 package com.stupidtree.hitax.ui.main.timetable.inner
 
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.databinding.FragmentTimetablePageBinding
-import com.stupidtree.hitax.ui.base.BaseFragment
+import com.stupidtree.style.base.BaseFragment
 import com.stupidtree.hitax.ui.main.timetable.views.TimeTableView
 import com.stupidtree.hitax.utils.EventsUtils
+import com.stupidtree.hitax.utils.TimeTools
 import java.util.*
 
 class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimetablePageBinding>() {
     private val topDateTexts = arrayOfNulls<TextView>(8) //顶部日期文本
     private var initStartDate:Long? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = false
+    }
 
     override fun onStart() {
         super.onStart()
@@ -42,10 +48,6 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
 
 
 
-    override fun onResume() {
-        super.onResume()
-       // Log.e("resume", this.toString())
-    }
 
     override fun initViews(view: View) {
         initDateTextViews()

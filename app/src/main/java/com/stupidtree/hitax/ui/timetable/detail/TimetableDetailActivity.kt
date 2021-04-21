@@ -9,16 +9,16 @@ import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.databinding.ActivityTimetableDetailBinding
-import com.stupidtree.hitax.ui.base.BaseActivity
-import com.stupidtree.hitax.ui.base.BaseListAdapter
+import com.stupidtree.style.base.BaseActivity
+import com.stupidtree.style.base.BaseListAdapter
 import com.stupidtree.hitax.ui.eas.imp.TimetableStructureListAdapter
 import com.stupidtree.hitax.ui.widgets.PopUpCalendarPicker
 import com.stupidtree.hitax.ui.widgets.PopUpEditText
-import com.stupidtree.hitax.ui.widgets.PopUpText
 import com.stupidtree.hitax.ui.widgets.PopUpTimePeriodPicker
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.EditModeHelper
 import com.stupidtree.hitax.utils.TextTools
+import com.stupidtree.style.widgets.PopUpText
 import java.util.*
 import kotlin.Comparator
 

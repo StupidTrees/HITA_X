@@ -1,8 +1,9 @@
 package com.stupidtree.hitax.data.source.web.service
 
 import androidx.lifecycle.LiveData
-import com.stupidtree.stupiduser.data.model.service.ApiResponse
-import com.stupidtree.stupiduser.data.model.service.UserProfile
+import com.stupidtree.stupiduser.data.model.ApiResponse
+import com.stupidtree.stupiduser.data.model.FollowResult
+import com.stupidtree.stupiduser.data.model.UserProfile
 import okhttp3.MultipartBody
 import retrofit2.http.*
 
@@ -17,7 +18,19 @@ interface ProfileService {
      * @return call，返回的会是用户基本资料
      */
     @GET("/profile/get")
-    fun getUserProfile(@Header("Authorization") token: String): LiveData<ApiResponse<UserProfile>?>
+    fun getUserProfile(
+        @Header("Authorization") token: String,
+        @Query("userId") userId: String
+    ): LiveData<ApiResponse<UserProfile>?>
+
+    @FormUrlEncoded
+    @POST("/profile/follow")
+    fun follow(
+        @Header("Authorization") token: String,
+        @Field("followingId") userId: String,
+        @Field("follow") follow: Boolean
+    ): LiveData<ApiResponse<FollowResult>?>
+
 
     /**
      * 上传头像
@@ -67,6 +80,9 @@ interface ProfileService {
      */
     @FormUrlEncoded
     @POST("/profile/change_signature")
-    fun changeSignature(@Field("signature") signature: String?, @Header("Authorization") token: String?): LiveData<ApiResponse<Any?>?>
+    fun changeSignature(
+        @Field("signature") signature: String?,
+        @Header("Authorization") token: String?
+    ): LiveData<ApiResponse<Any?>?>
 
 }

@@ -18,7 +18,7 @@ import com.github.lzyzsd.circleprogress.ArcProgress
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.model.timetable.TimeInDay
-import com.stupidtree.hitax.ui.base.BaseListAdapterClassic
+import com.stupidtree.style.base.BaseListAdapterClassic
 import com.stupidtree.hitax.utils.MaterialCircleAnimator
 import com.stupidtree.hitax.utils.TextTools
 import com.stupidtree.hitax.utils.TimeTools

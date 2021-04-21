@@ -1,0 +1,60 @@
+package com.stupidtree.hita.theta.data.source.web.service
+
+import androidx.lifecycle.LiveData
+import com.stupidtree.component.web.ApiResponse
+import com.stupidtree.hita.theta.data.model.Article
+import com.stupidtree.hita.theta.data.model.LikeResult
+import retrofit2.Call
+import retrofit2.http.*
+
+interface ArticleService {
+
+    @FormUrlEncoded
+    @POST("/article/create")
+    fun postArticle(
+        @Header("Authorization") token: String,
+        @Field("content") content: String,
+        @Field("repostId") repostId: String?
+    ): LiveData<ApiResponse<Boolean>?>
+
+    @GET("/article/gets")
+    fun getArticles(
+        @Header("Authorization") token: String,
+        @Query("mode") mode: String,
+        @Query("beforeTime") beforeTime: Long,
+        @Query("afterTime") afterTime: Long,
+        @Query("pageSize") pageSize: Int,
+        @Query("extra") extra: String
+    ): LiveData<ApiResponse<List<Article>>>
+
+
+    @GET("/article/get")
+    fun getArticleInfo(
+        @Header("Authorization") token: String,
+        @Query("articleId") fromId: String?,
+        @Query("digOrigin") digOrigin: Boolean
+    ): LiveData<ApiResponse<Article>>
+
+    @GET("/article/get")
+    fun getArticleInfoCall(
+        @Header("Authorization") token: String,
+        @Query("articleId") fromId: String?,
+        @Query("digOrigin") digOrigin: Boolean
+    ): Call<ApiResponse<Article>>
+
+    @FormUrlEncoded
+    @POST("/article/like")
+    fun likeOrUnlike(
+        @Header("Authorization") token: String,
+        @Field("articleId") articleId: String?,
+        @Field("like") like: Boolean
+    ): Call<ApiResponse<LikeResult>>
+
+    @FormUrlEncoded
+    @POST("/article/like")
+    fun likeOrUnlikeLive(
+        @Header("Authorization") token: String,
+        @Field("articleId") articleId: String?,
+        @Field("like") like: Boolean
+    ): LiveData<ApiResponse<LikeResult>>
+}

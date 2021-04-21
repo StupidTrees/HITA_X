@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="com.stupidtree.style"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
+        android:supportsRtl="true">
+
+        <provider
+            android:name=".MFileProvider"
+            android:authorities="com.stupidtree.hitax.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider> <!-- 加上他，否则无法从相册选取图片 -->
+    </application>
+</manifest>

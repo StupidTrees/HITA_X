@@ -24,12 +24,11 @@ object FileProviderUtils {
      */
     @JvmStatic
     fun getUriForFile(context: Context, file: File): Uri {
-        val fileUri: Uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             getUriForFile24(context, file)
         } else {
             Uri.fromFile(file)
         }
-        return fileUri
     }
 
     /**

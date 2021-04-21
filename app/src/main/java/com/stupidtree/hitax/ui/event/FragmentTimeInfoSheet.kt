@@ -8,7 +8,7 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.databinding.DialogBottomEventsBinding
-import com.stupidtree.hitax.ui.base.TransparentBottomSheetDialog
+import com.stupidtree.style.widgets.TransparentBottomSheetDialog
 import java.util.ArrayList
 
 @SuppressLint("ValidFragment")
@@ -21,8 +21,8 @@ class FragmentTimeInfoSheet : TransparentBottomSheetDialog<DialogBottomEventsBin
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            events.addAll(arguments!!.getSerializable("events") as List<EventItem>)
-            mode = arguments!!.getInt("mode")
+            events.addAll(requireArguments().getSerializable("events") as List<EventItem>)
+            mode = requireArguments().getInt("mode")
         }
     }
 

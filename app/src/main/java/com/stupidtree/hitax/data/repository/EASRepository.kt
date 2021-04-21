@@ -174,6 +174,7 @@ class EASRepository internal constructor(application: Application) {
                         var maxTs: Long = 0
                         //添加时间表
                         val events = mutableListOf<EventItem>()
+                        val requireSubjects = mutableMapOf<String, String>()
                         for (item in it.data!!) {
                             val spStart = schedule[item.begin - 1]
                             val spEnd = schedule[item.begin + item.last - 2]
@@ -187,11 +188,15 @@ class EASRepository internal constructor(application: Application) {
                                 subject.id = UUID.randomUUID().toString()
                                 subjectDao.saveSubjectSync(subject)
                             }
-                            StupidSync.putHistorySync(
-                                "subject",
-                                History.ACTION.REQUIRE,
-                                listOf(subject.id)
-                            )
+                            if (requireSubjects[subject.id] == null) {
+                                requireSubjects[subject.id] = subject.id
+                                StupidSync.putHistorySync(
+                                    "subject",
+                                    History.ACTION.REQUIRE,
+                                    listOf(subject.id)
+                                )
+                            }
+
                             for (week in item.weeks) {
                                 val from = getDateAtWOT(startDate, week, item.dow)
                                 val to = getDateAtWOT(startDate, week, item.dow)

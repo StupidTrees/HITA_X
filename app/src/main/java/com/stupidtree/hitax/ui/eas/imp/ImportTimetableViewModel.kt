@@ -8,7 +8,7 @@ import com.stupidtree.hitax.data.repository.EASRepository
 import com.stupidtree.component.data.DataState
 import com.stupidtree.component.data.Trigger
 import com.stupidtree.hitax.ui.eas.EASViewModel
-import com.stupidtree.hitax.utils.MTransformations
+import com.stupidtree.component.data.MTransformations
 import java.util.*
 
 class ImportTimetableViewModel(application: Application) : EASViewModel(application) {

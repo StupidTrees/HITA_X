@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.ActivityWelcomeBinding
-import com.stupidtree.hitax.ui.base.BaseActivity
-import com.stupidtree.hitax.ui.base.BaseTabAdapter
+import com.stupidtree.style.base.BaseActivity
+import com.stupidtree.style.base.BaseTabAdapter
 import com.stupidtree.hitax.ui.welcome.login.LoginFragment
 import com.stupidtree.hitax.ui.welcome.signup.SignUpFragment
 import com.stupidtree.hitax.utils.AnimationUtils

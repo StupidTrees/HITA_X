@@ -11,8 +11,8 @@ import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.repository.EASRepository
 import com.stupidtree.hitax.databinding.DialogBottomEasVerifyBinding
 import com.stupidtree.component.data.DataState
-import com.stupidtree.hitax.ui.base.TransparentModeledBottomSheetDialog
 import com.stupidtree.hitax.utils.ImageUtils
+import com.stupidtree.style.widgets.TransparentModeledBottomSheetDialog
 
 class PopUpLoginEAS :
     TransparentModeledBottomSheetDialog<LoginEASViewModel, DialogBottomEasVerifyBinding>() {

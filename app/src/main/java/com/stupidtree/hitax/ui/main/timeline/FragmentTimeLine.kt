@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.databinding.FragmentTimelineBinding
-import com.stupidtree.hitax.ui.base.BaseFragment
-import com.stupidtree.hitax.ui.base.BaseListAdapter
+import com.stupidtree.style.base.BaseFragment
+import com.stupidtree.style.base.BaseListAdapter
 import com.stupidtree.hitax.utils.EventsUtils
 import com.stupidtree.hitax.utils.TimeTools
 import com.stupidtree.hitax.utils.TimeTools.TTY_NONE
@@ -64,7 +64,7 @@ class FragmentTimeLine : BaseFragment<FragmentTimelineViewModel, FragmentTimelin
 
             override fun onConfirmed(v: View?, position: Int, hint: EventItem?) {
                 v?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-                val newL: MutableList<EventItem> = ArrayList(listAdapter!!.mBeans)
+                val newL: MutableList<EventItem> = ArrayList(listAdapter?.beans)
                 newL.remove(hint)
                 listAdapter!!.notifyItemChangedSmooth(newL)
             }

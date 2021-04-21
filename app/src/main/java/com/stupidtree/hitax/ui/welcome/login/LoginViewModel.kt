@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hitax.R
-import com.stupidtree.hitax.data.repository.UserRepository
 import com.stupidtree.hitax.ui.welcome.login.LoginTrigger.Companion.getRequestState
 import com.stupidtree.hitax.utils.TextTools
+import com.stupidtree.stupiduser.data.repository.UserRepository
 
 /**
  * 层次：ViewModel
