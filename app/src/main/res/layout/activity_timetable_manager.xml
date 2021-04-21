@@ -46,8 +46,8 @@
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom|center"
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="@string/title_timetable_manager"
@@ -55,7 +55,7 @@
                     android:textSize="32sp" />
 
                 <Space
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 

@@ -26,10 +26,15 @@ class ArticleSearchActivity : BaseActivity<ArticleSearchViewModel, ActivityArtic
         return ArticleSearchViewModel::class.java
     }
 
+    var firstEnter = true
     override fun onEnterAnimationComplete() {
         super.onEnterAnimationComplete()
-        popUpKeyboard()
+        if (firstEnter) {
+            firstEnter = false
+            popUpKeyboard()
+        }
     }
+
     private fun popUpKeyboard() {
         binding.search.requestFocus()
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?

@@ -67,7 +67,7 @@
                 <com.stupidtree.hitax.ui.widgets.SelectableIconCardView
                     android:id="@+id/card_name"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="144dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
@@ -75,6 +75,7 @@
                     android:layout_weight="1"
                     app:cardIcon="@drawable/ic_timetable"
                     app:cardIconColor="?attr/colorAccent"
+                    app:cardIconGravity="start"
                     app:cardIconPadding="14dp"
                     app:cardSubtitleText="@string/timetable_name">
 
@@ -83,13 +84,14 @@
                 <com.stupidtree.hitax.ui.widgets.SelectableIconCardView
                     android:id="@+id/card_date"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="144dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
                     app:cardIcon="@drawable/ic_baseline_timetable_24"
                     app:cardIconColor="?attr/colorAccent"
+                    app:cardIconGravity="start"
                     app:cardIconPadding="10dp"
                     app:cardSubtitleText="@string/start_date_of_curriculum">
 

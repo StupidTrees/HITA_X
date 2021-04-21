@@ -5,10 +5,12 @@ import android.graphics.Color
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.stupidtree.hitax.R
@@ -28,6 +30,7 @@ class SelectableIconCardView : FrameLayout {
     var isChecked = false
     var hapticFeedback = false
     var iconPadding = 0
+    var iconGravity = Gravity.CENTER
     var onCheckChangeListener: OnCheckChangedListener? = null
     var onCardClickListener: OnClickListener? = null
 
@@ -89,6 +92,10 @@ class SelectableIconCardView : FrameLayout {
                             TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics
                         ).toInt()
                     )
+                R.styleable.SelectableIconCardView_cardIconGravity -> iconGravity =
+                    a.getInt(
+                        attr, Gravity.START
+                    )
             }
         }
     }
@@ -109,9 +116,13 @@ class SelectableIconCardView : FrameLayout {
             toggle()
         }
         icon?.setPadding(iconPadding, iconPadding, iconPadding, iconPadding)
-        if(subtitleStr.isNullOrBlank()){
+        if (subtitleStr.isNullOrBlank()) {
             subtitle?.visibility = GONE
         }
+        val iconFrame = findViewById<FrameLayout>(R.id.frame)
+        val lp = iconFrame?.layoutParams as LinearLayout.LayoutParams
+        lp.gravity = iconGravity
+
         refreshState()
     }
 
@@ -125,21 +136,22 @@ class SelectableIconCardView : FrameLayout {
 
     fun setSubtitle(text: Int) {
         subtitle?.setText(text)
-        if(subtitle?.text.isNullOrBlank()){
+        if (subtitle?.text.isNullOrBlank()) {
             subtitle?.visibility = GONE
-        }else{
+        } else {
             subtitle?.visibility = VISIBLE
         }
     }
 
     fun setSubtitle(text: String?) {
         subtitle?.text = text
-        if(text.isNullOrBlank()){
+        if (text.isNullOrBlank()) {
             subtitle?.visibility = GONE
-        }else{
+        } else {
             subtitle?.visibility = VISIBLE
         }
     }
+
     fun check(checked: Boolean) {
         if (!checkable) return
         isChecked = checked
@@ -164,7 +176,7 @@ class SelectableIconCardView : FrameLayout {
                 icon!!.setColorFilter(iconColor)
                 if (backgroundTint != -1) {
                     iconBG?.setColorFilter(backgroundTint)
-                }else{
+                } else {
                     iconBG?.setColorFilter(iconColor)
                 }
             } else {

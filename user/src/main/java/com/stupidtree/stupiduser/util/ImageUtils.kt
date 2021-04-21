@@ -30,21 +30,23 @@ object ImageUtils {
         }
     }
 
-    fun loadLocalAvatarInto(context: Context, userId: String?, target: ImageView) {
+    fun loadLocalAvatarInto(context: Context, userId: String?, target: ImageView?) {
         val sign = UserPreferenceSource.getInstance(context).myAvatarGlideSignature
         if (userId.isNullOrEmpty()) {
-            target.setImageResource(R.drawable.place_holder_avatar)
+            target?.setImageResource(R.drawable.place_holder_avatar)
         } else {
             val glideUrl = GlideUrl(
                 "http://hita.store:39999/profile/avatar?userId=" +
                         userId, LazyHeaders.Builder().addHeader("device-type", "android").build()
             )
-            Glide.with(context).load(
-                glideUrl
-            ).apply(RequestOptions.bitmapTransform(CircleCrop()))
-                .signature(ObjectKey(sign))
-                .placeholder(R.drawable.place_holder_avatar)
-                .diskCacheStrategy(DiskCacheStrategy.NONE).into(target)
+            target?.let {
+                Glide.with(context).load(
+                    glideUrl
+                ).apply(RequestOptions.bitmapTransform(CircleCrop()))
+                    .signature(ObjectKey(sign))
+                    .placeholder(R.drawable.place_holder_avatar)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE).into(it)
+            }
             // p.edit().putString("my_avatar","normal").apply();
         }
     }

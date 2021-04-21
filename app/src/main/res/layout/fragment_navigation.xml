@@ -12,6 +12,94 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/user_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            app:cardBackgroundColor="?attr/backgroundColorSecond"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="16dp"
+                    android:focusable="true"
+                    app:cardBackgroundColor="?attr/backgroundColorSecond"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="12dp">
+
+                    <ImageView
+                        android:id="@+id/avatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:scaleType="fitCenter"
+                        android:transitionName="useravatar" />
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/nickname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|start"
+                        android:maxEms="20"
+                        android:singleLine="true"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|start"
+                        android:layout_marginTop="8dp"
+                        android:alpha="0.6"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="?attr/textColorSecondary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:tintMode="src_in"
+                    app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    app:tint="?attr/colorPrimaryDisabled" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -22,7 +110,7 @@
             <com.stupidtree.hitax.ui.widgets.SelectableIconCardView
                 android:id="@+id/card_recent_timetable"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="144dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
@@ -30,6 +118,7 @@
                 app:cardCheckable="false"
                 app:cardIcon="@drawable/ic_bo_distribution"
                 app:cardIconColor="#00000000"
+                app:cardIconGravity="start"
                 app:cardIconPadding="12dp"
                 app:cardTitleText="@string/recent_timetable">
 
@@ -38,13 +127,14 @@
             <com.stupidtree.hitax.ui.widgets.SelectableIconCardView
                 android:id="@+id/card_timetable"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="144dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_weight="1"
                 app:cardBGTint="?attr/colorPrimary"
                 app:cardIcon="@drawable/ic_bo_date"
                 app:cardIconColor="#00000000"
+                app:cardIconGravity="start"
                 app:cardIconPadding="12dp"
                 app:cardTitleText="@string/title_timetable_manager">
 
@@ -80,7 +170,6 @@
                     android:text="@string/navi_jw_title"
                     android:textColor="?attr/textColorPrimary"
                     android:textSize="18sp"
-                    android:textStyle="bold"
                     android:visibility="visible" />
 
                 <LinearLayout
@@ -152,6 +241,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="72dp"
                         android:layout_weight="1"
+                        android:alpha="0.2"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:orientation="vertical"
                         android:padding="4dp"
@@ -180,6 +270,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="72dp"
                         android:layout_weight="1"
+                        android:alpha="0.2"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:orientation="vertical"
                         android:padding="4dp"
@@ -237,7 +328,6 @@
                     android:text="@string/maintab_navi"
                     android:textColor="?attr/textColorPrimary"
                     android:textSize="18sp"
-                    android:textStyle="bold"
                     android:visibility="visible" />
 
                 <LinearLayout
@@ -270,7 +360,7 @@
                             android:layout_marginTop="8dp"
                             android:alpha="0.6"
                             android:singleLine="true"
-                            android:text="@string/shortcut_news_long"
+                            android:text="@string/community_name"
                             android:textColor="?attr/textColorPrimary"
                             android:textSize="12dp" />
                     </LinearLayout>

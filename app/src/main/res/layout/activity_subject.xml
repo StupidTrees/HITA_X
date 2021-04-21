@@ -62,7 +62,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="144dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="16dp"
@@ -80,8 +80,8 @@
 
                         <com.github.lzyzsd.circleprogress.ArcProgress
                             android:id="@+id/subject_progress"
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
                             android:layout_gravity="center"
                             app:arc_bottom_text="@string/progress"
                             app:arc_bottom_text_size="10sp"
@@ -117,13 +117,14 @@
                 <com.stupidtree.hitax.ui.widgets.SelectableIconCardView
                     android:id="@+id/card_type"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="144dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="24dp"
                     android:layout_weight="1"
                     app:cardBGTint="?attr/colorPrimary"
                     app:cardIcon="@drawable/ic_bx_type"
                     app:cardIconColor="#00000000"
+                    app:cardIconGravity="center"
                     app:cardIconPadding="14dp"
                     app:cardSubtitleText="@string/subject_type">
 
@@ -140,7 +141,7 @@
                 <com.stupidtree.hitax.ui.widgets.SelectableIconCardView
                     android:id="@+id/card_teacher"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="144dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
@@ -148,6 +149,7 @@
                     app:cardCheckable="false"
                     app:cardIcon="@drawable/ic_bx_teacher"
                     app:cardIconColor="#00000000"
+                    app:cardIconGravity="center"
                     app:cardIconPadding="14dp"
                     app:cardSubtitleText="@string/subject_teacher">
 
@@ -156,13 +158,14 @@
                 <com.stupidtree.hitax.ui.widgets.SelectableIconCardView
                     android:id="@+id/card_credit"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="144dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="24dp"
                     android:layout_weight="1"
                     app:cardBGTint="?attr/colorPrimary"
                     app:cardIcon="@drawable/ic_bx_credit"
                     app:cardIconColor="#00000000"
+                    app:cardIconGravity="center"
                     app:cardIconPadding="14dp"
                     app:cardSubtitleText="@string/subject_credit">
 

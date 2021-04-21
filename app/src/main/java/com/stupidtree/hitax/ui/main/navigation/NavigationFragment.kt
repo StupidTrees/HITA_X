@@ -8,6 +8,7 @@ import com.stupidtree.hitax.ui.eas.classroom.EmptyClassroomActivity
 import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
 import com.stupidtree.hitax.utils.ActivityUtils
+import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 
 class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationBinding>() {
     override fun getViewModelClass(): Class<NavigationViewModel> {
@@ -22,11 +23,11 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
                 binding?.cardRecentTimetable?.setSubtitle(it.name)
             }
         }
-        viewModel.timetableCountLiveData.observe(this){
-            if(it==0){
+        viewModel.timetableCountLiveData.observe(this) {
+            if (it == 0) {
                 binding?.cardTimetable?.setSubtitle(R.string.no_timetable)
-            }else{
-                binding?.cardTimetable?.setSubtitle(getString(R.string.timetable_count_format,it))
+            } else {
+                binding?.cardTimetable?.setSubtitle(getString(R.string.timetable_count_format, it))
             }
 
         }
@@ -38,13 +39,16 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
                 ActivityUtils.startTimetableDetailActivity(requireContext(), it.id)
             }
         }
-        binding?.cardImport?.setOnClickListener{
+        binding?.cardImport?.setOnClickListener {
             ActivityUtils.showEasVerifyWindow(
                 requireContext(),
                 directTo = ImportTimetableActivity::class.java,
                 onResponseListener = object : PopUpLoginEAS.OnResponseListener {
                     override fun onSuccess(window: PopUpLoginEAS) {
-                        ActivityUtils.startActivity(requireContext(),ImportTimetableActivity::class.java)
+                        ActivityUtils.startActivity(
+                            requireContext(),
+                            ImportTimetableActivity::class.java
+                        )
                         window.dismiss()
                     }
 
@@ -60,7 +64,10 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
                 directTo = EmptyClassroomActivity::class.java,
                 onResponseListener = object : PopUpLoginEAS.OnResponseListener {
                     override fun onSuccess(window: PopUpLoginEAS) {
-                        ActivityUtils.startActivity(requireContext(),EmptyClassroomActivity::class.java)
+                        ActivityUtils.startActivity(
+                            requireContext(),
+                            EmptyClassroomActivity::class.java
+                        )
                         window.dismiss()
                     }
 
@@ -73,11 +80,45 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
         binding?.cardNews?.setOnClickListener {
             ActivityUtils.startThetaActivity(requireActivity())
         }
+        binding?.cardSearch?.setOnClickListener {
+            ActivityUtils.startSearchActivity(requireContext())
+        }
     }
 
     override fun onStart() {
         super.onStart()
         viewModel.startRefresh()
+
+        LocalUserRepository.getInstance(requireContext()).getLoggedInUser().let {
+            if (it.isValid()) { //如果已登录
+                //装载头像
+                com.stupidtree.stupiduser.util.ImageUtils.loadLocalAvatarInto(
+                    requireContext(),
+                    it.id,
+                    binding?.avatar
+                )
+                com.stupidtree.stupiduser.util.ImageUtils.loadLocalAvatarInto(
+                    requireContext(),
+                    it.id,
+                    binding?.avatar
+                )
+                //设置各种文字
+                binding?.username?.text = it.username
+                binding?.nickname?.text = it.nickname
+               binding?.userCard?.setOnClickListener {v->
+                    ActivityUtils.startProfileActivity(
+                        requireContext(),
+                        it.id
+                    )
+                }
+            } else {
+                //未登录的信息显示
+                binding?.username?.setText(R.string.not_log_in)
+                binding?.nickname?.setText(R.string.log_in_first)
+                binding?.avatar?.setImageResource(R.drawable.place_holder_avatar)
+                binding?.userCard?.setOnClickListener { ActivityUtils.startWelcomeActivity(requireContext()) }
+            }
+        }
     }
 
     override fun initViewBinding(): FragmentNavigationBinding {

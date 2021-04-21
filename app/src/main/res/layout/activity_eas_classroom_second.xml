@@ -126,7 +126,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
-            android:layoutAnimation="@anim/recycler_layout_animation_slide_from_right"
+            android:layoutAnimation="@anim/recycler_layout_animation_falls_down"
             android:overScrollMode="never" />
 
     </LinearLayout>

@@ -23,19 +23,22 @@
             android:orientation="vertical">
 
             <FrameLayout
-                android:layout_width="64dp"
-                android:layout_height="64dp">
+                android:id="@+id/frame"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
 
                 <ImageView
                     android:id="@+id/iconBG"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     app:srcCompat="@drawable/element_round_white_light" />
 
                 <ImageView
                     android:id="@+id/icon"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:padding="8dp"
                     android:tintMode="src_in"
                     app:srcCompat="@drawable/ic_bx_teacher" />
@@ -52,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
