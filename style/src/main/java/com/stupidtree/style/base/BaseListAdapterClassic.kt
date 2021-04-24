@@ -63,11 +63,11 @@ abstract class BaseListAdapterClassic<T, H : RecyclerView.ViewHolder>(
     }
 
     override fun onBindViewHolder(holder: H, position: Int) {
-        try {
+        if(position>=mBeans.size){
+            bindHolder(holder, null, position)
+        }else{
             val data = mBeans[position]
             bindHolder(holder, data, position)
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 
@@ -76,12 +76,6 @@ abstract class BaseListAdapterClassic<T, H : RecyclerView.ViewHolder>(
      */
     open val indexBias: Int
         get() = 0
-
-    constructor(parcel: Parcel) : this(
-            TODO("mContext"),
-            TODO("mBeans")) {
-
-    }
 
 
     fun willNotifyNormalChange(): Boolean { //当位置不发生变化时，是否刷新该item

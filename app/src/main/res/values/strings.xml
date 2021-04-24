@@ -1144,7 +1144,8 @@
     <string name="pick_query_building">选择查询教学楼</string>
     <string name="empty_classroom_format">%s 空闲情况</string>
     <string name="fade_enabled">启用背景渐变</string>
-    <string name="title_activity_profile">ProfileActivity</string>
-    <string name="edit_my_profile">Edit Profile</string>
+    <string name="title_activity_profile">个人资料</string>
+    <string name="edit_my_profile">编辑资料</string>
     <string name="button_sync">同步</string>
+    <string name="export">导出</string>
 </resources>

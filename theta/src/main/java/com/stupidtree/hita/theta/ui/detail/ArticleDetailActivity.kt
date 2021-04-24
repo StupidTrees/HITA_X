@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
@@ -22,7 +23,7 @@ import com.stupidtree.style.base.BaseListAdapter
 
 class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArticleDetailBinding>(),
     CreateCommentFragment.OnCommentSentListener {
-
+    lateinit var imageListAdapter:ImageListAdapter
     lateinit var listAdapter: HotCommentsListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +41,7 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
 
     override fun initViews() {
         binding.refresh.setColorSchemeColors(getColorPrimary())
+        imageListAdapter = ImageListAdapter(this, mutableListOf())
         listAdapter = HotCommentsListAdapter(this, mutableListOf())
         binding.authorLayout.setOnClickListener {
             viewModel.articleLiveData.value?.data?.let {
@@ -49,6 +51,8 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
                 startActivity(i)
             }
         }
+        binding.list.adapter = imageListAdapter
+        binding.list.layoutManager = GridLayoutManager(this,3)
         binding.clist.adapter = listAdapter
         binding.clist.layoutManager = LinearLayoutManager(this)
         binding.comment.setOnClickListener {
@@ -101,7 +105,11 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
         viewModel.articleLiveData.observe(this) { ds ->
             if (ds.state == DataState.STATE.SUCCESS) {
                 ds.data?.let {
-                    ImageUtils.loadAvatarInto(getThis(), it.authorId, binding.postAvatar)
+                    ImageUtils.loadAvatarInto(getThis(), it.authorAvatar, binding.postAvatar)
+                    if(!it.images.isNullOrEmpty()){
+                        imageListAdapter.notifyItemChangedSmooth(it.images)
+                    }
+
                     binding.postAuthor.text = it.authorName
                     binding.content.text = it.content
                     binding.likeNum.text = it.likeNum.toString()
@@ -116,7 +124,7 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
                     if (it.repostId.isNullOrEmpty()) {
                         binding.repostLayout.visibility = View.GONE
                     } else {
-                        binding.repostLayout.setOnClickListener { v ->
+                        binding.repostLayout.setOnClickListener { _ ->
                             val i = Intent(getThis(), ArticleDetailActivity::class.java)
                             i.putExtra("articleId", it.repostId)
                             startActivity(i)
@@ -128,9 +136,60 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
                             TextTools.getArticleTimeText(getThis(), it.repostTime)
                         ImageUtils.loadAvatarInto(
                             getThis(),
-                            it.repostAuthorId,
+                            it.repostAuthorAvatar,
                             binding.repostAvatar
                         )
+                        if (it.repostId.isNullOrEmpty()) {
+                            binding.repostLayout.visibility = View.GONE
+                        } else {
+                            binding.repostLayout.visibility = View.VISIBLE
+                            binding.repostLayout.setOnClickListener { v ->
+                                val i = Intent(getThis(), ArticleDetailActivity::class.java)
+                                i.putExtra("articleId", it.repostId)
+                                getThis().startActivity(i)
+                            }
+                            binding.repostAuthor.text = it.repostAuthorName
+                            binding.repostContent.text = it.repostContent
+                            binding.repostTime.text =
+                                TextTools.getArticleTimeText(getThis(), it.repostTime)
+                            ImageUtils.loadAvatarInto(
+                                getThis(),
+                                it.repostAuthorAvatar,
+                                binding.repostAvatar
+                            )
+                            if (!it.repostImages.isNullOrEmpty()) {
+                                binding.repostImgLayout.visibility = View.VISIBLE
+                                binding.repostImg1.visibility = View.VISIBLE
+                                binding.repostImg2.visibility = View.VISIBLE
+                                binding.repostImg3.visibility = View.VISIBLE
+                                if (it.repostImages.size < 3) {
+                                    binding.repostImg3.visibility = View.GONE
+                                } else {
+                                    com.stupidtree.hita.theta.utils.ImageUtils.loadArticleImageInto(
+                                        getThis(),
+                                        it.repostImages.get(2),
+                                        binding.repostImg3
+                                    )
+                                }
+                                if (it.repostImages.size < 2) {
+                                    binding.repostImg2.visibility = View.GONE
+                                } else {
+                                    com.stupidtree.hita.theta.utils.ImageUtils.loadArticleImageInto(
+                                        getThis(),
+                                        it.repostImages.get(1),
+                                        binding.repostImg2
+                                    )
+                                }
+                                com.stupidtree.hita.theta.utils.ImageUtils.loadArticleImageInto(
+                                    getThis(),
+                                    it.repostImages.get(0),
+                                    binding.repostImg1
+                                )
+
+                            } else {
+                                binding.repostImgLayout.visibility = View.GONE
+                            }
+                        }
                     }
                 }
 

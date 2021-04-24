@@ -131,6 +131,7 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#00000000"
             android:overScrollMode="never"
             app:tabGravity="start"
             app:tabIndicatorColor="#00000000"

@@ -144,7 +144,7 @@ class ProfileActivity : BaseActivity<ProfileViewModel, ActivityProfileBinding>()
      */
     private fun setProfileView(userInfo: UserProfile?) {
         if (userInfo != null) {
-            ImageUtils.loadAvatarInto(getThis(), userInfo.id, binding.avatar)
+            ImageUtils.loadAvatarInto(getThis(), userInfo.avatar, binding.avatar)
             binding.textUsername.text = userInfo.username
             binding.textNickname.text = userInfo.nickname
             binding.iconGender.visibility = View.VISIBLE

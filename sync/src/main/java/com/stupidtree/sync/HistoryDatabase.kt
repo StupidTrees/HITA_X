@@ -9,7 +9,8 @@ import com.stupidtree.sync.data.model.History
 
 @Database(
     entities = [History::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 @androidx.room.TypeConverters(TypeConverters::class)
 abstract class HistoryDatabase : RoomDatabase() {

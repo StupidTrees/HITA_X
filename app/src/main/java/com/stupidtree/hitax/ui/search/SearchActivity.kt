@@ -22,7 +22,6 @@ class SearchActivity : BaseActivity<SearchViewModel, ActivitySearchBinding>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setToolbarActionBack(binding.toolbar)
     }
 

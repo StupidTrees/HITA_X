@@ -1,5 +1,6 @@
 package com.stupidtree.sync.data.source.web
 
+import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.stupidtree.component.web.ApiResponse
@@ -8,14 +9,11 @@ import com.stupidtree.sync.data.model.History
 import com.stupidtree.sync.data.model.SyncResult
 import com.stupidtree.sync.data.source.web.service.SyncService
 import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
-object SyncWebSource : BaseWebSource<SyncService>(
-    Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("http://hita.store:39999").build()
+class SyncWebSource(context: Context) : BaseWebSource<SyncService>(
+    context,
+    livedata = false
 ) {
 
     fun sync(uid: String, latestId: Long): Call<ApiResponse<SyncResult>?> {
@@ -38,5 +36,16 @@ object SyncWebSource : BaseWebSource<SyncService>(
         return SyncService::class.java
     }
 
+    companion object {
+        var instance: SyncWebSource? = null
+        fun getInstance(context: Context): SyncWebSource {
+            synchronized(SyncWebSource::class.java) {
+                if (instance == null) {
+                    instance = SyncWebSource(context.applicationContext)
+                }
+                return instance!!
+            }
+        }
+    }
 
 }

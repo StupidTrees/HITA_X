@@ -3,8 +3,10 @@ package com.stupidtree.hitax.ui.timetable.detail
 import android.content.*
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
@@ -21,6 +23,12 @@ import com.stupidtree.hitax.utils.TextTools
 import com.stupidtree.style.widgets.PopUpText
 import java.util.*
 import kotlin.Comparator
+import android.content.Intent
+import android.net.Uri
+import android.view.HapticFeedbackConstants
+import com.google.android.material.appbar.AppBarLayout
+import com.stupidtree.hitax.utils.ImageUtils
+
 
 class TimetableDetailActivity :
     BaseActivity<TimetableDetailViewModel, ActivityTimetableDetailBinding>() {
@@ -47,9 +55,12 @@ class TimetableDetailActivity :
         binding.teachersList.adapter = teachersListAdapter
         binding.teachersList.layoutManager =
             LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-        teachersListAdapter?.setOnItemClickListener(object:BaseListAdapter.OnItemClickListener<TeacherInfo>{
+        binding.toolbar.title = ""
+        binding.collapse.title = ""
+        teachersListAdapter?.setOnItemClickListener(object :
+            BaseListAdapter.OnItemClickListener<TeacherInfo> {
             override fun onItemClick(data: TeacherInfo?, card: View?, position: Int) {
-                ActivityUtils.searchFor(getThis(),data?.name,ActivityUtils.SearchType.TEACHER)
+                ActivityUtils.searchFor(getThis(), data?.name, ActivityUtils.SearchType.TEACHER)
             }
 
         })
@@ -128,7 +139,24 @@ class TimetableDetailActivity :
             }
 
         })
+        binding.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val scale = 1.0f + verticalOffset / appBarLayout.height.toFloat()
+            binding.title.translationX =
+                (binding.toolbar.contentInsetStartWithNavigation + ImageUtils.dp2px(
+                    getThis(),
+                    8f
+                )) * (1 - scale)
+            binding.title.scaleX = 0.5f * (1 + scale)
+            binding.title.scaleY = 0.5f * (1 + scale)
+            binding.title.translationY =
+                (binding.title.height / 2) * (1 - binding.title.scaleY)
 
+            binding.share.translationY = ImageUtils.dp2px(getThis(), 24f) * (1 - scale)
+            binding.share.scaleX = 0.7f + 0.3f * scale
+            binding.share.scaleY = 0.7f + 0.3f * scale
+            binding.share.translationX =
+                (binding.share.width / 2) * (1 - binding.share.scaleX)
+        })
         binding.cardDate.onCardClickListener = View.OnClickListener {
             PopUpCalendarPicker().setInitValue(viewModel.timetableLiveData.value?.startTime?.time)
                 .setOnConfirmListener(object : PopUpCalendarPicker.OnConfirmListener {
@@ -164,11 +192,16 @@ class TimetableDetailActivity :
 
                 }).show(supportFragmentManager, "sure")
         }
+        binding.share.setOnClickListener {
+            it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            binding.share.startAnimation()
+            viewModel.exportToIcs()
+        }
     }
 
     private fun bindLiveData() {
         viewModel.timetableLiveData.observe(this) {
-            binding.collapse.title = it.name
+            binding.title.text = it.name
             binding.cardName.setTitle(it.name)
             val c = Calendar.getInstance()
             c.timeInMillis = it.startTime.time
@@ -200,6 +233,44 @@ class TimetableDetailActivity :
             } else {
                 teachersListAdapter?.notifyItemChangedSmooth(it)
             }
+        }
+        viewModel.exportToICSResult.observe(this) {
+            if(it.state==DataState.STATE.SUCCESS){
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                    binding.share.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                } else {
+                    binding.share.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+                }
+                val bitmap =
+                    ImageUtils.getResourceBitmap(getThis(), R.drawable.ic_baseline_done_24)
+                binding.share.doneLoadingAnimation(
+                    getColorPrimary(), bitmap
+                )
+                binding.share.postDelayed({
+                    binding.share.revertAnimation()
+                }, 600)
+                Toast.makeText(getThis(), "已导出为ICS文件", Toast.LENGTH_SHORT).show()
+                val imageIntent = Intent(Intent.ACTION_SEND)
+                imageIntent.type = "application/octet-stream"
+                imageIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(it.data))
+                startActivity(Intent.createChooser(imageIntent, "分享"))
+            }else{
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                    binding.share.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                } else {
+                    binding.share.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+                }
+                val bitmap =
+                    ImageUtils.getResourceBitmap(getThis(), R.drawable.ic_baseline_error_24)
+                binding.share.doneLoadingAnimation(
+                    getColorPrimary(), bitmap
+                )
+                binding.share.postDelayed({
+                    binding.share.revertAnimation()
+                }, 600)
+                Toast.makeText(getThis(), "导出失败", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
     }

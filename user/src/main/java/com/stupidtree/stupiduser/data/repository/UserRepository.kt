@@ -17,7 +17,7 @@ import java.lang.Exception
 class UserRepository private constructor(context: Context) {
     //数据源2：SharedPreference类型数据，本地用户数据源
     private val userPreferenceSource: UserPreferenceSource = UserPreferenceSource.getInstance(context.applicationContext)
-
+    private val userWebSource = UserWebSource.getInstance(context)
     /**
      * 登录
      * @param username 用户名
@@ -25,7 +25,7 @@ class UserRepository private constructor(context: Context) {
      * @return 登录结果
      */
     fun login(username: String, password: String): LiveData<LoginResult> {
-        return Transformations.map(UserWebSource.login(username, password)) { input: LoginResult ->
+        return Transformations.map(userWebSource.login(username, password)) { input: LoginResult ->
 
             if (input.state === LoginResult.STATES.SUCCESS) {
                 userPreferenceSource.saveLocalUser(input.userLocal!!)
@@ -54,7 +54,7 @@ class UserRepository private constructor(context: Context) {
      */
     fun signUp(username: String?, password: String?,
                gender: String?, nickname: String?): LiveData<SignUpResult> {
-        return Transformations.map(UserWebSource.signUp(username, password, gender, nickname)) { input: SignUpResult?->
+        return Transformations.map(userWebSource.signUp(username, password, gender, nickname)) { input: SignUpResult?->
             if (input != null) {
                 if (input.state === SignUpResult.STATES.SUCCESS) {
                     userPreferenceSource.saveLocalUser(input.userLocal!!)

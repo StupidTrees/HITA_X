@@ -18,23 +18,23 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
     override fun initViews(view: View) {
         viewModel.recentTimetableLiveData.observe(this) {
             if (it == null) {
-                binding?.cardRecentTimetable?.setSubtitle(R.string.none)
+                binding?.recentSubtitle?.setText(R.string.none)
             } else {
-                binding?.cardRecentTimetable?.setSubtitle(it.name)
+                binding?.recentSubtitle?.text = it.name
             }
         }
         viewModel.timetableCountLiveData.observe(this) {
             if (it == 0) {
-                binding?.cardTimetable?.setSubtitle(R.string.no_timetable)
+                binding?.timetableSubtitle?.setText(R.string.no_timetable)
             } else {
-                binding?.cardTimetable?.setSubtitle(getString(R.string.timetable_count_format, it))
+                binding?.timetableSubtitle?.text = getString(R.string.timetable_count_format, it)
             }
 
         }
-        binding?.cardTimetable?.onCardClickListener = View.OnClickListener {
+        binding?.cardTimetable?.setOnClickListener {
             ActivityUtils.startTimetableManager(requireContext())
         }
-        binding?.cardRecentTimetable?.onCardClickListener = View.OnClickListener {
+        binding?.cardRecentTimetable?.setOnClickListener{
             viewModel.recentTimetableLiveData.value?.let {
                 ActivityUtils.startTimetableDetailActivity(requireContext(), it.id)
             }
@@ -92,16 +92,20 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
         LocalUserRepository.getInstance(requireContext()).getLoggedInUser().let {
             if (it.isValid()) { //如果已登录
                 //装载头像
-                com.stupidtree.stupiduser.util.ImageUtils.loadLocalAvatarInto(
-                    requireContext(),
-                    it.id,
-                    binding?.avatar
-                )
-                com.stupidtree.stupiduser.util.ImageUtils.loadLocalAvatarInto(
-                    requireContext(),
-                    it.id,
-                    binding?.avatar
-                )
+                binding?.avatar?.let { it1 ->
+                    com.stupidtree.stupiduser.util.ImageUtils.loadAvatarInto(
+                        requireContext(),
+                        it.avatar,
+                        it1
+                    )
+                }
+                binding?.avatar?.let { it1 ->
+                    com.stupidtree.stupiduser.util.ImageUtils.loadAvatarInto(
+                        requireContext(),
+                        it.avatar,
+                        it1
+                    )
+                }
                 //设置各种文字
                 binding?.username?.text = it.username
                 binding?.nickname?.text = it.nickname

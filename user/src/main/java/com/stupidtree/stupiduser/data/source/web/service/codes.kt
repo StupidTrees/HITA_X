@@ -1,4 +1,4 @@
-package com.stupidtree.hitax.data.source.web.service
+package com.stupidtree.stupiduser.data.source.web.service
 
 /**
  * api请求返回码，和后端保持一致

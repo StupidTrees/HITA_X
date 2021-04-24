@@ -21,60 +21,73 @@ class TimetableDetailViewModel(application: Application) : AndroidViewModel(appl
     private val subjectsRepository = SubjectRepository.getInstance(application)
 
 
-
     /**
      * 数据区
      */
     private val timetableController: MutableLiveData<StringTrigger> = MutableLiveData()
 
-    val subjectsLiveData:LiveData<List<TermSubject>> = Transformations.switchMap(timetableController){
-        return@switchMap subjectsRepository.getSubjects(it.data)
-    }
-    val teacherInfoLiveData:LiveData<MutableList<TeacherInfo>> = Transformations.switchMap(timetableController){
-        return@switchMap subjectsRepository.getTeachersInfo(it.data)
-    }
+    val subjectsLiveData: LiveData<List<TermSubject>> =
+        Transformations.switchMap(timetableController) {
+            return@switchMap subjectsRepository.getSubjects(it.data)
+        }
+    val teacherInfoLiveData: LiveData<MutableList<TeacherInfo>> =
+        Transformations.switchMap(timetableController) {
+            return@switchMap subjectsRepository.getTeachersInfo(it.data)
+        }
     val timetableLiveData: LiveData<Timetable> = Transformations.switchMap(timetableController) {
         return@switchMap timetableRepository.getTimetablesById(it.data)
     }
 
+    private val exportController = MutableLiveData<Timetable>()
+    val exportToICSResult = Transformations.switchMap(exportController) {
+        return@switchMap timetableRepository.exportToICS(it.name?:"课表",it.id)
+    }
 
 
     /**
      * 方法
      */
 
-    fun getSubjectProgress(subjectId:String):LiveData<Pair<Int,Int>>{
-        return subjectsRepository.getProgressOfSubject(subjectId,System.currentTimeMillis())
+    fun getSubjectProgress(subjectId: String): LiveData<Pair<Int, Int>> {
+        return subjectsRepository.getProgressOfSubject(subjectId, System.currentTimeMillis())
     }
 
-    fun startRefresh(id:String){
+    fun startRefresh(id: String) {
         timetableController.value = StringTrigger.getActioning(id)
     }
 
-    fun startSaveTimetableInfo(){
+    fun startSaveTimetableInfo() {
         timetableLiveData.value?.let { timetableRepository.actionSaveTimetable(it) }
     }
 
-    fun startChangeTimetableStructure(tp:TimePeriodInDay,position:Int){
+    fun startChangeTimetableStructure(tp: TimePeriodInDay, position: Int) {
         timetableLiveData.value?.let {
-            timetableRepository.actionChangeTimetableStructure(it,tp,position)
+            timetableRepository.actionChangeTimetableStructure(it, tp, position)
         }
     }
 
-    fun startChangeTimetableStartTime(startTime:Long){
+    fun startChangeTimetableStartTime(startTime: Long) {
         timetableLiveData.value?.let {
-            timetableRepository.actionChangeTimetableStartDate(it,startTime)
+            timetableRepository.actionChangeTimetableStartDate(it, startTime)
         }
     }
 
-    fun startResetSubjectColors(){
+    fun startResetSubjectColors() {
         timetableLiveData.value?.let {
             subjectsRepository.actionResetSubjectColors(it.id)
         }
     }
 
-    fun startDeleteSubjects(subjects:Collection<TermSubject>){
+    fun startDeleteSubjects(subjects: Collection<TermSubject>) {
         subjectsRepository.actionDeleteSubjects(subjects.toList())
+    }
+
+
+    fun exportToIcs() {
+        timetableLiveData.value?.let {
+            exportController.value = it
+        }
+
     }
 
 

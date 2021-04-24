@@ -1,22 +1,20 @@
 package com.stupidtree.stupiduser.data.source.web
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.component.web.BaseWebSource
-import com.stupidtree.component.web.LiveDataCallAdapter
-import com.stupidtree.stupiduser.data.model.ApiResponse
-import com.stupidtree.stupiduser.data.model.UserLocal
 import com.stupidtree.hitax.data.source.web.service.UserService
-import com.stupidtree.hitax.data.source.web.service.codes.SUCCESS
-import com.stupidtree.hitax.data.source.web.service.codes.USER_ALREADY_EXISTS
-import com.stupidtree.hitax.data.source.web.service.codes.WRONG_PASSWORD
-import com.stupidtree.hitax.data.source.web.service.codes.WRONG_USERNAME
 import com.stupidtree.stupiduser.R
+import com.stupidtree.stupiduser.data.model.ApiResponse
 import com.stupidtree.stupiduser.data.model.LoginResult
 import com.stupidtree.stupiduser.data.model.SignUpResult
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.stupidtree.stupiduser.data.model.UserLocal
+import com.stupidtree.stupiduser.data.source.web.service.codes.SUCCESS
+import com.stupidtree.stupiduser.data.source.web.service.codes.USER_ALREADY_EXISTS
+import com.stupidtree.stupiduser.data.source.web.service.codes.WRONG_PASSWORD
+import com.stupidtree.stupiduser.data.source.web.service.codes.WRONG_USERNAME
 
 /**
  * 层次：DataSource
@@ -24,11 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory
  * 类型：网络数据
  * 数据：异步读，异步写
  */
-object UserWebSource : BaseWebSource<UserService>(
-    Retrofit.Builder()
-        .addCallAdapterFactory(LiveDataCallAdapter.LiveDataCallAdapterFactory.INSTANCE)
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("http://hita.store:39999").build()
+class UserWebSource(context: Context) : BaseWebSource<UserService>(
+    context
 ) {
     override fun getServiceClass(): Class<UserService> {
         return UserService::class.java
@@ -101,7 +96,8 @@ object UserWebSource : BaseWebSource<UserService>(
                     SUCCESS -> {
                         if (null == input.data) {
                             Log.e("RESPONSE", "没有找到token")
-                            signUpResult[SignUpResult.STATES.ERROR] = R.string.signup_confirm_password
+                            signUpResult[SignUpResult.STATES.ERROR] =
+                                R.string.signup_confirm_password
                         } else {
                             signUpResult[SignUpResult.STATES.SUCCESS] = R.string.sign_up_success
                         }
@@ -118,4 +114,15 @@ object UserWebSource : BaseWebSource<UserService>(
         }
     }
 
+    companion object {
+        var instance: UserWebSource? = null
+        fun getInstance(context: Context): UserWebSource {
+            synchronized(UserWebSource::class.java) {
+                if (instance == null) {
+                    instance = UserWebSource(context.applicationContext)
+                }
+                return instance!!
+            }
+        }
+    }
 }

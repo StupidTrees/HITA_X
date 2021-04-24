@@ -4,24 +4,18 @@ import android.content.Context
 import android.os.Looper
 import android.util.Log
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
-import com.stupidtree.component.data.DataState
 import com.stupidtree.sync.data.model.History
 import com.stupidtree.sync.data.model.SyncResult
 import com.stupidtree.sync.data.source.dao.HistoryDao
 import com.stupidtree.sync.data.source.web.SyncWebSource
 import com.stupidtree.sync.util.Snowflake
-import org.json.JSONObject
 import java.util.concurrent.Executors
-import java.util.logging.Handler
 
 object StupidSync {
 
     var historyDao: HistoryDao? = null
-    var syncWebSource = SyncWebSource
+    var syncWebSource:SyncWebSource?=null
     private var uid: String? = null
     private val snowflakeIdWorker = Snowflake(1, 1)
     private var executor = Executors.newSingleThreadExecutor()
@@ -41,6 +35,7 @@ object StupidSync {
 
     fun init(context: Context, pushDelegate: PushDelegate) {
         this.pushDelegate = pushDelegate
+        syncWebSource = SyncWebSource.getInstance(context)
         historyDao = HistoryDatabase.getDatabase(context).historyDao()
     }
 
@@ -81,8 +76,8 @@ object StupidSync {
         executor.execute {
             try {
                 val latestIdLocal = historyDao?.getLatestId(uid!!)
-                val resp = SyncWebSource.sync(uid!!, latestIdLocal ?: 0).execute()
-                resp.body()?.data?.let {
+                val resp = syncWebSource?.sync(uid!!, latestIdLocal ?: 0)?.execute()
+                resp?.body()?.data?.let {
                     if (it.action == SyncResult.ACTION.PUSH) {
                         pushSync(it.latestId)
                     } else if (it.action == SyncResult.ACTION.PULL) {
@@ -135,7 +130,7 @@ object StupidSync {
                 data[k] = pushDelegate?.getDataForIds(k, v) ?: listOf()
             }
             //Log.e("data", data.toString())
-            syncWebSource.push(uid!!, list, data).execute()
+            syncWebSource?.push(uid!!, list, data)?.execute()
         } catch (e: Exception) {
             e.printStackTrace()
         }

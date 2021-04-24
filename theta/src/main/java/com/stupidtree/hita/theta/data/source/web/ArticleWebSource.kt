@@ -1,5 +1,6 @@
 package com.stupidtree.hita.theta.data.source.web
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.component.data.DataState
@@ -11,20 +12,53 @@ import com.stupidtree.hita.theta.data.model.LikeResult
 import com.stupidtree.hita.theta.data.source.web.service.ArticleService
 import com.stupidtree.hita.theta.data.source.web.service.codes
 import com.stupidtree.hita.theta.data.source.web.service.codes.SUCCESS
+import com.stupidtree.stupiduser.data.source.web.ProfileWebSource
 import com.stupidtree.stupiduser.util.HttpUtils
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
+import java.util.HashMap
 
 
-object ArticleWebSource : BaseWebSource<ArticleService>(
-    Retrofit.Builder()
-        .addCallAdapterFactory(LiveDataCallAdapter.LiveDataCallAdapterFactory.INSTANCE)
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("http://hita.store:39999").build()
+class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
+    context
 ) {
     override fun getServiceClass(): Class<ArticleService> {
         return ArticleService::class.java
+    }
+
+    fun postArticle(
+        token: String,
+        content: String,
+        repostId: String?,
+        filePaths: List<String>
+    ): LiveData<DataState<Boolean>> {
+        val params: HashMap<String, RequestBody> = HashMap()
+        for (f in filePaths) {
+            val file = File(f)
+            params["files\"; filename=\"" + file.name + ""] =
+                RequestBody.create(MediaType.parse("multipart/form-data"), file)
+        }
+        return Transformations.map(
+            service.postArticle(
+                params, HttpUtils.getHeaderAuth(token), content, repostId
+            )
+        ) { input ->
+            if (input != null) {
+                when (input.code) {
+                    SUCCESS -> return@map DataState(DataState.STATE.SUCCESS)
+                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                    else -> return@map DataState(
+                        DataState.STATE.FETCH_FAILED,
+                        input.message
+                    )
+                }
+            }
+            DataState(DataState.STATE.FETCH_FAILED)
+        }
     }
 
     fun postArticle(
@@ -89,11 +123,11 @@ object ArticleWebSource : BaseWebSource<ArticleService>(
         beforeTime: Long,
         afterTime: Long,
         pageSize: Int,
-        extra:String
+        extra: String
     ): LiveData<DataState<List<Article>>> {
         return Transformations.map(
             service.getArticles(
-                HttpUtils.getHeaderAuth(token), mode, beforeTime, afterTime, pageSize,extra
+                HttpUtils.getHeaderAuth(token), mode, beforeTime, afterTime, pageSize, extra
             )
         ) { input ->
             if (input != null) {
@@ -144,4 +178,17 @@ object ArticleWebSource : BaseWebSource<ArticleService>(
             DataState(DataState.STATE.FETCH_FAILED)
         }
     }
+
+    companion object {
+        var instance: ArticleWebSource? = null
+        fun getInstance(context: Context): ArticleWebSource {
+            synchronized(ArticleWebSource::class.java) {
+                if (instance == null) {
+                    instance = ArticleWebSource(context.applicationContext)
+                }
+                return instance!!
+            }
+        }
+    }
+
 }

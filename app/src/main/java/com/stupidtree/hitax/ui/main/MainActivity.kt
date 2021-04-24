@@ -73,7 +73,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 val mContent = binding.drawer.getChildAt(0)
                 val scale = 1 - slideOffset
                 val rightScale = 0.8f + scale * 0.2f
-                mContent.translationX = drawerView.measuredWidth * slideOffset
+                mContent.translationX = - drawerView.measuredWidth * slideOffset
                 mContent.pivotX = mContent.measuredWidth.toFloat()
                 mContent.pivotY = (mContent.measuredHeight shr 1.toFloat().toInt()).toFloat()
                 mContent.invalidate()
@@ -185,7 +185,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
 //            binding.navView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
 //            true
 //        }
-        binding.avatar.setOnClickListener { binding.drawer.openDrawer(GravityCompat.START) }
+        binding.drawerButton.setOnClickListener { binding.drawer.openDrawer(GravityCompat.END) }
 
         binding.timetableSetting.setOnClickListener {
             FragmentTimetablePanel().show(supportFragmentManager,"panel")
@@ -196,15 +196,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             Log.e("user", it.toString())
             if (it.isValid()) { //如果已登录
                 //装载头像
-                com.stupidtree.stupiduser.util.ImageUtils.loadLocalAvatarInto(
+                com.stupidtree.stupiduser.util.ImageUtils.loadAvatarInto(
                     this,
-                    it.id,
+                    it.avatar,
                     drawerAvatar!!
-                )
-                com.stupidtree.stupiduser.util.ImageUtils.loadLocalAvatarInto(
-                    this,
-                    it.id,
-                    binding.avatar
                 )
                 //设置各种文字
                 drawerUsername?.text = it.username
@@ -220,7 +215,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 drawerUsername?.setText(R.string.not_log_in)
                 drawerNickname?.setText(R.string.log_in_first)
                 drawerAvatar?.setImageResource(R.drawable.place_holder_avatar)
-                binding.avatar.setImageResource(R.drawable.place_holder_avatar)
                 drawerHeader?.setOnClickListener { ActivityUtils.startWelcomeActivity(getThis()) }
             }
         }
@@ -229,8 +223,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
 
     override fun onBackPressed() {
         //super.onBackPressed();
-        if (binding.drawer.isDrawerOpen(GravityCompat.START)) {
-            binding.drawer.closeDrawer(GravityCompat.START)
+        if (binding.drawer.isDrawerOpen(GravityCompat.END)) {
+            binding.drawer.closeDrawer(GravityCompat.END)
             return
         }
         //返回桌面而非退出

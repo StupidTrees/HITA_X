@@ -37,7 +37,6 @@ class UserPreferenceSource(private val context: Context) {
         preference.edit()
             .putString("avatar", newAvatar)
             .apply()
-        changeMyAvatarGlideSignature()
     }
 
     fun saveNickname(nickname: String?) {
@@ -79,20 +78,6 @@ class UserPreferenceSource(private val context: Context) {
             result.studentId = preferences.getString("studentId", null)
             result.school = preferences.getString("school", null)
             return result
-        }
-
-    private fun changeMyAvatarGlideSignature() {
-        preference.edit().putString("my_avatar", UUID.randomUUID().toString()).apply()
-    }
-
-    val myAvatarGlideSignature: String
-        get() {
-            var signature = preference.getString("my_avatar", null)
-            if (signature == null) {
-                signature = UUID.randomUUID().toString()
-                preference.edit().putString("my_avatar", signature).apply()
-            }
-            return signature
         }
 
     companion object {

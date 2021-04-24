@@ -55,5 +55,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     implementation 'com.github.angcyo:DslSpan:1.0.1'
+    //Glide图片加载
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+
+    //buttonLoading
+    implementation 'br.com.simplepass:loading-button-android:2.2.0'
+    //Luban图片压缩
+    implementation 'top.zibin:Luban:1.1.8'
 
 }

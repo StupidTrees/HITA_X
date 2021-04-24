@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData
 import com.stupidtree.component.web.ApiResponse
 import com.stupidtree.hita.theta.data.model.Article
 import com.stupidtree.hita.theta.data.model.LikeResult
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
+import java.util.HashMap
 
 interface ArticleService {
 
@@ -16,6 +19,22 @@ interface ArticleService {
         @Field("content") content: String,
         @Field("repostId") repostId: String?
     ): LiveData<ApiResponse<Boolean>?>
+
+    /**
+     * 上传头像
+     * @param file 头像体
+     * @param token 登录状态的token
+     * @return 返回操作结果和文件名
+     */
+    @Multipart
+    @POST("/article/create_images")
+    fun postArticle(
+        @PartMap params: HashMap<String, RequestBody>,
+        @Header("Authorization") token: String?,
+        @Query("content") content: String,
+        @Query("repostId") repostId: String?
+    ): LiveData<ApiResponse<Boolean>>
+
 
     @GET("/article/gets")
     fun getArticles(

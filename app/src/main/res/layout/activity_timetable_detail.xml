@@ -16,32 +16,65 @@
         android:fitsSystemWindows="true"
         app:elevation="0dp">
 
-        <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapse"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:minHeight="56dp"
-            app:collapsedTitleGravity="left|center"
-            app:expandedTitleGravity="left|bottom|center"
-            app:expandedTitleMargin="24dp"
-
-            app:expandedTitleMarginBottom="8dp"
+            android:layout_height="180dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:maxLines="4"
-            app:scrimAnimationDuration="200"
             app:statusBarScrim="#00000000"
-            app:titleEnabled="true"
-            app:toolbarId="@+id/toolbar">
+            app:toolbarId="@id/toolbar">
+
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="56dp"
+                app:contentInsetStart="0dp"
                 app:contentInsetStartWithNavigation="0dp"
                 app:layout_collapseMode="pin" />
 
-        </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp">
 
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom|center"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/title_timetable_manager"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="32sp" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                    android:id="@+id/share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center|end"
+                    android:background="@drawable/element_rounded_button_bg_primary"
+                    android:text="@string/export"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:finalCornerAngle="16dp"
+                    app:initialCornerAngle="16dp"
+                    app:spinning_bar_color="@color/white"
+                    app:spinning_bar_padding="5dp"
+                    app:spinning_bar_width="4dp" />
+            </LinearLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView

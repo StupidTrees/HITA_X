@@ -14,9 +14,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">#00000000</item>
         <!-- Customize your theme here. -->
-        <item name="backgroundColorBottom">#FFFFFFFF</item>
+        <item name="backgroundColorBottom">#FAFBFF</item>
         <item name="backgroundColorBottomAsTint">#CFFFFFFF</item>
-        <item name="backgroundColorSecond">#FFFAFAFA</item>
+        <item name="backgroundColorSecond">#FFFFFF</item>
         <item name="backgroundColorSecondAsTint">#CFFAFAFA</item>
         <item name="textColorPrimary">#FF000000</item>
         <item name="textColorSecondary">#FF808080</item>

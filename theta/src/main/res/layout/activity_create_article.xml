@@ -7,69 +7,72 @@
     android:background="?attr/backgroundColorBottom">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#00000000"
         android:fitsSystemWindows="true"
         app:elevation="0dp">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar2"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapse"
             android:layout_width="match_parent"
-            android:layout_height="56dp">
+            android:layout_height="180dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:statusBarScrim="#00000000"
+            app:toolbarId="@id/toolbar">
+
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:contentInsetStart="0dp"
+                app:contentInsetStartWithNavigation="8dp"
+                app:layout_collapseMode="pin" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom"
-                android:orientation="horizontal">
+                android:layout_height="80dp"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp">
 
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom|center"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/title_timetable_manager"
                     android:textColor="?attr/textColorPrimary"
-                    android:textSize="18sp" />
+                    android:textSize="32sp" />
 
-                <androidx.cardview.widget.CardView
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                     android:id="@+id/done"
-                    android:layout_width="48dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="24dp"
-                    android:clickable="true"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"
-                    app:cardBackgroundColor="?attr/colorPrimary"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="4dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="2dp"
-                        app:srcCompat="@drawable/ic_baseline_done_24"
-                        app:tint="@android:color/white" />
-                </androidx.cardview.widget.CardView>
-
-                <!--                <ImageView-->
-                <!--                    android:id="@+id/add"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_gravity="end"-->
-
-                <!--                    android:clickable="true"-->
-                <!--                    android:foreground="?attr/selectableItemBackgroundBorderless"-->
-                <!--                    android:padding="16dp"-->
-                <!--                    app:srcCompat="@drawable/ic_baseline_add_circle_outline_24" />-->
-
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center|end"
+                    android:background="@drawable/element_rounded_button_bg_primary"
+                    android:text="@string/create_article"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:finalCornerAngle="16dp"
+                    app:initialCornerAngle="16dp"
+                    app:spinning_bar_color="@color/white"
+                    app:spinning_bar_padding="5dp"
+                    app:spinning_bar_width="4dp" />
             </LinearLayout>
 
-        </androidx.appcompat.widget.Toolbar>
-
-
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -98,13 +101,22 @@
                 android:textColorHint="?attr/textColorSecondary"
                 android:textSize="18sp" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:overScrollMode="never" />
+
             <LinearLayout
                 android:id="@+id/repost"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="24dp"
                 android:background="@drawable/element_repost_rect"
                 android:clickable="false"
                 android:orientation="vertical"
@@ -157,14 +169,6 @@
                     android:textSize="16sp" />
 
             </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:overScrollMode="never" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

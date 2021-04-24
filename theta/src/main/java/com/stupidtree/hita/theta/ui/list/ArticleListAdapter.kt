@@ -54,12 +54,45 @@ class ArticleListAdapter(
         }
 
         fun bindInfo(data: Article?) {
-            binding.author.text = data?.authorName
             binding.content.text = data?.content
+            if (!data?.images.isNullOrEmpty()) {
+                binding.imgLayout.visibility = View.VISIBLE
+                binding.img1.visibility = View.VISIBLE
+                binding.img2.visibility = View.VISIBLE
+                binding.img3.visibility = View.VISIBLE
+                if (data?.images?.size ?: 0 < 3) {
+                    binding.img3.visibility = View.GONE
+                } else {
+                    com.stupidtree.hita.theta.utils.ImageUtils.loadArticleImageInto(
+                        mContext,
+                        data?.images?.get(2),
+                        binding.img3
+                    )
+                }
+                if (data?.images?.size ?: 0 < 2) {
+                    binding.img2.visibility = View.GONE
+                } else {
+                    com.stupidtree.hita.theta.utils.ImageUtils.loadArticleImageInto(
+                        mContext,
+                        data?.images?.get(1),
+                        binding.img2
+                    )
+                }
+                com.stupidtree.hita.theta.utils.ImageUtils.loadArticleImageInto(
+                    mContext,
+                    data?.images?.get(0),
+                    binding.img1
+                )
+
+            } else {
+                binding.imgLayout.visibility = View.GONE
+            }
+            binding.author.text = data?.authorName
+
             binding.likeNum.text = data?.likeNum.toString()
             binding.commentNum.text = data?.commentNum.toString()
             binding.time.text = TextTools.getArticleTimeText(mContext, data?.createTime)
-            ImageUtils.loadAvatarInto(mContext, data?.authorId, binding.avatar)
+            ImageUtils.loadAvatarInto(mContext, data?.authorAvatar, binding.avatar)
             if (data?.repostId.isNullOrEmpty()) {
                 binding.repostLayout.visibility = View.GONE
             } else {
@@ -73,7 +106,39 @@ class ArticleListAdapter(
                 binding.repostContent.text = data?.repostContent
                 binding.repostTime.text =
                     TextTools.getArticleTimeText(mContext, data?.repostTime)
-                ImageUtils.loadAvatarInto(mContext, data?.repostAuthorId, binding.repostAvatar)
+                ImageUtils.loadAvatarInto(mContext, data?.repostAuthorAvatar, binding.repostAvatar)
+                if (!data?.repostImages.isNullOrEmpty()) {
+                    binding.repostImgLayout.visibility = View.VISIBLE
+                    binding.repostImg1.visibility = View.VISIBLE
+                    binding.repostImg2.visibility = View.VISIBLE
+                    binding.repostImg3.visibility = View.VISIBLE
+                    if (data?.repostImages?.size ?: 0 < 3) {
+                        binding.repostImg3.visibility = View.GONE
+                    } else {
+                        com.stupidtree.hita.theta.utils.ImageUtils.loadArticleImageInto(
+                            mContext,
+                            data?.repostImages?.get(2),
+                            binding.repostImg3
+                        )
+                    }
+                    if (data?.repostImages?.size ?: 0 < 2) {
+                        binding.repostImg2.visibility = View.GONE
+                    } else {
+                        com.stupidtree.hita.theta.utils.ImageUtils.loadArticleImageInto(
+                            mContext,
+                            data?.repostImages?.get(1),
+                            binding.repostImg2
+                        )
+                    }
+                    com.stupidtree.hita.theta.utils.ImageUtils.loadArticleImageInto(
+                        mContext,
+                        data?.repostImages?.get(0),
+                        binding.repostImg1
+                    )
+
+                } else {
+                    binding.repostImgLayout.visibility = View.GONE
+                }
             }
             binding.item.setOnClickListener {
                 mOnItemClickListener?.onItemClick(data, it, position)
@@ -88,7 +153,7 @@ class ArticleListAdapter(
                 val user = localUserRepo.getLoggedInUser()
                 if (user.isValid()) {
                     if (likeCall == null) {
-                        likeCall = ArticleWebSource.likeOrUnlike(
+                        likeCall = ArticleWebSource.getInstance(mContext).likeOrUnlike(
                             user.token!!,
                             data?.id ?: "0",
                             data?.liked != true
@@ -138,7 +203,7 @@ class ArticleListAdapter(
         data?.let { holder.bindLike(it) }
         if (data?.id in dirtyIds) {
             dirtyIds.remove(data?.id)
-            ArticleWebSource.getArticleInfoCall(
+            ArticleWebSource.getInstance(mContext).getArticleInfoCall(
                 localUserRepo.getLoggedInUser().token ?: "",
                 data?.id, false
             ).enqueue(object : Callback<ApiResponse<Article>> {
@@ -200,7 +265,7 @@ class ArticleListAdapter(
             dirtyIds.add(articleId)
             return
         }
-        ArticleWebSource.getArticleInfoCall(
+        ArticleWebSource.getInstance(mContext).getArticleInfoCall(
             localUserRepo.getLoggedInUser().token ?: "",
             articleId, false
         ).enqueue(object : Callback<ApiResponse<Article>> {

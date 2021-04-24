@@ -17,52 +17,52 @@ import com.stupidtree.stupiduser.data.model.UserProfile
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.ui.theme.AppTheme
 import com.stupidtree.hitax.ui.theme.AppBar
-
-@Preview
-@Composable
-fun test() {
-    AppBar(R.string.my_profile_title)
-}
-
-@Composable
-fun ProfilePage(viewModel: MyProfileViewModel) {
-    AppTheme {
-        Scaffold(topBar = {
-            AppBar(R.string.my_profile_title)
-        }) {
-            ProfileLayout(viewModel = viewModel)
-        }
-    }
-}
-
-@Composable
-fun ProfileLayout(viewModel: MyProfileViewModel) {
-    val profile: DataState<UserProfile> by viewModel.userProfileLiveData.observeAsState(
-        DataState(
-            DataState.STATE.NOT_LOGGED_IN
-        )
-    )
-    profile.data?.let {
-        Column(modifier = Modifier.padding(4.dp)) {
-            Row(modifier = Modifier.padding(8.dp)) {
-                Text(
-                    stringResource(R.string.username),
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colors.onSecondary
-                )
-                Text(it.username ?: "", fontSize = 16.sp, color = MaterialTheme.colors.onPrimary)
-            }
-            Row(modifier = Modifier.padding(8.dp)) {
-                Text(
-                    stringResource(R.string.prompt_nickname),
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colors.onSecondary
-                )
-                Text(it.nickname ?: "", fontSize = 16.sp, color = MaterialTheme.colors.primary)
-            }
-
-        }
-    }
-
-}
-
+//
+//@Preview
+//@Composable
+//fun test() {
+//    AppBar(R.string.my_profile_title)
+//}
+//
+//@Composable
+//fun ProfilePage(viewModel: MyProfileViewModel) {
+//    AppTheme {
+//        Scaffold(topBar = {
+//            AppBar(R.string.my_profile_title)
+//        }) {
+//            ProfileLayout(viewModel = viewModel)
+//        }
+//    }
+//}
+//
+//@Composable
+//fun ProfileLayout(viewModel: MyProfileViewModel) {
+//    val profile: DataState<UserProfile> by viewModel.userProfileLiveData.observeAsState(
+//        DataState(
+//            DataState.STATE.NOT_LOGGED_IN
+//        )
+//    )
+//    profile.data?.let {
+//        Column(modifier = Modifier.padding(4.dp)) {
+//            Row(modifier = Modifier.padding(8.dp)) {
+//                Text(
+//                    stringResource(R.string.username),
+//                    fontSize = 16.sp,
+//                    color = MaterialTheme.colors.onSecondary
+//                )
+//                Text(it.username ?: "", fontSize = 16.sp, color = MaterialTheme.colors.onPrimary)
+//            }
+//            Row(modifier = Modifier.padding(8.dp)) {
+//                Text(
+//                    stringResource(R.string.prompt_nickname),
+//                    fontSize = 16.sp,
+//                    color = MaterialTheme.colors.onSecondary
+//                )
+//                Text(it.nickname ?: "", fontSize = 16.sp, color = MaterialTheme.colors.primary)
+//            }
+//
+//        }
+//    }
+//
+//}
+//

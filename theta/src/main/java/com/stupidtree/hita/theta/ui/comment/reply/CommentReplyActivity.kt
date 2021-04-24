@@ -105,7 +105,7 @@ class CommentReplyActivity : BaseActivity<CommentReplyViewModel, ActivityComment
                             R.drawable.ic_like_outline
                         }
                     )
-                    ImageUtils.loadAvatarInto(getThis(), data.authorId, binding.avatar)
+                    ImageUtils.loadAvatarInto(getThis(), data.authorAvatar, binding.avatar)
                 }
 
             }

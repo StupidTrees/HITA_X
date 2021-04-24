@@ -67,7 +67,7 @@ class CommentsListAdapter(private val hostId:String?, mContext: Context, mBeans:
         holder.binding.tocomment.visibility =
             if (data?.replyId.isNullOrEmpty() || data?.replyId==hostId) View.GONE else View.VISIBLE
         holder.binding.touser.text = data?.receiverName
-        ImageUtils.loadAvatarInto(mContext, data?.authorId, holder.binding.avatar)
+        ImageUtils.loadAvatarInto(mContext, data?.authorAvatar, holder.binding.avatar)
         holder.binding.card.setOnClickListener {
             mOnItemClickListener?.onItemClick(data, it, position)
         }
@@ -76,7 +76,7 @@ class CommentsListAdapter(private val hostId:String?, mContext: Context, mBeans:
             val user = localUserRepo.getLoggedInUser()
             if (user.isValid()) {
                 if (holder.likeCall == null) {
-                    holder.likeCall = CommentWebSource.likeOrUnlike(
+                    holder.likeCall = CommentWebSource.getInstance(mContext).likeOrUnlike(
                         user.token!!,
                         data?.id ?: "0",
                         data?.liked != true

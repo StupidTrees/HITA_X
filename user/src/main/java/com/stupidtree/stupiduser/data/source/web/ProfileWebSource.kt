@@ -1,5 +1,6 @@
 package com.stupidtree.stupiduser.data.source.web
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
@@ -9,10 +10,11 @@ import com.stupidtree.component.web.LiveDataCallAdapter
 import com.stupidtree.stupiduser.data.model.ApiResponse
 import com.stupidtree.stupiduser.data.model.UserProfile
 import com.stupidtree.hitax.data.source.web.service.ProfileService
-import com.stupidtree.hitax.data.source.web.service.codes.SUCCESS
-import com.stupidtree.hitax.data.source.web.service.codes.TOKEN_INVALID
+import com.stupidtree.stupiduser.data.source.web.service.codes.SUCCESS
+import com.stupidtree.stupiduser.data.source.web.service.codes.TOKEN_INVALID
 import com.stupidtree.stupiduser.data.model.FollowResult
 import com.stupidtree.stupiduser.util.HttpUtils
+import com.stupidtree.sync.data.source.web.SyncWebSource
 import okhttp3.MultipartBody
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,11 +26,7 @@ import java.util.*
  * 类型：网络数据
  * 数据：异步读，异步写
  */
-object ProfileWebSource : BaseWebSource<ProfileService>(
-    Retrofit.Builder()
-        .addCallAdapterFactory(LiveDataCallAdapter.LiveDataCallAdapterFactory.INSTANCE)
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("http://hita.store:39999").build()
+class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
 ) {
     override fun getServiceClass(): Class<ProfileService> {
         return ProfileService::class.java
@@ -181,6 +179,16 @@ object ProfileWebSource : BaseWebSource<ProfileService>(
             }
         }
     }
-
+    companion object {
+        var instance: ProfileWebSource? = null
+        fun getInstance(context: Context): ProfileWebSource {
+           synchronized(ProfileWebSource::class.java) {
+                if (instance == null) {
+                    instance = ProfileWebSource(context.applicationContext)
+                }
+                return instance!!
+            }
+        }
+    }
 
 }

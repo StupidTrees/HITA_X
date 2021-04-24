@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="create_article">Post Article</string>
+    <string name="create_article">发帖</string>
     <string name="date_format_1">yyyy年M月d日</string>
     <string name="date_format_3">yyyy年M月d日 hh时mm分</string>
     <string name="date_format_2">M月d日</string>
@@ -18,4 +18,8 @@
     <string name="reply_num">共%d条回复</string>
     <string name="reply_to_user">回复: %s</string>
     <string name="title_comment_reply">评论回复</string>
+    <string name="no_image_fetched">获取图片失败</string>
+    <string name="no_image_selected">没有选择图片</string>
+    <string name="post_success">发送成功</string>
+    <string name="post_failed">发送失败</string>
 </resources>

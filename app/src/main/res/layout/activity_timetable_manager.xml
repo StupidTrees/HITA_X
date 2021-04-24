@@ -48,6 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="bottom|center"
+                    android:layout_marginEnd="16dp"
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="@string/title_timetable_manager"

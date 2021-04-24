@@ -3,6 +3,8 @@ package com.stupidtree.hitax.data.repository
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.AppDatabase
 import com.stupidtree.hitax.data.model.eas.TermItem
@@ -16,6 +18,27 @@ import com.stupidtree.sync.data.model.History
 import java.lang.NumberFormatException
 import java.util.*
 import java.util.concurrent.Executors
+
+import net.fortuna.ical4j.model.component.VAlarm
+
+import net.fortuna.ical4j.model.component.VEvent
+
+import net.fortuna.ical4j.data.CalendarOutputter
+
+import net.fortuna.ical4j.model.Dur
+
+import net.fortuna.ical4j.util.UidGenerator
+
+import net.fortuna.ical4j.model.DateTime
+
+import net.fortuna.ical4j.model.TimeZoneRegistryFactory
+import net.fortuna.ical4j.model.parameter.Cn
+import net.fortuna.ical4j.model.parameter.Role
+
+import net.fortuna.ical4j.model.property.*
+import java.io.FileOutputStream
+import java.net.URI
+
 
 class TimetableRepository(val application: Application) {
     private val historyTag = "timetable"
@@ -195,6 +218,58 @@ class TimetableRepository(val application: Application) {
         }
     }
 
+    fun exportToICS(timetableName: String, timetableId: String): LiveData<DataState<String>> {
+        val res = MutableLiveData<DataState<String>>();
+        executor.execute {
+            val filename = "HITA课表：$timetableName.ics"
+            val path = application.getExternalFilesDir("ics").toString() + "/" + filename
+            try {
+                val calendar = net.fortuna.ical4j.model.Calendar()
+                calendar.properties.add(ProdId("-//StupidTree//HITA//EN"))
+                calendar.properties.add(Version.VERSION_2_0)
+                calendar.properties.add(CalScale.GREGORIAN)
+                for (ei in eventItemDao.getEventsOfTimetableSync(timetableId)) {
+                    val start = DateTime(ei.from)
+                    start.isUtc = true
+                    val end = DateTime(ei.to)
+                    end.isUtc = true
+                    val event = VEvent(start, end, ei.name)
+                    event.properties.add(Location(ei.place + " " + if (ei.teacher.isNullOrEmpty()) "" else ei.teacher))
+                    event.properties.add(Uid(UidGenerator("hita").generateUid().value))
+                    // 添加邀请者
+//                val dev1 = Attendee(URI.create("https://hita.store/search?type=teacher"))
+//                dev1.parameters.add(Role.REQ_PARTICIPANT)
+//                dev1.parameters.add(Cn(ei.teacher))
+//                event.properties.add(dev1)
+//                val recur = Recur(Recur.WEEKLY, Int.MAX_VALUE)
+//                recur.dayList.add(WeekDay.MO)
+//                recur.dayList.add(WeekDay.TU)
+//                recur.dayList.add(WeekDay.WE)
+//                recur.dayList.add(WeekDay.TH)
+//                recur.dayList.add(WeekDay.FR)
+//                val rule = RRule(recur)
+//                event.properties.add(rule)
+                    val valarm = VAlarm(Dur(0, 0, -10, 0))
+                    valarm.properties.add(Summary("课程提醒"))
+                    valarm.properties.add(Action.DISPLAY)
+                    valarm.properties.add(Description(ei.name + "马上就要开始啦！"))
+                    event.alarms.add(valarm)
+                    calendar.components.add(event)
+
+                }
+                calendar.validate()
+
+                val fos = FileOutputStream(path)
+                val outputter = CalendarOutputter()
+                outputter.output(calendar, fos)
+                res.postValue(DataState(path))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                res.postValue(DataState(DataState.STATE.FETCH_FAILED))
+            }
+        }
+        return res;
+    }
 
     companion object {
         private var instance: TimetableRepository? = null

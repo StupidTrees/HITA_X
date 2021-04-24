@@ -22,6 +22,7 @@ class ProfileRepository(application: Application) {
     private val userProfileDao = UserDatabase.getDatabase(application).userProfileDao()
     private val localUserRepository: LocalUserRepository =
         LocalUserRepository.getInstance(application)
+    private val profileWebSource = ProfileWebSource.getInstance(application)
 
     /**
      * 获取用户资料
@@ -39,7 +40,7 @@ class ProfileRepository(application: Application) {
                 result.value = DataState(it)
             }
         }
-        result.addSource(ProfileWebSource.getUserProfile(token,userId)) {
+        result.addSource(profileWebSource.getUserProfile(token,userId)) {
             if (it.state == DataState.STATE.SUCCESS) {
                 Thread {
                     it.data?.let { it1 -> userProfileDao.saveProfile(it1) }
@@ -50,7 +51,7 @@ class ProfileRepository(application: Application) {
     }
 
     fun follow(token: String,userId:String,follow:Boolean): LiveData<DataState<FollowResult>>{
-        return ProfileWebSource.follow(token,userId,follow)
+        return profileWebSource.follow(token,userId,follow)
     }
 
     /**
@@ -69,7 +70,7 @@ class ProfileRepository(application: Application) {
         val body = MultipartBody.Part.createFormData("upload", file.name, requestFile)
         //调用网络数据源的服务，上传头像
         return Transformations.map(
-            ProfileWebSource.changeAvatar(
+            profileWebSource.changeAvatar(
                 token,
                 body
             )
@@ -92,7 +93,7 @@ class ProfileRepository(application: Application) {
      */
     fun changeNickname(token: String, nickname: String): LiveData<DataState<String?>> {
         return Transformations.map(
-            ProfileWebSource.changeNickname(
+            profileWebSource.changeNickname(
                 token,
                 nickname
             )
@@ -113,7 +114,7 @@ class ProfileRepository(application: Application) {
      */
     fun changeGender(token: String, gender: String): LiveData<DataState<String>> {
         return Transformations.map(
-            ProfileWebSource.changeGender(
+            profileWebSource.changeGender(
                 token,
                 gender
             )
@@ -134,7 +135,7 @@ class ProfileRepository(application: Application) {
      * @return 操作结果
      */
     fun changeSignature(token: String, signature: String): LiveData<DataState<String>> {
-        return Transformations.map(ProfileWebSource.changeSignature(token, signature)) { input ->
+        return Transformations.map(profileWebSource.changeSignature(token, signature)) { input ->
             if (input.state === DataState.STATE.SUCCESS) {
                 localUserRepository.changeLocalSignature(signature)
             }

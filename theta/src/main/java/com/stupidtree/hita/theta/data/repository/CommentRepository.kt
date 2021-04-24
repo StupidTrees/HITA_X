@@ -3,14 +3,12 @@ package com.stupidtree.hita.theta.data.repository
 import android.app.Application
 import androidx.lifecycle.LiveData
 import com.stupidtree.component.data.DataState
-import com.stupidtree.hita.theta.data.model.Article
 import com.stupidtree.hita.theta.data.model.Comment
 import com.stupidtree.hita.theta.data.model.LikeResult
-import com.stupidtree.hita.theta.data.source.web.ArticleWebSource
 import com.stupidtree.hita.theta.data.source.web.CommentWebSource
 
 class CommentRepository(application: Application) {
-
+    private val commentWebSource = CommentWebSource.getInstance(application)
 
     fun postComment(
         token: String,
@@ -20,7 +18,7 @@ class CommentRepository(application: Application) {
         toCommentId: String?,
         contextId:String?
     ): LiveData<DataState<Boolean>> {
-        return CommentWebSource.postComment(
+        return commentWebSource.postComment(
             token,
             content, toUserId, articleId, toCommentId,contextId
         )
@@ -32,7 +30,7 @@ class CommentRepository(application: Application) {
         pageSize: Int,
         pageNum:Int
     ): LiveData<DataState<List<Comment>>> {
-        return CommentWebSource.getCommentsOfArticle(
+        return commentWebSource.getCommentsOfArticle(
             token, articleId,pageSize,pageNum
         )
     }
@@ -43,7 +41,7 @@ class CommentRepository(application: Application) {
         pageSize: Int,
         pageNum:Int
     ): LiveData<DataState<List<Comment>>> {
-        return CommentWebSource.getCommentsOfComment(
+        return commentWebSource.getCommentsOfComment(
             token, commentId,pageSize,pageNum
         )
     }
@@ -52,7 +50,7 @@ class CommentRepository(application: Application) {
         token: String,
         commentId: String
     ): LiveData<DataState<Comment>> {
-        return CommentWebSource.getCommentInfo(
+        return commentWebSource.getCommentInfo(
             token, commentId
         )
     }
@@ -61,7 +59,7 @@ class CommentRepository(application: Application) {
         articleId: String,
         like: Boolean
     ): LiveData<DataState<LikeResult>> {
-        return CommentWebSource.likeOrUnlikeLive(token, articleId, like)
+        return commentWebSource.likeOrUnlikeLive(token, articleId, like)
     }
     companion object {
         @JvmStatic

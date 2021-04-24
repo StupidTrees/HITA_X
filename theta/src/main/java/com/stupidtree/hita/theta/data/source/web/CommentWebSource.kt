@@ -1,5 +1,6 @@
 package com.stupidtree.hita.theta.data.source.web
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
@@ -13,17 +14,14 @@ import com.stupidtree.hita.theta.data.model.LikeResult
 import com.stupidtree.hita.theta.data.source.web.service.CommentService
 import com.stupidtree.hita.theta.data.source.web.service.codes
 import com.stupidtree.hita.theta.data.source.web.service.codes.SUCCESS
+import com.stupidtree.stupiduser.data.source.web.ProfileWebSource
 import com.stupidtree.stupiduser.util.HttpUtils
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
-object CommentWebSource : BaseWebSource<CommentService>(
-    Retrofit.Builder()
-        .addCallAdapterFactory(LiveDataCallAdapter.LiveDataCallAdapterFactory.INSTANCE)
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("http://hita.store:39999").build()
+class CommentWebSource(context: Context) : BaseWebSource<CommentService>(
+    context
 ) {
     override fun getServiceClass(): Class<CommentService> {
         return CommentService::class.java
@@ -35,12 +33,12 @@ object CommentWebSource : BaseWebSource<CommentService>(
         toUserId: String,
         articleId: String,
         toCommentId: String?,
-        contextId:String?
+        contextId: String?
 
     ): LiveData<DataState<Boolean>> {
         return Transformations.map(
             service.postComment(
-                HttpUtils.getHeaderAuth(token), content, articleId, toCommentId, toUserId,contextId
+                HttpUtils.getHeaderAuth(token), content, articleId, toCommentId, toUserId, contextId
             )
         ) { input ->
             if (input != null) {
@@ -65,7 +63,7 @@ object CommentWebSource : BaseWebSource<CommentService>(
     ): LiveData<DataState<List<Comment>>> {
         return Transformations.map(
             service.getCommentsOfArticle(
-                HttpUtils.getHeaderAuth(token), articleId, pageSize,pageNum
+                HttpUtils.getHeaderAuth(token), articleId, pageSize, pageNum
             )
         ) { input ->
             if (input != null) {
@@ -86,11 +84,11 @@ object CommentWebSource : BaseWebSource<CommentService>(
         token: String,
         commentId: String,
         pageSize: Int,
-        pageNum:Int
+        pageNum: Int
     ): LiveData<DataState<List<Comment>>> {
         return Transformations.map(
             service.getCommentsOfComment(
-                HttpUtils.getHeaderAuth(token), commentId,pageSize,pageNum
+                HttpUtils.getHeaderAuth(token), commentId, pageSize, pageNum
             )
         ) { input ->
             if (input != null) {
@@ -139,13 +137,14 @@ object CommentWebSource : BaseWebSource<CommentService>(
             HttpUtils.getHeaderAuth(token), articleId, like
         )
     }
+
     fun likeOrUnlikeLive(
         token: String,
         articleId: String,
         like: Boolean
     ): LiveData<DataState<LikeResult>> {
         return Transformations.map(
-            CommentWebSource.service.likeOrUnlikeLive(
+            service.likeOrUnlikeLive(
                 HttpUtils.getHeaderAuth(token), articleId, like
             )
         ) { input ->
@@ -162,4 +161,17 @@ object CommentWebSource : BaseWebSource<CommentService>(
             DataState(DataState.STATE.FETCH_FAILED)
         }
     }
+
+    companion object {
+        var instance: CommentWebSource? = null
+        fun getInstance(context: Context): CommentWebSource {
+            synchronized(CommentWebSource::class.java) {
+                if (instance == null) {
+                    instance = CommentWebSource(context.applicationContext)
+                }
+                return instance!!
+            }
+        }
+    }
+
 }

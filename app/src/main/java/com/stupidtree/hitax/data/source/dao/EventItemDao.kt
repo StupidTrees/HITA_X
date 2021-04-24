@@ -55,6 +55,10 @@ interface EventItemDao {
     @Query("select * from events where id in (:ids)")
     fun getEventInIdsSync(ids: List<String>):List<EventItem>
 
+    @Query("select * from events where timetableId is :timetableId")
+    fun getEventsOfTimetableSync(timetableId: String):List<EventItem>
+
+
     @Query("SELECT * from events where type is 'CLASS' and timetableId is :timetableId and fromNumber is :fromNumber")
     fun getClassAtFromNumberSync(
         timetableId: String,

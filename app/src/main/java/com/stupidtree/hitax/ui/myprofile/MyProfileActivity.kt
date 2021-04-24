@@ -140,7 +140,7 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
      */
     private fun setUserProfile(profile: UserProfile) {
         //设置头像
-        com.stupidtree.stupiduser.util.ImageUtils.loadAvatarInto(getThis(), profile.id, binding.avatar)
+        com.stupidtree.stupiduser.util.ImageUtils.loadAvatarInto(getThis(), profile.avatar, binding.avatar)
         //设置各种文本信息
         binding.nickname.text = profile.nickname
         if (!profile.signature.isNullOrEmpty()) {

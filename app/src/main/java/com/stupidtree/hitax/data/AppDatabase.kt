@@ -14,14 +14,13 @@ import com.stupidtree.hitax.data.source.dao.TimetableDao
 import com.stupidtree.stupiduser.data.source.dao.UserProfileDao
 
 @Database(
-    entities = [EventItem::class, TermSubject::class, Timetable::class, UserProfile::class],
+    entities = [EventItem::class, TermSubject::class, Timetable::class],
     version = 1
 )
 @androidx.room.TypeConverters(TypeConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun eventItemDao(): EventItemDao
     abstract fun subjectDao(): SubjectDao
-    abstract fun userProfileDao(): UserProfileDao
     abstract fun timetableDao(): TimetableDao
 
     companion object {
