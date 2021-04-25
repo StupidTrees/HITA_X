@@ -17,6 +17,7 @@ import com.stupidtree.hita.theta.data.source.web.service.codes
 import com.stupidtree.hita.theta.databinding.ActivityArticleDetailBinding
 import com.stupidtree.hita.theta.databinding.ActivityArticleDetailCommentItemBinding
 import com.stupidtree.hita.theta.ui.comment.CreateCommentFragment
+import com.stupidtree.hita.theta.utils.ActivityTools
 import com.stupidtree.hita.theta.utils.TextTools
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 import com.stupidtree.stupiduser.util.ImageUtils
@@ -70,6 +71,9 @@ class CommentsListAdapter(private val hostId:String?, mContext: Context, mBeans:
         ImageUtils.loadAvatarInto(mContext, data?.authorAvatar, holder.binding.avatar)
         holder.binding.card.setOnClickListener {
             mOnItemClickListener?.onItemClick(data, it, position)
+        }
+        holder.binding.authorLayout.setOnClickListener {
+            data?.authorId?.let { it1 -> ActivityTools.startUserActivity(mContext, it1) }
         }
         holder.bindLike(data)
         holder.binding.likeIcon.setOnClickListener {

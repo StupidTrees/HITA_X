@@ -12,6 +12,7 @@ import com.stupidtree.hita.theta.data.model.LikeResult
 import com.stupidtree.hita.theta.data.source.web.service.ArticleService
 import com.stupidtree.hita.theta.data.source.web.service.codes
 import com.stupidtree.hita.theta.data.source.web.service.codes.SUCCESS
+import com.stupidtree.stupiduser.data.model.UserProfile
 import com.stupidtree.stupiduser.data.source.web.ProfileWebSource
 import com.stupidtree.stupiduser.util.HttpUtils
 import okhttp3.MediaType
@@ -144,6 +145,9 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         }
     }
 
+
+
+
     fun likeOrUnlike(
         token: String,
         articleId: String,
@@ -154,6 +158,28 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         )
     }
 
+    fun delete(
+        token: String,
+        articleId: String
+    ): LiveData<DataState<Any>> {
+        return Transformations.map(
+            service.delete(
+                HttpUtils.getHeaderAuth(token), articleId
+            )
+        ) { input ->
+            if (input != null) {
+                when (input.code) {
+                    SUCCESS -> return@map DataState(input.data ?: "")
+                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                    else -> return@map DataState(
+                        DataState.STATE.FETCH_FAILED,
+                        input.message
+                    )
+                }
+            }
+            DataState(DataState.STATE.FETCH_FAILED)
+        }
+    }
 
     fun likeOrUnlikeLive(
         token: String,

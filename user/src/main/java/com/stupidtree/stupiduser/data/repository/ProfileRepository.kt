@@ -40,7 +40,7 @@ class ProfileRepository(application: Application) {
                 result.value = DataState(it)
             }
         }
-        result.addSource(profileWebSource.getUserProfile(token,userId)) {
+        result.addSource(profileWebSource.getUserProfile(token, userId)) {
             if (it.state == DataState.STATE.SUCCESS) {
                 Thread {
                     it.data?.let { it1 -> userProfileDao.saveProfile(it1) }
@@ -50,8 +50,8 @@ class ProfileRepository(application: Application) {
         return result
     }
 
-    fun follow(token: String,userId:String,follow:Boolean): LiveData<DataState<FollowResult>>{
-        return profileWebSource.follow(token,userId,follow)
+    fun follow(token: String, userId: String, follow: Boolean): LiveData<DataState<FollowResult>> {
+        return profileWebSource.follow(token, userId, follow)
     }
 
     /**
@@ -143,6 +143,16 @@ class ProfileRepository(application: Application) {
         }
     }
 
+
+    fun getUsers(
+        token: String,
+        mode: String,
+        pageSize: Int,
+        pageNum: Int,
+        extra: String
+    ): LiveData<DataState<List<UserProfile>>> {
+        return profileWebSource.getUsers(token, mode, pageSize, pageNum, extra)
+    }
 
     companion object {
         @JvmStatic

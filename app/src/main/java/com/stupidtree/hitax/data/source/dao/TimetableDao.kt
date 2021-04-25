@@ -42,6 +42,8 @@ interface TimetableDao {
     @Query("select count(*) from timetable")
     fun geeTimetableCount(): LiveData<Int>
 
+
+
     /**
      * 保存课表
      */
@@ -60,4 +62,9 @@ interface TimetableDao {
 
     @Query("SELECT * FROM timetable WHERE id in (:ids)")
     fun getTimetablesInIdsSync(ids: List<String>): List<Timetable>
+
+
+
+    @Query("delete from timetable")
+    fun clear()
 }

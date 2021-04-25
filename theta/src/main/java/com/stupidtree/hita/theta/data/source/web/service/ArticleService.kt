@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.stupidtree.component.web.ApiResponse
 import com.stupidtree.hita.theta.data.model.Article
 import com.stupidtree.hita.theta.data.model.LikeResult
+import com.stupidtree.stupiduser.data.model.UserProfile
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -47,6 +48,7 @@ interface ArticleService {
     ): LiveData<ApiResponse<List<Article>>>
 
 
+
     @GET("/article/get")
     fun getArticleInfo(
         @Header("Authorization") token: String,
@@ -68,6 +70,15 @@ interface ArticleService {
         @Field("articleId") articleId: String?,
         @Field("like") like: Boolean
     ): Call<ApiResponse<LikeResult>>
+
+    @FormUrlEncoded
+    @POST("/article/delete")
+    fun delete(
+        @Header("Authorization") token: String,
+        @Field("articleId") articleId: String
+    ): LiveData<ApiResponse<Any>>
+
+
 
     @FormUrlEncoded
     @POST("/article/like")

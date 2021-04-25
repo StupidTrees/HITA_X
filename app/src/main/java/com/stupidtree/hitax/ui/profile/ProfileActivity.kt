@@ -1,12 +1,15 @@
 package com.stupidtree.hitax.ui.profile
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.google.android.material.appbar.AppBarLayout
 import com.stupidtree.component.data.DataState
+import com.stupidtree.hita.theta.utils.ActivityTools
 import com.stupidtree.hitax.R
+import com.stupidtree.hitax.data.repository.TimetableRepository
 import com.stupidtree.hitax.databinding.ActivityProfileBinding
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.stupiduser.data.model.UserLocal
@@ -14,6 +17,8 @@ import com.stupidtree.stupiduser.data.model.UserProfile
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 import com.stupidtree.stupiduser.util.ImageUtils
 import com.stupidtree.style.base.BaseActivity
+import com.stupidtree.style.widgets.PopUpText
+import com.stupidtree.sync.StupidSync
 
 /**
  * 其他用户（好友、搜索结果等）的资料页面Activity
@@ -50,27 +55,47 @@ class ProfileActivity : BaseActivity<ProfileViewModel, ActivityProfileBinding>()
             startRefresh()
         }
         binding.logout.setOnClickListener {
-            //通知ViewModel登出
-//            PopUpText().setTitle(R.string.logout_hint).setOnConfirmListener(
-//                    object : PopUpText.OnConfirmListener {
-//                        override fun OnConfirm() {
-//                            viewModel.logout(getThis())
-//                            sendBroadcast(Intent(ChatActivity.ACTION_TERMINATE_CHAT))
-//                            finish()
-//                        }
-//
-//                    }
-//            ).show(supportFragmentManager, "logout")
-//            PopUpMultipleCheckableList<Int>(R.string.search_hint,R.string.logout,1)
-//                    .setInitValues(listOf(0x1))
-//                    .setListData(listOf("健全","视力障碍","听觉障碍","肢体障碍"),
-//                    listOf(0,0x1,0x2,0x4))
-//                    .setOnConfirmListener(object :PopUpMultipleCheckableList.OnConfirmListener<Int>{
-//                        override fun onConfirm(titles: List<String?>, data: List<Int>) {
-//                            Toast.makeText(applicationContext, "checked:$titles",Toast.LENGTH_SHORT).show()
-//                        }
-//
-//                    }).show(supportFragmentManager,"")
+            PopUpText().setTitle(R.string.logout_hint).setOnConfirmListener(
+                object : PopUpText.OnConfirmListener {
+                    override fun OnConfirm() {
+                        viewModel.logout(getThis())
+                        TimetableRepository.getInstance(application).actionClearData()
+                        StupidSync.clearData()
+                        finish()
+                    }
+
+                }
+            ).show(supportFragmentManager, "logout")
+        }
+        binding.followingLayout.setOnClickListener {
+            viewModel.userProfileLiveData.value?.data?.let {
+                ActivityTools.startUserListActivity(
+                    getThis(),
+                    getString(R.string.users_following, it.nickname),
+                    "following",
+                    it.id
+                )
+            }
+        }
+        binding.fansLayout.setOnClickListener {
+            viewModel.userProfileLiveData.value?.data?.let {
+                ActivityTools.startUserListActivity(
+                    getThis(),
+                    getString(R.string.users_fans, it.nickname),
+                    "fans",
+                    it.id
+                )
+            }
+        }
+        binding.postsLayout.setOnClickListener {
+            viewModel.userProfileLiveData.value?.data?.let {
+                ActivityTools.startArticleListActivity(
+                    getThis(),
+                    getString(R.string.users_posts, it.nickname),
+                    "user",
+                    it.id
+                )
+            }
         }
         binding.fab.backgroundTintList = ColorStateList.valueOf(getColorPrimary())
     }
@@ -85,16 +110,13 @@ class ProfileActivity : BaseActivity<ProfileViewModel, ActivityProfileBinding>()
                 if (userProfileDataState.data?.id == LocalUserRepository.getInstance(application)
                         .getLoggedInUser().id
                 ) {
-                    if (intent.getBooleanExtra("showLogout", true)) {
-                        binding.logout.visibility = View.VISIBLE
-                    } else {
-                        binding.logout.visibility = View.GONE
-                    }
+                    binding.logout.visibility = View.VISIBLE
                     binding.fab.setText(R.string.edit_my_profile)
                     binding.fab.isEnabled = true
                     binding.fab.setIconResource(R.drawable.ic_baseline_edit_24)
                     binding.fab.setOnClickListener { ActivityUtils.startMyProfileActivity(getThis()) }
                 } else {
+                    binding.logout.visibility = View.GONE
                     binding.fab.isEnabled = true
                     binding.fab.setOnClickListener {
                         viewModel.startFollow(userProfileDataState.data?.followed != true)
@@ -148,6 +170,8 @@ class ProfileActivity : BaseActivity<ProfileViewModel, ActivityProfileBinding>()
             binding.textUsername.text = userInfo.username
             binding.textNickname.text = userInfo.nickname
             binding.iconGender.visibility = View.VISIBLE
+            binding.fans.text = userInfo.fansNum.toString()
+            binding.following.text = userInfo.followingNum.toString()
             if (userInfo.signature.isNullOrEmpty()) {
                 binding.textSignature.setText(R.string.place_holder_no_signature)
             } else {

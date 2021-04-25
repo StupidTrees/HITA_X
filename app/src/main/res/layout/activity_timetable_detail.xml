@@ -125,7 +125,7 @@
                     app:cardIcon="@drawable/ic_baseline_timetable_24"
                     app:cardIconColor="?attr/colorAccent"
                     app:cardIconGravity="start"
-                    app:cardIconPadding="10dp"
+                    app:cardIconPadding="11dp"
                     app:cardSubtitleText="@string/start_date_of_curriculum">
 
                 </com.stupidtree.hitax.ui.widgets.SelectableIconCardView>

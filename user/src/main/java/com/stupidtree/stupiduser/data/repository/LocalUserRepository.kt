@@ -27,10 +27,7 @@ class LocalUserRepository(application: Context) {
         mePreferenceSource.clearLocalUser()
         //本地缓存清空
         Thread {
-//            appDatabase.chatMessageDao().clearTable()
-//            appDatabase.userRelationDao().clearTable()
-//            appDatabase.conversationDao().clearTable()
-//            appDatabase.userProfileDao().clearTable()
+            appDatabase.userProfileDao().clearTable()
         }.start()
     }
 

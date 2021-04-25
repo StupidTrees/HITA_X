@@ -4,7 +4,8 @@ import com.stupidtree.component.data.DataState
 
 
 object DirtyArticles {
-    private val registered = mutableMapOf<String, MutableSet<String>>()
+
+    private val registered = mutableMapOf<String, MutableSet<Event>>()
     private val actions = mutableMapOf<String, DataState.LIST_ACTION>()
 
 
@@ -18,14 +19,20 @@ object DirtyArticles {
 
     fun addDirtyId(id: String) {
         for (v in registered.values) {
-            v.add(id)
+            v.add(Event(id, EventType.REFRESH))
+        }
+    }
+
+    fun addToDeleteId(id: String) {
+        for (v in registered.values) {
+            v.add(Event(id, EventType.DELETE))
         }
     }
 
     fun addDirtyId(id: String, exclude: String) {
         for ((k, v) in registered) {
             if (k != exclude) {
-                v.add(id)
+                v.add(Event(id, EventType.REFRESH))
             }
         }
     }
@@ -36,10 +43,30 @@ object DirtyArticles {
         }
     }
 
-    fun getArticleIds(name: String): List<String> {
-        val r = registered[name]?.toList() ?: listOf()
-        registered[name]?.clear()
-        return r
+    fun getDirtyIds(name: String): List<String> {
+        val result = mutableListOf<String>()
+        val it = registered[name]?.iterator()
+        while (it?.hasNext() == true) {
+            val ev = it.next()
+            if (ev.type == EventType.REFRESH) {
+                result.add(ev.id)
+                it.remove()
+            }
+        }
+        return result
+    }
+
+    fun getToDeleteIds(name: String): List<String> {
+        val result = mutableListOf<String>()
+        val it = registered[name]?.iterator()
+        while (it?.hasNext() == true) {
+            val ev = it.next()
+            if (ev.type == EventType.DELETE) {
+                result.add(ev.id)
+                it.remove()
+            }
+        }
+        return result
     }
 
     fun getAction(name: String): DataState.LIST_ACTION? {
@@ -47,4 +74,13 @@ object DirtyArticles {
         actions.remove(name)
         return a
     }
+
+    enum class EventType {
+        REFRESH, DELETE
+    }
+
+    class Event(
+        var id: String = "",
+        var type: EventType = EventType.REFRESH
+    )
 }

@@ -9,7 +9,9 @@
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
         <activity android:name=".ui.comment.reply.CommentReplyActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
-        <activity android:name=".ui.search.ArticleSearchActivity"
+        <activity android:name=".ui.user.activity.UserListActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity android:name=".ui.search.ArticleSearchActivity" />
+        <activity android:name=".ui.list.activity.ArticleListActivity" />
     </application>
 </manifest>

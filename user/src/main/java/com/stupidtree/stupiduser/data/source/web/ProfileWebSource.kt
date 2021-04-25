@@ -6,18 +6,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.component.data.DataState
 import com.stupidtree.component.web.BaseWebSource
-import com.stupidtree.component.web.LiveDataCallAdapter
-import com.stupidtree.stupiduser.data.model.ApiResponse
+import com.stupidtree.component.web.ApiResponse
 import com.stupidtree.stupiduser.data.model.UserProfile
-import com.stupidtree.hitax.data.source.web.service.ProfileService
+import com.stupidtree.stupiduser.data.source.web.service.ProfileService
 import com.stupidtree.stupiduser.data.source.web.service.codes.SUCCESS
 import com.stupidtree.stupiduser.data.source.web.service.codes.TOKEN_INVALID
 import com.stupidtree.stupiduser.data.model.FollowResult
+import com.stupidtree.stupiduser.data.source.web.service.codes
 import com.stupidtree.stupiduser.util.HttpUtils
-import com.stupidtree.sync.data.source.web.SyncWebSource
 import okhttp3.MultipartBody
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.Call
 import java.util.*
 
 /**
@@ -53,7 +51,7 @@ class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
                         return@map DataState<String>(DataState.STATE.SUCCESS)
                     }
                     TOKEN_INVALID -> return@map DataState<String>(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState<String>(DataState.STATE.FETCH_FAILED, input.msg)
+                    else -> return@map DataState<String>(DataState.STATE.FETCH_FAILED, input.message)
                 }
             }
             DataState(DataState.STATE.FETCH_FAILED)
@@ -79,7 +77,7 @@ class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
                     TOKEN_INVALID -> return@map DataState<String?>(DataState.STATE.TOKEN_INVALID)
                     else -> return@map DataState<String?>(
                         DataState.STATE.FETCH_FAILED,
-                        input.msg
+                        input.message
                     )
                 }
             }
@@ -118,6 +116,10 @@ class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
             DataState(DataState.STATE.FETCH_FAILED)
         }
     }
+    fun followCall(token: String,userId:String,follow:Boolean): Call<ApiResponse<FollowResult>> {
+        return service.followCall(HttpUtils.getHeaderAuth(token),userId,follow)
+    }
+
 
 
 
@@ -140,7 +142,7 @@ class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
                     TOKEN_INVALID -> return@map DataState<String>(DataState.STATE.TOKEN_INVALID)
                     else -> return@map DataState<String>(
                         DataState.STATE.FETCH_FAILED,
-                        input.msg
+                        input.message
                     )
                 }
             }
@@ -175,8 +177,35 @@ class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
                     }
                 }
                 TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
-                else -> return@map DataState(DataState.STATE.FETCH_FAILED, input.msg)
+                else -> return@map DataState(DataState.STATE.FETCH_FAILED, input.message)
             }
+        }
+    }
+
+
+    fun getUsers(
+        token: String,
+        mode: String,
+        pageSize: Int,
+        pageNum: Int,
+        extra: String
+    ): LiveData<DataState<List<UserProfile>>> {
+        return Transformations.map(
+            service.getUsers(
+                HttpUtils.getHeaderAuth(token), mode, pageSize, pageNum, extra
+            )
+        ) { input ->
+            if (input != null) {
+                when (input.code) {
+                    SUCCESS -> return@map DataState(input.data ?: listOf())
+                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                    else -> return@map DataState(
+                        DataState.STATE.FETCH_FAILED,
+                        input.message
+                    )
+                }
+            }
+            DataState(DataState.STATE.FETCH_FAILED)
         }
     }
     companion object {

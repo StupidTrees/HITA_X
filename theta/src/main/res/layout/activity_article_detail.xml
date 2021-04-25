@@ -9,7 +9,7 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00000000"
+        android:background="?attr/backgroundColorSecond"
         android:fitsSystemWindows="true"
         app:elevation="0dp">
 
@@ -127,7 +127,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="?attr/backgroundColorSecond"
                     android:orientation="vertical"
+                    android:paddingBottom="8dp"
                     app:layout_collapseMode="none"
                     app:layout_collapseParallaxMultiplier="0.9"
                     app:layout_scrollFlags="enterAlwaysCollapsed">
@@ -258,64 +260,55 @@
                     android:id="@+id/divider"
                     android:layout_width="match_parent"
                     android:layout_height="16dp"
-                    android:layout_marginTop="8dp"
                     android:alpha="0.26"
                     android:background="?attr/colorPrimaryDisabled" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
+                    android:background="?attr/backgroundColorSecond"
                     android:orientation="horizontal">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/topic_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginBottom="16dp"
-                        android:backgroundTint="?attr/backgroundColorBottomAsTint"
-                        android:backgroundTintMode="src_over"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"
-                        android:orientation="horizontal"
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="-8dp"
+                        android:tintMode="src_in"
                         android:visibility="gone"
-                        app:cardBackgroundColor="?attr/colorAccent"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="0dp">
+                        app:srcCompat="@drawable/ic_repost"
+                        app:tint="?attr/colorControlNormal" />
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingStart="4dp"
-                            android:paddingTop="4dp"
-                            android:paddingEnd="12dp"
-                            android:paddingBottom="4dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="12dp"
-                                android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_baseline_topic_24"
-                                app:tint="?attr/colorAccent" />
-
-                            <TextView
-                                android:id="@+id/topic"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:singleLine="true"
-                                android:text="闲聊"
-                                android:textColor="?attr/colorAccent" />
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:gravity="center"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="24dp"
+                        android:text="@string/comment"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="14sp" />
 
                     <Space
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/repost_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:gravity="center"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:text="@string/all_repost"
+                        android:textColor="?attr/textColorSecondary"
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:layout_width="16dp"
@@ -323,7 +316,8 @@
                         android:layout_gravity="center"
                         android:layout_marginEnd="-8dp"
                         android:tintMode="src_in"
-                        app:srcCompat="@drawable/ic_like_filled"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_like_outline"
                         app:tint="?attr/colorControlNormal" />
 
                     <TextView
@@ -334,10 +328,10 @@
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:gravity="center"
                         android:paddingStart="16dp"
-                        android:paddingEnd="24dp"
+                        android:paddingEnd="16dp"
                         android:text="点赞用户"
                         android:textColor="?attr/textColorSecondary"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -351,9 +345,10 @@
                     android:id="@+id/clist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:overScrollMode="never" />
+                    android:background="?attr/backgroundColorSecond"
+                    android:overScrollMode="never"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

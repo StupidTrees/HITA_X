@@ -1,7 +1,6 @@
 package com.stupidtree.hita.theta.ui.detail
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -10,7 +9,7 @@ import com.stupidtree.component.data.MTransformations
 import com.stupidtree.hita.theta.data.repository.ArticleRepository
 import com.stupidtree.hita.theta.data.repository.CommentRepository
 import com.stupidtree.hita.theta.ui.comment.CommentRefreshTrigger
-import com.stupidtree.hita.theta.ui.list.ArticleListViewModel.Companion.PAGE_SIZE
+import com.stupidtree.hita.theta.ui.user.UserListViewModel.Companion.PAGE_SIZE
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 
 class ArticleDetailViewModel(application: Application) : AndroidViewModel(application) {
@@ -68,6 +67,33 @@ class ArticleDetailViewModel(application: Application) : AndroidViewModel(applic
         return@switchMap MutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
     }
 
+
+    private val deleteArticleTrigger = MutableLiveData<String>()
+    val deleteArticleResult = Transformations.switchMap(deleteArticleTrigger) { id ->
+        val user = localUserRepository.getLoggedInUser()
+        if (user.isValid()) {
+            return@switchMap Transformations.map(articleRepo.delete(user.token!!, id)) {
+                return@map it.also {
+                    it.data = id
+                }
+            }
+        }
+        return@switchMap MutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
+    }
+
+    private val deleteCommentTrigger = MutableLiveData<String>()
+    val deleteCommentResult = Transformations.switchMap(deleteCommentTrigger) { id ->
+        val user = localUserRepository.getLoggedInUser()
+        if (user.isValid()) {
+            return@switchMap Transformations.map(commentRepo.delete(user.token!!, id)) {
+                return@map it.also {
+                    it.data = id
+                }
+            }
+        }
+        return@switchMap MutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
+    }
+
     fun startRefresh(articleId: String) {
         articleIdLiveData.value = articleId
     }
@@ -76,6 +102,14 @@ class ArticleDetailViewModel(application: Application) : AndroidViewModel(applic
         articleLiveData.value?.data?.let {
             likeTrigger.value = Pair(it.id, !it.liked)
         }
+    }
+
+    fun deleteArticle() {
+        deleteArticleTrigger.value = articleIdLiveData.value
+    }
+
+    fun deleteComment(commentId: String) {
+        deleteCommentTrigger.value = commentId
     }
 
     fun refreshAll(articleId: String) {
@@ -91,7 +125,7 @@ class ArticleDetailViewModel(application: Application) : AndroidViewModel(applic
         commentsTrigger.value = CommentRefreshTrigger().also {
             it.pageSize = PAGE_SIZE
             it.action = DataState.LIST_ACTION.APPEND
-            it.pageNum = (commentsTrigger.value?.pageNum?:1)+1
+            it.pageNum = (commentsTrigger.value?.pageNum ?: 1) + 1
             it.id = articleId
         }
     }

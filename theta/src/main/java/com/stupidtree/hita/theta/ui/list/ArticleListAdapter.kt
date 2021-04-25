@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.stupidtree.component.data.DataState
 import com.stupidtree.component.web.ApiResponse
 import com.stupidtree.hita.theta.R
 import com.stupidtree.hita.theta.data.model.Article
@@ -17,6 +16,7 @@ import com.stupidtree.hita.theta.databinding.ArticleItemBinding
 import com.stupidtree.hita.theta.ui.DirtyArticles
 import com.stupidtree.hita.theta.ui.create.CreateArticleActivity
 import com.stupidtree.hita.theta.ui.detail.ArticleDetailActivity
+import com.stupidtree.hita.theta.ui.user.UserListAdapter
 import com.stupidtree.hita.theta.utils.TextTools
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 import com.stupidtree.stupiduser.util.ImageUtils
@@ -25,7 +25,6 @@ import com.stupidtree.style.base.BaseViewHolder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.math.atan
 
 class ArticleListAdapter(
     val fragmentUUID: String,
@@ -58,25 +57,25 @@ class ArticleListAdapter(
             if (!data?.images.isNullOrEmpty()) {
                 binding.imgLayout.visibility = View.VISIBLE
                 binding.img1.visibility = View.VISIBLE
-                binding.img2.visibility = View.VISIBLE
-                binding.img3.visibility = View.VISIBLE
-                if (data?.images?.size ?: 0 < 3) {
-                    binding.img3.visibility = View.GONE
-                } else {
+                if (data?.images?.size ?: 0 >= 3) {
                     com.stupidtree.hita.theta.utils.ImageUtils.loadArticleImageInto(
                         mContext,
                         data?.images?.get(2),
                         binding.img3
                     )
-                }
-                if (data?.images?.size ?: 0 < 2) {
-                    binding.img2.visibility = View.GONE
+                    binding.img3.visibility = View.VISIBLE
                 } else {
+                    binding.img3.visibility = View.GONE
+                }
+                if (data?.images?.size ?: 0 >= 2) {
                     com.stupidtree.hita.theta.utils.ImageUtils.loadArticleImageInto(
                         mContext,
                         data?.images?.get(1),
                         binding.img2
                     )
+                    binding.img2.visibility = View.VISIBLE
+                } else {
+                    binding.img2.visibility = View.GONE
                 }
                 com.stupidtree.hita.theta.utils.ImageUtils.loadArticleImageInto(
                     mContext,
@@ -290,5 +289,15 @@ class ArticleListAdapter(
 
         })
 
+    }
+
+
+    fun removeItems(articleId: List<String>) {
+        if (articleId.isNullOrEmpty()) return
+        val newList = mBeans.toMutableList()
+        newList.removeAll {
+            articleId.contains(it.id)
+        }
+        notifyItemChangedSmooth(newList)
     }
 }

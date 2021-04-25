@@ -1,9 +1,13 @@
 package com.stupidtree.hita.theta.ui.comment.reply
 
+import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
@@ -13,8 +17,9 @@ import com.stupidtree.hita.theta.data.model.Comment
 import com.stupidtree.hita.theta.databinding.ActivityCommentReplyBinding
 import com.stupidtree.hita.theta.ui.DirtyArticles
 import com.stupidtree.hita.theta.ui.comment.CreateCommentFragment
-import com.stupidtree.hita.theta.ui.list.ArticleListViewModel
+import com.stupidtree.hita.theta.ui.user.UserListViewModel
 import com.stupidtree.hita.theta.utils.TextTools
+import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 import com.stupidtree.stupiduser.util.ImageUtils
 import com.stupidtree.style.base.BaseActivity
 import com.stupidtree.style.base.BaseListAdapter
@@ -50,8 +55,9 @@ class CommentReplyActivity : BaseActivity<CommentReplyViewModel, ActivityComment
         binding.clist.adapter = listAdapter
         binding.clist.layoutManager = LinearLayoutManager(this)
         binding.comment.setOnClickListener {
+
             viewModel.commentLiveData.value?.data?.let {
-                CreateCommentFragment.newInstance(it.id, it.id, it.id, it.authorId)
+                CreateCommentFragment.newInstance(it.articleId, it.id, it.id, it.authorId)
                     .setOnCommentSentListener(this@CommentReplyActivity)
                     .show(supportFragmentManager, "comment")
             }
@@ -72,19 +78,72 @@ class CommentReplyActivity : BaseActivity<CommentReplyViewModel, ActivityComment
                 (binding.authorLayout.height / 2) * (1 - binding.authorLayout.scaleY)
 
         })
-
+        binding.clist.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (!binding.nest.canScrollVertically(1) && listAdapter.itemCount >= UserListViewModel.PAGE_SIZE) {
+                        binding.refresh.isRefreshing = true
+                        intent.getStringExtra("commentId")?.let {
+                            viewModel.loadMore(it)
+                        }
+                    }
+                }
+            }
+        })
+        binding.refresh.setOnRefreshListener {
+            intent.getStringExtra("commentId")?.let {
+                viewModel.refreshAll(it)
+            }
+        }
         listAdapter.setOnItemClickListener(object : BaseListAdapter.OnItemClickListener<Comment> {
             override fun onItemClick(data: Comment?, card: View?, position: Int) {
                 viewModel.commentLiveData.value?.data?.let { context ->
-                    data?.let { reply ->
-                        CreateCommentFragment.newInstance(
-                            context.articleId,
-                            context.id,
-                            reply.id,
-                            reply.authorId
-                        ).setOnCommentSentListener(this@CommentReplyActivity)
-                            .show(supportFragmentManager, "comment")
+                    if (data?.authorId == LocalUserRepository.getInstance(getThis())
+                            .getLoggedInUser().id
+                    ) {
+                        val ad: AlertDialog = AlertDialog.Builder(getThis())
+                            .setItems(
+                                R.array.comment_actions
+                            ) { _, which ->
+                                when (which) {
+                                    0 -> {
+                                        data?.id?.let { viewModel.deleteComment(it) }
+                                    }
+                                    1 -> {
+                                        data?.let { reply ->
+                                            CreateCommentFragment.newInstance(
+                                                context.articleId,
+                                                context.id,
+                                                reply.id,
+                                                reply.authorId
+                                            ).setOnCommentSentListener(this@CommentReplyActivity)
+                                                .show(supportFragmentManager, "comment")
+                                        }
+                                    }
+                                    2 -> {
+                                        val cm =
+                                            getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                                        val mClipData =
+                                            ClipData.newPlainText("comment", data?.content)
+                                        cm.setPrimaryClip(mClipData)
+                                    }
+                                }
+                            }.create()
+                        ad.show()
+
+                    } else {
+                        data?.let { reply ->
+                            CreateCommentFragment.newInstance(
+                                context.articleId,
+                                context.id,
+                                reply.id,
+                                reply.authorId
+                            ).setOnCommentSentListener(this@CommentReplyActivity)
+                                .show(supportFragmentManager, "comment")
+                        }
                     }
+
                 }
             }
 
@@ -141,24 +200,17 @@ class CommentReplyActivity : BaseActivity<CommentReplyViewModel, ActivityComment
                 }
             }
         }
-        binding.clist.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (!binding.nest.canScrollVertically(1) && listAdapter.itemCount >= ArticleListViewModel.PAGE_SIZE) {
-                        binding.refresh.isRefreshing = true
-                        intent.getStringExtra("commentId")?.let {
-                            viewModel.loadMore(it)
-                        }
-                    }
+        viewModel.deleteCommentResult.observe(this) {
+            if (it.state == DataState.STATE.SUCCESS) {
+                intent.getStringExtra("commentId")?.let {
+                    viewModel.refreshAll(it)
                 }
-            }
-        })
-        binding.refresh.setOnRefreshListener {
-            intent.getStringExtra("commentId")?.let {
-                viewModel.refreshAll(it)
+                Toast.makeText(this, R.string.delete_success, Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, R.string.delete_failed, Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
     private fun dp2px(context: Context, dipValue: Float): Int {

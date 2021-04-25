@@ -53,6 +53,8 @@ interface CommentService {
         @Field("like") like: Boolean
     ): Call<ApiResponse<LikeResult>>
 
+
+
     @FormUrlEncoded
     @POST("/comment/like")
     fun likeOrUnlikeLive(
@@ -60,4 +62,11 @@ interface CommentService {
         @Field("commentId") articleId: String?,
         @Field("like") like: Boolean
     ): LiveData<ApiResponse<LikeResult>>
+
+    @FormUrlEncoded
+    @POST("/comment/delete")
+    fun delete(
+        @Header("Authorization") token: String,
+        @Field("commentId") articleId: String
+    ): LiveData<ApiResponse<Any>>
 }

@@ -2,7 +2,6 @@ package com.stupidtree.hita.theta.ui.list
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +28,7 @@ class ArticleListFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mode = arguments?.getString("mode", "following") ?: "following"
+        extra = arguments?.getString("extra", "") ?: ""
         DirtyArticles.register(uuid)
     }
 
@@ -122,7 +122,8 @@ class ArticleListFragment :
 
             }
         }
-        for (id in DirtyArticles.getArticleIds(uuid)) {
+        listAdapter.removeItems(DirtyArticles.getToDeleteIds(uuid))
+        for (id in DirtyArticles.getDirtyIds(uuid)) {
             listAdapter.refreshItem(id)
         }
     }
@@ -138,10 +139,11 @@ class ArticleListFragment :
     }
 
     companion object {
-        fun newInstance(mode: String): ArticleListFragment {
+        fun newInstance(mode: String, extra: String = ""): ArticleListFragment {
             val r = ArticleListFragment()
             val b = Bundle()
             b.putString("mode", mode)
+            b.putString("extra", extra)
             r.arguments = b
             return r
         }

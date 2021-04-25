@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.stupidtree.hita.theta.ui.create.CreateArticleActivity
 import com.stupidtree.hita.theta.databinding.ActivityThetaBinding
 import com.stupidtree.hita.theta.ui.list.ArticleListFragment
+import com.stupidtree.hita.theta.ui.user.UserListFragment
 import com.stupidtree.hita.theta.ui.list.ArticleNavigationFragment
 import com.stupidtree.style.base.BaseActivity
 import com.stupidtree.style.base.BaseTabAdapter

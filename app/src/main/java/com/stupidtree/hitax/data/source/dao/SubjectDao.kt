@@ -47,4 +47,6 @@ interface SubjectDao {
     @Delete
     fun deleteSubjectsSync(subjects: List<TermSubject>)
 
+    @Query("delete from subject")
+    fun clear()
 }

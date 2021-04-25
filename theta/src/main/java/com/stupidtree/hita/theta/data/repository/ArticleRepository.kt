@@ -106,6 +106,13 @@ class ArticleRepository(val application: Application) {
         return articleWebSource.likeOrUnlikeLive(token, articleId, like)
     }
 
+    fun delete(
+        token: String,
+        articleId: String
+    ): LiveData<DataState<Any>> {
+        return articleWebSource.delete(token, articleId)
+    }
+
     companion object {
         @JvmStatic
         var instance: ArticleRepository? = null

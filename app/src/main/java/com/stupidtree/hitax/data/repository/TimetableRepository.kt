@@ -271,6 +271,15 @@ class TimetableRepository(val application: Application) {
         return res;
     }
 
+    fun actionClearData() {
+        executor.execute {
+            eventItemDao.clear()
+            subjectDao.clear()
+            timetableDao.clear()
+        }
+
+    }
+
     companion object {
         private var instance: TimetableRepository? = null
         fun getInstance(application: Application): TimetableRepository {

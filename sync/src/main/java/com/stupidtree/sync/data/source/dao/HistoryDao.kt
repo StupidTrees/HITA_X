@@ -20,4 +20,8 @@ interface HistoryDao {
 
     @Query("select * from history where uid is :uid and id > :latestId")
     fun getHistoryAfterSync(uid: String, latestId: Long): List<History>
+
+
+    @Query("delete from history")
+    fun clear()
 }

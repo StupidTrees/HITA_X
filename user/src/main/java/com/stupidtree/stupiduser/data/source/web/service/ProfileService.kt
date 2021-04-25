@@ -1,10 +1,11 @@
-package com.stupidtree.hitax.data.source.web.service
+package com.stupidtree.stupiduser.data.source.web.service
 
 import androidx.lifecycle.LiveData
-import com.stupidtree.stupiduser.data.model.ApiResponse
+import com.stupidtree.component.web.ApiResponse
 import com.stupidtree.stupiduser.data.model.FollowResult
 import com.stupidtree.stupiduser.data.model.UserProfile
 import okhttp3.MultipartBody
+import retrofit2.Call
 import retrofit2.http.*
 
 /**
@@ -31,6 +32,13 @@ interface ProfileService {
         @Field("follow") follow: Boolean
     ): LiveData<ApiResponse<FollowResult>?>
 
+    @FormUrlEncoded
+    @POST("/profile/follow")
+    fun followCall(
+        @Header("Authorization") token: String,
+        @Field("followingId") userId: String,
+        @Field("follow") follow: Boolean
+    ): Call<ApiResponse<FollowResult>>
 
     /**
      * 上传头像
@@ -85,4 +93,13 @@ interface ProfileService {
         @Header("Authorization") token: String?
     ): LiveData<ApiResponse<Any?>?>
 
+
+    @GET("/profile/gets")
+    fun getUsers(
+        @Header("Authorization") token: String,
+        @Query("mode") mode: String,
+        @Query("pageSize") pageSize: Int,
+        @Query("pageNum") pageNum: Int,
+        @Query("extra") extra: String
+    ): LiveData<com.stupidtree.component.web.ApiResponse<List<UserProfile>>>
 }

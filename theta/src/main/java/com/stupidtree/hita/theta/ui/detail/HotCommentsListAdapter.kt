@@ -13,6 +13,7 @@ import com.stupidtree.hita.theta.data.source.web.CommentWebSource
 import com.stupidtree.hita.theta.data.source.web.service.codes
 import com.stupidtree.hita.theta.databinding.CommentItemBinding
 import com.stupidtree.hita.theta.ui.comment.reply.CommentReplyActivity
+import com.stupidtree.hita.theta.utils.ActivityTools
 import com.stupidtree.hita.theta.utils.TextTools
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 import com.stupidtree.stupiduser.util.ImageUtils
@@ -75,6 +76,9 @@ class HotCommentsListAdapter(mContext: Context, mBeans: MutableList<Comment>) :
         ImageUtils.loadAvatarInto(mContext, data?.authorAvatar, holder.binding.avatar)
         holder.binding.card.setOnClickListener {
             mOnItemClickListener?.onItemClick(data, it, position)
+        }
+        holder.binding.authorLayout.setOnClickListener {
+            data?.authorId?.let { it1 -> ActivityTools.startUserActivity(mContext, it1) }
         }
         holder.bindLike(data)
         holder.binding.likeIcon.setOnClickListener {

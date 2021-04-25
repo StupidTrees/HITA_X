@@ -161,6 +161,28 @@ class CommentWebSource(context: Context) : BaseWebSource<CommentService>(
             DataState(DataState.STATE.FETCH_FAILED)
         }
     }
+    fun delete(
+        token: String,
+        commentId: String
+    ): LiveData<DataState<Any>> {
+        return Transformations.map(
+            service.delete(
+                HttpUtils.getHeaderAuth(token), commentId
+            )
+        ) { input ->
+            if (input != null) {
+                when (input.code) {
+                    SUCCESS -> return@map DataState(input.data ?: "")
+                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                    else -> return@map DataState(
+                        DataState.STATE.FETCH_FAILED,
+                        input.message
+                    )
+                }
+            }
+            DataState(DataState.STATE.FETCH_FAILED)
+        }
+    }
 
     companion object {
         var instance: CommentWebSource? = null

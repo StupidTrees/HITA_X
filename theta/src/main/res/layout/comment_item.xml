@@ -77,11 +77,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:background="@drawable/element_rounded_bar_grey_light"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:maxEms="8"
-            android:paddingStart="6dp"
-            android:paddingTop="2dp"
-            android:paddingEnd="6dp"
-            android:paddingBottom="2dp"
+            android:paddingStart="8dp"
+            android:paddingTop="3dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="3dp"
             android:textColor="?attr/colorControlNormal"
             android:textSize="12sp" />
 
@@ -113,7 +115,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="-8dp"
-            android:alpha="0.8"
             android:text="100"
             android:textColor="?attr/colorPrimaryDisabled" />
     </LinearLayout>

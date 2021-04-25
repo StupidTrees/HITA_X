@@ -15,7 +15,7 @@ import java.util.concurrent.Executors
 object StupidSync {
 
     var historyDao: HistoryDao? = null
-    var syncWebSource:SyncWebSource?=null
+    var syncWebSource: SyncWebSource? = null
     private var uid: String? = null
     private val snowflakeIdWorker = Snowflake(1, 1)
     private var executor = Executors.newSingleThreadExecutor()
@@ -106,6 +106,13 @@ object StupidSync {
                 }
 
             }
+        }
+    }
+
+
+    fun clearData() {
+        executor.execute {
+            historyDao?.clear()
         }
     }
 

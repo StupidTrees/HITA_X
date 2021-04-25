@@ -31,6 +31,10 @@ class UserProfile {
 
     var followed: Boolean = false
 
+    var fansNum: Int = 0
+
+    var followingNum: Int = 0
+
     override fun toString(): String {
         return Gson().toJson(this)
     }

@@ -84,4 +84,7 @@ interface EventItemDao {
     @Query("update events set `from` = (`from`+:offset) , `to` = (`to` + :offset) where  timetableId is :timetableId and type is 'CLASS'")
     fun updateClassesAddOffset(timetableId: String, offset: Long)
 
+
+    @Query("delete from events")
+    fun clear()
 }

@@ -8,7 +8,7 @@ import com.stupidtree.component.data.DataState
 import com.stupidtree.component.data.MTransformations
 import com.stupidtree.hita.theta.data.repository.CommentRepository
 import com.stupidtree.hita.theta.ui.comment.CommentRefreshTrigger
-import com.stupidtree.hita.theta.ui.list.ArticleListViewModel.Companion.PAGE_SIZE
+import com.stupidtree.hita.theta.ui.user.UserListViewModel.Companion.PAGE_SIZE
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 
 class CommentReplyViewModel(application: Application) : AndroidViewModel(application) {
@@ -65,6 +65,20 @@ class CommentReplyViewModel(application: Application) : AndroidViewModel(applica
         return@switchMap MutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
     }
 
+    private val deleteCommentTrigger = MutableLiveData<String>()
+    val deleteCommentResult = Transformations.switchMap(deleteCommentTrigger) { id ->
+        val user = localUserRepository.getLoggedInUser()
+        if (user.isValid()) {
+            return@switchMap Transformations.map(commentRepo.delete(user.token!!, id)) {
+                return@map it.also {
+                    it.data = id
+                }
+            }
+        }
+        return@switchMap MutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
+    }
+
+
     fun startRefresh(articleId: String) {
         commentIdLiveData.value = articleId
     }
@@ -92,4 +106,9 @@ class CommentReplyViewModel(application: Application) : AndroidViewModel(applica
             it.id = articleId
         }
     }
+
+    fun deleteComment(commentId: String) {
+        deleteCommentTrigger.value = commentId
+    }
+
 }

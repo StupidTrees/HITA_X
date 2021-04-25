@@ -165,7 +165,7 @@
     <string name="username">账号</string>
     <string name="password">密码</string>
     <string name="hita_account">HITSZ助手</string>
-    <string name="app_slogan">Harvest In The Shining Zone </string>
+    <string name="app_slogan">Harbin Institute of Technology</string>
     <string name="navi_campus_card_p">校园卡</string>
     <string name="navi_jw_emptyclassroom_p">空教室查询</string>
     <string name="notif_importdatafirst">请先创建或导入课表！</string>
@@ -671,8 +671,6 @@
     <string name="tab_search_user">用户</string>
     <string name="follow">关注</string>
     <string name="followed">已关注</string>
-    <string name="fans">粉丝</string>
-    <string name="following">关注</string>
     <string name="unfollow">取关</string>
     <string name="unfollowed">已取关</string>
     <string name="my_fans">我的粉丝</string>
@@ -1148,4 +1146,14 @@
     <string name="edit_my_profile">编辑资料</string>
     <string name="button_sync">同步</string>
     <string name="export">导出</string>
+    <string name="prompt_import">从教务系统上导入学期课表</string>
+    <string name="prompt_empty_classroom">查询校区教室空闲情况</string>
+    <string name="fans_num">粉丝: %d</string>
+    <string name="follow_num">关注: %d</string>
+    <string name="fans">粉丝</string>
+    <string name="following">关注</string>
+    <string name="users_following">%s的关注</string>
+    <string name="users_fans">%s的粉丝</string>
+    <string name="users_posts">%s的发帖</string>
+    <string name="logout_hint">确定退出？</string>
 </resources>

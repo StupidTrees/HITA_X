@@ -16,11 +16,11 @@ class CommentRepository(application: Application) {
         articleId: String,
         toUserId: String,
         toCommentId: String?,
-        contextId:String?
+        contextId: String?
     ): LiveData<DataState<Boolean>> {
         return commentWebSource.postComment(
             token,
-            content, toUserId, articleId, toCommentId,contextId
+            content, toUserId, articleId, toCommentId, contextId
         )
     }
 
@@ -28,10 +28,10 @@ class CommentRepository(application: Application) {
         token: String,
         articleId: String,
         pageSize: Int,
-        pageNum:Int
+        pageNum: Int
     ): LiveData<DataState<List<Comment>>> {
         return commentWebSource.getCommentsOfArticle(
-            token, articleId,pageSize,pageNum
+            token, articleId, pageSize, pageNum
         )
     }
 
@@ -39,10 +39,10 @@ class CommentRepository(application: Application) {
         token: String,
         commentId: String,
         pageSize: Int,
-        pageNum:Int
+        pageNum: Int
     ): LiveData<DataState<List<Comment>>> {
         return commentWebSource.getCommentsOfComment(
-            token, commentId,pageSize,pageNum
+            token, commentId, pageSize, pageNum
         )
     }
 
@@ -54,6 +54,7 @@ class CommentRepository(application: Application) {
             token, commentId
         )
     }
+
     fun likeOrUnlikeLive(
         token: String,
         articleId: String,
@@ -61,6 +62,14 @@ class CommentRepository(application: Application) {
     ): LiveData<DataState<LikeResult>> {
         return commentWebSource.likeOrUnlikeLive(token, articleId, like)
     }
+
+    fun delete(
+        token: String,
+        commentId: String
+    ): LiveData<DataState<Any>> {
+        return commentWebSource.delete(token, commentId)
+    }
+
     companion object {
         @JvmStatic
         var instance: CommentRepository? = null
