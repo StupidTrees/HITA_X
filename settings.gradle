@@ -1,2 +1,4 @@
-include ':app'
+include ':app',':user','component','style'
 rootProject.name = "HITA"
+include ':sync'
+include ':theta'

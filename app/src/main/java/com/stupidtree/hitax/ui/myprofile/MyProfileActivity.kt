@@ -6,15 +6,15 @@ import android.os.Bundle
 import android.widget.Toast
 import com.stupidtree.hitax.utils.FileProviderUtils
 import com.stupidtree.hitax.R
-import com.stupidtree.hitax.data.model.service.UserLocal
-import com.stupidtree.hitax.data.model.service.UserProfile
+
 import com.stupidtree.hitax.databinding.ActivityMyProfileBinding
-import com.stupidtree.hitax.ui.base.BaseActivity
-import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.style.base.BaseActivity
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.ui.widgets.PopUpEditText
-import com.stupidtree.hitax.ui.widgets.PopUpSelectableList
 import com.stupidtree.hitax.utils.GalleryPicker
-import com.stupidtree.hitax.utils.ImageUtils
+import com.stupidtree.stupiduser.data.model.UserLocal
+import com.stupidtree.stupiduser.data.model.UserProfile
+import com.stupidtree.style.widgets.PopUpSelectableList
 
 /**
  * ”我的个人资料“ Activity
@@ -27,11 +27,6 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setWindowParams(
-            statusBar = true,
-            darkColor = true,
-            navi = false
-        )
         setToolbarActionBack(binding.toolbar)
 
         // cropImgUri = Uri.parse("file:///" + Environment.getExternalStorageDirectory() + "/avatar_cropped.jpg")
@@ -104,8 +99,8 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
                     .setTitle(R.string.choose_gender)
                     .setInitValue(up.data!!.gender)
                     .setListData(
-                        arrayOf(getString(R.string.male), getString(R.string.female),getString(R.string.other_gender)),
-                        listOf(UserLocal.GENDER.MALE, UserLocal.GENDER.FEMALE,UserLocal.GENDER.OTHER)
+                       listOf(getString(R.string.male), getString(R.string.female),getString(R.string.other_gender)),
+                        listOf(UserLocal.GENDER.MALE, UserLocal.GENDER.FEMALE, UserLocal.GENDER.OTHER)
                     ).setOnConfirmListener(object :
                         PopUpSelectableList.OnConfirmListener<UserLocal.GENDER> {
 
@@ -145,7 +140,7 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
      */
     private fun setUserProfile(profile: UserProfile) {
         //设置头像
-        ImageUtils.loadAvatarInto(getThis(), profile.id, binding.avatar)
+        com.stupidtree.stupiduser.util.ImageUtils.loadAvatarInto(getThis(), profile.avatar, binding.avatar)
         //设置各种文本信息
         binding.nickname.text = profile.nickname
         if (!profile.signature.isNullOrEmpty()) {
@@ -217,4 +212,5 @@ class MyProfileActivity : BaseActivity<MyProfileViewModel, ActivityMyProfileBind
     override fun initViewBinding(): ActivityMyProfileBinding {
         return ActivityMyProfileBinding.inflate(layoutInflater)
     }
+
 }

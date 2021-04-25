@@ -11,8 +11,8 @@ import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.hitax.databinding.ActivityTimetableManagerItemAddBinding
 import com.stupidtree.hitax.databinding.ActivityTimetableManagerItemBinding
-import com.stupidtree.hitax.ui.base.BaseCheckableListAdapter
-import com.stupidtree.hitax.ui.base.BaseViewHolder
+import com.stupidtree.style.base.BaseCheckableListAdapter
+import com.stupidtree.style.base.BaseViewHolder
 import com.stupidtree.hitax.utils.TimeTools
 
 
@@ -72,6 +72,11 @@ class TimetableListAdapter(context: Context, mBeans: MutableList<Timetable>) :
 
     }
 
+    fun notifyDatasetChanged(list:List<Timetable>){
+        mBeans.clear()
+        mBeans.addAll(list)
+        notifyDataSetChanged()
+    }
 
     override fun getItemCount(): Int {
         return super.getItemCount() + 1

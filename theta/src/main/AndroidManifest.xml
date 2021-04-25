@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.stupidtree.hita.theta">
+    <application>
+        <activity android:name="com.stupidtree.hita.theta.ui.create.CreateArticleActivity" />
+        <activity android:name=".ThetaActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity android:name=".ui.detail.ArticleDetailActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity android:name=".ui.comment.reply.CommentReplyActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity android:name=".ui.user.activity.UserListActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity android:name=".ui.search.ArticleSearchActivity" />
+        <activity android:name=".ui.list.activity.ArticleListActivity" />
+    </application>
+</manifest>

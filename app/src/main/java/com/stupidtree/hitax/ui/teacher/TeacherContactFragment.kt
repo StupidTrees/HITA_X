@@ -5,7 +5,7 @@ import android.text.TextUtils
 import android.view.View
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.FragmentTeacherContactBinding
-import com.stupidtree.hitax.ui.base.TransparentBottomSheetDialog
+import com.stupidtree.style.widgets.TransparentBottomSheetDialog
 
 class TeacherContactFragment : TransparentBottomSheetDialog<FragmentTeacherContactBinding>() {
     private var phoneS: String? = null

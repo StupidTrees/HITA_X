@@ -2,7 +2,7 @@ package com.stupidtree.hitax.data
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import com.stupidtree.hitax.data.model.service.UserLocal
+import com.stupidtree.stupiduser.data.model.UserLocal
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay

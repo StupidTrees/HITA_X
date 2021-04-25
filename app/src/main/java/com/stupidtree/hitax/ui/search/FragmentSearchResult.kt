@@ -1,5 +1,6 @@
 package com.stupidtree.hitax.ui.search
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.View
@@ -10,9 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.stupidtree.hitax.R
-import com.stupidtree.hitax.ui.base.BaseFragmentClassic
-import com.stupidtree.hitax.ui.base.BaseListAdapterClassic
-import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.style.base.BaseFragmentClassic
+import com.stupidtree.style.base.BaseListAdapterClassic
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.ui.search.FragmentSearchResult.SearchListAdapter.SimpleHolder
 
 abstract class FragmentSearchResult<T, V : BaseSearchResultViewModel<T>> :
@@ -27,7 +28,7 @@ abstract class FragmentSearchResult<T, V : BaseSearchResultViewModel<T>> :
     abstract fun updateHintText(reload: Boolean, addedSize: Int)
     abstract fun getHolderLayoutId(): Int
     abstract fun bindListHolder(simpleHolder: SimpleHolder?, data: T, position: Int)
-    abstract fun onItemClicked(card: View?, data:T,position: Int)
+    abstract fun onItemClicked(card: View?, data: T, position: Int)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,13 +63,13 @@ abstract class FragmentSearchResult<T, V : BaseSearchResultViewModel<T>> :
                 } else {
                     it.data?.let { o ->
                         listAdapter.notifyItemRangeInserted(
-                            listAdapter.mBeans.size ?: 0 - o.size, o.size
+                            listAdapter.beans.size, o.size
                         )
-                        listAdapter.notifyItemRangeChanged(0, listAdapter.mBeans.size ?: 0)
+                        listAdapter.notifyItemRangeChanged(0, listAdapter.beans.size)
                     }
 
                 }
-                if (listAdapter.mBeans.size == 0) result?.setText(R.string.nothing_found) else updateHintText(
+                if (listAdapter.beans.isEmpty()) result?.setText(R.string.nothing_found) else updateHintText(
                     it.listAction == DataState.LIST_ACTION.REPLACE_ALL,
                     it.data?.size ?: 0
                 )
@@ -151,7 +152,7 @@ abstract class FragmentSearchResult<T, V : BaseSearchResultViewModel<T>> :
         }
 
         override fun bindHolder(holder: SimpleHolder, data: T?, position: Int) {
-            holder.card.setOnClickListener { v -> data?.let { onItemClicked(v, it,position) } }
+            holder.card.setOnClickListener { v -> data?.let { onItemClicked(v, it, position) } }
             data?.let { bindListHolder(holder, it, position) }
         }
 

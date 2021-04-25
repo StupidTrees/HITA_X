@@ -2,13 +2,13 @@ package com.stupidtree.hitax.ui.myprofile
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.stupidtree.hitax.data.model.service.UserProfile
-import com.stupidtree.hitax.data.model.service.UserLocal
-import com.stupidtree.hitax.data.repository.LocalUserRepository
-import com.stupidtree.hitax.data.repository.ProfileRepository
-import com.stupidtree.hitax.ui.base.DataState
-import com.stupidtree.hitax.ui.base.StringTrigger
+import com.stupidtree.component.data.DataState
+import com.stupidtree.component.data.StringTrigger
+import com.stupidtree.stupiduser.data.model.UserProfile
+import com.stupidtree.stupiduser.data.model.UserLocal
 import com.stupidtree.hitax.utils.LiveDataUtils
+import com.stupidtree.stupiduser.data.repository.LocalUserRepository
+import com.stupidtree.stupiduser.data.repository.ProfileRepository
 import java.util.*
 
 /**
@@ -16,6 +16,16 @@ import java.util.*
  * 和”我的资料“Activity绑定的ViewModel
  */
 class MyProfileViewModel(application: Application) : AndroidViewModel(application) {
+    /**
+     * 仓库区
+     */
+//仓库1：用户资料仓库
+    private val profileRepository: ProfileRepository = ProfileRepository.getInstance(application)
+
+    //仓库2：本地用户仓库
+    private val localUserRepository: LocalUserRepository =
+        LocalUserRepository.getInstance(application)
+
     /**
      * 数据区
      */
@@ -158,17 +168,6 @@ class MyProfileViewModel(application: Application) : AndroidViewModel(applicatio
 
     //Trigger：控制更改签名请求的发送，其中携带了新昵称字符串
     private var changeSignatureController = MutableLiveData<StringTrigger>()
-
-
-    /**
-     * 仓库区
-     */
-//仓库1：用户资料仓库
-    private val profileRepository: ProfileRepository = ProfileRepository.getInstance(application)
-
-    //仓库2：本地用户仓库
-    private val localUserRepository: LocalUserRepository =
-        LocalUserRepository.getInstance(application)
 
 
     /**

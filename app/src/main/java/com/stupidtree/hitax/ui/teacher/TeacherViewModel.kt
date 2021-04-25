@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hitax.data.repository.TeacherInfoRepository
-import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.component.data.DataState
 
 class TeacherViewModel(application: Application) : AndroidViewModel(application) {
 

@@ -5,8 +5,8 @@ import android.content.Context
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import com.stupidtree.hitax.databinding.DynamicTeacherBinding
-import com.stupidtree.hitax.ui.base.BaseListAdapter
-import com.stupidtree.hitax.ui.base.BaseViewHolder
+import com.stupidtree.style.base.BaseListAdapter
+import com.stupidtree.style.base.BaseViewHolder
 
 @SuppressLint("ParcelCreator")
 class TeachersListAdapter constructor(mContext: Context, mBeans: MutableList<TeacherInfo>) :

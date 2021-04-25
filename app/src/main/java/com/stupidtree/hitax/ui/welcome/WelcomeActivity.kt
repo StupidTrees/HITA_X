@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.ActivityWelcomeBinding
-import com.stupidtree.hitax.ui.base.BaseActivity
-import com.stupidtree.hitax.ui.base.BaseTabAdapter
+import com.stupidtree.style.base.BaseActivity
+import com.stupidtree.style.base.BaseTabAdapter
 import com.stupidtree.hitax.ui.welcome.login.LoginFragment
 import com.stupidtree.hitax.ui.welcome.signup.SignUpFragment
 import com.stupidtree.hitax.utils.AnimationUtils
@@ -19,7 +19,7 @@ class WelcomeActivity : BaseActivity<WelcomeViewModel,ActivityWelcomeBinding>() 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setWindowParams(statusBar = true, darkColor = true, navi = true)
+        //setWindowParams(statusBar = true, darkColor = true, navi = true)
         binding.toolbar.title = ""
         setToolbarActionBack(binding.toolbar)
     }
@@ -59,4 +59,5 @@ class WelcomeActivity : BaseActivity<WelcomeViewModel,ActivityWelcomeBinding>() 
     override fun getViewModelClass(): Class<WelcomeViewModel> {
         return WelcomeViewModel::class.java
     }
+
 }

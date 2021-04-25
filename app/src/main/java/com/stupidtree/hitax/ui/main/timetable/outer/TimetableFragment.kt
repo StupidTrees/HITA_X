@@ -1,22 +1,30 @@
 package com.stupidtree.hitax.ui.main.timetable.outer
 
 import android.content.Context
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.viewpager.widget.ViewPager
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.hitax.databinding.FragmentTimetableBinding
-import com.stupidtree.hitax.ui.base.BaseFragment
+import com.stupidtree.style.base.BaseFragment
 import com.stupidtree.hitax.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
 import java.util.*
 import kotlin.math.abs
 
 class TimetableFragment :
-        BaseFragment<TimetableViewModel, FragmentTimetableBinding>() {
+    BaseFragment<TimetableViewModel, FragmentTimetableBinding>() {
     private var pagerAdapter: TimeTablePagerAdapter? = null
     private var mainPageController: MainPageController? = null
     private var currentIndex = 0
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = false
+    }
 
     override fun initViewBinding(): FragmentTimetableBinding {
         return FragmentTimetableBinding.inflate(layoutInflater)
@@ -43,7 +51,25 @@ class TimetableFragment :
         viewModel.startRefresh()
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val fc = childFragmentManager.beginTransaction()
+        for (f in childFragmentManager.fragments) {
+            fc.remove(f)
+        }
+        fc.commitNowAllowingStateLoss()
+        pagerAdapter = null
+        currentIndex = 0
+        return super.onCreateView(inflater, container, savedInstanceState)
+
+    }
+
+
     override fun initViews(view: View) {
+        binding?.pager?.adapter = null
         pagerAdapter = binding?.pager?.let { it ->
             TimeTablePagerAdapter(it, childFragmentManager, WINDOW_SIZE, viewModel.initWindow())
         }
@@ -67,9 +93,9 @@ class TimetableFragment :
             }
 
             override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
             ) {
 
             }
@@ -100,7 +126,7 @@ class TimetableFragment :
             }
 
         })
-        binding?.floatingActionButton?.setOnClickListener {
+        binding?.fab?.setOnClickListener {
             scrollToDate(System.currentTimeMillis())
         }
     }
@@ -111,9 +137,9 @@ class TimetableFragment :
         cdCalendar.timeInMillis = currentPageStart
         binding?.month?.text = resources.getStringArray(R.array.months)[cdCalendar[Calendar.MONTH]]
         if (currentPageStart <= System.currentTimeMillis() && System.currentTimeMillis() < currentPageStart + WEEK_MILLS) {
-            binding?.floatingActionButton?.hide()
+            binding?.fab?.hide()
         } else {
-            binding?.floatingActionButton?.show()
+            binding?.fab?.show()
         }
         if (timetables.isEmpty()) {
             mainPageController?.setSingleTitle(getString(R.string.no_timetable))

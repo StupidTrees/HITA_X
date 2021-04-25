@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_article">发帖</string>
+    <string name="date_format_1">yyyy年M月d日</string>
+    <string name="date_format_3">yyyy年M月d日 hh时mm分</string>
+    <string name="date_format_2">M月d日</string>
+    <string name="date_format_am">上午hh:mm</string>
+    <string name="date_format_pm">下午hh:mm</string>
+    <string name="yesterday">昨天</string>
+    <string name="the_day_before_yesterday">前天</string>
+    <string name="date_format_with_prefix">"%s %s"</string>
+    <string name="reply">回复</string>
+    <string name="send">发表</string>
+    <string name="repost">转发</string>
+    <string name="title_following">关注</string>
+    <string name="hint_post">说点什么…</string>
+    <string name="title_playground">广场</string>
+    <string name="reply_num">共%d条回复</string>
+    <string name="reply_to_user">回复: %s</string>
+    <string name="title_comment_reply">评论回复</string>
+    <string name="no_image_fetched">获取图片失败</string>
+    <string name="no_image_selected">没有选择图片</string>
+    <string name="post_success">发送成功</string>
+    <string name="post_failed">发送失败</string>
+    <string name="delete_failed">删除失败！</string>
+    <string name="delete_success">删除成功</string>
+    <string name="sure_to_delete_article">是否删除帖子？</string>
+    <string name="liked_user">点赞用户</string>
+    <string name="all_repost">全部转发</string>
+    <string name="comment">评论</string>
+
+    <string-array name="comment_actions">
+        <item>删除评论</item>
+        <item>回复评论</item>
+        <item>复制评论</item>
+    </string-array>
+</resources>

@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.component.data.DataState
 
 abstract class BaseSearchResultViewModel<T>(application: Application) :
     AndroidViewModel(application) {

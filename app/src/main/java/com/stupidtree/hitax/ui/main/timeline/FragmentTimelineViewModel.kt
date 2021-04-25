@@ -8,7 +8,7 @@ import androidx.lifecycle.Transformations
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.repository.SubjectRepository
 import com.stupidtree.hitax.data.repository.TimetableRepository
-import com.stupidtree.hitax.ui.base.Trigger
+import com.stupidtree.component.data.Trigger
 import java.util.*
 
 class FragmentTimelineViewModel(application: Application) : AndroidViewModel(application){

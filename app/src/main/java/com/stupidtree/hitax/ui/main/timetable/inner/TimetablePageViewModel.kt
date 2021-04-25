@@ -5,7 +5,7 @@ import androidx.lifecycle.*
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.repository.TimetableRepository
 import com.stupidtree.hitax.data.repository.TimetableStyleRepository
-import com.stupidtree.hitax.utils.MTransformations
+import com.stupidtree.component.data.MTransformations
 import java.util.*
 
 class TimetablePageViewModel(application: Application) : AndroidViewModel(application) {

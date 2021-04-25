@@ -3,7 +3,8 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundColorBottom">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -135,7 +136,7 @@
                     <com.stupidtree.hitax.ui.widgets.SelectableIconCardView
                         android:id="@+id/card_name"
                         android:layout_width="match_parent"
-                        android:layout_height="160dp"
+                        android:layout_height="144dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
@@ -145,6 +146,7 @@
                         app:cardHapticFeedback="false"
                         app:cardIcon="@drawable/ic_timetable"
                         app:cardIconColor="?attr/colorAccent"
+                        app:cardIconGravity="start"
                         app:cardIconPadding="14dp"
                         app:cardSubtitleText="@string/timetable_name">
 
@@ -153,7 +155,7 @@
                     <com.stupidtree.hitax.ui.widgets.SelectableIconCardView
                         android:id="@+id/card_date"
                         android:layout_width="match_parent"
-                        android:layout_height="160dp"
+                        android:layout_height="144dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
@@ -161,6 +163,7 @@
                         app:cardHapticFeedback="false"
                         app:cardIcon="@drawable/ic_baseline_timetable_24"
                         app:cardIconColor="?attr/colorAccent"
+                        app:cardIconGravity="start"
                         app:cardIconPadding="10dp"
                         app:cardSubtitleText="@string/start_date_of_curriculum">
 
@@ -172,7 +175,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:clickable="true"
                     android:focusable="true"

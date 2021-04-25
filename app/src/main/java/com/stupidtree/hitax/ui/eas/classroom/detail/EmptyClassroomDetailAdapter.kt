@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.ActivityEasClassroomSecondItemBinding
-import com.stupidtree.hitax.ui.base.BaseActivity
-import com.stupidtree.hitax.ui.base.BaseListAdapter
-import com.stupidtree.hitax.ui.base.BaseViewHolder
+import com.stupidtree.style.base.BaseActivity
+import com.stupidtree.style.base.BaseListAdapter
+import com.stupidtree.style.base.BaseViewHolder
 import java.util.*
 
 @SuppressLint("ParcelCreator")

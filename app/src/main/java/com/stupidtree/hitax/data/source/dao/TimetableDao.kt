@@ -42,13 +42,29 @@ interface TimetableDao {
     @Query("select count(*) from timetable")
     fun geeTimetableCount(): LiveData<Int>
 
+
+
     /**
      * 保存课表
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveTimetableSync(data: Timetable)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveTimetablesSync(data: List<Timetable>)
+
     @Delete
     fun deleteTimetablesSync(timetables: List<Timetable>)
 
+    @Query("delete from timetable where id in (:ids)")
+    fun deleteTimetablesInIdsSync(ids: List<String>)
+
+
+    @Query("SELECT * FROM timetable WHERE id in (:ids)")
+    fun getTimetablesInIdsSync(ids: List<String>): List<Timetable>
+
+
+
+    @Query("delete from timetable")
+    fun clear()
 }

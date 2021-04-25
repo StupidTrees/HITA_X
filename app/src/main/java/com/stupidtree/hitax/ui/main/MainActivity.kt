@@ -19,8 +19,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.ActivityMainBinding
-import com.stupidtree.hitax.ui.base.BaseActivity
-import com.stupidtree.hitax.ui.base.BaseTabAdapter
+import com.stupidtree.style.base.BaseActivity
+import com.stupidtree.style.base.BaseTabAdapter
 import com.stupidtree.hitax.ui.eas.EASActivity
 import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
@@ -31,7 +31,10 @@ import com.stupidtree.hitax.ui.main.timetable.outer.TimetableFragment
 import com.stupidtree.hitax.ui.main.timetable.panel.FragmentTimetablePanel
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.ImageUtils
+import com.stupidtree.stupiduser.data.repository.LocalUserRepository
+import com.stupidtree.sync.StupidSync
 import me.ibrahimsn.lib.OnItemSelectedListener
+import java.lang.Exception
 
 /**
  * 很显然，这是主界面
@@ -49,7 +52,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(binding.toolbar)
-        setWindowParams(statusBar = true, darkColor = true, navi = false)
+
     }
 
 
@@ -70,7 +73,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 val mContent = binding.drawer.getChildAt(0)
                 val scale = 1 - slideOffset
                 val rightScale = 0.8f + scale * 0.2f
-                mContent.translationX = drawerView.measuredWidth * slideOffset
+                mContent.translationX = - drawerView.measuredWidth * slideOffset
                 mContent.pivotX = mContent.measuredWidth.toFloat()
                 mContent.pivotY = (mContent.measuredHeight shr 1.toFloat().toInt()).toFloat()
                 mContent.invalidate()
@@ -149,12 +152,12 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                         binding.timetableLayout.visibility = VISIBLE
                         binding.todayLayout.visibility = GONE
                         binding.navigationLayout.visibility = GONE
-                         }
+                    }
                     2 -> {
                         binding.timetableLayout.visibility = GONE
                         binding.todayLayout.visibility = GONE
                         binding.navigationLayout.visibility = VISIBLE
-                      }
+                    }
 
                 }
 //                val item = binding.navView.menu.getItem(position)
@@ -165,7 +168,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
 
             override fun onPageScrollStateChanged(state: Int) {}
         })
-        binding.navView.onItemSelectedListener = object:            OnItemSelectedListener {
+        binding.navView.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelect(pos: Int): Boolean {
                 binding.navView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
                 binding.pager.currentItem = pos
@@ -182,7 +185,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
 //            binding.navView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
 //            true
 //        }
-        binding.avatar.setOnClickListener { binding.drawer.openDrawer(GravityCompat.START) }
+        binding.drawerButton.setOnClickListener { binding.drawer.openDrawer(GravityCompat.END) }
 
         binding.timetableSetting.setOnClickListener {
             FragmentTimetablePanel().show(supportFragmentManager,"panel")
@@ -193,14 +196,18 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             Log.e("user", it.toString())
             if (it.isValid()) { //如果已登录
                 //装载头像
-                ImageUtils.loadLocalAvatarInto(this, it.id, drawerAvatar!!)
-                ImageUtils.loadLocalAvatarInto(this, it.id, binding.avatar)
+                com.stupidtree.stupiduser.util.ImageUtils.loadAvatarInto(
+                    this,
+                    it.avatar,
+                    drawerAvatar!!
+                )
                 //设置各种文字
                 drawerUsername?.text = it.username
                 drawerNickname?.text = it.nickname
                 drawerHeader?.setOnClickListener {
-                    ActivityUtils.startMyProfileActivity(
-                        getThis()
+                    ActivityUtils.startProfileActivity(
+                        getThis(),
+                        LocalUserRepository.getInstance(applicationContext).getLoggedInUser().id
                     )
                 }
             } else {
@@ -208,7 +215,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 drawerUsername?.setText(R.string.not_log_in)
                 drawerNickname?.setText(R.string.log_in_first)
                 drawerAvatar?.setImageResource(R.drawable.place_holder_avatar)
-                binding.avatar.setImageResource(R.drawable.place_holder_avatar)
                 drawerHeader?.setOnClickListener { ActivityUtils.startWelcomeActivity(getThis()) }
             }
         }
@@ -217,8 +223,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
 
     override fun onBackPressed() {
         //super.onBackPressed();
-        if (binding.drawer.isDrawerOpen(GravityCompat.START)) {
-            binding.drawer.closeDrawer(GravityCompat.START)
+        if (binding.drawer.isDrawerOpen(GravityCompat.END)) {
+            binding.drawer.closeDrawer(GravityCompat.END)
             return
         }
         //返回桌面而非退出

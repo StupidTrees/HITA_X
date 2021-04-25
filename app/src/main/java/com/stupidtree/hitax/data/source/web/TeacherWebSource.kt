@@ -4,7 +4,7 @@ import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.stupidtree.hitax.data.source.web.service.TeacherService
-import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.ui.search.teacher.TeacherSearched
 import com.stupidtree.hitax.utils.HTMLUtils
 import org.json.JSONObject

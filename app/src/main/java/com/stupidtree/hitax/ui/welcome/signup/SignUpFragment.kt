@@ -5,9 +5,9 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import com.stupidtree.hitax.R
-import com.stupidtree.hitax.data.model.service.UserLocal
+import com.stupidtree.stupiduser.data.model.UserLocal
 import com.stupidtree.hitax.databinding.FragmentSignUpBinding
-import com.stupidtree.hitax.ui.base.BaseFragment
+import com.stupidtree.style.base.BaseFragment
 
 class SignUpFragment : BaseFragment<SignUpViewModel, FragmentSignUpBinding>() {
 
@@ -36,15 +36,15 @@ class SignUpFragment : BaseFragment<SignUpViewModel, FragmentSignUpBinding>() {
             }
 
         })
-        viewModel.signUpResult.observe(this, { signUpResult: SignUpResult? ->
+        viewModel.signUpResult.observe(this, { signUpResult: com.stupidtree.stupiduser.data.model.SignUpResult? ->
             binding?.loading?.visibility = View.INVISIBLE
             if (signUpResult != null) {
                 Toast.makeText(context, signUpResult.message, Toast.LENGTH_SHORT).show()
             }
             if (signUpResult != null) {
-                if (signUpResult.state === SignUpResult.STATES.SUCCESS) {
+                if (signUpResult.state === com.stupidtree.stupiduser.data.model.SignUpResult.STATES.SUCCESS) {
                     requireActivity().finish()
-                } else if (signUpResult.state === SignUpResult.STATES.USER_EXISTS) {
+                } else if (signUpResult.state === com.stupidtree.stupiduser.data.model.SignUpResult.STATES.USER_EXISTS) {
                     binding?.username?.error = getString(signUpResult.message)
                 }
             }

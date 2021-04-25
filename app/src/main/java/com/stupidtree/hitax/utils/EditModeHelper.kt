@@ -10,8 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.stupidtree.hitax.R
-import com.stupidtree.hitax.ui.base.BaseCheckableListAdapter
-import com.stupidtree.hitax.ui.widgets.PopUpText
+import com.stupidtree.style.base.BaseCheckableListAdapter
+import com.stupidtree.style.widgets.PopUpText
 import java.util.*
 
 class EditModeHelper<T>(val mContext: Context, private val listAdapter: BaseCheckableListAdapter<T, *>,

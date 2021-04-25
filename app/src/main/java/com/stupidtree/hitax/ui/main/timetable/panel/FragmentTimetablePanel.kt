@@ -7,7 +7,7 @@ import android.view.View
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.TimeInDay
 import com.stupidtree.hitax.databinding.FragmentTimetablePanelBinding
-import com.stupidtree.hitax.ui.base.TransparentModeledBottomSheetDialog
+import com.stupidtree.style.widgets.TransparentModeledBottomSheetDialog
 
 class FragmentTimetablePanel : TransparentModeledBottomSheetDialog<TimetablePanelViewModel, FragmentTimetablePanelBinding>() {
 

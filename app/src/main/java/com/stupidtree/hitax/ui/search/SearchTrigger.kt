@@ -1,7 +1,7 @@
 package com.stupidtree.hitax.ui.search
 
 
-import com.stupidtree.hitax.ui.base.Trigger
+import com.stupidtree.component.data.Trigger
 
 class SearchTrigger : Trigger() {
 

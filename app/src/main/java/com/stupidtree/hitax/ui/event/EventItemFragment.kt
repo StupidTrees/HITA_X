@@ -6,7 +6,7 @@ import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.model.timetable.TimeInDay
 import com.stupidtree.hitax.databinding.DialogBottomTimetableClassBinding
-import com.stupidtree.hitax.ui.base.BaseFragment
+import com.stupidtree.style.base.BaseFragment
 import com.stupidtree.hitax.ui.subject.SubjectActivity
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.TimeTools

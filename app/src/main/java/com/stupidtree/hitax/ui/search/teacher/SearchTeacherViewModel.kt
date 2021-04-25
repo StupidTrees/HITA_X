@@ -3,7 +3,7 @@ package com.stupidtree.hitax.ui.search.teacher
 import android.app.Application
 import androidx.lifecycle.LiveData
 import com.stupidtree.hitax.data.repository.TeacherInfoRepository
-import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.ui.search.BaseSearchResultViewModel
 import com.stupidtree.hitax.ui.search.SearchTrigger
 

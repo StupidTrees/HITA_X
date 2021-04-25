@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.ActivitySearchBinding
-import com.stupidtree.hitax.ui.base.BaseActivity
-import com.stupidtree.hitax.ui.base.BaseTabAdapter
+import com.stupidtree.style.base.BaseActivity
+import com.stupidtree.style.base.BaseTabAdapter
 import com.stupidtree.hitax.ui.search.teacher.FragmentSearchTeacher
 import com.stupidtree.hitax.utils.ActivityUtils
 
@@ -22,7 +22,6 @@ class SearchActivity : BaseActivity<SearchViewModel, ActivitySearchBinding>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setWindowParams(statusBar = true, darkColor = true, navi = false)
         setToolbarActionBack(binding.toolbar)
     }
 
@@ -37,7 +36,6 @@ class SearchActivity : BaseActivity<SearchViewModel, ActivitySearchBinding>(),
         if(!isSearchForPurpose()){
             popUpKeyboard()
         }
-
     }
 
 

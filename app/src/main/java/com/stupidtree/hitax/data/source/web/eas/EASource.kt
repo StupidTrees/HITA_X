@@ -10,7 +10,7 @@ import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.TimeInDay
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.data.source.web.service.EASService
-import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.ui.eas.classroom.BuildingItem
 import com.stupidtree.hitax.ui.eas.classroom.ClassroomItem
 import com.stupidtree.hitax.utils.JsonUtils
@@ -542,7 +542,7 @@ class EASource internal constructor() : EASService {
                     .data("jxl", building.id)
                     .data("zc", String(weekZeros))
                     .execute()
-                val ja = JsonUtils.getJsonArray(r.body())
+                val ja = JsonUtils.getJsonObject(r.body())?.optJSONArray("list")
                 for (i in 0 until (ja?.length() ?: 0)) {
                     val classroom = ClassroomItem()
                     val jo = ja?.optJSONObject(i)

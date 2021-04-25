@@ -12,8 +12,8 @@ import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.databinding.DynamicSubjectCourseitemBinding
 import com.stupidtree.hitax.databinding.DynamicSubjectCourseitemPassedBinding
 import com.stupidtree.hitax.databinding.DynamicSubjectCourseitemTagBinding
-import com.stupidtree.hitax.ui.base.BaseCheckableListAdapter
-import com.stupidtree.hitax.ui.base.BaseViewHolder
+import com.stupidtree.style.base.BaseCheckableListAdapter
+import com.stupidtree.style.base.BaseViewHolder
 import com.stupidtree.hitax.utils.TimeTools
 import java.util.*
 

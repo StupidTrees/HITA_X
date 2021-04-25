@@ -83,10 +83,10 @@ class TimeTablePagerAdapter(
         pager.offscreenPageLimit = size / 2 - 1
         pager.adapter = this
         var tm = initWindowStart
-
+        fragments.clear()
         for (i in 0 until size) {
             val f = TimetablePageFragment.newInstance()
-            f.resetWeek(tm)
+            f.resetWeek(tm,true)
             fragments.add(f)
             tm += WEEK_MILLS
         }

@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hitax.R
-import com.stupidtree.hitax.data.repository.UserRepository
 import com.stupidtree.hitax.ui.welcome.login.LoginTrigger.Companion.getRequestState
 import com.stupidtree.hitax.utils.TextTools
+import com.stupidtree.stupiduser.data.repository.UserRepository
 
 /**
  * 层次：ViewModel
@@ -30,7 +30,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     //用户仓库
     private val userRepository: UserRepository = UserRepository.getInstance(application)
 
-    val loginResult: LiveData<LoginResult>
+    val loginResult: LiveData<com.stupidtree.stupiduser.data.model.LoginResult>
         get() = Transformations.switchMap(loginState) { input: LoginTrigger ->
             if (input.isActioning) {
                 return@switchMap userRepository.login(input.username!!, input.password!!)

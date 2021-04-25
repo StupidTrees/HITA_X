@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hitax.data.repository.EASRepository
-import com.stupidtree.hitax.ui.base.DataState
+import com.stupidtree.component.data.DataState
 
 class LoginEASViewModel(application: Application) : AndroidViewModel(application){
 
