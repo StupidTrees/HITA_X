@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.stupidtree.component.web.ApiResponse
 import com.stupidtree.hita.theta.data.model.Article
 import com.stupidtree.hita.theta.data.model.LikeResult
+import com.stupidtree.hita.theta.data.model.StarResult
 import com.stupidtree.stupiduser.data.model.UserProfile
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -18,7 +19,8 @@ interface ArticleService {
     fun postArticle(
         @Header("Authorization") token: String,
         @Field("content") content: String,
-        @Field("repostId") repostId: String?
+        @Field("repostId") repostId: String?,
+        @Field("topicId") topicId: String?
     ): LiveData<ApiResponse<Boolean>?>
 
     /**
@@ -33,7 +35,8 @@ interface ArticleService {
         @PartMap params: HashMap<String, RequestBody>,
         @Header("Authorization") token: String?,
         @Query("content") content: String,
-        @Query("repostId") repostId: String?
+        @Query("repostId") repostId: String?,
+        @Query("topicId") topicId: String?
     ): LiveData<ApiResponse<Boolean>>
 
 
@@ -46,7 +49,6 @@ interface ArticleService {
         @Query("pageSize") pageSize: Int,
         @Query("extra") extra: String
     ): LiveData<ApiResponse<List<Article>>>
-
 
 
     @GET("/article/get")
@@ -79,7 +81,6 @@ interface ArticleService {
     ): LiveData<ApiResponse<Any>>
 
 
-
     @FormUrlEncoded
     @POST("/article/like")
     fun likeOrUnlikeLive(
@@ -87,4 +88,12 @@ interface ArticleService {
         @Field("articleId") articleId: String?,
         @Field("like") like: Boolean
     ): LiveData<ApiResponse<LikeResult>>
+
+    @FormUrlEncoded
+    @POST("/article/star")
+    fun starOrUnstarLive(
+        @Header("Authorization") token: String,
+        @Field("articleId") articleId: String?,
+        @Field("star") star: Boolean
+    ): LiveData<ApiResponse<StarResult>>
 }

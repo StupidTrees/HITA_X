@@ -9,15 +9,18 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.stupidtree.hita.theta.ui.list.ArticleListFragment
+import com.stupidtree.hita.theta.ui.user.UserListFragment
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.ActivitySearchBinding
 import com.stupidtree.style.base.BaseActivity
 import com.stupidtree.style.base.BaseTabAdapter
 import com.stupidtree.hitax.ui.search.teacher.FragmentSearchTeacher
 import com.stupidtree.hitax.utils.ActivityUtils
+import com.stupidtree.style.base.FragmentSearchResult
 
 class SearchActivity : BaseActivity<SearchViewModel, ActivitySearchBinding>(),
-    FragmentSearchResult.SearchRoot {
+    BasicFragmentSearchResult.SearchRoot {
     var pagerAdapter: SearchPagerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +36,7 @@ class SearchActivity : BaseActivity<SearchViewModel, ActivitySearchBinding>(),
 
     override fun onEnterAnimationComplete() {
         super.onEnterAnimationComplete()
-        if(!isSearchForPurpose()){
+        if (!isSearchForPurpose()) {
             popUpKeyboard()
         }
     }
@@ -54,6 +57,8 @@ class SearchActivity : BaseActivity<SearchViewModel, ActivitySearchBinding>(),
         when (purpose) {
 //            "timetable" -> index = 0
             ActivityUtils.SearchType.TEACHER.name -> index = 0
+            ActivityUtils.SearchType.USER.name -> index = 1
+            ActivityUtils.SearchType.ARTICLE.name -> index = 2
 //            "user" -> index = 2
 //            "location" -> index = 3
 //            "library" -> index = 4
@@ -98,17 +103,18 @@ class SearchActivity : BaseActivity<SearchViewModel, ActivitySearchBinding>(),
 
     fun setSearchText(text: String) {
         for (f in supportFragmentManager.fragments) {
-            if (f is FragmentSearchResult<*, *>) {
+            if (f is FragmentSearchResult) {
                 f.setSearchText(text)
             }
         }
     }
 
-    class SearchPagerAdapter(fm: FragmentManager, val context: Context) : BaseTabAdapter(fm, 1) {
+    class SearchPagerAdapter(fm: FragmentManager, val context: Context) : BaseTabAdapter(fm, 3) {
         private var titles: IntArray = intArrayOf(
             //R.string.tab_search_timetable,
             R.string.tab_search_teacher,
-//            R.string.tab_search_user,
+            R.string.tab_search_user,
+            R.string.tab_search_article
 //            R.string.tab_search_location,
 //            R.string.tab_search_library,
 //            R.string.tab_hitsz_website_info,
@@ -125,17 +131,12 @@ class SearchActivity : BaseActivity<SearchViewModel, ActivitySearchBinding>(),
             mFragments[position] = null
         }
 
-        protected override fun initItem(position: Int): Fragment {
-            return FragmentSearchTeacher()
-//            when (position) {
-//                0 -> FragmentSearchResult_timetable.newInstance()
-//                1 -> FragmentSearchResult_teacher.newInstance()
-//                2 -> FragmentSearchResult_user.newInstance()
-//                3 -> FragmentSearchResult_location.newInstance()
-//                4 -> FragmentSearchResult_library.newInstance()
-//                5 -> FragmentSearchResult_web.newInstance()
-//                else -> FragmentSearchResult_zsw.newInstance()
-//            }
+        override fun initItem(position: Int): Fragment {
+            return when (position) {
+                0 -> FragmentSearchTeacher()
+                1 -> UserListFragment.newInstance("search", "")
+                else -> ArticleListFragment.newInstance("search", "")
+            }
         }
 
     }

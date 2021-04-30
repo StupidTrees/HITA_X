@@ -9,9 +9,11 @@
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
         <activity android:name=".ui.comment.reply.CommentReplyActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
-        <activity android:name=".ui.user.activity.UserListActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
         <activity android:name=".ui.search.ArticleSearchActivity" />
         <activity android:name=".ui.list.activity.ArticleListActivity" />
+        <activity android:name=".ui.topic.search.SearchTopicActivity" />
+        <activity android:name=".ui.topic.detail.TopicDetailActivity" />
+        <activity android:name=".ui.user.activity.UserListActivity" />
+        <activity android:name=".ui.message.MessagesActivity" />
     </application>
 </manifest>

@@ -6,14 +6,15 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stupidtree.component.data.DataState
-import com.stupidtree.hita.theta.databinding.FragmentUserListBinding
-import com.stupidtree.hita.theta.ui.user.UserListViewModel.Companion.PAGE_SIZE
+import com.stupidtree.hita.theta.databinding.FragmentSwipeListBinding
+import com.stupidtree.hita.theta.ui.list.ArticleListViewModel.Companion.PAGE_SIZE
 import com.stupidtree.stupiduser.data.model.UserProfile
 import com.stupidtree.style.base.BaseFragment
 import com.stupidtree.style.base.BaseListAdapter
+import com.stupidtree.style.base.FragmentSearchResult
 
 class UserListFragment :
-    BaseFragment<UserListViewModel, FragmentUserListBinding>() {
+    BaseFragment<UserListViewModel, FragmentSwipeListBinding>(),FragmentSearchResult {
     lateinit var listAdapter: UserListAdapter
     lateinit var mode: String
     var extra = ""
@@ -86,13 +87,14 @@ class UserListFragment :
     }
 
     private fun refreshAll() {
+        if(extra.isEmpty()) return
         binding?.refresh?.isRefreshing = true
         viewModel.refreshAll(arguments?.getString("mode", "following") ?: "following", extra)
 
     }
 
-    override fun initViewBinding(): FragmentUserListBinding {
-        return FragmentUserListBinding.inflate(layoutInflater)
+    override fun initViewBinding(): FragmentSwipeListBinding {
+        return FragmentSwipeListBinding.inflate(layoutInflater)
     }
 
     companion object {
@@ -104,5 +106,10 @@ class UserListFragment :
             r.arguments = b
             return r
         }
+    }
+
+    override fun setSearchText(searchText: String) {
+        extra = searchText
+        refreshAll()
     }
 }

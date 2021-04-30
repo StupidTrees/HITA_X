@@ -9,35 +9,52 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/backgroundColorBottom"
+        android:background="#00000000"
+        android:fitsSystemWindows="true"
         app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:fitsSystemWindows="true"
-            app:theme="?attr/toolbarStyle">
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp">
 
             <LinearLayout
+                android:id="@+id/search"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:orientation="horizontal">
+                android:layout_height="36dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/element_rounded_bar_grey_light_24"
+                android:backgroundTint="#70e7e7f2"
+                android:backgroundTintMode="src_in"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:transitionName="search"
+                app:layout_scrollFlags="scroll|enterAlways">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center|start"
+                    android:layout_marginStart="8dp"
+                    app:srcCompat="@drawable/ic_baseline_search_24" />
 
                 <EditText
                     android:id="@+id/searchview"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="4dp"
                     android:layout_weight="1"
                     android:background="#00000000"
-                    android:hint="@string/search_hint"
+                    android:ems="10"
                     android:imeOptions="actionSearch"
-                    android:singleLine="true"
-                    android:textColor="?attr/textColorPrimary"
-                    android:textColorHint="?attr/textColorSecondary" />
+                    android:inputType="textPersonName" />
 
                 <ProgressBar
                     android:id="@+id/loading"
@@ -50,7 +67,6 @@
                     android:progressTintMode="src_in"
                     android:visibility="gone" />
             </LinearLayout>
-
         </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout
@@ -85,12 +101,6 @@
                 android:text="Wednesday" />
         </com.google.android.material.tabs.TabLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="-0.5dp"
-            android:alpha="0.7"
-            android:background="?android:attr/listDivider" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

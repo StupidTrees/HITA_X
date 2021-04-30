@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_baseline_timeline_24"
-        android:title="@string/title_following" />
+
 
 <!--    <item-->
 <!--        android:id="@+id/navigation_dashboard"-->
@@ -13,7 +10,14 @@
 
     <item
         android:id="@+id/navigation_navigation"
-        android:icon="@drawable/ic_baseline_search_24"
+        android:icon="@drawable/ic_discover"
         android:title="@string/title_playground" />
-
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/title_following" />
+    <item
+        android:id="@+id/navigation_me"
+        android:icon="@drawable/ic_baseline_mail_24"
+        android:title="@string/title_me" />
 </menu>

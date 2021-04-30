@@ -1,5 +1,6 @@
 package com.stupidtree.stupiduser.util
 
+import android.app.Activity
 import android.content.Context
 import android.text.TextUtils
 import android.widget.ImageView
@@ -20,11 +21,18 @@ object ImageUtils {
         } else {
             val glideUrl = GlideUrl(
                 "https://hita.store:39999/profile/avatar?imageId=" +
-                       imageId, LazyHeaders.Builder().addHeader("device-type", "android").build()
+                        imageId, LazyHeaders.Builder().addHeader("device-type", "android").build()
             )
+            if (context is Activity) {
+                if (context.isDestroyed) {
+                    return
+                }
+            }
             Glide.with(context).load(
                 glideUrl
-           ).apply(RequestOptions.bitmapTransform(CircleCrop())).placeholder(R.drawable.place_holder_avatar).into(target)
+            ).apply(RequestOptions.bitmapTransform(CircleCrop()))
+                .placeholder(R.drawable.place_holder_avatar).into(target)
+
         }
     }
 

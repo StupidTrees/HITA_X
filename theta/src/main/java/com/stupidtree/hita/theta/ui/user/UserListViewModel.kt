@@ -5,8 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.component.data.DataState
-import com.stupidtree.hita.theta.data.repository.ArticleRepository
-import com.stupidtree.hita.theta.ui.user.PageRefreshTrigger
+import com.stupidtree.hita.theta.ui.topic.PageRefreshTrigger
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 import com.stupidtree.stupiduser.data.repository.ProfileRepository
 
@@ -40,7 +39,7 @@ class UserListViewModel(application: Application) : AndroidViewModel(application
             it.mode = mode
             it.extra = extra
             it.pageSize = PAGE_SIZE
-            it.pageNum = 0
+            it.pageNum = 1
         }
     }
 
@@ -49,7 +48,7 @@ class UserListViewModel(application: Application) : AndroidViewModel(application
             it.action = DataState.LIST_ACTION.APPEND
             it.mode = mode
             it.pageSize = PAGE_SIZE
-            it.pageNum = (refreshController.value?.pageNum ?: -1) + 1
+            it.pageNum = (refreshController.value?.pageNum ?: 1) + 1
             it.extra = extra
         }
     }

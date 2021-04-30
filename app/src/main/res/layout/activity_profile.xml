@@ -244,58 +244,6 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:id="@+id/fans_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="64dp"
-                        android:clickable="false"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"
-                        android:orientation="horizontal"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="24dp"
-                            android:background="@drawable/element_round_primary_light"
-                            android:backgroundTint="?attr/backgroundColorBottomAsTint"
-                            android:backgroundTintMode="src_over"
-                            android:padding="8dp"
-                            app:srcCompat="@drawable/ic_bx_meeting"
-                            app:tint="?attr/colorPrimary" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:text="@string/fans"
-                            android:textColor="?attr/textColorPrimary"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/fans"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:singleLine="true"
-                            android:textColor="?attr/textColorSecondary"
-                            android:textSize="18sp" />
-
-                        <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:layout_gravity="center"
-                            android:tintMode="src_in"
-                            app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
-                            app:tint="?attr/colorPrimaryDisabled" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
                         android:id="@+id/following_layout"
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
@@ -339,6 +287,58 @@
 
                         <ImageView
                             android:id="@+id/imageView8"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_gravity="center"
+                            android:tintMode="src_in"
+                            app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            app:tint="?attr/colorPrimaryDisabled" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/fans_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:clickable="false"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="24dp"
+                            android:background="@drawable/element_round_primary_light"
+                            android:backgroundTint="?attr/backgroundColorBottomAsTint"
+                            android:backgroundTintMode="src_over"
+                            android:padding="8dp"
+                            app:srcCompat="@drawable/ic_bx_meeting"
+                            app:tint="?attr/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:text="@string/fans"
+                            android:textColor="?attr/textColorPrimary"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/fans"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:singleLine="true"
+                            android:textColor="?attr/textColorSecondary"
+                            android:textSize="18sp" />
+
+                        <ImageView
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:layout_gravity="center"

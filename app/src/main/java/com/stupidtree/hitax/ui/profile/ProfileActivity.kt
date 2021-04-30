@@ -1,6 +1,5 @@
 package com.stupidtree.hitax.ui.profile
 
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
@@ -97,6 +96,7 @@ class ProfileActivity : BaseActivity<ProfileViewModel, ActivityProfileBinding>()
                 )
             }
         }
+
         binding.fab.backgroundTintList = ColorStateList.valueOf(getColorPrimary())
     }
 

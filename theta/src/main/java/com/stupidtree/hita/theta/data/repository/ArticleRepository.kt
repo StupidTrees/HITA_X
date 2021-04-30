@@ -7,6 +7,7 @@ import androidx.lifecycle.MediatorLiveData
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hita.theta.data.model.Article
 import com.stupidtree.hita.theta.data.model.LikeResult
+import com.stupidtree.hita.theta.data.model.StarResult
 import com.stupidtree.hita.theta.data.source.web.ArticleWebSource
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -21,12 +22,14 @@ class ArticleRepository(val application: Application) {
     fun postArticle(
         token: String,
         content: String,
-        repostId: String?
+        repostId: String?,
+        topicId:String?,
     ): LiveData<DataState<Boolean>> {
         return articleWebSource.postArticle(
             token,
             content,
-            repostId
+            repostId,
+            topicId
         )
     }
 
@@ -34,7 +37,8 @@ class ArticleRepository(val application: Application) {
         token: String,
         content: String,
         urls: List<String>,
-        repostId: String?
+        repostId: String?,
+        topicId:String?,
     ): LiveData<DataState<Boolean>> {
         val result = MediatorLiveData<DataState<Boolean>>()
         val urlCompressed = mutableListOf<String>()
@@ -60,6 +64,7 @@ class ArticleRepository(val application: Application) {
                                 token,
                                 content,
                                 repostId,
+                                topicId,
                                 urlCompressed
                             )
                         ) {
@@ -105,7 +110,13 @@ class ArticleRepository(val application: Application) {
     ): LiveData<DataState<LikeResult>> {
         return articleWebSource.likeOrUnlikeLive(token, articleId, like)
     }
-
+    fun starOrUnstarLive(
+        token: String,
+        articleId: String,
+        like: Boolean
+    ): LiveData<DataState<StarResult>> {
+        return articleWebSource.starOrUnstarLive(token, articleId, like)
+    }
     fun delete(
         token: String,
         articleId: String

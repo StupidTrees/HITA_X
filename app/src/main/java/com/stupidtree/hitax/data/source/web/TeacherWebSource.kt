@@ -102,7 +102,7 @@ object TeacherWebSource : TeacherService {
             if (!TextUtils.isEmpty(txt)) {
                 val keys = txt.split("[,，]".toRegex()).toTypedArray()
                 for (k in keys) {
-                    if(k.isEmpty()) continue
+                    if (k.isEmpty()) continue
                     var d: Document?
                     d = try {
                         Jsoup.connect("http://faculty.hitsz.edu.cn/hompage/findTeachersByName.do")
@@ -118,15 +118,17 @@ object TeacherWebSource : TeacherService {
                         val json = d?.getElementsByTag("body")?.text()
                         val jo = json?.let { JSONObject(json) }
                         val ja = jo?.getJSONArray("rows")
-                        ja?.let{ it ->
+                        ja?.let { it ->
                             for (i in 0 until it.length()) {
                                 val teacher = it.getJSONObject(i)
                                 val obj = TeacherSearched()
-                                obj.name =  teacher.optString("userName")
+                                obj.name = teacher.optString("userName")
                                 obj.id = teacher.optString("id")
-                                obj.url =teacher.optString("url")
+                                obj.url = teacher.optString("url")
                                 obj.department = teacher.optString("department")
-                                res.add(obj)
+                                if (res.size < 30) {
+                                    res.add(obj)
+                                }
                             }
                         }
                     } catch (e: java.lang.Exception) {
@@ -135,7 +137,7 @@ object TeacherWebSource : TeacherService {
                     }
                 }
                 result.postValue(DataState(res))
-            }else{
+            } else {
                 result.postValue(DataState(DataState.STATE.NOTHING))
             }
         }.start()

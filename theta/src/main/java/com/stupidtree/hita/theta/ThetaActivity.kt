@@ -5,15 +5,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.HapticFeedbackConstants
 import android.view.ViewGroup
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.stupidtree.hita.theta.ui.create.CreateArticleActivity
 import com.stupidtree.hita.theta.databinding.ActivityThetaBinding
 import com.stupidtree.hita.theta.ui.list.ArticleListFragment
-import com.stupidtree.hita.theta.ui.user.UserListFragment
-import com.stupidtree.hita.theta.ui.list.ArticleNavigationFragment
+import com.stupidtree.hita.theta.ui.me.MeFragment
+import com.stupidtree.hita.theta.ui.navigation.ArticleNavigationFragment
 import com.stupidtree.style.base.BaseActivity
 import com.stupidtree.style.base.BaseTabAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+
+
+
 
 /**
  * 很显然，这是主界面
@@ -30,11 +35,12 @@ class ThetaActivity : BaseActivity<ThetaViewModel, ActivityThetaBinding>() {
 
     override fun initViews() {
         binding.title.setText(R.string.title_following)
-        binding.pager.adapter = object : BaseTabAdapter(supportFragmentManager, 2) {
+        binding.pager.adapter = object : BaseTabAdapter(supportFragmentManager, 3) {
             override fun initItem(position: Int): Fragment {
                 return when (position) {
-                    0 -> ArticleListFragment.newInstance("following")
-                    else -> ArticleNavigationFragment()
+                    1 -> ArticleListFragment.newInstance("following")
+                    0 -> ArticleNavigationFragment()
+                    else->MeFragment()
                 }
             }
 
@@ -54,8 +60,9 @@ class ThetaActivity : BaseActivity<ThetaViewModel, ActivityThetaBinding>() {
             override fun onPageSelected(position: Int) {
                 binding.title.setText(
                     when (position) {
-                        0 -> R.string.title_following
-                        else -> R.string.title_playground
+                        1 -> R.string.title_following
+                        0 -> R.string.title_playground
+                        else ->R.string.title_me
                     }
                 )
                 val item = binding.navView.menu.getItem(position)
@@ -68,9 +75,9 @@ class ThetaActivity : BaseActivity<ThetaViewModel, ActivityThetaBinding>() {
         binding.navView.setOnNavigationItemSelectedListener {
             binding.navView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
             binding.pager.currentItem = when (it.itemId) {
-                R.id.navigation_home -> 0
-                R.id.navigation_navigation -> 1
-                else -> 0
+                R.id.navigation_home -> 1
+                R.id.navigation_navigation -> 0
+                else -> 2
             }
             return@setOnNavigationItemSelectedListener true
         }
@@ -89,9 +96,4 @@ class ThetaActivity : BaseActivity<ThetaViewModel, ActivityThetaBinding>() {
         return ActivityThetaBinding.inflate(layoutInflater)
     }
 
-
-    companion object {
-        const val POST_GET_NEW = "COM.STUPIDTREE.THETA.POST.GET_NEW"
-        const val POST_REFRESH_ONE = "COM.STUPIDTREE.THETA.POST.REFRESH_ONE"
-    }
 }

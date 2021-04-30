@@ -62,10 +62,7 @@ class HotCommentsListAdapter(mContext: Context, mBeans: MutableList<Comment>) :
         holder.binding.time.text = TextTools.getArticleTimeText(mContext, data?.createTime)
         if (data?.commentNum ?: 0 > 0) {
             holder.binding.replies.setOnClickListener {
-                val i = Intent(mContext,CommentReplyActivity::class.java)
-                i.putExtra("articleId",data?.articleId)
-                i.putExtra("commentId",data?.id)
-                mContext.startActivity(i)
+                ActivityTools.startCommentDetail(mContext, data?.articleId ?: "", data?.id ?: "")
             }
             holder.binding.replies.visibility = View.VISIBLE
             holder.binding.replies.text =

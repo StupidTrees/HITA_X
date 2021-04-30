@@ -9,6 +9,7 @@ import com.stupidtree.component.web.BaseWebSource
 import com.stupidtree.component.web.LiveDataCallAdapter
 import com.stupidtree.hita.theta.data.model.Article
 import com.stupidtree.hita.theta.data.model.LikeResult
+import com.stupidtree.hita.theta.data.model.StarResult
 import com.stupidtree.hita.theta.data.source.web.service.ArticleService
 import com.stupidtree.hita.theta.data.source.web.service.codes
 import com.stupidtree.hita.theta.data.source.web.service.codes.SUCCESS
@@ -35,6 +36,7 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         token: String,
         content: String,
         repostId: String?,
+        topicId:String?,
         filePaths: List<String>
     ): LiveData<DataState<Boolean>> {
         val params: HashMap<String, RequestBody> = HashMap()
@@ -45,7 +47,7 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         }
         return Transformations.map(
             service.postArticle(
-                params, HttpUtils.getHeaderAuth(token), content, repostId
+                params, HttpUtils.getHeaderAuth(token), content, repostId,topicId
             )
         ) { input ->
             if (input != null) {
@@ -65,11 +67,12 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
     fun postArticle(
         token: String,
         content: String,
-        repostId: String?
+        repostId: String?,
+        topicId:String?
     ): LiveData<DataState<Boolean>> {
         return Transformations.map(
             service.postArticle(
-                HttpUtils.getHeaderAuth(token), content, repostId
+                HttpUtils.getHeaderAuth(token), content, repostId,topicId
             )
         ) { input ->
             if (input != null) {
@@ -205,6 +208,30 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         }
     }
 
+
+    fun starOrUnstarLive(
+        token: String,
+        articleId: String,
+        star: Boolean
+    ): LiveData<DataState<StarResult>> {
+        return Transformations.map(
+            service.starOrUnstarLive(
+                HttpUtils.getHeaderAuth(token), articleId, star
+            )
+        ) { input ->
+            if (input != null) {
+                when (input.code) {
+                    SUCCESS -> return@map DataState(input.data ?: StarResult())
+                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                    else -> return@map DataState(
+                        DataState.STATE.FETCH_FAILED,
+                        input.message
+                    )
+                }
+            }
+            DataState(DataState.STATE.FETCH_FAILED)
+        }
+    }
     companion object {
         var instance: ArticleWebSource? = null
         fun getInstance(context: Context): ArticleWebSource {

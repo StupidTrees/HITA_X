@@ -31,10 +31,18 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
             }
 
         }
+        viewModel.unreadMessageLiveData.observe(this) {
+            if (it.data ?: 0 > 0) {
+                binding?.messageNum?.visibility = View.VISIBLE
+                binding?.messageNum?.text = it.data.toString()
+            } else {
+                binding?.messageNum?.visibility = View.GONE
+            }
+        }
         binding?.cardTimetable?.setOnClickListener {
             ActivityUtils.startTimetableManager(requireContext())
         }
-        binding?.cardRecentTimetable?.setOnClickListener{
+        binding?.cardRecentTimetable?.setOnClickListener {
             viewModel.recentTimetableLiveData.value?.let {
                 ActivityUtils.startTimetableDetailActivity(requireContext(), it.id)
             }
@@ -83,6 +91,12 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
         binding?.cardSearch?.setOnClickListener {
             ActivityUtils.startSearchActivity(requireContext())
         }
+        binding?.search?.setOnClickListener{
+            binding?.search?.let{v->
+                ActivityUtils.startSearchActivity(requireActivity(),v)
+            }
+
+        }
     }
 
     override fun onStart() {
@@ -109,7 +123,7 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
                 //设置各种文字
                 binding?.username?.text = it.username
                 binding?.nickname?.text = it.nickname
-               binding?.userCard?.setOnClickListener {v->
+                binding?.userCard?.setOnClickListener { v ->
                     ActivityUtils.startProfileActivity(
                         requireContext(),
                         it.id
@@ -120,10 +134,15 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
                 binding?.username?.setText(R.string.not_log_in)
                 binding?.nickname?.setText(R.string.log_in_first)
                 binding?.avatar?.setImageResource(R.drawable.place_holder_avatar)
-                binding?.userCard?.setOnClickListener { ActivityUtils.startWelcomeActivity(requireContext()) }
+                binding?.userCard?.setOnClickListener {
+                    ActivityUtils.startWelcomeActivity(
+                        requireContext()
+                    )
+                }
             }
         }
     }
+
 
     override fun initViewBinding(): FragmentNavigationBinding {
         return FragmentNavigationBinding.inflate(layoutInflater)

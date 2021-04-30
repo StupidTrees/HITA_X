@@ -87,17 +87,35 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/delete"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:alpha="0.5"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"
-                    android:padding="12dp"
-                    android:theme="@style/rippleControlSmall"
-                    android:tintMode="src_in"
-                    app:srcCompat="@drawable/ic_baseline_delete_24"
-                    app:tint="?attr/colorControlNormal" />
+                <LinearLayout
+                    android:id="@+id/tools"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/star_icon"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:alpha="0.5"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:padding="10dp"
+                        android:theme="@style/ripplePrimarySmall"
+                        app:srcCompat="@drawable/ic_like_filled" />
+
+                    <ImageView
+                        android:id="@+id/delete"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:alpha="0.5"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:padding="12dp"
+                        android:theme="@style/rippleControlSmall"
+                        android:tintMode="src_in"
+                        app:srcCompat="@drawable/ic_baseline_delete_24"
+                        app:tint="?attr/colorControlNormal" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -159,6 +177,42 @@
 
 
                     </androidx.recyclerview.widget.RecyclerView>
+
+                    <LinearLayout
+                        android:id="@+id/topic_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="16dp"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
+
+                        <ImageView
+                            android:id="@+id/topic"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:tint="?attr/colorPrimary"
+                            app:srcCompat="@drawable/ic_topic" />
+
+                        <TextView
+                            android:id="@+id/topic_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:tintMode="src_in"
+                            app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            app:tint="?attr/colorPrimaryDisabled" />
+                    </LinearLayout>
 
 
                     <LinearLayout

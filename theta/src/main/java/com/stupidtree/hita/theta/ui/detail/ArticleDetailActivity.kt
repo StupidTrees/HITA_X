@@ -16,8 +16,7 @@ import com.stupidtree.hita.theta.databinding.ActivityArticleDetailBinding
 import com.stupidtree.hita.theta.ui.DirtyArticles
 import com.stupidtree.hita.theta.ui.comment.CreateCommentFragment
 import com.stupidtree.hita.theta.ui.create.CreateArticleActivity
-import com.stupidtree.hita.theta.ui.user.UserListViewModel
-import com.stupidtree.hita.theta.ui.user.activity.UserListActivity
+import com.stupidtree.hita.theta.ui.list.ArticleListViewModel.Companion.PAGE_SIZE
 import com.stupidtree.hita.theta.utils.ActivityTools
 import com.stupidtree.hita.theta.utils.TextTools
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
@@ -72,6 +71,13 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
                     }
                     binding.postAuthor.text = it.authorName
                     binding.content.text = it.content
+                    binding.starIcon.setImageResource(
+                        if (it.starred) {
+                            R.drawable.ic_baseline_star_24
+                        } else {
+                            R.drawable.ic_baseline_star_outline_24
+                        }
+                    )
                     binding.likeNum.text = it.likeNum.toString()
                     binding.postTime.text = TextTools.getArticleTimeText(getThis(), it.createTime)
                     binding.likeIcon.setImageResource(
@@ -81,13 +87,21 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
                             R.drawable.ic_like_outline
                         }
                     )
+                    if (it.topicId.isNullOrEmpty()) {
+                        binding.topicLayout.visibility = View.GONE
+                    } else {
+                        binding.topicLayout.visibility = View.VISIBLE
+                        binding.topicName.text = it.topicName
+                        binding.topicLayout.setOnClickListener { v ->
+                            ActivityTools.startTopicDetailActivity(getThis(), it.topicId ?:"")
+                            //ActivityTools.startArticleListActivity(getThis(),)
+                        }
+                    }
                     if (it.repostId.isNullOrEmpty()) {
                         binding.repostLayout.visibility = View.GONE
                     } else {
                         binding.repostLayout.setOnClickListener { _ ->
-                            val i = Intent(getThis(), ArticleDetailActivity::class.java)
-                            i.putExtra("articleId", it.repostId)
-                            startActivity(i)
+                            ActivityTools.startArticleDetail(getThis(),it.repostId?:"")
                         }
                         binding.repostLayout.visibility = View.VISIBLE
                         binding.repostAuthor.text = it.repostAuthorName
@@ -104,9 +118,7 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
                         } else {
                             binding.repostLayout.visibility = View.VISIBLE
                             binding.repostLayout.setOnClickListener { v ->
-                                val i = Intent(getThis(), ArticleDetailActivity::class.java)
-                                i.putExtra("articleId", it.repostId)
-                                getThis().startActivity(i)
+                                ActivityTools.startArticleDetail(getThis(),it.repostId?:"")
                             }
                             binding.repostAuthor.text = it.repostAuthorName
                             binding.repostContent.text = it.repostContent
@@ -153,6 +165,17 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
                     }
                 }
 
+            }
+        }
+        viewModel.starResultLiveData.observe(this) { dataState ->
+            dataState.data?.let {
+                binding.starIcon.setImageResource(
+                    if (it.starred) {
+                        R.drawable.ic_baseline_star_24
+                    } else {
+                        R.drawable.ic_baseline_star_outline_24
+                    }
+                )
             }
         }
         viewModel.likeResultLiveData.observe(this) { dataState ->
@@ -218,7 +241,7 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
         listAdapter = HotCommentsListAdapter(this, mutableListOf())
         binding.authorLayout.setOnClickListener {
             viewModel.articleLiveData.value?.data?.let {
-                ActivityTools.startUserActivity(getThis(),it.authorId)
+                ActivityTools.startUserActivity(getThis(), it.authorId)
             }
         }
         binding.list.adapter = imageListAdapter
@@ -235,6 +258,9 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
         binding.like.setOnClickListener {
             viewModel.like()
         }
+        binding.starIcon.setOnClickListener {
+            viewModel.star()
+        }
         binding.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
             val scale = 1.0f + verticalOffset / appBarLayout.height.toFloat()
             binding.authorLayout.translationX =
@@ -247,11 +273,11 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
             binding.authorLayout.translationY =
                 (binding.authorLayout.height / 2) * (1 - binding.authorLayout.scaleY)
 
-            binding.delete.translationY = dp2px(getThis(), 24f) * (1 - scale)
-            binding.delete.scaleX = 0.7f + 0.3f * scale
-            binding.delete.scaleY = 0.7f + 0.3f * scale
-            binding.delete.translationX =
-                (binding.delete.width / 2) * (1 - binding.delete.scaleX)
+            binding.tools.translationY = dp2px(getThis(), 24f) * (1 - scale)
+            binding.tools.scaleX = 0.7f + 0.3f * scale
+            binding.tools.scaleY = 0.7f + 0.3f * scale
+            binding.tools.translationX =
+                (binding.tools.width / 2) * (1 - binding.tools.scaleX)
 
         })
         binding.repost.setOnClickListener {
@@ -332,7 +358,7 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (!binding.nest.canScrollVertically(1) && listAdapter.itemCount >= UserListViewModel.PAGE_SIZE) {
+                    if (!binding.nest.canScrollVertically(1) && listAdapter.itemCount >= PAGE_SIZE) {
                         binding.refresh.isRefreshing = true
                         intent.getStringExtra("articleId")?.let {
                             viewModel.loadMore(it)

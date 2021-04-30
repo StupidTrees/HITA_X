@@ -1,5 +1,6 @@
 package com.stupidtree.hita.theta.utils
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -27,6 +28,11 @@ object ImageUtils {
                 "https://hita.store:39999/article/image?imageId=" +
                         imageId, LazyHeaders.Builder().addHeader("device-type", "android").build()
             )
+            if (context is Activity) {
+                if (context.isDestroyed) {
+                    return
+                }
+            }
             Glide.with(context).load(
                 glideUrl
             ).apply(RequestOptions.bitmapTransform(transformation))

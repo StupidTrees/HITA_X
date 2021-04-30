@@ -11,6 +11,9 @@ class Article : Serializable {
     var authorAvatar: String = ""
     var repostId: String? = null
     var repostAuthorId: String? = null
+
+    var topicId: String? = null
+    var topicName: String? = null
     var repostAuthorAvatar: String? = null
     var repostAuthorName: String? = null
     var repostContent: String? = null
@@ -19,6 +22,7 @@ class Article : Serializable {
     var commentNum: Int = 0
     var likeNum: Int = 0
     var liked: Boolean = false
+    var starred: Boolean = false
     var images: List<String> = listOf()
     var repostImages: List<String> = listOf()
 
@@ -35,6 +39,8 @@ class Article : Serializable {
         if (authorAvatar != other.authorAvatar) return false
         if (repostId != other.repostId) return false
         if (repostAuthorId != other.repostAuthorId) return false
+        if (topicId != other.topicId) return false
+        if (topicName != other.topicName) return false
         if (repostAuthorAvatar != other.repostAuthorAvatar) return false
         if (repostAuthorName != other.repostAuthorName) return false
         if (repostContent != other.repostContent) return false
@@ -43,6 +49,8 @@ class Article : Serializable {
         if (commentNum != other.commentNum) return false
         if (likeNum != other.likeNum) return false
         if (liked != other.liked) return false
+        if (starred != other.starred) return false
+        if (images != other.images) return false
 
         return true
     }
@@ -54,6 +62,8 @@ class Article : Serializable {
         result = 31 * result + authorAvatar.hashCode()
         result = 31 * result + (repostId?.hashCode() ?: 0)
         result = 31 * result + (repostAuthorId?.hashCode() ?: 0)
+        result = 31 * result + (topicId?.hashCode() ?: 0)
+        result = 31 * result + (topicName?.hashCode() ?: 0)
         result = 31 * result + (repostAuthorAvatar?.hashCode() ?: 0)
         result = 31 * result + (repostAuthorName?.hashCode() ?: 0)
         result = 31 * result + (repostContent?.hashCode() ?: 0)
@@ -62,6 +72,8 @@ class Article : Serializable {
         result = 31 * result + commentNum
         result = 31 * result + likeNum
         result = 31 * result + liked.hashCode()
+        result = 31 * result + starred.hashCode()
+        result = 31 * result + images.hashCode()
         return result
     }
 

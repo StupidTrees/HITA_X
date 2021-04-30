@@ -10,7 +10,7 @@ import javax.net.ssl.TrustManagerFactory
 
 class SslContextFactory {
     var sslContext: SSLContext? = null
-    val trustManager: TrustManagerFactory = TrustManagerFactory.getInstance(
+    private val trustManager: TrustManagerFactory = TrustManagerFactory.getInstance(
         CLIENT_TRUST_MANAGER
     )
 
@@ -37,7 +37,7 @@ class SslContextFactory {
     }
 
     companion object {
-        private const val CLIENT_TRUST_PASSWORD = "www,2012.com" //信任证书密码
+        private const val CLIENT_TRUST_PASSWORD = "***" //信任证书密码
         private const val CLIENT_AGREEMENT = "TLS" //使用协议
         private const val CLIENT_TRUST_MANAGER = "X509"
         private const val CLIENT_TRUST_KEYSTORE = "BKS"

@@ -17,6 +17,7 @@ import com.stupidtree.hita.theta.ui.DirtyArticles
 import com.stupidtree.hita.theta.ui.create.CreateArticleActivity
 import com.stupidtree.hita.theta.ui.detail.ArticleDetailActivity
 import com.stupidtree.hita.theta.ui.user.UserListAdapter
+import com.stupidtree.hita.theta.utils.ActivityTools
 import com.stupidtree.hita.theta.utils.TextTools
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 import com.stupidtree.stupiduser.util.ImageUtils
@@ -87,19 +88,22 @@ class ArticleListAdapter(
                 binding.imgLayout.visibility = View.GONE
             }
             binding.author.text = data?.authorName
-
             binding.likeNum.text = data?.likeNum.toString()
             binding.commentNum.text = data?.commentNum.toString()
             binding.time.text = TextTools.getArticleTimeText(mContext, data?.createTime)
+            if(data?.topicId.isNullOrEmpty()){
+                binding.topicLayout.visibility = View.GONE
+            }else{
+                binding.topicName.text = data?.topicName
+                binding.topicLayout.visibility = View.VISIBLE
+            }
             ImageUtils.loadAvatarInto(mContext, data?.authorAvatar, binding.avatar)
             if (data?.repostId.isNullOrEmpty()) {
                 binding.repostLayout.visibility = View.GONE
             } else {
                 binding.repostLayout.visibility = View.VISIBLE
                 binding.repostLayout.setOnClickListener {
-                    val i = Intent(mContext, ArticleDetailActivity::class.java)
-                    i.putExtra("articleId", data?.repostId)
-                    mContext.startActivity(i)
+                    ActivityTools.startArticleDetail(mContext,data?.repostId?:"")
                 }
                 binding.repostAuthor.text = data?.repostAuthorName
                 binding.repostContent.text = data?.repostContent
