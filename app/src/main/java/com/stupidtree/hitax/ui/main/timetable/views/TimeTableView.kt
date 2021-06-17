@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.stupidtree.hitax.R
@@ -22,7 +23,7 @@ class TimeTableView : ViewGroup {
     var timelineColor = 0
     var endTime = TimeInDay(24, 0)
     var addButton: TimeTableBlockAddView? = null
-    var styleSheet: TimetableStyleSheet? = null
+    var styleSheet: TimetableStyleSheet = TimetableStyleSheet()
     private val startDate: Calendar = Calendar.getInstance()
     private var onCardClickListener: OnCardClickListener? = null
     private var onCardLongClickListener: OnCardLongClickListener? = null
@@ -92,10 +93,10 @@ class TimeTableView : ViewGroup {
         mLinePaint.alpha = 50
         mLinePaint.pathEffect = mPathEffect
         val temp = TimeInDay(0, 0)
-        for (i in (styleSheet?.getStartTimeObject()?.hour ?: 8)..23) {
+        for (i in styleSheet.getStartTimeObject().hour..23) {
             temp.hour = i
-            val top = ((i - (styleSheet?.getStartTimeObject()?.hour ?: 8)) * sectionHeight)
-            if (styleSheet?.drawBGLine == true) {
+            val top = ((i - styleSheet.getStartTimeObject().hour) * sectionHeight)
+            if (styleSheet.drawBGLine) {
                 val mLinePath = Path()
                 mLinePath.moveTo(0f, top.toFloat())
                 mLinePath.lineTo(mWidth.toFloat(), (top + 1).toFloat())
@@ -111,13 +112,14 @@ class TimeTableView : ViewGroup {
     fun notifyRefresh(startDate: Long, events: List<EventItem>, styleSheet: TimetableStyleSheet) {
         this.styleSheet = styleSheet
         this.startDate.timeInMillis = startDate
+        Log.e("notifyRefresh",TimeTools.printDate(startDate))
         removeAllViewsInLayout()
         requestLayout()
         for (o in events) {
             addBlock(o)
         }
         invalidate()
-        sectionHeight = this.styleSheet!!.cardHeight
+        sectionHeight = this.styleSheet.cardHeight
     }
 
     /**
@@ -195,7 +197,6 @@ class TimeTableView : ViewGroup {
     }
 
     fun init() {
-        this.styleSheet = TimetableStyleSheet()
         sectionHeight = styleSheet!!.cardHeight
         isClickable = true //设置为可点击，否则onTouchEvent只返回DOWN
     }
@@ -208,7 +209,7 @@ class TimeTableView : ViewGroup {
                 is TimeTableBlockView -> {
                     val lastTime = child.getDuration().toFloat()
                     val startTimeFromBeginning: Int =
-                            styleSheet?.getStartTimeObject()?.getDistanceInMinutes(child.getEvent().from.time)
+                            styleSheet.getStartTimeObject()?.getDistanceInMinutes(child.getEvent().from.time)
                                     ?: 0
                     val courseInWeek = child.getDow() - 1 //获得周几
                     //计算左边的坐标
@@ -223,7 +224,7 @@ class TimeTableView : ViewGroup {
                 }
                 is TimeTableNowLine -> {
                     val startTimeFromBeginning =
-                            styleSheet?.getStartTimeObject()?.getDistanceInMinutes(System.currentTimeMillis())
+                            styleSheet.getStartTimeObject().getDistanceInMinutes(System.currentTimeMillis())
                                     ?: 0
                     val top = (startTimeFromBeginning / 60f * sectionHeight).toInt()
                     child.layout(0, top, mWidth, top + 4)

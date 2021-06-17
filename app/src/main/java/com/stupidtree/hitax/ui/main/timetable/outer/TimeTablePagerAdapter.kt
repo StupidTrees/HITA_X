@@ -1,100 +1,80 @@
 package com.stupidtree.hitax.ui.main.timetable.outer
 
+import android.content.Context
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.stupidtree.hitax.ui.main.timetable.inner.TimetablePageFragment
-import com.stupidtree.hitax.ui.main.timetable.outer.TimetableFragment.Companion.WINDOW_SIZE
-import kotlin.math.roundToInt
+import com.stupidtree.hitax.data.model.timetable.EventItem
+import com.stupidtree.hitax.ui.main.timetable.inner.TimetableStyleSheet
+import com.stupidtree.hitax.ui.main.timetable.views.TimeTableView
 
 class TimeTablePagerAdapter(
+    private val context: Context,
     private val pager: ViewPager,
-    fm: FragmentManager,
-    val size: Int,
-    initWindowStart: Long
-) :
-    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    val size: Int
+) : PagerAdapter() {
 
-    private var fragments: MutableList<TimetablePageFragment> = mutableListOf()
+    private var tables = arrayOfNulls<TimeTableView?>(size)
+    private val cache: MutableMap<Int, Triple<Long, List<EventItem>, TimetableStyleSheet>> =
+        mutableMapOf()
 
-
-    private var startIndex = 0
-
-
-    override fun getItem(position: Int): Fragment {
-        return fragments[position]
-    }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val pos = (position) % size
-        return super.instantiateItem(container, pos)
+        if (tables[position % size] == null) {
+            val target = TimeTableView(context)
+            target.init()
+            container.addView(target)
+            tables[position%size] = target
+            if (cache.containsKey(position % size)) {
+                val tp = cache[position % size]!!
+                target.notifyRefresh(tp.first, tp.second, tp.third)
+                cache.remove(position % size)
+            }
+        }
+        return tables[position % size]!!
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        super.destroyItem(container, position % size, `object`)
+        //super.destroyItem(container, position%size, `object`)
+        if (tables[position % size] != null) {
+            container.removeView(tables[position % size])
+            tables[position % size] = null
+        }
+    }
+
+    override fun isViewFromObject(view: View, obj: Any): Boolean {
+        return view == obj
     }
 
     override fun getCount(): Int {
         return size * 80000
     }
 
-
-    fun scrollRight(windowStart: Long) {
-        val toChange = fragments[startIndex]//最左页面挪到右边使用
-        toChange.resetWeek(windowStart + (size - 1) * WEEK_MILLS)
-        startIndex = (startIndex + 1) % size
-    }
-
-    fun scrollLeft(windowStart: Long) {
-        val toChange = fragments[(startIndex + size - 1) % size]//最右页面挪到左边使用
-        toChange.resetWeek(windowStart)
-        startIndex = (startIndex - 1 + size) % size
-    }
-
-
-    fun scrollToDate(date: Long, oldStart: Long): Boolean {
-        var newWindowStart = date - WEEK_MILLS * (size / 2)
-        val oldWindowStart = oldStart - WEEK_MILLS * (size / 2)
-        if (date > oldWindowStart && date < oldWindowStart + WEEK_MILLS * size) { //在窗口内
-            val offset = ((newWindowStart - oldWindowStart).toFloat() / WEEK_MILLS).roundToInt()
-            pager.currentItem += offset
-            return offset != 0
-        }
-        Log.e("日期跳转","超出窗口")
-        if (date < oldStart) {
-            pager.currentItem -= WINDOW_SIZE/2 - 1
+    fun notifyTable(
+        position: Int,
+        startDate: Long,
+        events: List<EventItem>,
+        style: TimetableStyleSheet
+    ) {
+        Log.e("notifyTable", style.toString())
+        if (tables[position] == null) {
+            cache[position] = Triple(startDate, events, style)
         } else {
-            pager.currentItem += WINDOW_SIZE/2 - 1
+            tables[position]?.notifyRefresh(startDate, events, style)
         }
-        startIndex = (pager.currentItem - size / 2 + size) % size
-        for (i in 0 until size) {
-            fragments[(i + startIndex) % size].resetWeek(newWindowStart)
-            newWindowStart += WEEK_MILLS
-        }
-        return true
     }
-
 
     init {
         //比一半少一个，否则每次滑动，被循环的那个fragment将先被instantiate，再被destroy，白屏
         pager.offscreenPageLimit = size / 2 - 1
         pager.adapter = this
-        var tm = initWindowStart
-        fragments.clear()
-        for (i in 0 until size) {
-            val f = TimetablePageFragment.newInstance()
-            f.resetWeek(tm,true)
-            fragments.add(f)
-            tm += WEEK_MILLS
-        }
         pager.currentItem = count / 2 + (size / 2)
-
     }
 
     companion object {
         const val WEEK_MILLS: Long = 1000 * 60 * 60 * 24 * 7
     }
+
 }

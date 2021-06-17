@@ -1,16 +1,14 @@
 package com.stupidtree.hitax.ui.main.timetable.inner
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.databinding.FragmentTimetablePageBinding
-import com.stupidtree.style.base.BaseFragment
 import com.stupidtree.hitax.ui.main.timetable.views.TimeTableView
 import com.stupidtree.hitax.utils.EventsUtils
-import com.stupidtree.hitax.utils.TimeTools
+import com.stupidtree.style.base.BaseFragment
 import java.util.*
 
 class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimetablePageBinding>() {
@@ -38,7 +36,7 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
 
     fun resetWeek(date: Long,force:Boolean = false) {
         initStartDate = if(viewModelInit){
-            viewModel.setStartDate(date,force)
+            viewModel.setStartDate(date)
             null
         }else{
             //Log.e("set_init",this.toString()+","+TimeUtils.printDate(date))

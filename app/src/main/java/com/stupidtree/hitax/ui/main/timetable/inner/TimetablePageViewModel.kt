@@ -27,7 +27,7 @@ class TimetablePageViewModel(application: Application) : AndroidViewModel(applic
 
 
 
-    fun setStartDate(date: Long, force: Boolean = false) {
+    fun setStartDate(date: Long) {
         val old = startDateLiveData.value ?: 0
         if (date < old || date > old + 1000 * 60 * 60 * 24 * 7) {
             startDateLiveData.value = date

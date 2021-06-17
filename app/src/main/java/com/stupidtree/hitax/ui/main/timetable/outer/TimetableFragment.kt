@@ -10,21 +10,18 @@ import androidx.viewpager.widget.ViewPager
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.hitax.databinding.FragmentTimetableBinding
-import com.stupidtree.style.base.BaseFragment
 import com.stupidtree.hitax.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
+import com.stupidtree.hitax.utils.TimeTools
+import com.stupidtree.style.base.BaseFragment
 import java.util.*
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 class TimetableFragment :
     BaseFragment<TimetableViewModel, FragmentTimetableBinding>() {
-    private var pagerAdapter: TimeTablePagerAdapter? = null
+    private lateinit var pagerAdapter: TimeTablePagerAdapter
     private var mainPageController: MainPageController? = null
     private var currentIndex = 0
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        retainInstance = false
-    }
 
     override fun initViewBinding(): FragmentTimetableBinding {
         return FragmentTimetableBinding.inflate(layoutInflater)
@@ -61,31 +58,38 @@ class TimetableFragment :
             fc.remove(f)
         }
         fc.commitNowAllowingStateLoss()
-        pagerAdapter = null
         currentIndex = 0
         return super.onCreateView(inflater, container, savedInstanceState)
-
     }
 
 
     override fun initViews(view: View) {
-        binding?.pager?.adapter = null
-        pagerAdapter = binding?.pager?.let { it ->
-            TimeTablePagerAdapter(it, childFragmentManager, WINDOW_SIZE, viewModel.initWindow())
-        }
+        pagerAdapter = TimeTablePagerAdapter(requireContext(), binding?.pager!!, WINDOW_SIZE)
         currentIndex = binding?.pager?.currentItem ?: -1
         viewModel.timetableLiveData.observe(this) {
-            viewModel.currentPageStartDate.value?.let { date ->
-                refreshWeekLayout(date, it)
+
+            viewModel.windowStartDate.value?.let { date ->
+                val pageStart = date + WEEK_MILLS * (WINDOW_SIZE / 2)
+                refreshWeekLayout(pageStart, it)
             }
         }
-        viewModel.currentPageStartDate.observe(this) { date ->
+        viewModel.windowStartDate.observe(this) { date ->
             viewModel.timetableLiveData.value?.let {
-                refreshWeekLayout(date, it)
+                val pageStart = date + WEEK_MILLS * (WINDOW_SIZE / 2)
+                refreshWeekLayout(pageStart, it)
             }
         }
-        viewModel.startDateLiveData.observe(this) {
+        viewModel.startTimeLiveData.observe(this) {
             binding?.labels?.setStartDate(it / 100, it % 100)
+        }
+        for (i in 0 until WINDOW_SIZE) {
+            viewModel.eventsLiveData[i].observe(this) {
+                pagerAdapter.notifyTable(
+                    i, viewModel.eventsTriggers[i].value?:0,
+                    it.first,
+                    it.second
+                )
+            }
         }
         binding?.pager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
@@ -103,20 +107,15 @@ class TimetableFragment :
             override fun onPageSelected(position: Int) {
                 if (abs(position - currentIndex) <= WINDOW_SIZE / 2) {
                     for (i in 0 until abs(position - currentIndex)) {
-                        viewModel.currentPageStartDate.value?.let {
-                            val oldWindowStart = it - WEEK_MILLS * (WINDOW_SIZE / 2)
-                            when {
-                                position < currentIndex -> {//往左
-                                    viewModel.addStartDate(-WEEK_MILLS)
-                                    pagerAdapter?.scrollLeft(oldWindowStart - WEEK_MILLS)
-                                }
-                                position > currentIndex -> {//往右
-                                    viewModel.addStartDate(WEEK_MILLS)
-                                    pagerAdapter?.scrollRight(oldWindowStart + WEEK_MILLS)
-                                }
-                                else -> {
+                        when {
+                            position < currentIndex -> {//往左
+                                viewModel.scrollPrev()
+                            }
+                            position > currentIndex -> {//往右
+                                viewModel.scrollNext()
+                            }
+                            else -> {
 
-                                }
                             }
                         }
                     }
@@ -130,6 +129,7 @@ class TimetableFragment :
             scrollToDate(System.currentTimeMillis())
         }
     }
+
 
 
     private fun refreshWeekLayout(currentPageStart: Long, timetables: List<Timetable>) {
@@ -183,12 +183,25 @@ class TimetableFragment :
         start.set(Calendar.MINUTE, 0)
         start.set(Calendar.MILLISECOND, 0)
         start.set(Calendar.SECOND, 0)
-        viewModel.currentPageStartDate.value?.let {
-            if (pagerAdapter?.scrollToDate(start.timeInMillis, it) == true) {
-                viewModel.currentPageStartDate.value = start.timeInMillis
+        val sd = start.timeInMillis
+        val oldStart = viewModel.windowStartDate.value ?: 0
+        val newWindowStart = sd - WEEK_MILLS * (WINDOW_SIZE / 2)
+        val oldWindowStart = oldStart - WEEK_MILLS * (WINDOW_SIZE / 2)
+        if (sd > oldWindowStart && sd < oldWindowStart + WEEK_MILLS * WINDOW_SIZE) { //在窗口内
+            val offset = ((newWindowStart - oldWindowStart).toFloat() / WEEK_MILLS).roundToInt()
+            //viewModel.startIndex = (viewModel.startIndex + WINDOW_SIZE + offset) % WINDOW_SIZE
+            binding!!.pager.currentItem += offset
+        } else {
+            Log.e("日期跳转", "超出窗口")
+            if (sd < oldStart) {
+                binding!!.pager.currentItem -= WINDOW_SIZE / 2 - 1
+                viewModel.startIndex = (viewModel.startIndex + WINDOW_SIZE - (WINDOW_SIZE / 2 - 1)) % WINDOW_SIZE
+            } else {
+                binding!!.pager.currentItem += WINDOW_SIZE / 2 - 1
+                viewModel.startIndex = (viewModel.startIndex + WINDOW_SIZE + (WINDOW_SIZE / 2 - 1)) % WINDOW_SIZE
             }
+            viewModel.resetAll(date)
         }
-
     }
 
     companion object {
