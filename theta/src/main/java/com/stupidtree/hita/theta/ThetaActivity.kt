@@ -34,7 +34,7 @@ class ThetaActivity : BaseActivity<ThetaViewModel, ActivityThetaBinding>() {
 
 
     override fun initViews() {
-        binding.title.setText(R.string.title_following)
+        binding.title.setText(R.string.title_playground)
         binding.pager.adapter = object : BaseTabAdapter(supportFragmentManager, 3) {
             override fun initItem(position: Int): Fragment {
                 return when (position) {

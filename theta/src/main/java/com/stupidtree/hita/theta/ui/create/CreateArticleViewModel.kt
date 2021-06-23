@@ -22,10 +22,19 @@ class CreateArticleViewModel(application: Application) : AndroidViewModel(applic
                     it.content,
                     it.urls,
                     repostIdLiveData.value,
-                    topicIdLiveData.value?.first
+                    topicIdLiveData.value?.first,
+                    asAttitudeLiveData.value==true,
+                    anonymousLiveData.value==true
                 )
             } else {
-                articleRepository.postArticle(user.token!!, it.content, repostIdLiveData.value,topicIdLiveData.value?.first)
+                articleRepository.postArticle(
+                    user.token!!,
+                    it.content,
+                    repostIdLiveData.value,
+                    topicIdLiveData.value?.first,
+                    asAttitudeLiveData.value==true,
+                    anonymousLiveData.value==true
+                )
             }
 
         } else {
@@ -47,6 +56,9 @@ class CreateArticleViewModel(application: Application) : AndroidViewModel(applic
 
 
     val topicIdLiveData = MutableLiveData<Pair<String, String>?>()
+    val asAttitudeLiveData = MutableLiveData<Boolean>()
+    val anonymousLiveData = MutableLiveData<Boolean>()
+
 
     val imageUriLiveData = MutableLiveData<List<String>>(mutableListOf())
 

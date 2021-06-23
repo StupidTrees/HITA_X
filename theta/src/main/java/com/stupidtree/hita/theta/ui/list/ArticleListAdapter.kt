@@ -1,22 +1,23 @@
 package com.stupidtree.hita.theta.ui.list
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.stupidtree.component.web.ApiResponse
 import com.stupidtree.hita.theta.R
 import com.stupidtree.hita.theta.data.model.Article
 import com.stupidtree.hita.theta.data.model.LikeResult
+import com.stupidtree.hita.theta.data.model.VoteResult
 import com.stupidtree.hita.theta.data.source.web.ArticleWebSource
 import com.stupidtree.hita.theta.data.source.web.service.codes
 import com.stupidtree.hita.theta.databinding.ArticleItemBinding
 import com.stupidtree.hita.theta.ui.DirtyArticles
 import com.stupidtree.hita.theta.ui.create.CreateArticleActivity
-import com.stupidtree.hita.theta.ui.detail.ArticleDetailActivity
-import com.stupidtree.hita.theta.ui.user.UserListAdapter
 import com.stupidtree.hita.theta.utils.ActivityTools
 import com.stupidtree.hita.theta.utils.TextTools
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
@@ -42,6 +43,7 @@ class ArticleListAdapter(
     inner class AHolder(viewBinding: ArticleItemBinding) :
         BaseViewHolder<ArticleItemBinding>(viewBinding) {
         var likeCall: Call<ApiResponse<LikeResult>>? = null
+        var voteCall: Call<ApiResponse<VoteResult>>? = null
         fun bindLike(data: Article) {
             binding.likeIcon.setImageResource(
                 if (data.liked) {
@@ -52,6 +54,53 @@ class ArticleListAdapter(
             )
             binding.likeNum.text = data.likeNum.toString()
         }
+
+        fun bindVote(data: Article) {
+            binding.upText.text = data.upNum.toString()
+            binding.downText.text = data.downNum.toString()
+            if (data.votedUp == Article.VOTED.NONE) {
+                binding.voting.visibility = View.VISIBLE
+                binding.voted.visibility = View.GONE
+            } else {
+                binding.voted.visibility = View.VISIBLE
+                binding.voting.visibility = View.GONE
+                if (data.votedUp == Article.VOTED.UP) {
+                    binding.chosenUp.visibility = View.VISIBLE
+                    binding.chosenDown.visibility = View.GONE
+                } else {
+                    binding.chosenUp.visibility = View.GONE
+                    binding.chosenDown.visibility = View.VISIBLE
+                }
+            }
+
+            val va = ValueAnimator.ofObject(
+                { fraction, sv, ev ->
+                    val startValue = sv as Triple<Int, Int, Int>
+                    val endValue = ev as Triple<Int, Int, Int>
+                    val curUp =
+                        (endValue.third * fraction + startValue.third * (1 - fraction)).toInt()
+                    val curDown =
+                        (endValue.first * fraction + startValue.first * (1 - fraction)).toInt()
+                    val curProgress =
+                        (endValue.second.toFloat() * fraction + startValue.second.toFloat() * (1.0 - fraction)).toInt()
+                    Triple(curDown, curProgress, curUp)
+                },
+                Triple(0, binding.voteResult.progress, 0),
+                Triple(
+                    data.downNum,
+                    (data.downNum.toFloat() / (data.upNum + data.downNum) * 100).toInt(),
+                    data.upNum
+                )
+            )
+            va.interpolator = DecelerateInterpolator()
+            va.duration = 500
+            va.addUpdateListener { animation ->
+                val t: Triple<Int, Int, Int> = animation.animatedValue as Triple<Int, Int, Int>
+                binding.voteResult.progress = t.second
+            }
+            va.start()
+        }
+
 
         fun bindInfo(data: Article?) {
             binding.content.text = data?.content
@@ -87,13 +136,24 @@ class ArticleListAdapter(
             } else {
                 binding.imgLayout.visibility = View.GONE
             }
+            binding.voteLayout.visibility =
+                if (data?.type == Article.TYPE.VOTE) View.VISIBLE else View.GONE
+            if(data?.type==Article.TYPE.VOTE){
+                binding.likeIcon.visibility=View.GONE
+                binding.likeNum.visibility = View.GONE
+                binding.repostIcon.visibility = View.GONE
+            }else{
+                binding.likeIcon.visibility=View.VISIBLE
+                binding.likeNum.visibility = View.VISIBLE
+                binding.repostIcon.visibility = View.VISIBLE
+            }
             binding.author.text = data?.authorName
             binding.likeNum.text = data?.likeNum.toString()
             binding.commentNum.text = data?.commentNum.toString()
             binding.time.text = TextTools.getArticleTimeText(mContext, data?.createTime)
-            if(data?.topicId.isNullOrEmpty()){
+            if (data?.topicId.isNullOrEmpty()) {
                 binding.topicLayout.visibility = View.GONE
-            }else{
+            } else {
                 binding.topicName.text = data?.topicName
                 binding.topicLayout.visibility = View.VISIBLE
             }
@@ -103,7 +163,7 @@ class ArticleListAdapter(
             } else {
                 binding.repostLayout.visibility = View.VISIBLE
                 binding.repostLayout.setOnClickListener {
-                    ActivityTools.startArticleDetail(mContext,data?.repostId?:"")
+                    ActivityTools.startArticleDetail(mContext, data?.repostId ?: "")
                 }
                 binding.repostAuthor.text = data?.repostAuthorName
                 binding.repostContent.text = data?.repostContent
@@ -188,9 +248,62 @@ class ArticleListAdapter(
                     }
 
                 }
+            }
+
+            val voteListener = object : OnVoteClickListener {
+                override fun onClick(v: View, up: Boolean) {
+                    val user = localUserRepo.getLoggedInUser()
+                    if (user.isValid()) {
+                        if (voteCall == null) {
+                            voteCall = ArticleWebSource.getInstance(mContext).vote(
+                                user.token!!,
+                                data?.id ?: "0",
+                                up
+                            )
+                            voteCall?.enqueue(object : Callback<ApiResponse<VoteResult>> {
+                                override fun onResponse(
+                                    call: Call<ApiResponse<VoteResult>>,
+                                    response: Response<ApiResponse<VoteResult>>
+                                ) {
+                                    likeCall = null
+                                    if (response.body()?.code == codes.SUCCESS) {
+                                        response.body()?.data?.let {
+                                            data?.votedUp = it.votedUp
+                                            data?.upNum = it.upNum
+                                            data?.downNum = it.downNum
+                                            binding.voteResult.progress = 50
+                                            data?.let { it1 -> bindVote(it1) }
+                                        }
+                                        DirtyArticles.addDirtyId(data?.id ?: "", fragmentUUID)
+                                    }
+                                }
+
+                                override fun onFailure(
+                                    call: Call<ApiResponse<VoteResult>>,
+                                    t: Throwable
+                                ) {
+                                    voteCall = null
+                                }
+
+                            })
+                        }
+
+                    }
+                }
 
             }
+
+            binding.up.setOnClickListener {
+                voteListener.onClick(it, true)
+            }
+
+            binding.down.setOnClickListener {
+                voteListener.onClick(it, false)
+            }
+
         }
+
+
     }
 
     override fun getViewBinding(parent: ViewGroup, viewType: Int): ViewBinding {
@@ -204,6 +317,7 @@ class ArticleListAdapter(
     override fun bindHolder(holder: AHolder, data: Article?, position: Int) {
         holder.bindInfo(data)
         data?.let { holder.bindLike(it) }
+        data?.let { holder.bindVote(it) }
         if (data?.id in dirtyIds) {
             dirtyIds.remove(data?.id)
             ArticleWebSource.getInstance(mContext).getArticleInfoCall(
@@ -219,6 +333,7 @@ class ArticleListAdapter(
                         if (idx >= 0) {
                             mBeans[idx] = it
                             holder.bindLike(it)
+                            holder.bindVote(it)
                             holder.bindInfo(it)
                         }
                     }
@@ -282,6 +397,7 @@ class ArticleListAdapter(
                         mBeans[idx] = it
                         holder.bindLike(it)
                         holder.bindInfo(it)
+                        holder.bindVote(it)
                     }
                 }
 
@@ -303,5 +419,10 @@ class ArticleListAdapter(
             articleId.contains(it.id)
         }
         notifyItemChangedSmooth(newList)
+    }
+
+
+    interface OnVoteClickListener {
+        fun onClick(v: View, up: Boolean)
     }
 }
