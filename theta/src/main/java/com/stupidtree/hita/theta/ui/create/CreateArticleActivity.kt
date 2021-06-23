@@ -130,6 +130,7 @@ class CreateArticleActivity : BaseActivity<CreateArticleViewModel, ActivityCreat
                 binding.topicCancel.visibility = View.GONE
             }
         }
+
         viewModel.topicIdLiveData.value = null
     }
 
@@ -241,6 +242,13 @@ class CreateArticleActivity : BaseActivity<CreateArticleViewModel, ActivityCreat
 
         })
 
+        binding.asAttitude.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.asAttitudeLiveData.value = isChecked
+        }
+
+        binding.anonymous.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.anonymousLiveData.value = isChecked
+        }
         binding.done.setOnClickListener {
             it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
             binding.done.startAnimation()

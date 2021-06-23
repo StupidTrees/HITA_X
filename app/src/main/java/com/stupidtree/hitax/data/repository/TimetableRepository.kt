@@ -221,7 +221,7 @@ class TimetableRepository(val application: Application) {
     fun exportToICS(timetableName: String, timetableId: String): LiveData<DataState<String>> {
         val res = MutableLiveData<DataState<String>>();
         executor.execute {
-            val filename = "HITA课表：$timetableName.ics"
+            val filename = "HITSZ助手：$timetableName.ics"
             val path = application.getExternalFilesDir("ics").toString() + "/" + filename
             try {
                 val calendar = net.fortuna.ical4j.model.Calendar()

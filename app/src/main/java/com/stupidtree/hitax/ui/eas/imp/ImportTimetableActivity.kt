@@ -17,6 +17,7 @@ import com.stupidtree.hitax.ui.eas.EASActivity
 import com.stupidtree.hitax.ui.widgets.PopUpCalendarPicker
 import com.stupidtree.style.widgets.PopUpCheckableList
 import com.stupidtree.hitax.ui.widgets.PopUpTimePeriodPicker
+import com.stupidtree.hitax.utils.AnimationUtils
 import com.stupidtree.hitax.utils.ImageUtils
 import com.stupidtree.hitax.utils.ImageUtils.dp2px
 import com.stupidtree.hitax.utils.TextTools
@@ -135,19 +136,7 @@ class ImportTimetableActivity :
             }
         }
         viewModel.scheduleStructureLiveData.observe(this) {
-            if (it.data.isNullOrEmpty()) {
-                binding.buttonImport.background = ContextCompat.getDrawable(
-                    getThis(),
-                    R.drawable.element_rounded_button_bg_grey
-                )
-                binding.buttonImport.isEnabled = false
-            } else {
-                binding.buttonImport.background = ContextCompat.getDrawable(
-                    getThis(),
-                    R.drawable.element_rounded_button_bg_primary
-                )
-                binding.buttonImport.isEnabled = true
-            }
+            AnimationUtils.enableLoadingButton(binding.buttonImport,!it.data.isNullOrEmpty())
             if (it.state == DataState.STATE.SUCCESS) {
                 it.data?.let { data ->
                     scheduleStructureAdapter.notifyItemChangedSmooth(data)
@@ -155,26 +144,30 @@ class ImportTimetableActivity :
             }
         }
         viewModel.importTimetableResultLiveData.observe(this) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-                binding.buttonImport.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
-            } else {
-                binding.buttonImport.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-            }
-            val iconId: Int
-            if (it.state == DataState.STATE.SUCCESS) {
-                iconId = R.drawable.ic_baseline_done_24
-                Toast.makeText(getThis(), R.string.import_success, Toast.LENGTH_SHORT).show()
-            } else {
-                iconId = R.drawable.ic_baseline_error_24
-                Toast.makeText(getThis(), R.string.import_failed, Toast.LENGTH_SHORT).show()
-            }
-            val bitmap = ImageUtils.getResourceBitmap(getThis(), iconId)
-            binding.buttonImport.doneLoadingAnimation(
-                getColorPrimary(), bitmap
+            AnimationUtils.loadingButtonDone(
+                binding.buttonImport, it.state == DataState.STATE.SUCCESS,
+                successStr = R.string.import_success, failStr = R.string.import_failed
             )
-            binding.buttonImport.postDelayed({
-                binding.buttonImport.revertAnimation()
-            }, 600)
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+//                binding.buttonImport.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+//            } else {
+//                binding.buttonImport.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+//            }
+//            val iconId: Int
+//            if (it.state == DataState.STATE.SUCCESS) {
+//                iconId = R.drawable.ic_baseline_done_24
+//                Toast.makeText(getThis(), R.string.import_success, Toast.LENGTH_SHORT).show()
+//            } else {
+//                iconId = R.drawable.ic_baseline_error_24
+//                Toast.makeText(getThis(), R.string.import_failed, Toast.LENGTH_SHORT).show()
+//            }
+//            val bitmap = ImageUtils.getResourceBitmap(getThis(), iconId)
+//            binding.buttonImport.doneLoadingAnimation(
+//                getColorPrimary(), bitmap
+//            )
+//            binding.buttonImport.postDelayed({
+//                binding.buttonImport.revertAnimation()
+//            }, 600)
         }
     }
 
@@ -213,7 +206,6 @@ class ImportTimetableActivity :
     override fun initViewBinding(): ActivityEasImportBinding {
         return ActivityEasImportBinding.inflate(layoutInflater)
     }
-
 
 
     override fun refresh() {

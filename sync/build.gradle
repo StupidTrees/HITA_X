@@ -6,7 +6,7 @@ plugins {
 
 android {
     compileSdk 30
-    buildToolsVersion "30.0.3"
+    buildToolsVersion "31.0.0-rc5"
 
     defaultConfig {
         minSdk 21
@@ -33,17 +33,16 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation project(path: ':component')
     implementation project(path: ':style')
-    testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    implementation "androidx.room:room-runtime:2.3.0-rc01"
-    kapt "androidx.room:room-compiler:2.3.0-rc01"
-    annotationProcessor 'androidx.room:room-compiler:2.2.6'
+    implementation "androidx.room:room-runtime:2.4.0-alpha03"
+    kapt "androidx.room:room-compiler:2.4.0-alpha03"
+    annotationProcessor 'androidx.room:room-compiler:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 }

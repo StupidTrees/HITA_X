@@ -48,6 +48,27 @@ class ArticleDetailViewModel(application: Application) : AndroidViewModel(applic
         return@switchMap MutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
     }
 
+    private val voteTrigger = MutableLiveData<Pair<String, Boolean>>()
+    val voteResultLiveData = Transformations.switchMap(voteTrigger) {
+        val user = localUserRepository.getLoggedInUser()
+        if (user.isValid()) {
+            return@switchMap Transformations.map(
+                articleRepo.voteLive(
+                    user.token!!,
+                    it.first,
+                    it.second
+                )
+            ) { ds ->
+                ds.data?.let { lr ->
+                    articleLiveData.value?.data?.upNum = lr.upNum
+                    articleLiveData.value?.data?.downNum = lr.downNum
+                    articleLiveData.value?.data?.votedUp = lr.votedUp
+                }
+                return@map ds
+            }
+        }
+        return@switchMap MutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
+    }
 
 
     private val starTrigger = MutableLiveData<Pair<String, Boolean>>()
@@ -123,6 +144,12 @@ class ArticleDetailViewModel(application: Application) : AndroidViewModel(applic
     fun like() {
         articleLiveData.value?.data?.let {
             likeTrigger.value = Pair(it.id, !it.liked)
+        }
+    }
+
+    fun vote(up: Boolean) {
+        articleLiveData.value?.data?.let {
+            voteTrigger.value = Pair(it.id, up)
         }
     }
 

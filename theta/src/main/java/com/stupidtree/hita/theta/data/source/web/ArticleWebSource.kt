@@ -10,6 +10,7 @@ import com.stupidtree.component.web.LiveDataCallAdapter
 import com.stupidtree.hita.theta.data.model.Article
 import com.stupidtree.hita.theta.data.model.LikeResult
 import com.stupidtree.hita.theta.data.model.StarResult
+import com.stupidtree.hita.theta.data.model.VoteResult
 import com.stupidtree.hita.theta.data.source.web.service.ArticleService
 import com.stupidtree.hita.theta.data.source.web.service.codes
 import com.stupidtree.hita.theta.data.source.web.service.codes.SUCCESS
@@ -36,8 +37,10 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         token: String,
         content: String,
         repostId: String?,
-        topicId:String?,
-        filePaths: List<String>
+        topicId: String?,
+        filePaths: List<String>,
+        asAttitude: Boolean,
+        anonymous:Boolean
     ): LiveData<DataState<Boolean>> {
         val params: HashMap<String, RequestBody> = HashMap()
         for (f in filePaths) {
@@ -47,7 +50,7 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         }
         return Transformations.map(
             service.postArticle(
-                params, HttpUtils.getHeaderAuth(token), content, repostId,topicId
+                params, HttpUtils.getHeaderAuth(token), content, repostId, topicId,asAttitude,anonymous
             )
         ) { input ->
             if (input != null) {
@@ -68,11 +71,13 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         token: String,
         content: String,
         repostId: String?,
-        topicId:String?
+        topicId: String?,
+        asAttitude:Boolean,
+        anonymous: Boolean
     ): LiveData<DataState<Boolean>> {
         return Transformations.map(
             service.postArticle(
-                HttpUtils.getHeaderAuth(token), content, repostId,topicId
+                HttpUtils.getHeaderAuth(token), content, repostId, topicId,asAttitude,anonymous
             )
         ) { input ->
             if (input != null) {
@@ -149,8 +154,6 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
     }
 
 
-
-
     fun likeOrUnlike(
         token: String,
         articleId: String,
@@ -160,6 +163,7 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
             HttpUtils.getHeaderAuth(token), articleId, like
         )
     }
+
 
     fun delete(
         token: String,
@@ -208,6 +212,40 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         }
     }
 
+    fun vote(
+        token: String,
+        articleId: String,
+        up: Boolean
+    ): Call<ApiResponse<VoteResult>> {
+        return service.vote(
+            HttpUtils.getHeaderAuth(token), articleId, up)
+    }
+
+    fun voteLive(
+        token: String,
+        articleId: String,
+        up: Boolean
+    ): LiveData<DataState<VoteResult>> {
+        return Transformations.map(
+            service.voteLive(
+                HttpUtils.getHeaderAuth(token), articleId, up
+            )
+        ) { input ->
+            if (input != null) {
+                when (input.code) {
+                    SUCCESS -> return@map DataState(input.data ?: VoteResult())
+                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                    else -> return@map DataState(
+                        DataState.STATE.FETCH_FAILED,
+                        input.message
+                    )
+                }
+            }
+            DataState(DataState.STATE.FETCH_FAILED)
+        }
+    }
+
+
 
     fun starOrUnstarLive(
         token: String,
@@ -232,6 +270,7 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
             DataState(DataState.STATE.FETCH_FAILED)
         }
     }
+
     companion object {
         var instance: ArticleWebSource? = null
         fun getInstance(context: Context): ArticleWebSource {

@@ -5,6 +5,10 @@ import java.sql.Time
 import java.sql.Timestamp
 
 class Article : Serializable {
+
+    enum class TYPE { NORMAL, VOTE }
+    enum class VOTED { NONE, UP, DOWN }
+
     var id: String = ""
     var authorId: String = ""
     var authorName: String = ""
@@ -21,6 +25,11 @@ class Article : Serializable {
     var content: String = ""
     var commentNum: Int = 0
     var likeNum: Int = 0
+    var type: TYPE = TYPE.NORMAL
+    var upNum: Int = 0
+    var downNum: Int = 0
+    var votedUp: VOTED = VOTED.NONE
+    var isMine: Boolean = false
     var liked: Boolean = false
     var starred: Boolean = false
     var images: List<String> = listOf()
