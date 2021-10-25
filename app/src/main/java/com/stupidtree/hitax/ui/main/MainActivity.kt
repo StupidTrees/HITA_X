@@ -2,6 +2,8 @@ package com.stupidtree.hitax.ui.main
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.HapticFeedbackConstants
@@ -17,6 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import androidx.drawerlayout.widget.DrawerLayout.GONE
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.ActivityMainBinding
 import com.stupidtree.style.base.BaseActivity
@@ -32,6 +35,7 @@ import com.stupidtree.hitax.ui.main.timetable.panel.FragmentTimetablePanel
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.ImageUtils
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
+import com.stupidtree.style.widgets.PopUpText
 import com.stupidtree.sync.StupidSync
 import me.ibrahimsn.lib.OnItemSelectedListener
 import java.lang.Exception
@@ -73,7 +77,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 val mContent = binding.drawer.getChildAt(0)
                 val scale = 1 - slideOffset
                 val rightScale = 0.8f + scale * 0.2f
-                mContent.translationX = - drawerView.measuredWidth * slideOffset
+                mContent.translationX = -drawerView.measuredWidth * slideOffset
                 mContent.pivotX = mContent.measuredWidth.toFloat()
                 mContent.pivotY = (mContent.measuredHeight shr 1.toFloat().toInt()).toFloat()
                 mContent.invalidate()
@@ -113,6 +117,27 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     override fun onStart() {
         super.onStart()
         viewModel.startRefreshUser()
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                viewModel.checkForUpdate(
+                    packageManager.getPackageInfo(
+                        packageName,
+                        0
+                    ).longVersionCode
+                )
+            } else {
+                viewModel.checkForUpdate(
+                    packageManager.getPackageInfo(
+                        packageName,
+                        0
+                    ).versionCode.toLong()
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+
     }
 
     override fun initViews() {
@@ -188,10 +213,26 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         binding.drawerButton.setOnClickListener { binding.drawer.openDrawer(GravityCompat.END) }
 
         binding.timetableSetting.setOnClickListener {
-            FragmentTimetablePanel().show(supportFragmentManager,"panel")
+            FragmentTimetablePanel().show(supportFragmentManager, "panel")
         }
 
-
+        viewModel.checkUpdateResult.observe(this) {
+            if (it.state == DataState.STATE.SUCCESS) {
+                it.data?.let { cr ->
+                    if (cr.shouldUpdate) {
+                        PopUpText().setText(cr.latestVersionName + " 是否前往下载？")
+                            .setTitle(R.string.new_version_available)
+                            .setOnConfirmListener(object : PopUpText.OnConfirmListener {
+                                override fun OnConfirm() {
+                                    val uri: Uri = Uri.parse(cr.latestUrl);
+                                    val intent: Intent = Intent(Intent.ACTION_VIEW, uri);
+                                    startActivity(intent)
+                                }
+                            }).show(supportFragmentManager, "update")
+                    }
+                }
+            }
+        }
         viewModel.loggedInUserLiveData.observe(this) {
             Log.e("user", it.toString())
             if (it.isValid()) { //如果已登录
