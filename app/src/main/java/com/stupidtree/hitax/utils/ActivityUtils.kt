@@ -18,6 +18,7 @@ import com.stupidtree.hitax.ui.teacher.ActivityTeacherOfficial
 import com.stupidtree.hitax.ui.timetable.detail.TimetableDetailActivity
 import com.stupidtree.hitax.ui.timetable.manager.TimetableManagerActivity
 import com.stupidtree.hitax.ui.welcome.WelcomeActivity
+import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 
 
 object ActivityUtils {
@@ -116,8 +117,13 @@ object ActivityUtils {
     }
 
     fun startThetaActivity(from: Context) {
-        val i = Intent(from, ThetaActivity::class.java)
-        from.startActivity(i)
+        if(LocalUserRepository.getInstance(from).getLoggedInUser().isValid()){
+            val i = Intent(from, ThetaActivity::class.java)
+            from.startActivity(i)
+        }else{
+            startWelcomeActivity(from)
+        }
+
     }
 
     fun startProfileActivity(from: Context, userId: String?) {
