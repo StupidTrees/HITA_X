@@ -2,6 +2,7 @@ package com.stupidtree.hitax.ui.main.timetable.outer
 
 import android.content.Context
 import android.util.Log
+import android.util.TimeUtils
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
@@ -9,6 +10,7 @@ import androidx.viewpager.widget.ViewPager
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.ui.main.timetable.inner.TimetableStyleSheet
 import com.stupidtree.hitax.ui.main.timetable.views.TimeTableView
+import com.stupidtree.hitax.utils.TimeTools
 
 class TimeTablePagerAdapter(
     private val context: Context,
@@ -58,11 +60,11 @@ class TimeTablePagerAdapter(
         events: List<EventItem>,
         style: TimetableStyleSheet
     ) {
-        Log.e("notifyTable", style.toString())
+        Log.e("notifyTable", "$position:${TimeTools.printDate(startDate)},${if(tables[position] == null) "cached" else "direct"}")
         if (tables[position] == null) {
             cache[position] = Triple(startDate, events, style)
         } else {
-            tables[position]?.notifyRefresh(startDate, events, style)
+            tables[position]!!.notifyRefresh(startDate, events, style)
         }
     }
 

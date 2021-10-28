@@ -11,7 +11,6 @@ import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.hitax.databinding.FragmentTimetableBinding
 import com.stupidtree.hitax.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
-import com.stupidtree.hitax.utils.TimeTools
 import com.stupidtree.style.base.BaseFragment
 import java.util.*
 import kotlin.math.abs
@@ -85,7 +84,7 @@ class TimetableFragment :
         for (i in 0 until WINDOW_SIZE) {
             viewModel.eventsLiveData[i].observe(this) {
                 pagerAdapter.notifyTable(
-                    i, viewModel.eventsTriggers[i].value?:0,
+                    i, viewModel.eventsTriggers[i].value ?: 0,
                     it.first,
                     it.second
                 )
@@ -106,17 +105,15 @@ class TimetableFragment :
 
             override fun onPageSelected(position: Int) {
                 if (abs(position - currentIndex) <= WINDOW_SIZE / 2) {
-                    for (i in 0 until abs(position - currentIndex)) {
-                        when {
-                            position < currentIndex -> {//往左
-                                viewModel.scrollPrev()
-                            }
-                            position > currentIndex -> {//往右
-                                viewModel.scrollNext()
-                            }
-                            else -> {
+                    when {
+                        position < currentIndex -> {//往左
+                            viewModel.scrollPrev(abs(position - currentIndex))
+                        }
+                        position > currentIndex -> {//往右
+                            viewModel.scrollNext(abs(position - currentIndex))
+                        }
+                        else -> {
 
-                            }
                         }
                     }
                 }
@@ -129,7 +126,6 @@ class TimetableFragment :
             scrollToDate(System.currentTimeMillis())
         }
     }
-
 
 
     private fun refreshWeekLayout(currentPageStart: Long, timetables: List<Timetable>) {
@@ -186,19 +182,22 @@ class TimetableFragment :
         val sd = start.timeInMillis
         val oldStart = viewModel.windowStartDate.value ?: 0
         val newWindowStart = sd - WEEK_MILLS * (WINDOW_SIZE / 2)
-        val oldWindowStart = oldStart - WEEK_MILLS * (WINDOW_SIZE / 2)
-        if (sd > oldWindowStart && sd < oldWindowStart + WEEK_MILLS * WINDOW_SIZE) { //在窗口内
-            val offset = ((newWindowStart - oldWindowStart).toFloat() / WEEK_MILLS).roundToInt()
+        if (sd >= oldStart && sd <= oldStart + WEEK_MILLS * WINDOW_SIZE) { //在窗口内
+            val offset = ((newWindowStart - oldStart// - WEEK_MILLS * (WINDOW_SIZE / 2)
+                    ).toFloat() / WEEK_MILLS).roundToInt()
             //viewModel.startIndex = (viewModel.startIndex + WINDOW_SIZE + offset) % WINDOW_SIZE
+            Log.e("日期跳转", "窗口内:$offset")
             binding!!.pager.currentItem += offset
         } else {
             Log.e("日期跳转", "超出窗口")
             if (sd < oldStart) {
                 binding!!.pager.currentItem -= WINDOW_SIZE / 2 - 1
-                viewModel.startIndex = (viewModel.startIndex + WINDOW_SIZE - (WINDOW_SIZE / 2 - 1)) % WINDOW_SIZE
+                viewModel.startIndex =
+                    (viewModel.startIndex + WINDOW_SIZE - (WINDOW_SIZE / 2 - 1)) % WINDOW_SIZE
             } else {
                 binding!!.pager.currentItem += WINDOW_SIZE / 2 - 1
-                viewModel.startIndex = (viewModel.startIndex + WINDOW_SIZE + (WINDOW_SIZE / 2 - 1)) % WINDOW_SIZE
+                viewModel.startIndex =
+                    (viewModel.startIndex + WINDOW_SIZE + (WINDOW_SIZE / 2 - 1)) % WINDOW_SIZE
             }
             viewModel.resetAll(date)
         }

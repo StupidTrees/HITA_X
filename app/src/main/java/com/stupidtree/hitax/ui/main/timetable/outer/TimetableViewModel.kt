@@ -16,6 +16,7 @@ import com.stupidtree.hitax.ui.main.timetable.inner.TimetableStyleSheet
 import com.stupidtree.hitax.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
 import com.stupidtree.hitax.ui.main.timetable.outer.TimetableFragment.Companion.WINDOW_SIZE
 import com.stupidtree.hitax.utils.TimeTools
+import java.lang.StringBuilder
 import java.util.*
 
 class TimetableViewModel(application: Application) :
@@ -25,7 +26,8 @@ class TimetableViewModel(application: Application) :
 
 
     private val timetableController = MutableLiveData<Trigger>()
-    val timetableLiveData: LiveData<List<Timetable>> = Transformations.switchMap(timetableController) {
+    val timetableLiveData: LiveData<List<Timetable>> =
+        Transformations.switchMap(timetableController) {
             return@switchMap timetableRepository.getTimetables()
         }
     val startTimeLiveData: LiveData<Int> get() = timetableStyleRepository.startDateLiveData
@@ -73,20 +75,56 @@ class TimetableViewModel(application: Application) :
         timetableController.value = Trigger.actioning
     }
 
-    fun scrollPrev() {
-        windowStartDate.value = (windowStartDate.value ?: 0) - WEEK_MILLS
-        Log.e("prev",TimeTools.printDate(windowStartDate.value?:0))
-        val toChange = (startIndex + WINDOW_SIZE - 1) % WINDOW_SIZE
-        eventsTriggers[toChange].value = windowStartDate.value ?: 0
-        startIndex = toChange
+
+    fun printWindow(symbol: String) {
+        val sb = StringBuilder()
+        for (et in eventsTriggers) {
+            sb.append(TimeTools.printDate(et.value)).append(" ")
+        }
+        Log.e(
+            "WINDOW",
+            symbol + "【$sb】" + ",start:" + TimeTools.printDate(windowStartDate.value ?: 0)
+        )
     }
 
-    fun scrollNext() {
-        windowStartDate.value = (windowStartDate.value ?: 0) + WEEK_MILLS
-        Log.e("next",TimeTools.printDate(windowStartDate.value?:0))
-        val toChange = startIndex % WINDOW_SIZE
-        eventsTriggers[toChange].value = (windowStartDate.value ?: 0) + WEEK_MILLS * (WINDOW_SIZE - 1)
-        startIndex = (startIndex + 1) % WINDOW_SIZE
+    fun scrollPrev(num: Int = 1) {
+        //Log.e("prev", TimeTools.printDate(windowStartDate.value ?: 0))
+        val modifyList = mutableListOf<Pair<Int, Long>>()
+        var mockWindowStart: Long = windowStartDate.value ?: 0
+        for (i in 0 until num) {
+            mockWindowStart -= WEEK_MILLS
+            val toChange = (startIndex + WINDOW_SIZE - 1) % WINDOW_SIZE
+            startIndex = toChange
+            modifyList.add(Pair(toChange, mockWindowStart))
+        }
+        windowStartDate.value = (windowStartDate.value ?: 0) - WEEK_MILLS * num
+        for (mod in modifyList) {
+            eventsTriggers[mod.first].value = mod.second
+            printWindow("<<<")
+        }
+    }
+
+    fun scrollNext(num: Int = 1) {
+//        windowStartDate.value = (windowStartDate.value ?: 0) + WEEK_MILLS
+//        //Log.e("next", TimeTools.printDate(windowStartDate.value ?: 0))
+//        val toChange = startIndex % WINDOW_SIZE
+//        eventsTriggers[toChange].value =
+//            (windowStartDate.value ?: 0) + WEEK_MILLS * (WINDOW_SIZE - 1)
+//        startIndex = (startIndex + 1) % WINDOW_SIZE
+//        printWindow(">>>")
+        val modifyList = mutableListOf<Pair<Int, Long>>()
+        var mockWindowStart: Long = windowStartDate.value ?: 0
+        for (i in 0 until num) {
+            mockWindowStart += WEEK_MILLS
+            val toChange = startIndex % WINDOW_SIZE
+            startIndex = (startIndex + 1) % WINDOW_SIZE
+            modifyList.add(Pair(toChange, mockWindowStart + WEEK_MILLS * (WINDOW_SIZE - 1)))
+        }
+        windowStartDate.value = (windowStartDate.value ?: 0) + WEEK_MILLS * num
+        for (mod in modifyList) {
+            eventsTriggers[mod.first].value = mod.second
+            printWindow(">>>")
+        }
     }
 
     fun resetAll(date: Long) {
