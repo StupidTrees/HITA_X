@@ -456,7 +456,7 @@ class EASource internal constructor() : EASService {
                     .method(Connection.Method.POST).execute()
                 val json = r.body()
                 val content = JsonUtils.getJsonObject(json)?.optJSONArray("content")
-                val dateFormatter = SimpleDateFormat("hh:mm", Locale.getDefault())
+                val dateFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
                 content?.let {
                     for (i in 0 until it.length()) {
                         val tp: JSONObject? = it.optJSONObject(i)
