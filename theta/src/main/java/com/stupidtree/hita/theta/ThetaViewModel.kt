@@ -5,5 +5,4 @@ import androidx.lifecycle.AndroidViewModel
 
 class ThetaViewModel(application: Application?) : AndroidViewModel(application!!) {
 
-
 }

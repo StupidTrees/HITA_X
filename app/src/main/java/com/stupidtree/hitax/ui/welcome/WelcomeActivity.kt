@@ -48,7 +48,6 @@ class WelcomeActivity : BaseActivity<WelcomeViewModel,ActivityWelcomeBinding>() 
 
     override fun onStart() {
         super.onStart()
-        AnimationUtils.floatAnim(binding.logo,0)
     }
 
 

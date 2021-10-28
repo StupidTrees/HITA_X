@@ -102,11 +102,166 @@
 
             </LinearLayout>
 
+            <FrameLayout
+                android:id="@+id/vote_layout"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.6"
+                    app:srcCompat="@drawable/element_rounded_bar_grey_light_24" />
+
+                <FrameLayout
+                    android:id="@+id/voted"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ProgressBar
+                        android:id="@+id/vote_result"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:progress="50"
+                        android:progressDrawable="@drawable/style_progressbar_attitude" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp">
+
+                            <ImageView
+                                android:id="@+id/chosen_down"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:alpha="0.4"
+                                app:srcCompat="@drawable/element_round_white" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_gravity="center"
+                                android:alpha="0.8"
+                                android:focusable="true"
+                                android:tintMode="src_in"
+                                app:srcCompat="@drawable/ic_thumb_down"
+                                app:theme="@style/rippleWhite"
+                                app:tint="@android:color/white" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/down_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp" />
+
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/up_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp" />
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp">
+
+                            <ImageView
+                                android:id="@+id/chosen_up"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:alpha="0.4"
+                                app:srcCompat="@drawable/element_round_white" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_gravity="center"
+                                android:alpha="0.8"
+                                android:focusable="true"
+                                android:tintMode="src_in"
+                                app:srcCompat="@drawable/ic_thumb_up"
+                                app:theme="@style/ripplePrimaryTiny"
+                                app:tint="@android:color/white" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/voting"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:backgroundTintMode="src_over"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/down"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="32dp"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:padding="8dp"
+                        android:tintMode="src_in"
+                        app:srcCompat="@drawable/ic_thumb_down"
+                        app:theme="@style/rippleControl"
+                        app:tint="#ff6f00" />
+
+                    <ImageView
+                        android:id="@+id/up"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="32dp"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:padding="8dp"
+                        android:tintMode="src_in"
+                        app:srcCompat="@drawable/ic_thumb_up"
+                        app:theme="@style/rippleControl"
+                        app:tint="#5E9CFE" />
+
+                </LinearLayout>
+            </FrameLayout>
+
             <LinearLayout
                 android:id="@+id/repost_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/element_repost_rect"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
@@ -196,6 +351,36 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/topic_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/element_rounded_bar_primary_light"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/ic_topic"
+                    app:tint="?attr/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/topic_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textColor="?attr/colorPrimary" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -227,7 +412,7 @@
                     android:padding="16dp"
                     android:tintMode="src_in"
                     app:srcCompat="@drawable/ic_comment"
-                    app:theme="@style/ripplePrimarySmall" />
+                    app:theme="@style/rippleWhite" />
 
                 <TextView
                     android:id="@+id/comment_num"

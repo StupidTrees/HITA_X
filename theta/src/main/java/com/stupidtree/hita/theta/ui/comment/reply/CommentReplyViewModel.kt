@@ -8,7 +8,7 @@ import com.stupidtree.component.data.DataState
 import com.stupidtree.component.data.MTransformations
 import com.stupidtree.hita.theta.data.repository.CommentRepository
 import com.stupidtree.hita.theta.ui.comment.CommentRefreshTrigger
-import com.stupidtree.hita.theta.ui.user.UserListViewModel.Companion.PAGE_SIZE
+import com.stupidtree.hita.theta.ui.list.ArticleListViewModel.Companion.PAGE_SIZE
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 
 class CommentReplyViewModel(application: Application) : AndroidViewModel(application) {

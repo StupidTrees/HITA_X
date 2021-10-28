@@ -4,10 +4,10 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.stupidtree.hitax.R
-import com.stupidtree.hitax.ui.search.FragmentSearchResult
+import com.stupidtree.hitax.ui.search.BasicFragmentSearchResult
 import com.stupidtree.hitax.utils.ActivityUtils
 
-class FragmentSearchTeacher : FragmentSearchResult<TeacherSearched, SearchTeacherViewModel>() {
+class FragmentSearchTeacher : BasicFragmentSearchResult<TeacherSearched, SearchTeacherViewModel>() {
 
 
     override fun updateHintText(reload: Boolean, addedSize: Int) {

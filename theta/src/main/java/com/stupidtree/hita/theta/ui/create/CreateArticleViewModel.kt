@@ -21,10 +21,20 @@ class CreateArticleViewModel(application: Application) : AndroidViewModel(applic
                     user.token!!,
                     it.content,
                     it.urls,
-                    repostIdLiveData.value
+                    repostIdLiveData.value,
+                    topicIdLiveData.value?.first,
+                    asAttitudeLiveData.value==true,
+                    anonymousLiveData.value==true
                 )
             } else {
-                articleRepository.postArticle(user.token!!, it.content, repostIdLiveData.value)
+                articleRepository.postArticle(
+                    user.token!!,
+                    it.content,
+                    repostIdLiveData.value,
+                    topicIdLiveData.value?.first,
+                    asAttitudeLiveData.value==true,
+                    anonymousLiveData.value==true
+                )
             }
 
         } else {
@@ -43,6 +53,11 @@ class CreateArticleViewModel(application: Application) : AndroidViewModel(applic
             return@switchMap MutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
         }
     }
+
+
+    val topicIdLiveData = MutableLiveData<Pair<String, String>?>()
+    val asAttitudeLiveData = MutableLiveData<Boolean>()
+    val anonymousLiveData = MutableLiveData<Boolean>()
 
 
     val imageUriLiveData = MutableLiveData<List<String>>(mutableListOf())
@@ -71,5 +86,9 @@ class CreateArticleViewModel(application: Application) : AndroidViewModel(applic
         val newL = imageUriLiveData.value?.toMutableList()
         newL?.add(url)
         imageUriLiveData.value = newL
+    }
+
+    fun setTopicInfo(id: String, name: String) {
+        topicIdLiveData.value = Pair(id, name)
     }
 }

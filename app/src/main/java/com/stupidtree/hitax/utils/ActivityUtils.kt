@@ -3,7 +3,9 @@ package com.stupidtree.hitax.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import com.stupidtree.hita.theta.ThetaActivity
 import com.stupidtree.hitax.data.repository.EASRepository
 import com.stupidtree.style.base.BaseActivity
@@ -16,6 +18,7 @@ import com.stupidtree.hitax.ui.teacher.ActivityTeacherOfficial
 import com.stupidtree.hitax.ui.timetable.detail.TimetableDetailActivity
 import com.stupidtree.hitax.ui.timetable.manager.TimetableManagerActivity
 import com.stupidtree.hitax.ui.welcome.WelcomeActivity
+import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 
 
 object ActivityUtils {
@@ -29,7 +32,7 @@ object ActivityUtils {
     }
 
 
-    enum class SearchType { TEACHER, CLASS }
+    enum class SearchType { TEACHER, CLASS,ARTICLE,USER }
 
     fun searchFor(from: Context, text: String?, type: SearchType) {
         if (text.isNullOrBlank()) return
@@ -43,9 +46,14 @@ object ActivityUtils {
     fun startSearchActivity(from: Context) {
         val i = Intent(from, SearchActivity::class.java)
         from.startActivity(i)
-
     }
 
+    fun startSearchActivity(from: Activity,transition: View) {
+        val i = Intent(from, SearchActivity::class.java)
+        transition.transitionName = "search"
+        val ao = ActivityOptionsCompat.makeSceneTransitionAnimation(from,transition,"search")
+        from.startActivity(i,ao.toBundle())
+    }
     fun startMyProfileActivity(from: Context) {
         val i = Intent(from, MyProfileActivity::class.java)
         from.startActivity(i)
@@ -109,8 +117,13 @@ object ActivityUtils {
     }
 
     fun startThetaActivity(from: Context) {
-        val i = Intent(from, ThetaActivity::class.java)
-        from.startActivity(i)
+        if(LocalUserRepository.getInstance(from).getLoggedInUser().isValid()){
+            val i = Intent(from, ThetaActivity::class.java)
+            from.startActivity(i)
+        }else{
+            startWelcomeActivity(from)
+        }
+
     }
 
     fun startProfileActivity(from: Context, userId: String?) {

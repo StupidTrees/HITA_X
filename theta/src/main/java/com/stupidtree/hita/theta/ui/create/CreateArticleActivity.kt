@@ -15,6 +15,9 @@ import com.stupidtree.component.data.DataState
 import com.stupidtree.hita.theta.R
 import com.stupidtree.hita.theta.databinding.ActivityCreateArticleBinding
 import com.stupidtree.hita.theta.ui.DirtyArticles
+import com.stupidtree.hita.theta.utils.ActivityTools
+import com.stupidtree.hita.theta.utils.ActivityTools.CHOOSE_TOPIC
+import com.stupidtree.hita.theta.utils.ActivityTools.CHOOSE_TOPIC_RESULT
 import com.stupidtree.hita.theta.utils.ImageUtils
 import com.stupidtree.style.base.BaseActivity
 import com.stupidtree.style.picker.FileProviderUtils
@@ -118,16 +121,35 @@ class CreateArticleActivity : BaseActivity<CreateArticleViewModel, ActivityCreat
         viewModel.imageUriLiveData.observe(this) {
             imageListAdapter.notifyItemChangedSmooth(it)
         }
+        viewModel.topicIdLiveData.observe(this) { pair ->
+            pair?.let {
+                binding.topicName.text = it.second
+                binding.topicCancel.visibility = View.VISIBLE
+            } ?: run {
+                binding.topicName.text = getString(R.string.choose_topic)
+                binding.topicCancel.visibility = View.GONE
+            }
+        }
+
+        viewModel.topicIdLiveData.value = null
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         if (resultCode != RESULT_OK) {
             //Toast.makeText(this, "操作取消", Toast.LENGTH_SHORT).show();
             return
         }
-        if (requestCode == RC_CHOOSE_PHOTO) {
+        if (requestCode == CHOOSE_TOPIC) {
+            data?.getStringExtra("id")?.let { id ->
+                data.getStringExtra("name")?.let { name ->
+                    viewModel.setTopicInfo(id, name)
+                }
+            }
+            return
+        } else if (requestCode == RC_CHOOSE_PHOTO) {
             if (null == data) {
                 Toast.makeText(this, R.string.no_image_fetched, Toast.LENGTH_SHORT).show()
                 return
@@ -189,6 +211,12 @@ class CreateArticleActivity : BaseActivity<CreateArticleViewModel, ActivityCreat
             binding.done.translationX =
                 (binding.done.width / 2) * (1 - binding.done.scaleX)
         })
+        binding.chooseTopic.setOnClickListener {
+            ActivityTools.startSearchTopicActivity(getThis())
+        }
+        binding.topicCancel.setOnClickListener {
+            viewModel.topicIdLiveData.value = null
+        }
         binding.done.alpha = 0.3f
         binding.done.isEnabled = false
         binding.content.addTextChangedListener(object : TextWatcher {
@@ -214,11 +242,17 @@ class CreateArticleActivity : BaseActivity<CreateArticleViewModel, ActivityCreat
 
         })
 
+        binding.asAttitude.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.asAttitudeLiveData.value = isChecked
+        }
+
+        binding.anonymous.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.anonymousLiveData.value = isChecked
+        }
         binding.done.setOnClickListener {
             it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
             binding.done.startAnimation()
             viewModel.createArticle(binding.content.text.toString())
         }
-
     }
 }

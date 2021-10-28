@@ -93,7 +93,7 @@
                 android:background="#00000000"
                 android:gravity="center|start|top"
                 android:hint="@string/hint_post"
-                android:minHeight="120dp"
+                android:minHeight="80dp"
                 android:padding="16dp"
                 android:singleLine="false"
                 android:textColor="?attr/textColorPrimary"
@@ -107,7 +107,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:overScrollMode="never" />
+                android:overScrollMode="never">
+
+            </androidx.recyclerview.widget.RecyclerView>
 
             <LinearLayout
                 android:id="@+id/repost"
@@ -167,6 +169,126 @@
                     android:textColor="?attr/textColorPrimary"
                     android:textSize="16sp" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/anonymous_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:orientation="horizontal"
+                android:paddingStart="24dp"
+                android:paddingEnd="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:tint="?attr/colorPrimary"
+                    app:srcCompat="@drawable/anonymous" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:text="@string/anonymous_post"
+                    android:textSize="16sp" />
+
+                <CheckBox
+                    android:id="@+id/anonymous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/as_attutude_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:orientation="horizontal"
+                android:paddingStart="24dp"
+                android:paddingEnd="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:tint="?attr/colorPrimary"
+                    app:srcCompat="@drawable/ic_thumbs_up_down" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:text="@string/as_attude"
+                    android:textSize="16sp" />
+
+                <CheckBox
+                    android:id="@+id/as_attitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/choose_topic"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp">
+
+                <ImageView
+                    android:id="@+id/topic"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:tint="?attr/colorPrimary"
+                    app:srcCompat="@drawable/ic_topic" />
+
+                <TextView
+                    android:id="@+id/topic_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/topic_cancel"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:alpha="0.6"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:padding="10dp"
+                    android:theme="@style/rippleControl"
+                    android:tintMode="src_in"
+                    app:srcCompat="@drawable/ic_baseline_cancel_24"
+                    app:tint="?attr/colorControlNormal" />
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:tintMode="src_in"
+                    app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    app:tint="?attr/colorPrimaryDisabled" />
             </LinearLayout>
 
         </LinearLayout>

@@ -17,7 +17,7 @@ import com.stupidtree.hita.theta.data.model.Comment
 import com.stupidtree.hita.theta.databinding.ActivityCommentReplyBinding
 import com.stupidtree.hita.theta.ui.DirtyArticles
 import com.stupidtree.hita.theta.ui.comment.CreateCommentFragment
-import com.stupidtree.hita.theta.ui.user.UserListViewModel
+import com.stupidtree.hita.theta.ui.list.ArticleListViewModel.Companion.PAGE_SIZE
 import com.stupidtree.hita.theta.utils.TextTools
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 import com.stupidtree.stupiduser.util.ImageUtils
@@ -82,7 +82,7 @@ class CommentReplyActivity : BaseActivity<CommentReplyViewModel, ActivityComment
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (!binding.nest.canScrollVertically(1) && listAdapter.itemCount >= UserListViewModel.PAGE_SIZE) {
+                    if (!binding.nest.canScrollVertically(1) && listAdapter.itemCount >= PAGE_SIZE) {
                         binding.refresh.isRefreshing = true
                         intent.getStringExtra("commentId")?.let {
                             viewModel.loadMore(it)

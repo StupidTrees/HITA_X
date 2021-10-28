@@ -2,12 +2,15 @@ package com.stupidtree.hitax.ui.welcome.login
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.HapticFeedbackConstants
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import com.stupidtree.hitax.databinding.FragmentLoginBinding
+import com.stupidtree.hitax.utils.AnimationUtils
+import com.stupidtree.stupiduser.data.model.LoginResult
 import com.stupidtree.style.base.BaseFragment
 
 /**
@@ -19,7 +22,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
         //登录表单的数据变更监听器
         viewModel.loginFormState.observe(this, { loginFormState: LoginFormState ->
             //将表单合法性同步到登录按钮可用性
-            binding?.login?.isEnabled = loginFormState.isDataValid
+            binding?.login?.let { AnimationUtils.enableLoadingButton(it,loginFormState.isDataValid) }
             //若有表单上的错误，则通知View显示错误
             if (loginFormState.usernameError != null) {
                 binding?.username?.error = getString(loginFormState.usernameError!!)
@@ -31,7 +34,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
 
         //登录结果的数据变更监听
         viewModel.loginResult.observe(this, { loginResult ->
-            binding?.loading?.visibility = View.INVISIBLE
+            AnimationUtils.loadingButtonDone(binding?.login,loginResult != null&&loginResult.state==LoginResult.STATES.SUCCESS,toast = false)
             if (loginResult != null) {
                 Toast.makeText(context, loginResult.message, Toast.LENGTH_SHORT).show()
             }
@@ -71,7 +74,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
         }
         binding?.username?.addTextChangedListener(afterTextChangedListener)
         binding?.password?.addTextChangedListener(afterTextChangedListener)
-
+        binding?.login?.let { AnimationUtils.enableLoadingButton(it,false) }
         //使得手机输入法上”完成“按钮映射到登录动作
         binding?.password?.setOnEditorActionListener { _: TextView?, actionId: Int, _: KeyEvent? ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -81,7 +84,8 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
             false
         }
         binding?.login?.setOnClickListener {
-            binding?.loading?.visibility = View.VISIBLE
+            it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+            binding?.login?.startAnimation()
             viewModel.login(binding?.username?.text.toString(),
                     binding?.password?.text.toString())
         }

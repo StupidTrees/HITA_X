@@ -9,7 +9,7 @@ import com.stupidtree.component.data.MTransformations
 import com.stupidtree.hita.theta.data.repository.ArticleRepository
 import com.stupidtree.hita.theta.data.repository.CommentRepository
 import com.stupidtree.hita.theta.ui.comment.CommentRefreshTrigger
-import com.stupidtree.hita.theta.ui.user.UserListViewModel.Companion.PAGE_SIZE
+import com.stupidtree.hita.theta.ui.list.ArticleListViewModel.Companion.PAGE_SIZE
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 
 class ArticleDetailViewModel(application: Application) : AndroidViewModel(application) {
@@ -41,6 +41,49 @@ class ArticleDetailViewModel(application: Application) : AndroidViewModel(applic
                 ds.data?.let { lr ->
                     articleLiveData.value?.data?.likeNum = lr.likeNum
                     articleLiveData.value?.data?.liked = lr.liked
+                }
+                return@map ds
+            }
+        }
+        return@switchMap MutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
+    }
+
+    private val voteTrigger = MutableLiveData<Pair<String, Boolean>>()
+    val voteResultLiveData = Transformations.switchMap(voteTrigger) {
+        val user = localUserRepository.getLoggedInUser()
+        if (user.isValid()) {
+            return@switchMap Transformations.map(
+                articleRepo.voteLive(
+                    user.token!!,
+                    it.first,
+                    it.second
+                )
+            ) { ds ->
+                ds.data?.let { lr ->
+                    articleLiveData.value?.data?.upNum = lr.upNum
+                    articleLiveData.value?.data?.downNum = lr.downNum
+                    articleLiveData.value?.data?.votedUp = lr.votedUp
+                }
+                return@map ds
+            }
+        }
+        return@switchMap MutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
+    }
+
+
+    private val starTrigger = MutableLiveData<Pair<String, Boolean>>()
+    val starResultLiveData = Transformations.switchMap(starTrigger) {
+        val user = localUserRepository.getLoggedInUser()
+        if (user.isValid()) {
+            return@switchMap Transformations.map(
+                articleRepo.starOrUnstarLive(
+                    user.token!!,
+                    it.first,
+                    it.second
+                )
+            ) { ds ->
+                ds.data?.let { lr ->
+                    articleLiveData.value?.data?.starred = lr.starred
                 }
                 return@map ds
             }
@@ -101,6 +144,18 @@ class ArticleDetailViewModel(application: Application) : AndroidViewModel(applic
     fun like() {
         articleLiveData.value?.data?.let {
             likeTrigger.value = Pair(it.id, !it.liked)
+        }
+    }
+
+    fun vote(up: Boolean) {
+        articleLiveData.value?.data?.let {
+            voteTrigger.value = Pair(it.id, up)
+        }
+    }
+
+    fun star() {
+        articleLiveData.value?.data?.let {
+            starTrigger.value = Pair(it.id, !it.starred)
         }
     }
 

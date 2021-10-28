@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HITA课表</string>
+    <string name="app_name">HITSZ助手</string>
 
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
@@ -1153,7 +1153,11 @@
     <string name="fans">粉丝</string>
     <string name="following">关注</string>
     <string name="users_following">%s的关注</string>
+    <string name="users_starred">%s的收藏</string>
     <string name="users_fans">%s的粉丝</string>
     <string name="users_posts">%s的发帖</string>
     <string name="logout_hint">确定退出？</string>
+    <string name="starred_article">收藏帖子</string>
+    <string name="tab_search_article">帖子</string>
+    <string name="success">成功</string>
 </resources>

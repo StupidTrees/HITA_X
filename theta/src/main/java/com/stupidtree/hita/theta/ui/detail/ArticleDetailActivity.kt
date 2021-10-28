@@ -1,9 +1,12 @@
 package com.stupidtree.hita.theta.ui.detail
 
+import android.animation.ValueAnimator
 import android.app.AlertDialog
 import android.content.*
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,13 +14,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hita.theta.R
+import com.stupidtree.hita.theta.data.model.Article
 import com.stupidtree.hita.theta.data.model.Comment
 import com.stupidtree.hita.theta.databinding.ActivityArticleDetailBinding
 import com.stupidtree.hita.theta.ui.DirtyArticles
 import com.stupidtree.hita.theta.ui.comment.CreateCommentFragment
 import com.stupidtree.hita.theta.ui.create.CreateArticleActivity
-import com.stupidtree.hita.theta.ui.user.UserListViewModel
-import com.stupidtree.hita.theta.ui.user.activity.UserListActivity
+import com.stupidtree.hita.theta.ui.list.ArticleListViewModel.Companion.PAGE_SIZE
 import com.stupidtree.hita.theta.utils.ActivityTools
 import com.stupidtree.hita.theta.utils.TextTools
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
@@ -45,6 +48,52 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
         return ArticleDetailViewModel::class.java
     }
 
+    fun updateVote(data: Article) {
+        binding.upText.text = data.upNum.toString()
+        binding.downText.text = data.downNum.toString()
+        if (data.votedUp == Article.VOTED.NONE) {
+            binding.voting.visibility = View.VISIBLE
+            binding.voted.visibility = View.GONE
+        } else {
+            binding.voted.visibility = View.VISIBLE
+            binding.voting.visibility = View.GONE
+            if (data.votedUp == Article.VOTED.UP) {
+                binding.chosenUp.visibility = View.VISIBLE
+                binding.chosenDown.visibility = View.GONE
+            } else {
+                binding.chosenUp.visibility = View.GONE
+                binding.chosenDown.visibility = View.VISIBLE
+            }
+        }
+
+        val va = ValueAnimator.ofObject(
+            { fraction, sv, ev ->
+                val startValue = sv as Triple<Int, Int, Int>
+                val endValue = ev as Triple<Int, Int, Int>
+                val curUp =
+                    (endValue.third * fraction + startValue.third * (1 - fraction)).toInt()
+                val curDown =
+                    (endValue.first * fraction + startValue.first * (1 - fraction)).toInt()
+                val curProgress =
+                    (endValue.second.toFloat() * fraction + startValue.second.toFloat() * (1.0 - fraction)).toInt()
+                Triple(curDown, curProgress, curUp)
+            },
+            Triple(0, binding.voteResult.progress, 0),
+            Triple(
+                data.downNum,
+                (data.downNum.toFloat() / (data.upNum + data.downNum) * 100).toInt(),
+                data.upNum
+            )
+        )
+        va.interpolator = DecelerateInterpolator()
+        va.duration = 500
+        va.addUpdateListener { animation ->
+            val t: Triple<Int, Int, Int> = animation.animatedValue as Triple<Int, Int, Int>
+            binding.voteResult.progress = t.second
+        }
+        va.start()
+    }
+
     private fun bindLiveData() {
         viewModel.articleLiveData.observe(this) { ds ->
             if (ds.state == DataState.STATE.SUCCESS) {
@@ -54,13 +103,26 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
                         imageListAdapter.notifyItemChangedSmooth(it.images)
                     }
                     binding.delete.visibility =
-                        if (it.authorId == LocalUserRepository.getInstance(getThis())
-                                .getLoggedInUser().id
+                        if (it.isMine
                         ) {
                             View.VISIBLE
                         } else {
                             View.GONE
                         }
+                    if (it.type == Article.TYPE.VOTE) {
+                        binding.voteLayout.visibility = View.VISIBLE
+                        binding.like.visibility = View.GONE
+                        binding.likeLabel.visibility = View.GONE
+                        binding.repost.visibility = View.GONE
+                        binding.repostLabel.visibility = View.GONE
+                    } else {
+                        binding.voteLayout.visibility = View.GONE
+                        binding.like.visibility = View.VISIBLE
+                        binding.likeLabel.visibility = View.VISIBLE
+                        binding.repost.visibility = View.VISIBLE
+                        binding.repostLabel.visibility = View.VISIBLE
+                    }
+                    updateVote(it)
                     binding.delete.setOnClickListener {
                         PopUpText().setTitle(R.string.sure_to_delete_article)
                             .setOnConfirmListener(object : PopUpText.OnConfirmListener {
@@ -72,6 +134,13 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
                     }
                     binding.postAuthor.text = it.authorName
                     binding.content.text = it.content
+                    binding.starIcon.setImageResource(
+                        if (it.starred) {
+                            R.drawable.ic_baseline_star_24
+                        } else {
+                            R.drawable.ic_baseline_star_outline_24
+                        }
+                    )
                     binding.likeNum.text = it.likeNum.toString()
                     binding.postTime.text = TextTools.getArticleTimeText(getThis(), it.createTime)
                     binding.likeIcon.setImageResource(
@@ -81,13 +150,21 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
                             R.drawable.ic_like_outline
                         }
                     )
+                    if (it.topicId.isNullOrEmpty()) {
+                        binding.topicLayout.visibility = View.GONE
+                    } else {
+                        binding.topicLayout.visibility = View.VISIBLE
+                        binding.topicName.text = it.topicName
+                        binding.topicLayout.setOnClickListener { v ->
+                            ActivityTools.startTopicDetailActivity(getThis(), it.topicId ?: "")
+                            //ActivityTools.startArticleListActivity(getThis(),)
+                        }
+                    }
                     if (it.repostId.isNullOrEmpty()) {
                         binding.repostLayout.visibility = View.GONE
                     } else {
                         binding.repostLayout.setOnClickListener { _ ->
-                            val i = Intent(getThis(), ArticleDetailActivity::class.java)
-                            i.putExtra("articleId", it.repostId)
-                            startActivity(i)
+                            ActivityTools.startArticleDetail(getThis(), it.repostId ?: "")
                         }
                         binding.repostLayout.visibility = View.VISIBLE
                         binding.repostAuthor.text = it.repostAuthorName
@@ -104,9 +181,7 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
                         } else {
                             binding.repostLayout.visibility = View.VISIBLE
                             binding.repostLayout.setOnClickListener { v ->
-                                val i = Intent(getThis(), ArticleDetailActivity::class.java)
-                                i.putExtra("articleId", it.repostId)
-                                getThis().startActivity(i)
+                                ActivityTools.startArticleDetail(getThis(), it.repostId ?: "")
                             }
                             binding.repostAuthor.text = it.repostAuthorName
                             binding.repostContent.text = it.repostContent
@@ -155,6 +230,17 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
 
             }
         }
+        viewModel.starResultLiveData.observe(this) { dataState ->
+            dataState.data?.let {
+                binding.starIcon.setImageResource(
+                    if (it.starred) {
+                        R.drawable.ic_baseline_star_24
+                    } else {
+                        R.drawable.ic_baseline_star_outline_24
+                    }
+                )
+            }
+        }
         viewModel.likeResultLiveData.observe(this) { dataState ->
             dataState.data?.let {
                 addDirtyId()
@@ -166,6 +252,13 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
                         R.drawable.ic_like_outline
                     }
                 )
+            }
+        }
+
+        viewModel.voteResultLiveData.observe(this) { dataState ->
+            dataState.data?.let {
+                addDirtyId()
+                viewModel.articleLiveData.value?.data?.let { it1 -> updateVote(it1) }
             }
         }
         viewModel.commentsLiveData.observe(this) {
@@ -218,7 +311,7 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
         listAdapter = HotCommentsListAdapter(this, mutableListOf())
         binding.authorLayout.setOnClickListener {
             viewModel.articleLiveData.value?.data?.let {
-                ActivityTools.startUserActivity(getThis(),it.authorId)
+                ActivityTools.startUserActivity(getThis(), it.authorId)
             }
         }
         binding.list.adapter = imageListAdapter
@@ -232,8 +325,17 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
                     .show(supportFragmentManager, "comment")
             }
         }
+        binding.up.setOnClickListener {
+            viewModel.vote(true)
+        }
+        binding.down.setOnClickListener {
+            viewModel.vote(false)
+        }
         binding.like.setOnClickListener {
             viewModel.like()
+        }
+        binding.starIcon.setOnClickListener {
+            viewModel.star()
         }
         binding.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
             val scale = 1.0f + verticalOffset / appBarLayout.height.toFloat()
@@ -247,11 +349,11 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
             binding.authorLayout.translationY =
                 (binding.authorLayout.height / 2) * (1 - binding.authorLayout.scaleY)
 
-            binding.delete.translationY = dp2px(getThis(), 24f) * (1 - scale)
-            binding.delete.scaleX = 0.7f + 0.3f * scale
-            binding.delete.scaleY = 0.7f + 0.3f * scale
-            binding.delete.translationX =
-                (binding.delete.width / 2) * (1 - binding.delete.scaleX)
+            binding.tools.translationY = dp2px(getThis(), 24f) * (1 - scale)
+            binding.tools.scaleX = 0.7f + 0.3f * scale
+            binding.tools.scaleY = 0.7f + 0.3f * scale
+            binding.tools.translationX =
+                (binding.tools.width / 2) * (1 - binding.tools.scaleX)
 
         })
         binding.repost.setOnClickListener {
@@ -332,7 +434,7 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (!binding.nest.canScrollVertically(1) && listAdapter.itemCount >= UserListViewModel.PAGE_SIZE) {
+                    if (!binding.nest.canScrollVertically(1) && listAdapter.itemCount >= PAGE_SIZE) {
                         binding.refresh.isRefreshing = true
                         intent.getStringExtra("articleId")?.let {
                             viewModel.loadMore(it)
@@ -371,6 +473,7 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
         }
 
     }
+
 
     override fun onSuccess() {
         intent.getStringExtra("articleId")?.let {

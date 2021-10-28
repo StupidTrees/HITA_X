@@ -10,14 +10,14 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.R
 import com.stupidtree.style.base.BaseFragmentClassic
 import com.stupidtree.style.base.BaseListAdapterClassic
-import com.stupidtree.component.data.DataState
-import com.stupidtree.hitax.ui.search.FragmentSearchResult.SearchListAdapter.SimpleHolder
+import com.stupidtree.style.base.FragmentSearchResult
 
-abstract class FragmentSearchResult<T, V : BaseSearchResultViewModel<T>> :
-    BaseFragmentClassic<V>() {
+abstract class BasicFragmentSearchResult<T, V : BaseSearchResultViewModel<T>> :
+    FragmentSearchResult,BaseFragmentClassic<V>() {
 
     protected var list: RecyclerView? = null
     protected var result: TextView? = null
@@ -27,7 +27,7 @@ abstract class FragmentSearchResult<T, V : BaseSearchResultViewModel<T>> :
 
     abstract fun updateHintText(reload: Boolean, addedSize: Int)
     abstract fun getHolderLayoutId(): Int
-    abstract fun bindListHolder(simpleHolder: SimpleHolder?, data: T, position: Int)
+    abstract fun bindListHolder(simpleHolder: SearchListAdapter.SimpleHolder?, data: T, position: Int)
     abstract fun onItemClicked(card: View?, data: T, position: Int)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,7 +94,7 @@ abstract class FragmentSearchResult<T, V : BaseSearchResultViewModel<T>> :
     }
 
 
-    private fun initList(v: View, adapter: RecyclerView.Adapter<SimpleHolder>) {
+    private fun initList(v: View, adapter: RecyclerView.Adapter<SearchListAdapter.SimpleHolder>) {
         list = v.findViewById(R.id.list)
         list?.adapter = adapter
         list?.layoutManager = LinearLayoutManager(requireContext())
@@ -116,7 +116,7 @@ abstract class FragmentSearchResult<T, V : BaseSearchResultViewModel<T>> :
         }
     }
 
-    fun setSearchText(searchText: String) {
+    override fun setSearchText(searchText: String) {
         if (viewModelInit) {
             viewModel.changeSearchText(searchText)
         }
@@ -128,8 +128,9 @@ abstract class FragmentSearchResult<T, V : BaseSearchResultViewModel<T>> :
     }
 
 
+    @SuppressLint("ParcelCreator")
     inner class SearchListAdapter(mContext: Context, beans: MutableList<T>) :
-        BaseListAdapterClassic<T, SimpleHolder>(
+        BaseListAdapterClassic<T, SearchListAdapter.SimpleHolder>(
             mContext, beans
         ) {
 

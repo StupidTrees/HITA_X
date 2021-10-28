@@ -452,23 +452,27 @@ class EASource internal constructor() : EASService {
                     .ignoreHttpErrors(true)
                     .data("xn", term.yearCode) //学年
                     .data("xq", term.termCode) //学期
+                    .data("pylx","1")
                     .method(Connection.Method.POST).execute()
                 val json = r.body()
                 val content = JsonUtils.getJsonObject(json)?.optJSONArray("content")
-                val dateFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                val dateFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
                 content?.let {
                     for (i in 0 until it.length()) {
                         val tp: JSONObject? = it.optJSONObject(i)
                         val from = Calendar.getInstance()
                         val to = Calendar.getInstance()
                         val fromTxt: String =
-                            tp?.optString("kssj", "1970-01-01 00:00:00") ?: "1970-01-01 00:00:00"
+                            tp?.optString("kssj", "00:00") ?: "00:00"
                         val toTxt: String =
-                            tp?.optString("jssj", "1970-01-01 00:00:00") ?: "1970-01-01 00:00:00"
+                            tp?.optString("jssj", "00:00") ?: "00:00"
                         from.timeInMillis =
-                            dateFormatter.parse(fromTxt)?.time ?: 0
+                            try{
+                                dateFormatter.parse(fromTxt)?.time ?: 0
+                            }catch (e:Exception){0}
                         to.timeInMillis =
-                            dateFormatter.parse(toTxt)?.time ?: 0
+                            try{dateFormatter.parse(toTxt)?.time ?: 0
+                            }catch (e:Exception){0}
                         result.add(TimePeriodInDay(TimeInDay(from), TimeInDay(to)))
                     }
                     res.postValue(DataState(result))

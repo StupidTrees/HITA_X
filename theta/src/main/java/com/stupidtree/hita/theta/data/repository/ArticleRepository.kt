@@ -7,10 +7,9 @@ import androidx.lifecycle.MediatorLiveData
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hita.theta.data.model.Article
 import com.stupidtree.hita.theta.data.model.LikeResult
+import com.stupidtree.hita.theta.data.model.StarResult
+import com.stupidtree.hita.theta.data.model.VoteResult
 import com.stupidtree.hita.theta.data.source.web.ArticleWebSource
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
 import java.io.File
@@ -21,12 +20,16 @@ class ArticleRepository(val application: Application) {
     fun postArticle(
         token: String,
         content: String,
-        repostId: String?
+        repostId: String?,
+        topicId: String?,
+        asAttitude: Boolean,
+        anonymous:Boolean
     ): LiveData<DataState<Boolean>> {
         return articleWebSource.postArticle(
             token,
             content,
-            repostId
+            repostId,
+            topicId, asAttitude,anonymous
         )
     }
 
@@ -34,7 +37,10 @@ class ArticleRepository(val application: Application) {
         token: String,
         content: String,
         urls: List<String>,
-        repostId: String?
+        repostId: String?,
+        topicId: String?,
+        asAttitude: Boolean,
+        anonymous:Boolean
     ): LiveData<DataState<Boolean>> {
         val result = MediatorLiveData<DataState<Boolean>>()
         val urlCompressed = mutableListOf<String>()
@@ -60,7 +66,8 @@ class ArticleRepository(val application: Application) {
                                 token,
                                 content,
                                 repostId,
-                                urlCompressed
+                                topicId,
+                                urlCompressed, asAttitude,anonymous
                             )
                         ) {
                             result.value = it
@@ -104,6 +111,22 @@ class ArticleRepository(val application: Application) {
         like: Boolean
     ): LiveData<DataState<LikeResult>> {
         return articleWebSource.likeOrUnlikeLive(token, articleId, like)
+    }
+
+    fun voteLive(
+        token: String,
+        articleId: String,
+        up: Boolean
+    ): LiveData<DataState<VoteResult>> {
+        return articleWebSource.voteLive(token, articleId, up)
+    }
+
+    fun starOrUnstarLive(
+        token: String,
+        articleId: String,
+        like: Boolean
+    ): LiveData<DataState<StarResult>> {
+        return articleWebSource.starOrUnstarLive(token, articleId, like)
     }
 
     fun delete(

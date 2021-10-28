@@ -14,7 +14,7 @@
     <string name="repost">转发</string>
     <string name="title_following">关注</string>
     <string name="hint_post">说点什么…</string>
-    <string name="title_playground">广场</string>
+    <string name="title_playground">发现</string>
     <string name="reply_num">共%d条回复</string>
     <string name="reply_to_user">回复: %s</string>
     <string name="title_comment_reply">评论回复</string>
@@ -28,6 +28,26 @@
     <string name="liked_user">点赞用户</string>
     <string name="all_repost">全部转发</string>
     <string name="comment">评论</string>
+    <string name="choose_topic">选择话题</string>
+    <string name="hot_topic">热门话题</string>
+    <string name="article_num">帖子数</string>
+    <string name="not_log_in">未登录</string>
+    <string name="log_in_first">请先登录</string>
+    <string name="repost_from_me">转发我的</string>
+    <string name="like_me">点赞我的</string>
+    <string name="comment_me">评论我的</string>
+    <string name="follow_me">新的关注</string>
+    <string name="title_me">消息</string>
+    <string name="comment_comment">回复了评论</string>
+    <string name="comment_article">回复了帖子</string>
+    <string name="like_comment">点赞了评论</string>
+    <string name="like_article">点赞了帖子</string>
+    <string name="follow_you">关注了你</string>
+    <string name="unfollow_you">取关了你~</string>
+    <string name="users_starred">%s的收藏</string>
+    <string name="my_star">我的收藏</string>
+    <string name="as_attude">发表为投票</string>
+    <string name="anonymous_post">匿名发表</string>
 
     <string-array name="comment_actions">
         <item>删除评论</item>

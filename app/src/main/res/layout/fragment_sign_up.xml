@@ -61,15 +61,17 @@
             android:id="@+id/radioButtonMale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="12dp"
-            android:text="@string/male" />
+            android:buttonTint="@color/cruel_summer_fade"
+            android:drawableEnd="@drawable/ic_male_blue_24"
+            android:drawablePadding="12dp" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:drawablePadding="12dp"
-            android:text="@string/female" />
+            android:buttonTint="@color/subject3"
+            android:drawableEnd="@drawable/ic_female_pink_24"
+            android:drawablePadding="12dp" />
     </RadioGroup>
 
     <EditText
@@ -86,37 +88,23 @@
         android:maxLines="1"
         android:importantForAutofill="no" />
 
-    <Button
+    <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
         android:id="@+id/sign_up"
-        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="64dp"
-        android:enabled="false"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/element_rounded_button_bg_primary"
         android:text="@string/sign_up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.2" />
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:finalCornerAngle="24dp"
+        app:initialCornerAngle="24dp"
+        app:spinning_bar_color="@color/white"
+        app:spinning_bar_padding="5dp"
+        app:spinning_bar_width="4dp" />
 
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="64dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
 </LinearLayout>

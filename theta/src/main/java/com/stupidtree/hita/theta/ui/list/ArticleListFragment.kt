@@ -11,12 +11,14 @@ import com.stupidtree.hita.theta.data.model.Article
 import com.stupidtree.hita.theta.ui.DirtyArticles
 import com.stupidtree.hita.theta.ui.detail.ArticleDetailActivity
 import com.stupidtree.hita.theta.ui.list.ArticleListViewModel.Companion.PAGE_SIZE
+import com.stupidtree.hita.theta.utils.ActivityTools
 import com.stupidtree.style.base.BaseFragment
 import com.stupidtree.style.base.BaseListAdapter
+import com.stupidtree.style.base.FragmentSearchResult
 import java.util.*
 
 class ArticleListFragment :
-    BaseFragment<ArticleListViewModel, FragmentArticleListBinding>() {
+    BaseFragment<ArticleListViewModel, FragmentArticleListBinding>() , FragmentSearchResult {
     lateinit var listAdapter: ArticleListAdapter
     lateinit var mode: String
     var uuid = UUID.randomUUID().toString()
@@ -43,13 +45,12 @@ class ArticleListFragment :
         binding?.list?.adapter = listAdapter
         binding?.list?.layoutManager = LinearLayoutManager(requireContext())
         binding?.refresh?.setOnRefreshListener {
-            viewModel.getNew(mode, listAdapter.getTopTime(), extra)
+            refreshAll()
+            // viewModel.getNew(mode, listAdapter.getTopTime(), extra)
         }
         listAdapter.setOnItemClickListener(object : BaseListAdapter.OnItemClickListener<Article> {
             override fun onItemClick(data: Article?, card: View?, position: Int) {
-                val i = Intent(requireContext(), ArticleDetailActivity::class.java)
-                i.putExtra("articleId", data?.id)
-                startActivity(i)
+                ActivityTools.startArticleDetail(requireContext(),data?.id?:"")
             }
         })
         binding?.list?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -84,7 +85,12 @@ class ArticleListFragment :
                         }
                     }
                     else -> {
-                        it.data?.let { it1 -> listAdapter.notifyItemChangedSmooth(it1) }
+                        it.data?.let { it1 ->
+                            listAdapter.notifyItemChangedSmooth(it1)
+                            if (listAdapter.beans.isNotEmpty()) {
+                                binding?.list?.smoothScrollToPosition(0)
+                            }
+                        }
                     }
                 }
             }
@@ -147,5 +153,9 @@ class ArticleListFragment :
             r.arguments = b
             return r
         }
+    }
+
+    override fun setSearchText(searchText: String) {
+        setExtraAndRefreshAll(searchText)
     }
 }
