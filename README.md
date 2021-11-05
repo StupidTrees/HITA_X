@@ -1,6 +1,6 @@
 # HITSZ助手
- [![standard-readme compliant](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-%E5%8D%8E%E4%B8%BA%E5%BA%94%E7%94%A8%E5%B8%82%E5%9C%BA-red?style=flat-square)](https://appstore.huawei.com/app/C101988835) [![standard-readme compliant](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-%E5%B0%8F%E7%B1%B3%E5%BA%94%E7%94%A8%E5%95%86%E5%BA%97-orange?style=flat-square)](http://app.mi.com/details?id=com.stupidtree.hita) [![standard-readme compliant](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-%E9%85%B7%E5%AE%89%E5%B8%82%E5%9C%BA-green?style=flat-square)](https://www.coolapk.com/apk/230999)
-
+<!--  [![standard-readme compliant](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-%E5%8D%8E%E4%B8%BA%E5%BA%94%E7%94%A8%E5%B8%82%E5%9C%BA-red?style=flat-square)](https://appstore.huawei.com/app/C101988835) [![standard-readme compliant](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-%E5%B0%8F%E7%B1%B3%E5%BA%94%E7%94%A8%E5%95%86%E5%BA%97-orange?style=flat-square)](http://app.mi.com/details?id=com.stupidtree.hita) [![standard-readme compliant](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-%E9%85%B7%E5%AE%89%E5%B8%82%E5%9C%BA-green?style=flat-square)](https://www.coolapk.com/apk/230999) -->
+[官方网站](http://www.hita.store)
 
 ## 项目背景
 项目来自哈尔滨工业大学（深圳）2018级本科生大一年度立项，由三个项目组合作完成的包含问答系统、地图导航、日程、教务、校园在线功能在内的APP。立项结束后，考虑到APP日常使用的便捷性，将地图导航和语音问答等立项的重点研究功能暂时移除，精简后的APP专注于日程管理和校园在线等日常助手功能，及当前上架各大应用市场的“HITSZ助手”。
