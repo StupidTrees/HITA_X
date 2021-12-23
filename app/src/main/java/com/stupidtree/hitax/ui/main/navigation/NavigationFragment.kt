@@ -7,6 +7,7 @@ import com.stupidtree.style.base.BaseFragment
 import com.stupidtree.hitax.ui.eas.classroom.EmptyClassroomActivity
 import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
+import com.stupidtree.hitax.ui.eas.score.ScoreInquiryActivity
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 
@@ -85,6 +86,26 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
 
                 })
         }
+        binding?.cardScores?.setOnClickListener {
+            ActivityUtils.showEasVerifyWindow(
+                requireContext(),
+                directTo = ScoreInquiryActivity::class.java,
+                onResponseListener = object : PopUpLoginEAS.OnResponseListener{
+                    override fun onSuccess(window: PopUpLoginEAS) {
+                        ActivityUtils.startActivity(
+                            requireContext(),
+                            ScoreInquiryActivity::class.java
+                        )
+                        window.dismiss()
+                    }
+
+                    override fun onFailed(window: PopUpLoginEAS) {
+
+                    }
+                }
+            )
+        }
+
         binding?.cardNews?.setOnClickListener {
             ActivityUtils.startThetaActivity(requireActivity())
         }

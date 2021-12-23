@@ -20,6 +20,7 @@ import com.stupidtree.hitax.data.model.timetable.TimeInDay
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.data.source.web.service.EASService
 import com.stupidtree.component.data.DataState
+import com.stupidtree.hitax.data.model.eas.CourseScoreItem
 import com.stupidtree.hitax.ui.eas.classroom.BuildingItem
 import com.stupidtree.hitax.ui.eas.classroom.ClassroomItem
 import com.stupidtree.hitax.utils.JsonUtils
@@ -530,6 +531,61 @@ class EASJSource internal constructor(val application: Application) : EASService
                         to.timeInMillis =
                             dateFormatter.parse(toTxt)?.time ?: 0
                         result.add(TimePeriodInDay(TimeInDay(from), TimeInDay(to)))
+                    }
+                    res.postValue(DataState(result))
+                } ?: run {
+                    res.postValue(DataState(DataState.STATE.FETCH_FAILED))
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                res.postValue(DataState(DataState.STATE.FETCH_FAILED, e.message))
+            }
+        }.start()
+        return res
+    }
+
+    /**
+     * 获取最终成绩
+     */
+    override fun getPersonalScores(
+        term: TermItem,
+        token: EASToken
+    ): LiveData<DataState<List<CourseScoreItem>>> {
+        val res = MutableLiveData<DataState<List<CourseScoreItem>>>()
+        Thread {
+            val result: MutableList<CourseScoreItem> = ArrayList()
+            try {
+                val r = Jsoup.connect("$hostName/cjgl/grcjcx/grcjcx")
+                    .timeout(timeout)
+                    .cookies(token.cookies)
+                    .headers(defaultRequestHeader)
+                    .header("X-Requested-With", "XMLHttpRequest")
+                    .header("Content-Type","application/json")
+                    .ignoreContentType(true)
+                    .ignoreHttpErrors(true)
+                    .requestBody(
+                        """{"xn":"""" + term.yearCode +
+                                """","xq":""" + term.termCode +
+                                ""","kcmc":null,"pylx":1,"current":1,"pageSize":300}"""
+                    )
+                    .method(Connection.Method.POST).execute()
+                val json = r.body()
+                val content = JsonUtils.getJsonObject(json)?.optJSONObject("content")?.optJSONArray("list")
+                content?.let {
+                    for (i in 0 until it.length()) {
+                        val tp: JSONObject = it.optJSONObject(i)
+                        val item = CourseScoreItem();
+                        item.assessMethod = tp.optString("khfs", "null")
+                        item.courseCategory = tp.optString("kclb", "null")
+                        item.courseCode = tp.optString("kcdm", "null")
+                        item.courseName = tp.optString("kcmc","null")
+                        item.courseProperty = tp.optString("kcxz","null")
+                        item.credits = tp.optInt("xf", -1)
+                        item.finalScores = tp.optInt("zzcj",-1)
+                        item.hours = tp.optInt("xs", -1)
+                        item.schoolName = tp.optString("yxmc","null")
+                        item.termName = tp.optString("xnxqmc","null")
+                        result.add(item)
                     }
                     res.postValue(DataState(result))
                 } ?: run {

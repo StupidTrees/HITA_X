@@ -3,6 +3,7 @@ package com.stupidtree.hitax.data.source.web.service
 import androidx.lifecycle.LiveData
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.data.model.eas.CourseItem
+import com.stupidtree.hitax.data.model.eas.CourseScoreItem
 import com.stupidtree.hitax.data.model.eas.EASToken
 import com.stupidtree.hitax.data.model.eas.TermItem
 import com.stupidtree.hitax.data.model.timetable.TermSubject
@@ -69,4 +70,12 @@ interface EASService {
         building: BuildingItem,
         weeks: List<String>
     ): LiveData<DataState<List<ClassroomItem>>>
+
+    /**
+     * 获取最终成绩
+     */
+     fun getPersonalScores(
+         term: TermItem,
+         token: EASToken
+     ):LiveData<DataState<List<CourseScoreItem>>>
 }
