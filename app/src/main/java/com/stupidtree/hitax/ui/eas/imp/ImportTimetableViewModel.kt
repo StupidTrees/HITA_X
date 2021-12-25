@@ -28,7 +28,6 @@ class ImportTimetableViewModel(application: Application) : EASViewModel(applicat
             return@switchMap easRepository.getAllTerms()
         }
 
-
     val selectedTermLiveData: MutableLiveData<TermItem?> = MutableLiveData()
 
     val startDateLiveData: MediatorLiveData<DataState<Calendar>> =

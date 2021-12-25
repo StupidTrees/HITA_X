@@ -52,6 +52,7 @@
                     android:pathPrefix="/search" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.eas.score.ScoreInquiryActivity"/>
         <activity android:name=".ui.eas.imp.ImportTimetableActivity" />
         <activity android:name=".ui.eas.classroom.EmptyClassroomActivity" />
         <activity android:name=".ui.profile.ProfileActivity" />

@@ -290,6 +290,7 @@
     <string name="mood_7">棒极了</string>
     <string name="mood_8">高兴疯了</string>
     <string name="label_activity_empty_classroom">空教室查询</string>
+    <string name="label_activity_score_inquiry">成绩查询</string>
     <string name="subject_compulsory">性质</string>
     <string name="subject_credit">课程学分</string>
     <string name="subject_total">总学时</string>
