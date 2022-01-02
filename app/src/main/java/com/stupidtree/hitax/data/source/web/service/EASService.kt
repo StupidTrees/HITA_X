@@ -76,6 +76,11 @@ interface EASService {
      */
      fun getPersonalScores(
          term: TermItem,
-         token: EASToken
+         token: EASToken,
+         testType: TestType
      ):LiveData<DataState<List<CourseScoreItem>>>
+
+    enum class TestType(val value:String){
+        ALL("-1"), NORMAL("0"), RESIT("1"), RETAKE("2")
+    }
 }

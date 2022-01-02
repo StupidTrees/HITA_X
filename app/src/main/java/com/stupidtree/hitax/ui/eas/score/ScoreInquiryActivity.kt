@@ -1,14 +1,20 @@
 package com.stupidtree.hitax.ui.eas.score
 
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.R
+import com.stupidtree.hitax.data.model.eas.CourseScoreItem
 import com.stupidtree.hitax.data.model.eas.TermItem
+import com.stupidtree.hitax.data.source.web.service.EASService
 import com.stupidtree.hitax.databinding.ActivityEasScoreFirstBinding
 import com.stupidtree.hitax.ui.eas.EASActivity
+import com.stupidtree.hitax.ui.eas.classroom.ClassroomItem
 import com.stupidtree.hitax.ui.eas.classroom.EmptyClassroomListAdapter
+import com.stupidtree.hitax.ui.eas.classroom.detail.EmptyClassroomDetailFragment
+import com.stupidtree.style.base.BaseListAdapter
 import com.stupidtree.style.widgets.PopUpCheckableList
 
 class ScoreInquiryActivity:
@@ -49,6 +55,17 @@ class ScoreInquiryActivity:
                 it.data?.let { it1 -> listAdapter.notifyItemChangedSmooth(it1) }
             }
         }
+        viewModel.selectedTestTypeLiveData.observe(this){
+            it?.let {
+                binding.refresh.isRefreshing = true
+                binding.testTypeText.text = when(it){
+                    EASService.TestType.ALL -> getString(R.string.test_type_all)
+                    EASService.TestType.NORMAL -> getString(R.string.test_type_normal)
+                    EASService.TestType.RESIT -> getString(R.string.test_type_resit)
+                    EASService.TestType.RETAKE -> getString(R.string.test_type_retake)
+                }
+            }
+        }
     }
     override fun initViews() {
         super.initViews()
@@ -78,6 +95,39 @@ class ScoreInquiryActivity:
                     }).show(supportFragmentManager, "terms")
             }
         }
+        binding.testTypeLayout.setOnClickListener {
+            val names = mutableListOf<String>()
+            names.add(getString(R.string.test_type_all))
+            names.add(getString(R.string.test_type_normal))
+            names.add(getString(R.string.test_type_resit))
+            names.add(getString(R.string.test_type_retake))
+            val list = ArrayList<EASService.TestType>()
+            list.add(EASService.TestType.ALL)
+            list.add(EASService.TestType.NORMAL)
+            list.add(EASService.TestType.RESIT)
+            list.add(EASService.TestType.RETAKE)
+            PopUpCheckableList<EASService.TestType>()
+                .setListData(names, list)
+                .setTitle(getString(R.string.pick_test_type))
+                .setOnConfirmListener(object :
+                    PopUpCheckableList.OnConfirmListener<EASService.TestType> {
+                    override fun OnConfirm(title: String?, key: EASService.TestType) {
+                        viewModel.selectedTestTypeLiveData.value = key
+                    }
+                }).show(supportFragmentManager, "types")
+        }
+        listAdapter.setOnItemClickListener(object :
+            BaseListAdapter.OnItemClickListener<CourseScoreItem> {
+            override fun onItemClick(data: CourseScoreItem?, card: View?, position: Int) {
+                System.err.println("onItemClick")
+                data?.let {
+                    System.err.println("data not empty")
+                    ScoreDetailFragment(it).
+                    show(supportFragmentManager, "score_detail")
+                }
+            }
+        })
+        viewModel.selectedTestTypeLiveData.value = EASService.TestType.ALL
     }
     override fun getViewModelClass(): Class<ScoreInquiryViewModel> {
         return ScoreInquiryViewModel::class.java

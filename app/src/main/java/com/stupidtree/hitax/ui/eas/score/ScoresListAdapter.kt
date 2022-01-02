@@ -31,6 +31,7 @@ class ScoresListAdapter(mContext: Context, mBeans: MutableList<CourseScoreItem>)
         }
         holder.binding.title.text = data?.courseName
         holder.binding.scores.text = data?.finalScores.toString()
+        holder.binding.item.setOnClickListener{view -> mOnItemClickListener?.onItemClick(data, view, position)}
     }
 
     override fun createViewHolder(
