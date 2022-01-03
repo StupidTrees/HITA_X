@@ -5,6 +5,7 @@ import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.FragmentNavigationBinding
 import com.stupidtree.style.base.BaseFragment
 import com.stupidtree.hitax.ui.eas.classroom.EmptyClassroomActivity
+import com.stupidtree.hitax.ui.eas.exam.ExamActivity
 import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
 import com.stupidtree.hitax.ui.eas.score.ScoreInquiryActivity
@@ -105,7 +106,25 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
                 }
             )
         }
+        binding?.cardSubjects?.setOnClickListener{
+            ActivityUtils.showEasVerifyWindow(
+                requireContext(),
+                directTo = ExamActivity::class.java,
+                onResponseListener = object : PopUpLoginEAS.OnResponseListener{
+                    override fun onSuccess(window: PopUpLoginEAS) {
+                        ActivityUtils.startActivity(
+                            requireContext(),
+                            ExamActivity::class.java
+                        )
+                        window.dismiss()
+                    }
 
+                    override fun onFailed(window: PopUpLoginEAS) {
+
+                    }
+                }
+            )
+        }
         binding?.cardNews?.setOnClickListener {
             ActivityUtils.startThetaActivity(requireActivity())
         }

@@ -6,10 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.data.AppDatabase
-import com.stupidtree.hitax.data.model.eas.CourseItem
-import com.stupidtree.hitax.data.model.eas.CourseScoreItem
-import com.stupidtree.hitax.data.model.eas.EASToken
-import com.stupidtree.hitax.data.model.eas.TermItem
+import com.stupidtree.hitax.data.model.eas.*
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
@@ -137,17 +134,27 @@ class EASRepository internal constructor(application: Application) {
      * 获取最终成绩
      */
     fun getPersonalScores(
-        term: TermItem
+        term: TermItem,
+        testType: EASService.TestType
     ):LiveData<DataState<List<CourseScoreItem>>>{
         val easToken = easPreferenceSource.getEasToken()
         if(easToken.isLogin()){
-            return easService.getPersonalScores(term, easToken)
+            return easService.getPersonalScores(term, easToken, testType)
         }
         return LiveDataUtils.getMutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
     }
-    enum class TestCategory{
-        ALL, NORMAL, REBUILD, REMAKE
+
+    /**
+     * 获取考试信息
+     */
+    fun getExamInfo():LiveData<DataState<List<ExamItem>>>{
+        val easToken = easPreferenceSource.getEasToken()
+        if(easToken.isLogin()){
+            return easService.getExamItems(easToken)
+        }
+        return LiveDataUtils.getMutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
     }
+
     /**
      * 动作：导入课表
      */

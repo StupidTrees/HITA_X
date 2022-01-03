@@ -3,15 +3,12 @@ package com.stupidtree.hitax.data.source.web.eas
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.stupidtree.hitax.data.model.eas.CourseItem
-import com.stupidtree.hitax.data.model.eas.EASToken
-import com.stupidtree.hitax.data.model.eas.TermItem
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.TimeInDay
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.data.source.web.service.EASService
 import com.stupidtree.component.data.DataState
-import com.stupidtree.hitax.data.model.eas.CourseScoreItem
+import com.stupidtree.hitax.data.model.eas.*
 import com.stupidtree.hitax.ui.eas.classroom.BuildingItem
 import com.stupidtree.hitax.ui.eas.classroom.ClassroomItem
 import com.stupidtree.hitax.utils.JsonUtils
@@ -493,7 +490,8 @@ class EASource internal constructor() : EASService {
      */
     override fun getPersonalScores(
         term: TermItem,
-        token: EASToken
+        token: EASToken,
+        testType: EASService.TestType
     ): LiveData<DataState<List<CourseScoreItem>>> {
         val res = MutableLiveData<DataState<List<CourseScoreItem>>>()
         Thread {
@@ -510,7 +508,8 @@ class EASource internal constructor() : EASService {
                     .requestBody(
                         """{"xn":"""" + term.yearCode +
                                 """","xq":""" + term.termCode +
-                                ""","kcmc":null,"pylx":1,"current":1,"pageSize":300}"""
+                                ""","kcmc":null""" + ""","cxbj":""" + testType.value +
+                                ""","pylx":1,"current":1,"pageSize":300}"""
                     )
                     .method(Connection.Method.POST).execute()
                 val json = r.body()
@@ -649,6 +648,48 @@ class EASource internal constructor() : EASService {
         return result
     }
 
+    /**
+     * 获取考试信息
+     */
+    override fun getExamItems(token: EASToken): LiveData<DataState<List<ExamItem>>> {
+        val res = MutableLiveData<DataState<List<ExamItem>>>()
+        Thread {
+            val result: MutableList<ExamItem> = mutableListOf()
+            try {
+                val r = Jsoup.connect("$hostName/component/queryKsxxByXs")
+                    .timeout(timeout)
+                    .cookies(token.cookies)
+                    .headers(defaultRequestHeader)
+                    .header("X-Requested-With", "XMLHttpRequest")
+                    .ignoreContentType(true)
+                    .ignoreHttpErrors(true)
+                    .method(Connection.Method.POST).execute()
+                val json = r.body()
+                val content = JsonUtils.getJsonArray(json)
+                content?.let {
+                    for (i in 0 until it.length()) {
+                        val tp: JSONObject = it.optJSONObject(i)
+                        val item = ExamItem();
+                        item.campusName = tp.optString("XIAOQUBMC", "null")
+                        item.courseName = tp.optString("KCMC", "null")
+                        item.examDate = tp.optString("KSRQ2", "null")
+                        item.examLocation = tp.optString("JXCDMC","null")
+                        item.examTime = tp.optString("KSJTSJ","null")
+                        item.examType = tp.optString("KSSJDMC","null")
+                        item.termName = tp.optString("XNXQMC", "null")
+                        result.add(item)
+                    }
+                    res.postValue(DataState(result))
+                } ?: run {
+                    res.postValue(DataState(DataState.STATE.FETCH_FAILED))
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                res.postValue(DataState(DataState.STATE.FETCH_FAILED, e.message))
+            }
+        }.start()
+        return res
+    }
 
     init {
         defaultRequestHeader = HashMap()

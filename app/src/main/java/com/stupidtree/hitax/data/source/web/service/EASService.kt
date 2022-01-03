@@ -2,10 +2,7 @@ package com.stupidtree.hitax.data.source.web.service
 
 import androidx.lifecycle.LiveData
 import com.stupidtree.component.data.DataState
-import com.stupidtree.hitax.data.model.eas.CourseItem
-import com.stupidtree.hitax.data.model.eas.CourseScoreItem
-import com.stupidtree.hitax.data.model.eas.EASToken
-import com.stupidtree.hitax.data.model.eas.TermItem
+import com.stupidtree.hitax.data.model.eas.*
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.ui.eas.classroom.BuildingItem
@@ -64,7 +61,7 @@ interface EASService {
     /**
      * 查询空教室
      */
-     fun queryEmptyClassroom(
+    fun queryEmptyClassroom(
         token: EASToken,
         term: TermItem,
         building: BuildingItem,
@@ -74,8 +71,20 @@ interface EASService {
     /**
      * 获取最终成绩
      */
-     fun getPersonalScores(
-         term: TermItem,
-         token: EASToken
+    fun getPersonalScores(
+        term: TermItem,
+        token: EASToken,
+        testType: TestType
      ):LiveData<DataState<List<CourseScoreItem>>>
+
+    /**
+     * 获取考试信息
+     */
+    fun getExamItems(
+        token: EASToken
+    ):LiveData<DataState<List<ExamItem>>>
+
+    enum class TestType(val value:String){
+        ALL("-1"), NORMAL("0"), RESIT("1"), RETAKE("2")
+    }
 }

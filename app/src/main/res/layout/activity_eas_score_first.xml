@@ -78,6 +78,32 @@
                         app:tint="?attr/colorPrimaryDisabled" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/test_type_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/test_type_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:tintMode="src_in"
+                        app:srcCompat="@drawable/ic_expand"
+                        app:tint="?attr/colorPrimaryDisabled" />
+                </LinearLayout>
+
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
