@@ -119,9 +119,7 @@ class ScoreInquiryActivity:
         listAdapter.setOnItemClickListener(object :
             BaseListAdapter.OnItemClickListener<CourseScoreItem> {
             override fun onItemClick(data: CourseScoreItem?, card: View?, position: Int) {
-                System.err.println("onItemClick")
                 data?.let {
-                    System.err.println("data not empty")
                     ScoreDetailFragment(it).
                     show(supportFragmentManager, "score_detail")
                 }

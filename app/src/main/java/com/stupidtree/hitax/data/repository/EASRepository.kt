@@ -6,10 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.data.AppDatabase
-import com.stupidtree.hitax.data.model.eas.CourseItem
-import com.stupidtree.hitax.data.model.eas.CourseScoreItem
-import com.stupidtree.hitax.data.model.eas.EASToken
-import com.stupidtree.hitax.data.model.eas.TermItem
+import com.stupidtree.hitax.data.model.eas.*
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
@@ -146,6 +143,18 @@ class EASRepository internal constructor(application: Application) {
         }
         return LiveDataUtils.getMutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
     }
+
+    /**
+     * 获取考试信息
+     */
+    fun getExamInfo():LiveData<DataState<List<ExamItem>>>{
+        val easToken = easPreferenceSource.getEasToken()
+        if(easToken.isLogin()){
+            return easService.getExamItems(easToken)
+        }
+        return LiveDataUtils.getMutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
+    }
+
     /**
      * 动作：导入课表
      */

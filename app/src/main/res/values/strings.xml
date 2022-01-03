@@ -291,6 +291,7 @@
     <string name="mood_8">高兴疯了</string>
     <string name="label_activity_empty_classroom">空教室查询</string>
     <string name="label_activity_score_inquiry">成绩查询</string>
+    <string name="label_activity_exam_inquiry">考试查询</string>
     <string name="subject_compulsory">性质</string>
     <string name="subject_credit">课程学分</string>
     <string name="subject_total">总学时</string>
@@ -313,6 +314,11 @@
     <string name="score_category">课程类别</string>
     <string name="score_school_name">开设院系</string>
     <string name="score_assess_method">考察方式</string>
+    <string name="exam_time">时间</string>
+    <string name="exam_type">类型</string>
+    <string name="exam_location">地点</string>
+    <string name="exam_term">学期</string>
+    <string name="exam_campus">学校</string>
     <string name="search_hint">输入关键字...</string>
     <string name="check_for_update">检查更新</string>
     <string name="start_download">开始下载</string>
