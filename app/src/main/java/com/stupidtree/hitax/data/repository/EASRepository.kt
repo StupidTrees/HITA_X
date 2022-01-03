@@ -137,16 +137,14 @@ class EASRepository internal constructor(application: Application) {
      * 获取最终成绩
      */
     fun getPersonalScores(
-        term: TermItem
+        term: TermItem,
+        testType: EASService.TestType
     ):LiveData<DataState<List<CourseScoreItem>>>{
         val easToken = easPreferenceSource.getEasToken()
         if(easToken.isLogin()){
-            return easService.getPersonalScores(term, easToken)
+            return easService.getPersonalScores(term, easToken, testType)
         }
         return LiveDataUtils.getMutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
-    }
-    enum class TestCategory{
-        ALL, NORMAL, REBUILD, REMAKE
     }
     /**
      * 动作：导入课表

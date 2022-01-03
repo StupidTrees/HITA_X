@@ -11,6 +11,7 @@ import com.stupidtree.component.data.Trigger
 import com.stupidtree.hitax.data.model.eas.CourseScoreItem
 import com.stupidtree.hitax.data.model.eas.TermItem
 import com.stupidtree.hitax.data.repository.EASRepository
+import com.stupidtree.hitax.data.source.web.service.EASService
 import com.stupidtree.hitax.ui.eas.EASViewModel
 import com.stupidtree.hitax.ui.eas.classroom.ClassroomItem
 
@@ -31,12 +32,12 @@ class ScoreInquiryViewModel(application: Application) : EASViewModel(application
         }
 
     val selectedTermLiveData: MutableLiveData<TermItem> = MutableLiveData()
-    val selectedTestCategory: MutableLiveData<EASRepository.TestCategory?> = MutableLiveData()
+    val selectedTestTypeLiveData: MutableLiveData<EASService.TestType> = MutableLiveData()
 
     val scoresLiveData: LiveData<DataState<List<CourseScoreItem>>> =
-        MTransformations.switchMap(selectedTermLiveData) {
-            return@switchMap easRepository.getPersonalScores(it)
-        }//TODO
+        MTransformations.switchMap(selectedTermLiveData, selectedTestTypeLiveData) {
+            return@switchMap easRepository.getPersonalScores(it.first, it.second)
+        }
 
     /**
      * 方法区

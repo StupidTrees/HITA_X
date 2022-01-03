@@ -493,7 +493,8 @@ class EASource internal constructor() : EASService {
      */
     override fun getPersonalScores(
         term: TermItem,
-        token: EASToken
+        token: EASToken,
+        testType: EASService.TestType
     ): LiveData<DataState<List<CourseScoreItem>>> {
         val res = MutableLiveData<DataState<List<CourseScoreItem>>>()
         Thread {
@@ -510,7 +511,8 @@ class EASource internal constructor() : EASService {
                     .requestBody(
                         """{"xn":"""" + term.yearCode +
                                 """","xq":""" + term.termCode +
-                                ""","kcmc":null,"pylx":1,"current":1,"pageSize":300}"""
+                                ""","kcmc":null""" + ""","cxbj":""" + testType.value +
+                                ""","pylx":1,"current":1,"pageSize":300}"""
                     )
                     .method(Connection.Method.POST).execute()
                 val json = r.body()
@@ -648,7 +650,6 @@ class EASource internal constructor() : EASService {
         }.start()
         return result
     }
-
 
     init {
         defaultRequestHeader = HashMap()
