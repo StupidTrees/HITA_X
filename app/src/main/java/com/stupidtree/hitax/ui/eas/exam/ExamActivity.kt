@@ -29,6 +29,11 @@ class ExamActivity :
             if (it.state == DataState.STATE.SUCCESS) {
                 it.data?.let { it1 -> listAdapter.notifyItemChangedSmooth(it1) }
             }
+            binding.emptyView.visibility = if(it.data?.size?:0 >0){
+                 View.GONE
+            }else{
+                View.VISIBLE
+            }
         }
     }
     override fun refresh() {

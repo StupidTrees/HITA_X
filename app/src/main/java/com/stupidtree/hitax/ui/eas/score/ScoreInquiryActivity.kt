@@ -17,8 +17,8 @@ import com.stupidtree.hitax.ui.eas.classroom.detail.EmptyClassroomDetailFragment
 import com.stupidtree.style.base.BaseListAdapter
 import com.stupidtree.style.widgets.PopUpCheckableList
 
-class ScoreInquiryActivity:
-    EASActivity<ScoreInquiryViewModel, ActivityEasScoreFirstBinding>(){
+class ScoreInquiryActivity :
+    EASActivity<ScoreInquiryViewModel, ActivityEasScoreFirstBinding>() {
     lateinit var listAdapter: ScoresListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +26,7 @@ class ScoreInquiryActivity:
         setToolbarActionBack(binding.toolbar)
     }
 
-    private fun bindLiveData(){
+    private fun bindLiveData() {
         viewModel.termsLiveData.observe(this) { data ->
             if (data.state == DataState.STATE.SUCCESS) {
                 if (!data.data.isNullOrEmpty()) {
@@ -49,16 +49,21 @@ class ScoreInquiryActivity:
                 binding.schoolSemesterText.text = it.name
             }
         }
-        viewModel.scoresLiveData.observe(this){
+        viewModel.scoresLiveData.observe(this) {
             binding.refresh.isRefreshing = false
             if (it.state == DataState.STATE.SUCCESS) {
                 it.data?.let { it1 -> listAdapter.notifyItemChangedSmooth(it1) }
             }
+            binding.emptyView.visibility = if(it.data?.size?:0 >0){
+                View.GONE
+            }else{
+                View.VISIBLE
+            }
         }
-        viewModel.selectedTestTypeLiveData.observe(this){
+        viewModel.selectedTestTypeLiveData.observe(this) {
             it?.let {
                 binding.refresh.isRefreshing = true
-                binding.testTypeText.text = when(it){
+                binding.testTypeText.text = when (it) {
                     EASService.TestType.ALL -> getString(R.string.test_type_all)
                     EASService.TestType.NORMAL -> getString(R.string.test_type_normal)
                     EASService.TestType.RESIT -> getString(R.string.test_type_resit)
@@ -67,11 +72,12 @@ class ScoreInquiryActivity:
             }
         }
     }
+
     override fun initViews() {
         super.initViews()
         bindLiveData()
         binding.refresh.setColorSchemeColors(getColorPrimary())
-        binding.refresh.setOnRefreshListener{refresh()}
+        binding.refresh.setOnRefreshListener { refresh() }
         listAdapter = ScoresListAdapter(this, mutableListOf())
         binding.scoreStructure.adapter = listAdapter
         binding.scoreStructure.layoutManager = LinearLayoutManager(getThis())
@@ -96,16 +102,18 @@ class ScoreInquiryActivity:
             }
         }
         binding.testTypeLayout.setOnClickListener {
-            val names = mutableListOf<String>()
-            names.add(getString(R.string.test_type_all))
-            names.add(getString(R.string.test_type_normal))
-            names.add(getString(R.string.test_type_resit))
-            names.add(getString(R.string.test_type_retake))
-            val list = ArrayList<EASService.TestType>()
-            list.add(EASService.TestType.ALL)
-            list.add(EASService.TestType.NORMAL)
-            list.add(EASService.TestType.RESIT)
-            list.add(EASService.TestType.RETAKE)
+            val names = mutableListOf(
+                getString(R.string.test_type_all),
+                getString(R.string.test_type_normal),
+                getString(R.string.test_type_resit),
+                getString(R.string.test_type_retake)
+            )
+            val list = arrayListOf(
+                EASService.TestType.ALL,
+                EASService.TestType.NORMAL,
+                EASService.TestType.RESIT,
+                EASService.TestType.RETAKE
+            )
             PopUpCheckableList<EASService.TestType>()
                 .setListData(names, list)
                 .setTitle(getString(R.string.pick_test_type))
@@ -120,13 +128,13 @@ class ScoreInquiryActivity:
             BaseListAdapter.OnItemClickListener<CourseScoreItem> {
             override fun onItemClick(data: CourseScoreItem?, card: View?, position: Int) {
                 data?.let {
-                    ScoreDetailFragment(it).
-                    show(supportFragmentManager, "score_detail")
+                    ScoreDetailFragment(it).show(supportFragmentManager, "score_detail")
                 }
             }
         })
         viewModel.selectedTestTypeLiveData.value = EASService.TestType.ALL
     }
+
     override fun getViewModelClass(): Class<ScoreInquiryViewModel> {
         return ScoreInquiryViewModel::class.java
     }
