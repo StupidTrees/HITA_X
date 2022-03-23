@@ -28,7 +28,8 @@
         <activity android:name=".ui.timetable.detail.TimetableDetailActivity" />
         <activity
             android:name=".ui.ActivitySplash"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,7 +39,8 @@
         <activity android:name=".ui.teacher.ActivityTeacherOfficial" />
         <activity
             android:name=".ui.search.SearchActivity"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true">
             <tools:validation testUrl="http://hita.store/search" />
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

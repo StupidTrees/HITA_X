@@ -6,15 +6,15 @@ plugins {
 
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion '31.0.0-rc5'
 
     defaultConfig {
         applicationId "com.stupidtree.hitax"
         minSdkVersion 23
-        targetSdkVersion 30
-        versionCode 20211026
-        versionName "1.0.6"
+        targetSdkVersion 31
+        versionCode 20220104
+        versionName "1.0.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
