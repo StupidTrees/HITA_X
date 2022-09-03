@@ -15,5 +15,6 @@
         <activity android:name=".ui.topic.detail.TopicDetailActivity" />
         <activity android:name=".ui.user.activity.UserListActivity" />
         <activity android:name=".ui.message.MessagesActivity" />
+        <activity android:name=".ui.widgets.PhotoDetailActivity" />
     </application>
 </manifest>

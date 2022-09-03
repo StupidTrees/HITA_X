@@ -12,6 +12,12 @@ import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 import com.stupidtree.sync.StupidSync
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 class HApplication : Application() {
 
@@ -117,5 +123,28 @@ class HApplication : Application() {
 
         })
         StupidSync.setUID(LocalUserRepository.getInstance(this).getLoggedInUser().id)
+        handleSSLHandshake()
     }
+
+    private fun handleSSLHandshake() {
+        try {
+            val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
+                override fun getAcceptedIssuers(): Array<X509Certificate?> {
+                    return arrayOfNulls(0)
+                }
+
+                override fun checkClientTrusted(certs: Array<X509Certificate>, authType: String) {}
+                override fun checkServerTrusted(certs: Array<X509Certificate>, authType: String) {}
+            })
+            val sc = SSLContext.getInstance("TLS")
+
+            // trustAllCerts信任所有的证书
+            sc.init(null, trustAllCerts, SecureRandom())
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.socketFactory)
+            HttpsURLConnection.setDefaultHostnameVerifier { hostname, session -> true }
+        } catch (ignored: Exception) {
+        }
+    }
+
+
 }

@@ -3,6 +3,7 @@ package com.stupidtree.hitax.data.repository
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.data.AppDatabase
@@ -51,11 +52,15 @@ class EASRepository internal constructor(application: Application) {
         if (!token.isLogin()) {
             return LiveDataUtils.getMutableLiveData(DataState(false))
         }
-        return Transformations.map(easService.loginCheck(token)) {
-            if (it.state == DataState.STATE.SUCCESS && it.data != true) {
-                easPreferenceSource.clearEasToken()
+        return Transformations.switchMap(easService.loginCheck(token)) {
+            if (it.state == DataState.STATE.SUCCESS && it.data != null) {
+                if (!it.data!!.first) {
+                    easPreferenceSource.clearEasToken()
+                } else {
+                    easPreferenceSource.saveEasToken(it.data!!.second)
+                }
             }
-            return@map it
+            return@switchMap MutableLiveData(DataState(it.data?.first == true))
         }
     }
 
@@ -85,10 +90,10 @@ class EASRepository internal constructor(application: Application) {
     /**
      * 获取课表结构
      */
-    fun getScheduleStructure(term: TermItem): LiveData<DataState<MutableList<TimePeriodInDay>>> {
+    fun getScheduleStructure(term: TermItem, isUndergraduate:Boolean?=null): LiveData<DataState<MutableList<TimePeriodInDay>>> {
         val easToken = easPreferenceSource.getEasToken()
         if (easToken.isLogin()) {
-            return easService.getScheduleStructure(term, easToken)
+            return easService.getScheduleStructure(term, isUndergraduate,easToken)
         }
         return LiveDataUtils.getMutableLiveData<DataState<MutableList<TimePeriodInDay>>>(
             DataState(
@@ -136,9 +141,9 @@ class EASRepository internal constructor(application: Application) {
     fun getPersonalScores(
         term: TermItem,
         testType: EASService.TestType
-    ):LiveData<DataState<List<CourseScoreItem>>>{
+    ): LiveData<DataState<List<CourseScoreItem>>> {
         val easToken = easPreferenceSource.getEasToken()
-        if(easToken.isLogin()){
+        if (easToken.isLogin()) {
             return easService.getPersonalScores(term, easToken, testType)
         }
         return LiveDataUtils.getMutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))
@@ -147,9 +152,9 @@ class EASRepository internal constructor(application: Application) {
     /**
      * 获取考试信息
      */
-    fun getExamInfo():LiveData<DataState<List<ExamItem>>>{
+    fun getExamInfo(): LiveData<DataState<List<ExamItem>>> {
         val easToken = easPreferenceSource.getEasToken()
-        if(easToken.isLogin()){
+        if (easToken.isLogin()) {
             return easService.getExamItems(easToken)
         }
         return LiveDataUtils.getMutableLiveData(DataState(DataState.STATE.NOT_LOGGED_IN))

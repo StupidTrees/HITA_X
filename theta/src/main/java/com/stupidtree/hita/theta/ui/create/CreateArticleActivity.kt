@@ -113,7 +113,12 @@ class CreateArticleActivity : BaseActivity<CreateArticleViewModel, ActivityCreat
                     binding.repostAuthor.text = it.data?.repostAuthorName
                     binding.repostContent.text = it.data?.repostContent
                 }
-                binding.content.setText("//[u${it.data?.authorId}//@${it.data?.authorName}$]: ${it.data?.content}")
+                if(it.data?.repostId.isNullOrEmpty()){
+                    binding.content.setText("")
+                }else{
+                    binding.content.setText("//[u${it.data?.authorId}//@${it.data?.authorName}$]: ${it.data?.content}")
+                }
+
             } else {
                 binding.repost.visibility = View.GONE
             }

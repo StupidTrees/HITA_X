@@ -84,7 +84,7 @@ class MessagesListAdapter(mContext: Context, mBeans: MutableList<Message>) :
         holder.binding.card.setOnClickListener {
             when (data?.action) {
                 Message.ACTION.FOLLOW, Message.ACTION.UNFOLLOW -> {
-                    ActivityTools.startUserActivity(mContext, localRepo.getLoggedInUser().id ?: "")
+                    ActivityTools.startUserActivity(mContext, data.userId)
                 }
                 Message.ACTION.COMMENT, Message.ACTION.LIKE, Message.ACTION.REPOST -> {
                     if (data.type == Message.TYPE.ARTICLE) {
@@ -92,6 +92,9 @@ class MessagesListAdapter(mContext: Context, mBeans: MutableList<Message>) :
                     } else {
                         ActivityTools.startCommentDetail(mContext, "", data.referenceId)
                     }
+                }
+                else -> {
+
                 }
             }
         }

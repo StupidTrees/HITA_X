@@ -1,5 +1,6 @@
 package com.stupidtree.hitax.data.source.web.eas
 
+import android.annotation.SuppressLint
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -62,11 +63,34 @@ class EASource internal constructor() : EASService {
                 cookies.putAll(c2.response().cookies())
                 val login = page.toString().contains("qxdm")
                 if (login) {
-                    val easToken = EASToken() //登录成功，创建tokrn
-                    easToken.cookies = cookies //设置cookies
-                    easToken.username = username
-                    easToken.password = password
-                    res.postValue(DataState(easToken, DataState.STATE.SUCCESS))
+                    val token = EASToken() //登录成功，创建tokrn
+                    token.cookies = cookies //设置cookies
+                    token.username = username
+                    token.password = password
+                    val s = Jsoup.connect("$hostName/UserManager/queryxsxx")
+                        .timeout(timeout)
+                        .cookies(cookies)
+                        .headers(defaultRequestHeader)
+                        .header("X-Requested-With", "XMLHttpRequest")
+                        .ignoreContentType(true)
+                        .ignoreHttpErrors(true)
+                        .post()
+                    val json = s.getElementsByTag("body").text()
+                    val jo = JsonUtils.getJsonObject(json)
+                    token.stutype = if (jo?.getString("PYLX")
+                            ?.lowercase() == "1"
+                    ) EASToken.TYPE.UNDERGRAD else EASToken.TYPE.GRAD
+                    token.school = jo?.optString("YXMC")
+                    token.sfxsx = jo?.optString("sfxsx")
+                    token.major = jo?.optString("ZYMC")
+                    token.picture = jo?.optString("ZPBSLJ")
+                    token.phone = jo?.optString("LXDH")
+                    token.id = jo?.optString("ID")
+                    token.email = jo?.optString("DZYX")
+                    token.grade = jo?.optString("NJMC")
+                    token.stuId = jo?.optString("XH")
+                    token.name = jo?.optString("XM")
+                    res.postValue(DataState(token, DataState.STATE.SUCCESS))
                 } else {
                     res.postValue(DataState(DataState.STATE.FETCH_FAILED))
                 }
@@ -81,8 +105,8 @@ class EASource internal constructor() : EASService {
     /**
      * 检查登录状态
      */
-    override fun loginCheck(token: EASToken): LiveData<DataState<Boolean>> {
-        val res = MutableLiveData<DataState<Boolean>>()
+    override fun loginCheck(token: EASToken): LiveData<DataState<Pair<Boolean, EASToken>>> {
+        val res = MutableLiveData<DataState<Pair<Boolean, EASToken>>>()
         Thread {
             try {
                 val s = Jsoup.connect("$hostName/UserManager/queryxsxx")
@@ -95,11 +119,23 @@ class EASource internal constructor() : EASService {
                     .post()
                 val json = s.getElementsByTag("body").text()
                 if (json.contains("session已失效")) {
-                    res.postValue(DataState(false))
+                    res.postValue(DataState(Pair(false, token)))
                 } else {
                     val jo = JsonUtils.getJsonObject(json)
                     val login = jo?.has("XH") ?: false
-                    res.postValue(DataState(login))
+                    token.stutype = if (jo?.optString("PYLX", "1") == "1"
+                    ) EASToken.TYPE.UNDERGRAD else EASToken.TYPE.GRAD
+                    token.school = jo?.optString("YXMC")
+                    token.sfxsx = jo?.optString("sfxsx")
+                    token.major = jo?.optString("ZYMC")
+                    token.picture = jo?.optString("ZPBSLJ")
+                    token.phone = jo?.optString("LXDH")
+                    token.id = jo?.optString("ID")
+                    token.email = jo?.optString("DZYX")
+                    token.grade = jo?.optString("NJMC")
+                    token.stuId = jo?.optString("XH")
+                    token.name = jo?.optString("XM")
+                    res.postValue(DataState(Pair(login, token)))
                 }
             } catch (e: IOException) {
                 res.postValue(DataState(DataState.STATE.FETCH_FAILED))
@@ -161,40 +197,50 @@ class EASource internal constructor() : EASService {
     /**
      * 获取学期开始日期
      */
+    @SuppressLint("SimpleDateFormat")
     override fun getStartDate(token: EASToken, term: TermItem): LiveData<DataState<Calendar>> {
         val res = MutableLiveData<DataState<Calendar>>()
         Thread {
             try {
-                val s = Jsoup.connect("$hostName/Xiaoli/queryMonthList")
+                val s = Jsoup.connect("$hostName/component/queryRlZcSj")
                     .timeout(timeout)
                     .cookies(token.cookies)
                     .headers(defaultRequestHeader)
                     .header("X-Requested-With", "XMLHttpRequest")
-                    .data("zyw", "zh")
-                    .data("pxn", term.yearCode)
-                    .data("pxq", term.termCode)
+                    .data("djz", "1")
+                    .data("xn", term.yearCode)
+                    .data("xq", term.termCode)
                     .ignoreContentType(true)
                     .ignoreHttpErrors(true)
                     .post()
-                val json = s.getElementsByTag("body").text()
-                val monthList: JSONArray? = JsonUtils.getJsonObject(json)?.optJSONArray("monlist")
-                val firstMon: JSONObject? = monthList?.optJSONObject(0)
-                val year = firstMon?.optInt("yy")
-                val month = firstMon?.optInt("mm")
-                val firstMonDays: JSONArray? = firstMon?.optJSONArray("dszlist")
-                var index = 0
-                for (i in 0 until (firstMonDays?.length() ?: 0)) {
-                    val aWeek: JSONObject? = firstMonDays?.optJSONObject(i)
-                    val attr = aWeek?.optString("xldjz", "")
-                    if (!attr.isNullOrEmpty() && attr != "null") break
-                    index++
-                }
+                val json = s.getElementsByTag("body").first().text()
+                val jo = JsonUtils.getJsonObject(json)
+                val contents = jo?.optJSONArray("content")
+                val firstWeek = contents?.optJSONObject(0)
+                val date = firstWeek?.optString("rq")
                 val result = Calendar.getInstance()
                 result.firstDayOfWeek = Calendar.MONDAY
-                result[Calendar.YEAR] = year ?: 1970
-                result[Calendar.MONTH] = (month ?: 12) - 1
-                result[Calendar.WEEK_OF_MONTH] = index + 1
                 result[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
+                date?.let {
+                    result.timeInMillis = SimpleDateFormat("yyyy-MM-dd").parse(it)?.time ?: 0
+//                    if(els.isNotEmpty()) result[Calendar.YEAR] = Integer.parseInt(els[0])
+//                    if(els.size>1)result[Calendar.MONTH] = Integer.parseInt(els[1]) - 1
+//                    if(els.size>2)result[Calendar.DAY_OF_MONTH] = Integer.parseInt(els[2])
+
+                }
+//                val json = s.getElementsByTag("body").text()
+//                val monthList: JSONArray? = JsonUtils.getJsonObject(json)?.optJSONArray("monlist")
+//                val firstMon: JSONObject? = monthList?.optJSONObject(0)
+//                val year = firstMon?.optInt("yy")
+//                val month = firstMon?.optInt("mm")
+//                val firstMonDays: JSONArray? = firstMon?.optJSONArray("dszlist")
+//                var index = 0
+//                for (i in 0 until (firstMonDays?.length() ?: 0)) {
+//                    val aWeek: JSONObject? = firstMonDays?.optJSONObject(i)
+//                    val attr = aWeek?.optString("xldjz", "")
+//                    if (!attr.isNullOrEmpty() && attr != "null") break
+//                    index++
+//                }
                 res.postValue(DataState(result))
             } catch (e: Exception) {
                 res.postValue(DataState(DataState.STATE.FETCH_FAILED, e.message))
@@ -221,7 +267,7 @@ class EASource internal constructor() : EASService {
                     .header("X-Requested-With", "XMLHttpRequest")
                     .ignoreContentType(true)
                     .ignoreHttpErrors(true)
-                    .data("p_pylx", "1")
+                    .data("p_pylx", token.getStudentType())
                     .data("p_sfgldjr", "0")
                     .data("p_sfredis", "0")
                     .data("p_sfsyxkgwc", "0")
@@ -435,6 +481,7 @@ class EASource internal constructor() : EASService {
      */
     override fun getScheduleStructure(
         term: TermItem,
+        isUndergraduate: Boolean?,
         token: EASToken
     ): LiveData<DataState<MutableList<TimePeriodInDay>>> {
         val res = MutableLiveData<DataState<MutableList<TimePeriodInDay>>>()
@@ -450,7 +497,10 @@ class EASource internal constructor() : EASService {
                     .ignoreHttpErrors(true)
                     .data("xn", term.yearCode) //学年
                     .data("xq", term.termCode) //学期
-                    .data("pylx","1")
+                    .data(
+                        "pylx",
+                        if (isUndergraduate == null) token.getStudentType() else (if (isUndergraduate == true) "1" else "2")
+                    )
                     .method(Connection.Method.POST).execute()
                 val json = r.body()
                 val content = JsonUtils.getJsonObject(json)?.optJSONArray("content")
@@ -465,12 +515,17 @@ class EASource internal constructor() : EASService {
                         val toTxt: String =
                             tp?.optString("jssj", "00:00") ?: "00:00"
                         from.timeInMillis =
-                            try{
+                            try {
                                 dateFormatter.parse(fromTxt)?.time ?: 0
-                            }catch (e:Exception){0}
+                            } catch (e: Exception) {
+                                0
+                            }
                         to.timeInMillis =
-                            try{dateFormatter.parse(toTxt)?.time ?: 0
-                            }catch (e:Exception){0}
+                            try {
+                                dateFormatter.parse(toTxt)?.time ?: 0
+                            } catch (e: Exception) {
+                                0
+                            }
                         result.add(TimePeriodInDay(TimeInDay(from), TimeInDay(to)))
                     }
                     res.postValue(DataState(result))
@@ -502,18 +557,19 @@ class EASource internal constructor() : EASService {
                     .cookies(token.cookies)
                     .headers(defaultRequestHeader)
                     .header("X-Requested-With", "XMLHttpRequest")
-                    .header("Content-Type","application/json")
+                    .header("Content-Type", "application/json")
                     .ignoreContentType(true)
                     .ignoreHttpErrors(true)
                     .requestBody(
                         """{"xn":"""" + term.yearCode +
                                 """","xq":""" + term.termCode +
                                 ""","kcmc":null""" + ""","cxbj":""" + testType.value +
-                                ""","pylx":1,"current":1,"pageSize":300}"""
+                                ""","pylx":${token.getStudentType()},"current":1,"pageSize":300}"""
                     )
                     .method(Connection.Method.POST).execute()
                 val json = r.body()
-                val content = JsonUtils.getJsonObject(json)?.optJSONObject("content")?.optJSONArray("list")
+                val content =
+                    JsonUtils.getJsonObject(json)?.optJSONObject("content")?.optJSONArray("list")
                 content?.let {
                     for (i in 0 until it.length()) {
                         val tp: JSONObject = it.optJSONObject(i)
@@ -521,13 +577,13 @@ class EASource internal constructor() : EASService {
                         item.assessMethod = tp.optString("khfs", "null")
                         item.courseCategory = tp.optString("kclb", "null")
                         item.courseCode = tp.optString("kcdm", "null")
-                        item.courseName = tp.optString("kcmc","null")
-                        item.courseProperty = tp.optString("kcxz","null")
+                        item.courseName = tp.optString("kcmc", "null")
+                        item.courseProperty = tp.optString("kcxz", "null")
                         item.credits = tp.optInt("xf", -1)
-                        item.finalScores = tp.optInt("zzcj",-1)
+                        item.finalScores = tp.optInt("zzcj", -1)
                         item.hours = tp.optInt("xs", -1)
-                        item.schoolName = tp.optString("yxmc","null")
-                        item.termName = tp.optString("xnxqmc","null")
+                        item.schoolName = tp.optString("yxmc", "null")
+                        item.termName = tp.optString("xnxqmc", "null")
                         result.add(item)
                     }
                     res.postValue(DataState(result))
@@ -673,9 +729,9 @@ class EASource internal constructor() : EASService {
                         item.campusName = tp.optString("XIAOQUBMC", "null")
                         item.courseName = tp.optString("KCMC", "null")
                         item.examDate = tp.optString("KSRQ2", "null")
-                        item.examLocation = tp.optString("JXCDMC","null")
-                        item.examTime = tp.optString("KSJTSJ","null")
-                        item.examType = tp.optString("KSSJDMC","null")
+                        item.examLocation = tp.optString("JXCDMC", "null")
+                        item.examTime = tp.optString("KSJTSJ", "null")
+                        item.examType = tp.optString("KSSJDMC", "null")
                         item.termName = tp.optString("XNXQMC", "null")
                         result.add(item)
                     }

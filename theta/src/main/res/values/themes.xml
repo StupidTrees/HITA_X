@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ToolBarTheme_Light" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorButtonNormal">#FFFFFF</item>
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="actionMenuTextColor">#FFFFFF</item>
+        <item name="android:titleTextAppearance">@style/Toolbar_Light_TitleStyle</item>
+    </style>
+
+    <style name="Toolbar_Light_TitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">#ffffff</item>
+    </style>
+</resources>

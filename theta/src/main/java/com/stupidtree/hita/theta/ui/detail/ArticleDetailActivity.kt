@@ -99,7 +99,7 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
             if (ds.state == DataState.STATE.SUCCESS) {
                 ds.data?.let {
                     ImageUtils.loadAvatarInto(getThis(), it.authorAvatar, binding.postAvatar)
-                    if (!it.images.isNullOrEmpty()) {
+                    if (it.images.isNotEmpty()) {
                         imageListAdapter.notifyItemChangedSmooth(it.images)
                     }
                     binding.delete.visibility =
@@ -377,6 +377,11 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
                 intent.getStringExtra("articleId")
             )
         }
+        imageListAdapter.setOnItemClickListener(object :BaseListAdapter.OnItemClickListener<String>{
+            override fun onItemClick(data: String?, card: View?, position: Int) {
+                ActivityTools.showMultipleImages(getThis(),imageListAdapter.getIds(),position)
+            }
+        })
         listAdapter.setOnItemClickListener(object : BaseListAdapter.OnItemClickListener<Comment> {
             override fun onItemClick(data: Comment?, card: View?, position: Int) {
                 viewModel.articleLiveData.value?.data?.let {

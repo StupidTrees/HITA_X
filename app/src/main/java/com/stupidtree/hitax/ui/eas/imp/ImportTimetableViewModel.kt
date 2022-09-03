@@ -42,10 +42,36 @@ class ImportTimetableViewModel(application: Application) : EASViewModel(applicat
 
     val importTimetableResultLiveData = MediatorLiveData<DataState<Boolean>>()
 
+    val isUndergraduateLiveData = MutableLiveData<Boolean>()
     val scheduleStructureLiveData: MediatorLiveData<DataState<MutableList<TimePeriodInDay>>> =
-        MTransformations.switchMap(selectedTermLiveData) {
-            return@switchMap it?.let { it1 -> easRepository.getScheduleStructure(it1) }
+        MediatorLiveData()
+
+
+    init {
+        scheduleStructureLiveData.addSource(selectedTermLiveData) {
+            isUndergraduateLiveData.value?.let { isu ->
+                scheduleStructureLiveData.addSource(
+                    easRepository.getScheduleStructure(
+                        it!!,
+                        isu
+                    )
+                ) { itt ->
+                    scheduleStructureLiveData.value = itt
+                }
+            }
         }
+        scheduleStructureLiveData.addSource(isUndergraduateLiveData) {
+            selectedTermLiveData.value?.let { st ->
+                scheduleStructureLiveData.addSource(
+                    easRepository.getScheduleStructure(
+                        st, it
+                    )
+                ) { itt ->
+                    scheduleStructureLiveData.value = itt
+                }
+            }
+        }
+    }
 
 
     /**
@@ -57,6 +83,10 @@ class ImportTimetableViewModel(application: Application) : EASViewModel(applicat
 
     fun changeSelectedTerm(termItem: TermItem) {
         selectedTermLiveData.value = termItem
+    }
+
+    fun changeIsUndergraduate(isUnder: Boolean) {
+        isUndergraduateLiveData.value = isUnder
     }
 
     fun startGetAllTerms(): List<TermItem> {
@@ -89,7 +119,7 @@ class ImportTimetableViewModel(application: Application) : EASViewModel(applicat
 
 
     fun setStructureData(periodInDay: TimePeriodInDay, position: Int) {
-        if (position < scheduleStructureLiveData.value?.data?.size ?: 0) {
+        if (position < (scheduleStructureLiveData.value?.data?.size ?: 0)) {
             scheduleStructureLiveData.value?.data?.set(position, periodInDay)
             scheduleStructureLiveData.value = scheduleStructureLiveData.value
         }

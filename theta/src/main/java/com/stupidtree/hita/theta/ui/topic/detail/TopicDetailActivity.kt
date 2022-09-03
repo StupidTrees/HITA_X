@@ -7,6 +7,7 @@ import com.stupidtree.component.data.DataState
 import com.stupidtree.hita.theta.R
 import com.stupidtree.hita.theta.databinding.ActivityTopicDetailBinding
 import com.stupidtree.hita.theta.ui.list.ArticleListFragment
+import com.stupidtree.hita.theta.utils.ImageUtils
 import com.stupidtree.stupiduser.util.ImageUtils.dp2px
 import com.stupidtree.style.base.BaseActivity
 
@@ -66,6 +67,8 @@ class TopicDetailActivity : BaseActivity<TopicDetailViewModel, ActivityTopicDeta
                     binding.name.text = data.name
                     binding.description.text = data.description
                     binding.discuss.text = data.articleNum.toString()
+                    print(data.avatar)
+                    ImageUtils.loadTopicAvatarInto(this,data.avatar,binding.avatar)
                 }
             }
         }

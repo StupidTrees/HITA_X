@@ -10,6 +10,7 @@ import com.stupidtree.hita.theta.ui.message.MessagesActivity
 import com.stupidtree.hita.theta.ui.topic.detail.TopicDetailActivity
 import com.stupidtree.hita.theta.ui.topic.search.SearchTopicActivity
 import com.stupidtree.hita.theta.ui.user.activity.UserListActivity
+import com.stupidtree.hita.theta.ui.widgets.PhotoDetailActivity
 
 object ActivityTools {
     const val CHOOSE_TOPIC = 233
@@ -66,5 +67,21 @@ object ActivityTools {
         i.putExtra("mode", mode)
         i.putExtra("title", title)
         context.startActivity(i)
+    }
+
+    /**
+     * 显示多张大图
+     * @param from 上下文
+     * @param urls 图片链接
+     * @param index 初始显示的下必
+     */
+    fun showMultipleImages(from: Activity, ids: List<String>, index: Int) {
+        val it = Intent(from, PhotoDetailActivity::class.java)
+        //  ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(from,view,"image");
+        val urlsArr = arrayOfNulls<String>(ids.size)
+        for (i in urlsArr.indices) urlsArr[i] = ids[i]
+        it.putExtra("ids", urlsArr)
+        it.putExtra("init_index", index)
+        from.startActivity(it) //,activityOptionsCompat.toBundle());
     }
 }

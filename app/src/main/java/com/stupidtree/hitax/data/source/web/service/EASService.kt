@@ -22,7 +22,7 @@ interface EASService {
     /**
      * 检查登录状态
      */
-    fun loginCheck(token:EASToken):LiveData<DataState<Boolean>>
+    fun loginCheck(token:EASToken):LiveData<DataState<Pair<Boolean,EASToken>>>
 
     /**
      * 获取学年学期
@@ -50,7 +50,7 @@ interface EASService {
     /**
      * 获取某学期的课表结构
      */
-    fun getScheduleStructure(term: TermItem,token: EASToken):LiveData<DataState<MutableList<TimePeriodInDay>>>
+    fun getScheduleStructure(term: TermItem,isUndergraduate:Boolean?, token: EASToken):LiveData<DataState<MutableList<TimePeriodInDay>>>
 
 
     /**

@@ -13,6 +13,8 @@ import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.databinding.ActivityEasImportBinding
 import com.stupidtree.style.base.BaseListAdapter
 import com.stupidtree.component.data.DataState
+import com.stupidtree.hitax.data.model.eas.EASToken
+import com.stupidtree.hitax.data.source.preference.EasPreferenceSource
 import com.stupidtree.hitax.ui.eas.EASActivity
 import com.stupidtree.hitax.ui.widgets.PopUpCalendarPicker
 import com.stupidtree.style.widgets.PopUpCheckableList
@@ -96,6 +98,11 @@ class ImportTimetableActivity :
             }
 
         }
+        binding.stutype.setOnCheckedChangeListener { bt, b ->
+            if(bt.isPressed){
+                viewModel.changeIsUndergraduate(b)
+            }
+        }
 
     }
 
@@ -136,12 +143,16 @@ class ImportTimetableActivity :
             }
         }
         viewModel.scheduleStructureLiveData.observe(this) {
-            AnimationUtils.enableLoadingButton(binding.buttonImport,!it.data.isNullOrEmpty())
+            AnimationUtils.enableLoadingButton(binding.buttonImport, !it.data.isNullOrEmpty())
             if (it.state == DataState.STATE.SUCCESS) {
                 it.data?.let { data ->
                     scheduleStructureAdapter.notifyItemChangedSmooth(data)
                 }
             }
+        }
+        viewModel.isUndergraduateLiveData.observe(this){
+            binding.stutype.text = if(it) getString(R.string.undergrad_structure) else
+                getString(R.string.postgrad_structure)
         }
         viewModel.importTimetableResultLiveData.observe(this) {
             AnimationUtils.loadingButtonDone(
@@ -206,6 +217,14 @@ class ImportTimetableActivity :
     override fun initViewBinding(): ActivityEasImportBinding {
         return ActivityEasImportBinding.inflate(layoutInflater)
     }
+
+    override fun onLoginCheckSuccess(retry:Boolean) {
+        super.onLoginCheckSuccess(retry)
+        val token = EasPreferenceSource.getInstance(application).getEasToken()
+        binding.stutype.isChecked = (token.stutype==EASToken.TYPE.UNDERGRAD)
+        viewModel.changeIsUndergraduate(binding.stutype.isChecked)
+    }
+
 
 
     override fun refresh() {

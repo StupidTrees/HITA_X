@@ -21,18 +21,40 @@ class EasPreferenceSource(context: Context) {
             .putString("username", token.username)
             .putString("password", token.password)
             .putString("cookies", Gson().toJson(token.cookies))
+            .putString("stutype", token.getStudentType())
+            .putString("picture", token.picture)
+            .putString("id", token.id)
+            .putString("stuId", token.stuId)
+            .putString("school", token.school)
+            .putString("major", token.major)
+            .putString("grade", token.grade)
+            .putString("sfxsx", token.sfxsx)
+            .putString("email", token.email)
+            .putString("phone", token.phone)
             .apply()
     }
 
 
     fun clearEasToken() {
-        preference.edit().putString("cookies",null).apply()
+        preference.edit().putString("cookies", null).apply()
     }
 
     fun getEasToken(): EASToken {
         val result = EASToken()
         result.username = preference.getString("username", null)
         result.password = preference.getString("password", null)
+        result.stutype = if (preference.getString("stutype", "1")
+                .equals("1")
+        ) EASToken.TYPE.UNDERGRAD else EASToken.TYPE.GRAD
+        result.picture = preference.getString("picture", null)
+        result.id = preference.getString("id", null)
+        result.stuId = preference.getString("stuId", null)
+        result.school = preference.getString("school", null)
+        result.major = preference.getString("major", null)
+        result.grade = preference.getString("grade", "")
+        result.sfxsx = preference.getString("sfxsx", null)
+        result.email = preference.getString("email", null)
+        result.phone = preference.getString("phone", null)
         val map = Gson().fromJson(preference.getString("cookies", "{}"), HashMap::class.java)
         for (e in map.entries) {
             result.cookies[e.key.toString()] = e.value.toString()

@@ -10,7 +10,7 @@ import com.stupidtree.hitax.ui.main.timetable.inner.TimetableStyleSheet
 
 class TimetableStyleRepository(application: Application) {
     private val timetableStyleSP: SharedPreferences = application.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE)
-    val startDateLiveData = timetableStyleSP.intLiveData(KEY_START_DATE, 830)
+    val startDateLiveData = timetableStyleSP.intLiveData(KEY_START_DATE, 800)
     val drawBGLinesLiveData = timetableStyleSP.booleanLiveData(KEY_DRAW_BG_LINE, true)
     val colorEnableLiveData = timetableStyleSP.booleanLiveData(KEY_COLOR_ENABLE, true)
     val fadeEnableLiveData = timetableStyleSP.booleanLiveData(KEY_FADE_ENABLE, true)

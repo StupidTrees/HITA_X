@@ -26,5 +26,12 @@ class ImageListAdapter(mContext: Context, mBeans: MutableList<String>) :
 
     override fun bindHolder(holder: IHolder, data: String?, position: Int) {
         ImageUtils.loadArticleImageInto(mContext, data, holder.binding.image)
+        holder.binding.image.setOnClickListener {
+            mOnItemClickListener?.onItemClick(data,it,position)
+        }
+    }
+
+    fun getIds():List<String>{
+        return mBeans.toList()
     }
 }

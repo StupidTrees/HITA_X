@@ -102,7 +102,7 @@ class ProfileActivity : BaseActivity<ProfileViewModel, ActivityProfileBinding>()
 
     private fun setUpLiveData() {
         //为ViewModel中的各种数据设置监听
-        viewModel.userProfileLiveData.observe(this, { userProfileDataState ->
+        viewModel.userProfileLiveData.observe(this) { userProfileDataState ->
             binding.refresh.isRefreshing = false
             if (userProfileDataState?.state === DataState.STATE.SUCCESS) {
                 //状态为成功，设置ui
@@ -134,7 +134,7 @@ class ProfileActivity : BaseActivity<ProfileViewModel, ActivityProfileBinding>()
                 //状态为失败，弹出错误
                 Toast.makeText(getThis(), "获取出错", Toast.LENGTH_SHORT).show()
             }
-        })
+        }
 
         viewModel.followResult.observe(this) {
             if (it.state == DataState.STATE.SUCCESS) {

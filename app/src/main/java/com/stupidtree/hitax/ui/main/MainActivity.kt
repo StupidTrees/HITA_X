@@ -114,29 +114,35 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         }
     }
 
+    var checkedUpdate = false
+    var lastCheckTs:Long = 0
+
     override fun onStart() {
         super.onStart()
         viewModel.startRefreshUser()
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                viewModel.checkForUpdate(
-                    packageManager.getPackageInfo(
-                        packageName,
-                        0
-                    ).longVersionCode
-                )
+            val code = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                packageManager.getPackageInfo(
+                    packageName,
+                    0
+                ).longVersionCode
             } else {
-                viewModel.checkForUpdate(
-                    packageManager.getPackageInfo(
-                        packageName,
-                        0
-                    ).versionCode.toLong()
-                )
+                packageManager.getPackageInfo(
+                    packageName,
+                    0
+                ).versionCode.toLong()
+            }
+            if(System.currentTimeMillis()-lastCheckTs>10*60*1000) checkedUpdate = false
+            if (!checkedUpdate) {
+                if(LocalUserRepository.getInstance(this).getLoggedInUser().isValid()) {
+                    checkedUpdate = true
+                    lastCheckTs = System.currentTimeMillis()
+                }
+                viewModel.checkForUpdate(code)
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
 
     }
 
@@ -220,7 +226,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             if (it.state == DataState.STATE.SUCCESS) {
                 it.data?.let { cr ->
                     if (cr.shouldUpdate) {
-                        PopUpText().setText(cr.latestVersionName + " 是否前往下载？")
+                        PopUpText().setText("版本：${cr.latestVersionName}\n更新内容：${cr.updateLog}\n" + "是否前往下载？")
                             .setTitle(R.string.new_version_available)
                             .setOnConfirmListener(object : PopUpText.OnConfirmListener {
                                 override fun OnConfirm() {

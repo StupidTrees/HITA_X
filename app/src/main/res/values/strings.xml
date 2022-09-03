@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HITSZ助手</string>
+    <string name="app_name">HITA课表</string>
 
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
@@ -1179,4 +1179,6 @@
     <string name="starred_article">收藏帖子</string>
     <string name="tab_search_article">帖子</string>
     <string name="success">成功</string>
+    <string name="undergrad_structure">本科生结构</string>
+    <string name="postgrad_structure">研究生结构</string>
 </resources>
