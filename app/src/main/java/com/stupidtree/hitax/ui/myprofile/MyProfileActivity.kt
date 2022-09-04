@@ -10,10 +10,10 @@ import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.ActivityMyProfileBinding
 import com.stupidtree.style.base.BaseActivity
 import com.stupidtree.component.data.DataState
-import com.stupidtree.hitax.ui.widgets.PopUpEditText
 import com.stupidtree.hitax.utils.GalleryPicker
 import com.stupidtree.stupiduser.data.model.UserLocal
 import com.stupidtree.stupiduser.data.model.UserProfile
+import com.stupidtree.style.widgets.PopUpEditText
 import com.stupidtree.style.widgets.PopUpSelectableList
 
 /**

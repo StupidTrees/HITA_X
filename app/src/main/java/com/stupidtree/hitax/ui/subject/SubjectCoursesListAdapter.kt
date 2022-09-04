@@ -57,8 +57,13 @@ class SubjectCoursesListAdapter(context: Context, list: MutableList<EventItem>) 
             else holder.binding.icon.visibility = VISIBLE
             holder.binding.item.setOnClickListener {
                 data?.let { it1 ->
-                    mOnItemClickListener?.onItemClick(
+                    if(isEditMode){
+                        holder.toggleCheck()
+                    }else{
+                        mOnItemClickListener?.onItemClick(
                             it1, it, position)
+                    }
+
                 }
             }
         } else if (holder is PassedViewHolder) {
@@ -68,8 +73,13 @@ class SubjectCoursesListAdapter(context: Context, list: MutableList<EventItem>) 
             else holder.binding.icon.visibility = VISIBLE
             holder.binding.item.setOnClickListener {
                 data?.let { it1 ->
-                    mOnItemClickListener?.onItemClick(
-                            it1, it, position)
+                    if(isEditMode){
+                        holder.toggleCheck()
+                    }else {
+                        mOnItemClickListener?.onItemClick(
+                            it1, it, position
+                        )
+                    }
                 }
             }
         }

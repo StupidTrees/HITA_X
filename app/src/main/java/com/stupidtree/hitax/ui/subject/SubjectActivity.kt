@@ -10,6 +10,8 @@ import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.databinding.ActivitySubjectBinding
+import com.stupidtree.hitax.ui.event.add.PopupAddEvent
+import com.stupidtree.style.widgets.PopUpFloatPicker
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.EditModeHelper
 import com.stupidtree.hitax.utils.EventsUtils
@@ -83,6 +85,9 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
             }
             va.startDelay = 160
             va.start()
+        }
+        viewModel.timetableLiveData.observe(this){
+
         }
         viewModel.teachersLiveData.observe(this) {
             val sb = StringBuilder()
@@ -165,27 +170,18 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
 
         }
         binding.cardCredit.onCardClickListener = View.OnClickListener {
-            val items = mutableListOf<String>()
-            var base = 0f
-            val df = DecimalFormat("0.0")
-            for (i in 0..199) {
-                items.add(df.format(base.toDouble()))
-                base += 0.1f
-            }
+
             viewModel.subjectLiveData.value?.let {
-                PopUpSelectableList<String>()
-                    .setTitle(R.string.subject_credit)
-                    .setListData(
-                        items,
-                        items,
+                PopUpFloatPicker()
+                    .setDialogTitle(R.string.subject_credit)
+                    .setInitialValue(
+                        it.credit
                     )
-                    .setInitValue(df.format(it.credit))
-                    .setOnConfirmListener(object : PopUpSelectableList.OnConfirmListener<String> {
-                        override fun onConfirm(title: String?, key: String) {
-                            it.credit = df.parse(key) as Float
+                    .setOnDialogConformListener(object : PopUpFloatPicker.OnDialogConformListener {
+                        override fun onClick(result: Float) {
+                            it.credit = result
                             viewModel.startSaveSubject()
                         }
-
                     })
                     .show(supportFragmentManager, "pick")
             }
@@ -237,7 +233,9 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
                 data?.let {
                     if (it.type === EventItem.TYPE.TAG) {
                         toggleCourseExpand()
-                    } else EventsUtils.showEventItem(getThis(), it)
+                    }else{
+                        EventsUtils.showEventItem(getThis(), it)
+                    }
                 }
             }
         })
@@ -251,7 +249,17 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
         })
         editModeHelper = EditModeHelper(this, listAdapter, this)
         editModeHelper.init(this, R.id.edit_bar, R.layout.edit_mode_bar_2)
+        editModeHelper.smoothSwitch = true
         editModeHelper.closeEditMode()
+        binding.courseAdd.setOnClickListener {
+            viewModel.subjectLiveData.value?.let { ts->
+                viewModel.timetableLiveData.value?.let { tt->
+                    PopupAddEvent().setInitTimetable(tt).setInitSubject(ts).show(supportFragmentManager,"add_event")
+                }
+
+            }
+
+        }
     }
 
 
@@ -309,6 +317,7 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
     }
 
     override fun onDelete(toDelete: Collection<EventItem>?) {
-
+        toDelete?.let { viewModel.deleteCourses(it) }
+        editModeHelper.closeEditMode()
     }
 }

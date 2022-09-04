@@ -7,12 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.repository.SubjectRepository
+import com.stupidtree.hitax.data.repository.TimetableRepository
 
 class EventItemViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * 仓库区
      */
     private val subjectRepository = SubjectRepository.getInstance(application)
+    private val timetableRepository =TimetableRepository.getInstance(application)
 
     /**
      * 数据区
@@ -23,4 +25,11 @@ class EventItemViewModel(application: Application) : AndroidViewModel(applicatio
         return@switchMap subjectRepository.getProgressOfSubject(it.subjectId, it.from.time)
     }
 
+
+    fun delete(){
+        eventItemLiveData.value?.let {
+            timetableRepository.actionDeleteEvents(listOf(it))
+        }
+
+    }
 }

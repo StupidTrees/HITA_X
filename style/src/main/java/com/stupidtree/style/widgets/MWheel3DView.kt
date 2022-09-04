@@ -1,4 +1,4 @@
-package com.stupidtree.hitax.ui.widgets
+package com.stupidtree.style.widgets
 
 import android.content.Context
 import android.util.AttributeSet
@@ -19,4 +19,5 @@ class MWheel3DView : Wheel3DView {
         }
         super.setOnWheelChangedListener(lis)
     }
+
 }

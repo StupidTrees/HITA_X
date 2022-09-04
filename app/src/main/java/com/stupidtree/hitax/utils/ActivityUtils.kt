@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import com.stupidtree.hita.theta.ThetaActivity
 import com.stupidtree.hitax.data.repository.EASRepository
+import com.stupidtree.hitax.ui.about.ActivityAbout
 import com.stupidtree.style.base.BaseActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
 import com.stupidtree.hitax.ui.myprofile.MyProfileActivity
@@ -103,6 +104,7 @@ object ActivityUtils {
         val i = Intent(from, TimetableManagerActivity::class.java)
         from.startActivity(i)
     }
+
 
     fun startSubjectActivity(from: Context, id: String) {
         val i = Intent(from, SubjectActivity::class.java)

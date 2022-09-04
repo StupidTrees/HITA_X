@@ -27,102 +27,102 @@ class HApplication : Application() {
         val timetableDao = database.timetableDao()
         val subjectDao = database.subjectDao()
         val eventDao = database.eventItemDao()
-        StupidSync.init(this, object : StupidSync.PushDelegate {
-
-            @WorkerThread
-            override fun getDataForIds(key: String, ids: List<String>): List<JsonObject> {
-                return when (key) {
-                    "timetable" -> {
-                        val list = mutableListOf<JsonObject>()
-                        for (tt in timetableDao.getTimetablesInIdsSync(ids)) {
-                            val jo = Gson().toJsonTree(tt).asJsonObject
-                            jo.addProperty("startTime", tt.startTime.time)
-                            jo.addProperty("endTime", tt.endTime.time)
-                            list.add(jo)
-                        }
-                        list
-                    }
-                    "subject" -> {
-                        val list = mutableListOf<JsonObject>()
-                        for (tt in subjectDao.getSubjectsInIdsSync(ids)) {
-                            val jo = Gson().toJsonTree(tt).asJsonObject
-                            list.add(jo)
-                        }
-                        return list
-                    }
-                    "event" -> {
-                        val list = mutableListOf<JsonObject>()
-                        for (tt in eventDao.getEventInIdsSync(ids)) {
-                            val jo = Gson().toJsonTree(tt).asJsonObject
-                            jo.addProperty("from", tt.from.time)
-                            jo.addProperty("to", tt.to.time)
-                            list.add(jo)
-                        }
-                        return list
-
-                    }
-                    else -> listOf()
-                }
-            }
-
-            override fun saveData(key: String, ids: List<String>, data: List<String>) {
-                when (key) {
-                    "timetable" -> {
-                        val tts = mutableMapOf<String, Timetable>()
-                        for (a in data) {
-                            val tt = GsonBuilderUtil.create().fromJson(a, Timetable::class.java)
-                            tts[tt.id] = tt
-                        }
-                        val toAdd = mutableListOf<Timetable>()
-                        for (id in ids) {
-                            tts[id]?.let { toAdd.add(it) }
-                        }
-                        Log.e("save_timetable", toAdd.toString())
-                        timetableDao.saveTimetablesSync(toAdd)
-                    }
-                    "subject" -> {
-                        val tts = mutableMapOf<String, TermSubject>()
-                        for (a in data) {
-                            val tt =  GsonBuilderUtil.create().fromJson(a, TermSubject::class.java)
-                            tts[tt.id] = tt
-                        }
-                        val toAdd = mutableListOf<TermSubject>()
-                        for (id in ids) {
-                            tts[id]?.let { toAdd.add(it) }
-                        }
-                        subjectDao.saveSubjectsSync(toAdd)
-                    }
-                    "event" -> {
-                        val tts = mutableMapOf<String, EventItem>()
-                        for (a in data) {
-                            val tt =  GsonBuilderUtil.create().fromJson(a, EventItem::class.java)
-                            tts[tt.id] = tt
-                        }
-                        val toAdd = mutableListOf<EventItem>()
-                        for (id in ids) {
-                            tts[id]?.let { toAdd.add(it) }
-                        }
-                        eventDao.saveEvents(toAdd)
-                    }
-                }
-            }
-
-            override fun deleteData(key: String, ids: List<String>) {
-                when (key) {
-                    "timetable" -> {
-                        timetableDao.deleteTimetablesInIdsSync(ids)
-                    }
-                    "event" -> {
-                        eventDao.deleteEventsInIdsSync(ids)
-                    }
-                    "subject" -> {
-                        subjectDao.deleteSubjectsInIdsSync(ids)
-                    }
-                }
-            }
-
-        })
-        StupidSync.setUID(LocalUserRepository.getInstance(this).getLoggedInUser().id)
+//        StupidSync.init(this, object : StupidSync.PushDelegate {
+//
+//            @WorkerThread
+//            override fun getDataForIds(key: String, ids: List<String>): List<JsonObject> {
+//                return when (key) {
+//                    "timetable" -> {
+//                        val list = mutableListOf<JsonObject>()
+//                        for (tt in timetableDao.getTimetablesInIdsSync(ids)) {
+//                            val jo = Gson().toJsonTree(tt).asJsonObject
+//                            jo.addProperty("startTime", tt.startTime.time)
+//                            jo.addProperty("endTime", tt.endTime.time)
+//                            list.add(jo)
+//                        }
+//                        list
+//                    }
+//                    "subject" -> {
+//                        val list = mutableListOf<JsonObject>()
+//                        for (tt in subjectDao.getSubjectsInIdsSync(ids)) {
+//                            val jo = Gson().toJsonTree(tt).asJsonObject
+//                            list.add(jo)
+//                        }
+//                        return list
+//                    }
+//                    "event" -> {
+//                        val list = mutableListOf<JsonObject>()
+//                        for (tt in eventDao.getEventInIdsSync(ids)) {
+//                            val jo = Gson().toJsonTree(tt).asJsonObject
+//                            jo.addProperty("from", tt.from.time)
+//                            jo.addProperty("to", tt.to.time)
+//                            list.add(jo)
+//                        }
+//                        return list
+//
+//                    }
+//                    else -> listOf()
+//                }
+//            }
+//
+//            override fun saveData(key: String, ids: List<String>, data: List<String>) {
+//                when (key) {
+//                    "timetable" -> {
+//                        val tts = mutableMapOf<String, Timetable>()
+//                        for (a in data) {
+//                            val tt = GsonBuilderUtil.create().fromJson(a, Timetable::class.java)
+//                            tts[tt.id] = tt
+//                        }
+//                        val toAdd = mutableListOf<Timetable>()
+//                        for (id in ids) {
+//                            tts[id]?.let { toAdd.add(it) }
+//                        }
+//                        Log.e("save_timetable", toAdd.toString())
+//                        timetableDao.saveTimetablesSync(toAdd)
+//                    }
+//                    "subject" -> {
+//                        val tts = mutableMapOf<String, TermSubject>()
+//                        for (a in data) {
+//                            val tt =  GsonBuilderUtil.create().fromJson(a, TermSubject::class.java)
+//                            tts[tt.id] = tt
+//                        }
+//                        val toAdd = mutableListOf<TermSubject>()
+//                        for (id in ids) {
+//                            tts[id]?.let { toAdd.add(it) }
+//                        }
+//                        subjectDao.saveSubjectsSync(toAdd)
+//                    }
+//                    "event" -> {
+//                        val tts = mutableMapOf<String, EventItem>()
+//                        for (a in data) {
+//                            val tt =  GsonBuilderUtil.create().fromJson(a, EventItem::class.java)
+//                            tts[tt.id] = tt
+//                        }
+//                        val toAdd = mutableListOf<EventItem>()
+//                        for (id in ids) {
+//                            tts[id]?.let { toAdd.add(it) }
+//                        }
+//                        eventDao.saveEvents(toAdd)
+//                    }
+//                }
+//            }
+//
+//            override fun deleteData(key: String, ids: List<String>) {
+//                when (key) {
+//                    "timetable" -> {
+//                        timetableDao.deleteTimetablesInIdsSync(ids)
+//                    }
+//                    "event" -> {
+//                        eventDao.deleteEventsInIdsSync(ids)
+//                    }
+//                    "subject" -> {
+//                        subjectDao.deleteSubjectsInIdsSync(ids)
+//                    }
+//                }
+//            }
+//
+//        })
+//        StupidSync.setUID(LocalUserRepository.getInstance(this).getLoggedInUser().id)
         handleSSLHandshake()
     }
 

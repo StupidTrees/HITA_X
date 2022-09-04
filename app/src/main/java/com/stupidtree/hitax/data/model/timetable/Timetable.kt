@@ -47,6 +47,11 @@ class Timetable {
     }
 
 
+    fun getTimestamps(week:Int,dow:Int,start:Int,end:Int): List<Long> {
+        val startOfDay:Long = startTime.time + (week-1).toLong()*7*24*60*60*1000 + (dow-1).toLong()*24*60*60*1000
+        return listOf(startOfDay+scheduleStructure[start-1].from.toMills(),startOfDay+ scheduleStructure[end-1].to.toMills())
+    }
+
     fun setScheduleStructure(tp: TimePeriodInDay, position: Int) {
         if (position < scheduleStructure.size) {
             scheduleStructure[position].from = tp.from

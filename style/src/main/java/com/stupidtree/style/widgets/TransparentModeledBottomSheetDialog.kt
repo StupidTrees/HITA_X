@@ -32,10 +32,18 @@ abstract class TransparentModeledBottomSheetDialog<T : ViewModel, V : ViewBindin
         return (activity as BaseActivity<*, *>).getColorPrimary()
     }
 
+    fun getColorControlNormal(): Int {
+        return (activity as BaseActivity<*, *>).getColorControlNormal()
+    }
+    fun getTextColorSecondary(): Int {
+        return (activity as BaseActivity<*, *>).getTextColorSecondary()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

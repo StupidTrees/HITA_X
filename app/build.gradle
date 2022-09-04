@@ -13,8 +13,8 @@ android {
         applicationId "com.stupidtree.hitax"
         minSdkVersion 23
         targetSdk 32
-        versionCode 20220902
-        versionName "1.0.9"
+        versionCode 20220904
+        versionName "1.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -61,7 +61,7 @@ android {
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
@@ -108,7 +108,7 @@ dependencies {
 
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'//流式布局
 
-    implementation 'com.cncoderx.wheelview:library:1.2.2'//滚轮选择器
+//    implementation 'com.cncoderx.wheelview:library:1.2.2'//滚轮选择器
 
     implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.6'//底部导航
 

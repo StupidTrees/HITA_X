@@ -23,7 +23,8 @@
         android:padding="8dp"
         app:cardBackgroundColor="?attr/colorControlNormal"
         app:cardCornerRadius="16dp"
-        app:cardElevation="0dp">
+        app:cardElevation="0dp"
+        android:focusable="true">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -34,26 +35,25 @@
 
             <CheckBox
                 android:id="@+id/check"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="28dp"
+                android:layout_height="18dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="-8dp"
-                android:layout_marginEnd="-6dp"
                 android:buttonTint="?attr/colorControlNormal"
-                android:scaleX="0.7"
-                android:scaleY="0.7"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
                 android:visibility="visible" />
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="4dp"
                 android:backgroundTintMode="src_in"
                 android:clickable="false"
                 android:tintMode="src_in"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:srcCompat="@drawable/ic_circle_done_solid"
                 app:tint="?attr/colorControlNormal" />
 

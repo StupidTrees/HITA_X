@@ -1,5 +1,6 @@
 package com.stupidtree.hitax.ui.event
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.stupidtree.hitax.R
@@ -10,10 +11,14 @@ import com.stupidtree.style.base.BaseFragment
 import com.stupidtree.hitax.ui.subject.SubjectActivity
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.TimeTools
+import com.stupidtree.style.widgets.PopUpText
 import java.util.*
 
 class EventItemFragment : BaseFragment<EventItemViewModel, DialogBottomTimetableClassBinding>() {
 
+    interface EventParent {
+        fun callDismiss()
+    }
 //
 //    private override fun initViews(dlgView: View) {
 //        courseProgressBar.setMax(100)
@@ -31,6 +36,13 @@ class EventItemFragment : BaseFragment<EventItemViewModel, DialogBottomTimetable
 //        }
 //    }
 
+    var parent: EventParent? = null
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        if (context is EventParent) {
+//            parent = context
+//        }
+//    }
 
     private fun setInfo(eventItem: EventItem) {
         binding?.teacher?.text = getString(eventItem.teacher)
@@ -41,10 +53,17 @@ class EventItemFragment : BaseFragment<EventItemViewModel, DialogBottomTimetable
             TimeInDay(eventItem.to).toString()
         )
         binding?.ttDlgName?.text = getString(eventItem.name)
-        binding?.timeNumber?.text = (eventItem.fromNumber until eventItem.fromNumber + eventItem.lastNumber).joinToString(separator = ", ")
+        binding?.timeNumber?.text =
+            (eventItem.fromNumber until eventItem.fromNumber + eventItem.lastNumber).joinToString(
+                separator = ", "
+            )
         binding?.ttDlgValue3Detail?.setOnClickListener {
             viewModel.eventItemLiveData.value?.let {
-                ActivityUtils.searchFor(requireContext(),it.teacher,ActivityUtils.SearchType.TEACHER)
+                ActivityUtils.searchFor(
+                    requireContext(),
+                    it.teacher,
+                    ActivityUtils.SearchType.TEACHER
+                )
             }
 
         }
@@ -196,15 +215,26 @@ class EventItemFragment : BaseFragment<EventItemViewModel, DialogBottomTimetable
             }
         })
         binding?.nameLayout?.setOnClickListener { binding?.subject?.callOnClick() }
+        binding?.delete?.setOnClickListener {
+            PopUpText().setTitle(R.string.dialog_title_sure_delete)
+                .setOnConfirmListener(object : PopUpText.OnConfirmListener {
+                    override fun OnConfirm() {
+                        viewModel.delete()
+                        parent?.callDismiss()
+                    }
+
+                }).show(childFragmentManager, "sure")
+        }
     }
 
     companion object {
 
-        fun newInstance(eventItem: EventItem): EventItemFragment {
+        fun newInstance(eventItem: EventItem,parent:EventParent): EventItemFragment {
             val res = EventItemFragment()
             val b = Bundle()
             b.putSerializable("event", eventItem)
             res.arguments = b
+            res.parent = parent
             return res
         }
     }

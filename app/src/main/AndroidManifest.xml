@@ -59,6 +59,7 @@
         <activity android:name=".ui.eas.classroom.EmptyClassroomActivity" />
         <activity android:name=".ui.profile.ProfileActivity" />
         <activity android:name=".ui.eas.exam.ExamActivity"/>
+        <activity android:name=".ui.about.ActivityAbout" />
     </application>
 
 </manifest>

@@ -12,7 +12,7 @@ import com.stupidtree.style.widgets.TransparentBottomSheetDialog
 import java.util.ArrayList
 
 @SuppressLint("ValidFragment")
-class FragmentTimeInfoSheet : TransparentBottomSheetDialog<DialogBottomEventsBinding>() {
+class FragmentTimeInfoSheet : TransparentBottomSheetDialog<DialogBottomEventsBinding>(),EventItemFragment.EventParent {
     var mode = 0
     private var currentPosition = 0
     private var events: MutableList<EventItem> = mutableListOf()
@@ -36,7 +36,7 @@ class FragmentTimeInfoSheet : TransparentBottomSheetDialog<DialogBottomEventsBin
                             R.anim.fragment_slide_from_right,
                             R.anim.fragment_slide_to_left
                         )
-                        .replace(R.id.layout, EventItemFragment.newInstance(events[tab.position]))
+                        .replace(R.id.layout, EventItemFragment.newInstance(events[tab.position],this@FragmentTimeInfoSheet))
                         .commitAllowingStateLoss()
                 } else {
                     childFragmentManager.beginTransaction()
@@ -44,7 +44,7 @@ class FragmentTimeInfoSheet : TransparentBottomSheetDialog<DialogBottomEventsBin
                             R.anim.fragment_slide_from_left,
                             R.anim.fragment_slide_to_right
                         )
-                        .replace(R.id.layout, EventItemFragment.newInstance(events[tab.position]))
+                        .replace(R.id.layout, EventItemFragment.newInstance(events[tab.position],this@FragmentTimeInfoSheet))
                         .commitAllowingStateLoss()
                 }
                 currentPosition = tab.position
@@ -58,7 +58,7 @@ class FragmentTimeInfoSheet : TransparentBottomSheetDialog<DialogBottomEventsBin
             binding.layout.visibility = View.VISIBLE
             val ei = events[0]
             childFragmentManager.beginTransaction()
-                .add(R.id.layout, EventItemFragment.newInstance(ei), "f").commit()
+                .add(R.id.layout, EventItemFragment.newInstance(ei,this), "f").commit()
         } else {
             binding.layout.visibility = View.VISIBLE
             binding.tabs.visibility = View.VISIBLE
@@ -67,7 +67,7 @@ class FragmentTimeInfoSheet : TransparentBottomSheetDialog<DialogBottomEventsBin
                 binding.tabs.addTab(binding.tabs.newTab().setText(ei.name))
             }
             childFragmentManager.beginTransaction()
-                .replace(R.id.layout, EventItemFragment.newInstance(events[0]), "f").commit()
+                .replace(R.id.layout, EventItemFragment.newInstance(events[0],this), "f").commit()
             currentPosition = 0
         }
 
@@ -94,5 +94,9 @@ class FragmentTimeInfoSheet : TransparentBottomSheetDialog<DialogBottomEventsBin
             fe.arguments = d
             return fe
         }
+    }
+
+    override fun callDismiss() {
+        dismiss()
     }
 }

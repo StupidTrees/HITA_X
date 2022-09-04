@@ -40,6 +40,8 @@ interface SubjectDao {
     @Query("delete from subject where id in (:ids)")
     fun deleteSubjectsInIdsSync(ids: List<String>)
 
+    @Query("update subject set color = :color where id =:id")
+    fun changeSubjectColorSync(id: String, color: Int)
 
     @Query("select id from subject where timetableId in (:ids)")
     fun getSubjectIdsOfTimetablesSync(ids: List<String>): List<String>

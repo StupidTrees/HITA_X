@@ -17,7 +17,7 @@
         android:layout_height="36dp"
         android:layout_gravity="center"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_baseline_emoji_emotions_24" />
+        app:srcCompat="@drawable/element_round_grey" />
 
     <TextView
         android:id="@+id/text"

@@ -36,4 +36,23 @@ class TermSubject{
             : Timestamp = Timestamp(System.currentTimeMillis())
     var color:Int = ColorTools.randomColorMaterial()
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as TermSubject
+
+        if (id != other.id) return false
+        if (timetableId != other.timetableId) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + timetableId.hashCode()
+        return result
+    }
+
+
 }

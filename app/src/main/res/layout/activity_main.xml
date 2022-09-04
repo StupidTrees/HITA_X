@@ -138,7 +138,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1" />
-
                         <ImageView
                             android:id="@+id/timetable_setting"
                             android:layout_width="wrap_content"
@@ -147,6 +146,17 @@
                             android:padding="16dp"
                             android:theme="@style/button_ripple_control"
                             app:srcCompat="@drawable/ic_theme" />
+                        <ImageView
+                            android:id="@+id/add_event"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:padding="16dp"
+                            android:layout_marginStart="-6dp"
+                            android:theme="@style/button_ripple_control"
+                            android:tintMode="src_in"
+                            app:srcCompat="@drawable/ic_baseline_add_24"
+                            app:tint="#FF000000" />
 
                     </LinearLayout>
 
@@ -221,19 +231,18 @@
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/drawer_navigationview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_gravity="bottom|center|start"
-
             android:layout_weight="1"
-
             android:background="#00000000"
             android:overScrollMode="never"
             app:elevation="0dp"
             app:itemHorizontalPadding="32dp"
-            app:itemIconPadding="28dp"
-            app:itemIconSize="33dp"
+            app:itemIconPadding="16dp"
+            app:itemIconSize="20dp"
+            app:itemIconTint="?attr/colorPrimary"
             app:itemMaxLines="1"
-            app:itemTextAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:itemTextAppearance="@style/TextAppearance.AppCompat.Button"
             app:itemTextColor="?attr/textColorSecondary"
             app:menu="@menu/drawer_main">
 

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_rounded_background"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:layout_weight="1"
+                android:text="TextView"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:text="@android:string/cancel"
+                app:cardBackgroundColor="?attr/colorControlDisabled"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/cancel"
+                    android:textColor="?attr/textColorSecondary"
+                    android:textSize="16sp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="16dp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:text="@string/confirm"
+                app:cardBackgroundColor="?attr/colorPrimary"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/confirm"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pick_time_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="28dp"
+            android:orientation="horizontal">
+
+            <com.stupidtree.style.widgets.MWheel3DView
+                android:id="@+id/a"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewEnd"
+                app:cyclic="true"
+                app:divider="@android:color/transparent"
+                app:selectedColor="?attr/colorAccent"
+                app:textSize="48sp"
+                app:toward="right"
+                app:unselectedColor="?attr/backgroundIconColorBottom"
+                app:visibleItems="2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="."
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+            <com.stupidtree.style.widgets.MWheel3DView
+                android:id="@+id/b"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:alpha="0.6"
+                android:textAlignment="viewStart"
+                app:cyclic="true"
+                app:divider="@android:color/transparent"
+                app:selectedColor="?attr/colorAccent"
+                app:textSize="48sp"
+                app:toward="left"
+                app:unselectedColor="?attr/backgroundIconColorBottom"
+                app:visibleItems="2" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

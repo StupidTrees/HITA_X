@@ -82,7 +82,9 @@ class TimetableDetailViewModel(application: Application) : AndroidViewModel(appl
         subjectsRepository.actionDeleteSubjects(subjects.toList())
     }
 
-
+    fun startChangeSubjectColor(subjectId:String,color:Int) {
+        subjectsRepository.actionChangeSubjectColor(subjectId,color)
+    }
     fun exportToIcs() {
         timetableLiveData.value?.let {
             exportController.value = it

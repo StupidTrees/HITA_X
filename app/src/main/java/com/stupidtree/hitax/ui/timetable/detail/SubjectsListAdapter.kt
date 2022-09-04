@@ -18,13 +18,18 @@ import com.stupidtree.hitax.ui.timetable.detail.SubjectsListAdapter.SubjectViewH
 
 @SuppressLint("ParcelCreator")
 class SubjectsListAdapter(
-        context: Context,
-        subjects: MutableList<TermSubject>,
-        val viewModel: TimetableDetailViewModel,
-        private val lifecycleOwner: LifecycleOwner
+    context: Context,
+    subjects: MutableList<TermSubject>,
+    val viewModel: TimetableDetailViewModel,
+    private val lifecycleOwner: LifecycleOwner
 ) :
-        BaseCheckableListAdapter<TermSubject, SubjectViewHolder>(context, subjects) {
+    BaseCheckableListAdapter<TermSubject, SubjectViewHolder>(context, subjects) {
 
+    interface OnColorClickListener{
+        fun onColorClick(data:TermSubject)
+    }
+
+    var onColorClickListener:OnColorClickListener? = null
 
     override fun getItemViewType(position: Int): Int {
         if (position == mBeans.size) return FOOT
@@ -44,7 +49,7 @@ class SubjectsListAdapter(
 
 
     class SubjectViewHolder(binding: ViewBinding) :
-            BaseViewHolder<ViewBinding>(viewBinding = binding), CheckableViewHolder {
+        BaseViewHolder<ViewBinding>(viewBinding = binding), CheckableViewHolder {
 
         override fun showCheckBox() {
             if (binding is DynamicSubjectsItemBinding) {
@@ -98,9 +103,9 @@ class SubjectsListAdapter(
 
 
     override fun bindHolder(
-            holder: SubjectViewHolder,
-            data: TermSubject?,
-            position: Int
+        holder: SubjectViewHolder,
+        data: TermSubject?,
+        position: Int
     ) {
         super.bindHolder(holder, data, position)
         if (holder.binding is DynamicSubjectListTitleBinding) {
@@ -126,19 +131,12 @@ class SubjectsListAdapter(
 //                binding.progress.progressBackgroundTintList = ColorStateList.valueOf(ColorTools.changeAlpha(it.color, 0.2f))
 //            }
 
-//            val finalColor = color
-//            binding.icon.setOnClickListener(View.OnClickListener {
-//                if (!colorfulMode) return@OnClickListener
-//                ColorPickerDialog(mContext)
-//                        .initColor(finalColor).show(object : OnColorSelectedListener() {
-//                            fun OnSelected(color: Int) {
-//                                ColorBox.changeSubjectColor(timetableSP, s.getName(), color)
-//                                binding.icon.setColorFilter(color)
-//                            }
-//                        })
-//            })
+
+            binding.icon.setOnClickListener {
+                data?.let { it1 -> onColorClickListener?.onColorClick(it1) }
+            }
             val t =
-                    if (TextUtils.isEmpty(data?.school)) mContext.getString(R.string.unknown_department) else data?.school
+                if (TextUtils.isEmpty(data?.school)) mContext.getString(R.string.unknown_department) else data?.school
             binding.label.text = t
             if (isEditMode) {
                 binding.icon.visibility = View.GONE

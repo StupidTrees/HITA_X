@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item
-        android:id="@+id/drawer_nav_my_profile"
-        android:icon="@drawable/ic_menu_profile"
-        android:title="@string/my_profile_title" />
+<!--    <item-->
+<!--        android:id="@+id/drawer_nav_my_profile"-->
+<!--        android:icon="@drawable/ic_menu_profile"-->
+<!--        android:title="@string/my_profile_title" />-->
     <item
         android:id="@+id/drawer_nav_search"
         android:icon="@drawable/ic_menu_search"
@@ -15,6 +15,24 @@
         android:id="@+id/drawer_nav_timetable_manager"
         android:icon="@drawable/ic_menu_settings"
         android:title="@string/menu_timeable_curriculum" />
+    <item
+        android:id="@+id/drawer_nav_report"
+        android:icon="@drawable/ic_menu_bug_report"
+        android:title="@string/main_drawer_menu_report" />
+    <item
+        android:id="@+id/drawer_nav_ua"
+        android:icon="@drawable/ic_info"
+        android:title="@string/name_ua_and_pp" />
+<!--    <item-->
+<!--        android:id="@+id/drawer_website"-->
+<!--        android:icon="@drawable/ic_home"-->
+<!--        android:title="@string/hita_website" />-->
+    <item
+        android:id="@+id/drawer_nav_about"
+        android:icon="@drawable/logo"
+        android:title="@string/main_drawer_menu_about" />
+
+
 <!--    <item-->
 <!--        android:id="@+id/drawer_nav_discover_friend"-->
 <!--        android:icon="@drawable/ic_menu_discover"-->

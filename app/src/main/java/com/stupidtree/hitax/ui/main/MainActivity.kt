@@ -22,11 +22,14 @@ import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.ActivityMainBinding
+import com.stupidtree.hitax.ui.about.ActivityAbout
+import com.stupidtree.hitax.ui.about.UserAgreementDialog
 import com.stupidtree.style.base.BaseActivity
 import com.stupidtree.style.base.BaseTabAdapter
 import com.stupidtree.hitax.ui.eas.EASActivity
 import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
+import com.stupidtree.hitax.ui.event.add.PopupAddEvent
 import com.stupidtree.hitax.ui.main.navigation.NavigationFragment
 import com.stupidtree.hitax.ui.main.timeline.FragmentTimeLine
 import com.stupidtree.hitax.ui.main.timetable.inner.TimetablePageFragment
@@ -99,11 +102,14 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 R.id.drawer_nav_search -> {
                     ActivityUtils.startSearchActivity(getThis())
                 }
-                R.id.drawer_nav_my_profile -> {
-                    ActivityUtils.startMyProfileActivity(getThis())
+                R.id.drawer_nav_ua -> {
+                    UserAgreementDialog().show(supportFragmentManager,"ua")
                 }
                 R.id.drawer_nav_timetable_manager -> {
                     ActivityUtils.startTimetableManager(getThis())
+                }
+                R.id.drawer_nav_about-> {
+                    ActivityUtils.startActivity(getThis(),ActivityAbout::class.java)
                 }
                 else -> jumped = false
             }
@@ -222,6 +228,9 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             FragmentTimetablePanel().show(supportFragmentManager, "panel")
         }
 
+        binding.addEvent.setOnClickListener {
+            PopupAddEvent().show(supportFragmentManager,"add_event")
+        }
         viewModel.checkUpdateResult.observe(this) {
             if (it.state == DataState.STATE.SUCCESS) {
                 it.data?.let { cr ->

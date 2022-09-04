@@ -78,6 +78,9 @@ interface EventItemDao {
     @Query("delete from events where id in (:ids)")
     fun deleteEventsInIdsSync(ids: List<String>)
 
+    @Insert
+    fun addEvents(data:List<EventItem>)
+
     /**
      * 将某课表的所有课程时间加上offset
      */

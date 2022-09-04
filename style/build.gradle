@@ -47,4 +47,6 @@ dependencies {
     // Kotlin
     implementation "androidx.activity:activity-ktx:1.2.3"
 
+
+    api 'com.cncoderx.wheelview:library:1.2.2'//滚轮选择器
 }

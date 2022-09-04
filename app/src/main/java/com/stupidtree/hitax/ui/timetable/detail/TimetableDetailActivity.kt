@@ -1,6 +1,5 @@
 package com.stupidtree.hitax.ui.timetable.detail
 
-import android.content.*
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -15,7 +14,6 @@ import com.stupidtree.style.base.BaseActivity
 import com.stupidtree.style.base.BaseListAdapter
 import com.stupidtree.hitax.ui.eas.imp.TimetableStructureListAdapter
 import com.stupidtree.hitax.ui.widgets.PopUpCalendarPicker
-import com.stupidtree.hitax.ui.widgets.PopUpEditText
 import com.stupidtree.hitax.ui.widgets.PopUpTimePeriodPicker
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.EditModeHelper
@@ -27,7 +25,9 @@ import android.content.Intent
 import android.net.Uri
 import android.view.HapticFeedbackConstants
 import com.google.android.material.appbar.AppBarLayout
+import com.stupidtree.style.widgets.PopUpColorPicker
 import com.stupidtree.hitax.utils.ImageUtils
+import com.stupidtree.style.widgets.PopUpEditText
 
 
 class TimetableDetailActivity :
@@ -86,6 +86,16 @@ class TimetableDetailActivity :
                 return true
             }
         })
+        subjectsAdapter?.onColorClickListener = object:SubjectsListAdapter.OnColorClickListener{
+            override fun onColorClick(data: TermSubject) {
+                PopUpColorPicker().setOnColorSelectListener(object :
+                    PopUpColorPicker.OnColorSelectedListener {
+                    override fun onSelected(color: Int) {
+                        viewModel.startChangeSubjectColor(data.id,color)
+                    }
+                }).initColor(data.color).show(supportFragmentManager,"pickColor")
+            }
+        }
         subjectsAdapter?.let {
             editModeHelper = EditModeHelper(
                 this,

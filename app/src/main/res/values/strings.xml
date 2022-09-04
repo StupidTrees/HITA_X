@@ -81,7 +81,7 @@
     <string name="main_drawer_menu_darkmode">深色模式</string>
     <string name="main_drawer_menu_settings">设置</string>
     <string name="main_drawer_menu_report">意见反馈</string>
-    <string name="main_drawer_menu_about">关于</string>
+    <string name="main_drawer_menu_about">关于HITSZ助手</string>
     <string name="main_drawer_menu_curriculums">课表</string>
     <string name="main_drawer_menu_studyassistant">助手</string>
     <string name="main_drawer_menu_hita">希塔</string>
@@ -112,7 +112,7 @@
     <string name="navi_mood_greet">Hi, 今天心情如何？</string>
     <string name="navi_mood_title">今日校园心情</string>
     <string name="navi_mood_point">分</string>
-    <string name="ade_title">添加%s</string>
+    <string name="ade_title">添加课时</string>
     <string name="ade_arrangement">日程</string>
     <string name="ade_ddl">DDL</string>
     <string name="ade_course">课程</string>
@@ -121,7 +121,7 @@
     <string name="ade_tag2">标签2</string>
     <string name="ade_tag3">标签3</string>
     <string name="ade_pick_subject">选择科目</string>
-    <string name="ade_pick_time">设置日期与时间段</string>
+    <string name="ade_pick_time">设置上课时间段</string>
     <string name="ade_pick_task">处理任务</string>
     <string name="ade_pick_location">选择地点</string>
     <string name="ade_wholeday">全天</string>
@@ -999,6 +999,7 @@
     </string>
     <string name="name_user_agreement">用户协议</string>
     <string name="name_privacy_agreement">隐私协议</string>
+    <string name="name_ua_and_pp">用户与隐私协议</string>
     <string name="i_have_read">朕已阅</string>
     <string name="agree_and_login">同意协议并登录</string>
     <string name="agree_and_signup">同意协议并注册</string>
@@ -1181,4 +1182,7 @@
     <string name="success">成功</string>
     <string name="undergrad_structure">本科生结构</string>
     <string name="postgrad_structure">研究生结构</string>
+    <string name="hita_website">官方网站</string>
+    <string name="ade_pick_timetable">选择课表</string>
+    <string name="ade_pick_weeks">设置周数</string>
 </resources>

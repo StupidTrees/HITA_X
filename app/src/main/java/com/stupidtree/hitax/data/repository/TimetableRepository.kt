@@ -124,6 +124,10 @@ class TimetableRepository(val application: Application) {
         return timetableDao.geeTimetableCount()
     }
 
+    fun searchLocation(str: String): LiveData<List<String>> {
+        return timetableDao.searchLocation("%$str%")
+    }
+
     fun actionDeleteTimetables(timetables: List<Timetable>) {
         val ids = mutableListOf<String>()
         for (tt in timetables) {
@@ -142,6 +146,18 @@ class TimetableRepository(val application: Application) {
 
         }
 
+    }
+
+    fun actionDeleteEvents(courses: Collection<EventItem>) {
+        val ids = mutableListOf<String>()
+        for (tt in courses) {
+            ids.add(tt.id)
+        }
+        executor.execute {
+            val eventIds = eventItemDao.getEventIdsFromTimetablesSync(ids)
+            StupidSync.putHistorySync("event", History.ACTION.REMOVE, eventIds)
+            eventItemDao.deleteEventsInIdsSync(ids)
+        }
     }
 
     fun actionNewTimetable() {
@@ -217,6 +233,13 @@ class TimetableRepository(val application: Application) {
             StupidSync.putHistorySync("event", History.ACTION.REQUIRE, ids)
         }
     }
+
+    fun actionAddEvents(data:List<EventItem>) {
+        executor.execute {
+            eventItemDao.addEvents(data)
+        }
+    }
+
 
     fun exportToICS(timetableName: String, timetableId: String): LiveData<DataState<String>> {
         val res = MutableLiveData<DataState<String>>();

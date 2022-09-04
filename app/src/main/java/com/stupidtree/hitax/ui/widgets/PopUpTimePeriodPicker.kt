@@ -9,7 +9,7 @@ import com.stupidtree.hitax.databinding.DialogBottomTimePeriodPickerBinding
 import com.stupidtree.style.widgets.TransparentBottomSheetDialog
 import java.util.*
 
-class PopUpTimePeriodPicker() :
+class PopUpTimePeriodPicker :
     TransparentBottomSheetDialog<DialogBottomTimePeriodPickerBinding>() {
     private var hour1 = 0
     private var minute1 = 0

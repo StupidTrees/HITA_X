@@ -1,0 +1,24 @@
+package com.stupidtree.hitax.ui.about
+
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import com.stupidtree.component.data.Trigger
+import com.stupidtree.hitax.data.repository.StaticRepository
+
+class AboutViewModel(application: Application) : AndroidViewModel(application) {
+    private val staticRepo = StaticRepository.getInstance(application)
+
+    private val refreshController = MutableLiveData<Trigger>()
+
+    val aboutPageLiveData = Transformations.switchMap(refreshController) {
+        return@switchMap staticRepo.getAboutPage()
+    }
+
+
+    fun refresh() {
+        refreshController.value = Trigger.actioning
+    }
+
+}

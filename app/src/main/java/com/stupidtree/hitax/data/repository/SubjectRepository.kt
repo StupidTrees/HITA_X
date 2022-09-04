@@ -106,6 +106,11 @@ class SubjectRepository(application: Application) {
             eventItemDao.deleteEventsFromSubjectsSync(ids)
         }
     }
+    fun actionChangeSubjectColor(subjectId:String,color:Int) {
+        executor.execute {
+            subjectDao.changeSubjectColorSync(subjectId,color)
+        }
+    }
 
     /**
      * 计算某一科目的进度

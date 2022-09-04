@@ -8,13 +8,23 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.stupidtree.style.R
+import com.stupidtree.style.base.BaseActivity
 
 /**
  * 透明背景的底部弹窗Fragment
  */
 abstract class TransparentBottomSheetDialog<V:ViewBinding> : BottomSheetDialogFragment() {
     lateinit var binding:V
+    fun getColorPrimary(): Int {
+        return (activity as BaseActivity<*, *>).getColorPrimary()
+    }
 
+    fun getColorControlNormal(): Int {
+        return (activity as BaseActivity<*, *>).getColorControlNormal()
+    }
+    fun getTextColorSecondary(): Int {
+        return (activity as BaseActivity<*, *>).getTextColorSecondary()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
