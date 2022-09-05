@@ -4,146 +4,252 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bottom_sheet_rounded_background"
     android:orientation="vertical">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        tools:ignore="UseCompoundDrawables">
+        android:layout_margin="24dp"
+        android:background="@drawable/dialog_rounded_background"
+        android:orientation="vertical"
+        android:paddingBottom="24dp">
 
-        <TextView
-            android:id="@+id/dialog_title"
-            android:layout_width="0dp"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="24dp"
-
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-black"
-            android:text="@string/dialog_pick_course_title"
-            android:textColor="?attr/textColorPrimary"
-            android:textSize="20sp" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:layout_marginEnd="8dp"
-            android:clickable="true"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:text="@android:string/cancel"
-            app:cardBackgroundColor="?attr/colorControlDisabled"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp">
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/dialog_title"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/cancel"
-                android:textColor="?attr/textColorSecondary"
-                android:textSize="16sp" />
-        </androidx.cardview.widget.CardView>
+                android:layout_margin="24dp"
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/done"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:layout_marginEnd="16dp"
-            android:clickable="true"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:text="@string/confirm"
-            app:cardBackgroundColor="?attr/colorPrimary"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp">
+                android:layout_weight="1"
+                android:text="@string/dialog_pick_course_title"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-            <TextView
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cancel"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
                 android:layout_gravity="center"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
+                android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:text="@android:string/cancel"
+                android:visibility="gone"
+                app:cardBackgroundColor="?attr/colorControlDisabled"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/cancel"
+                    android:textColor="?attr/textColorSecondary"
+                    android:textSize="16sp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/done"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="16dp"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:text="@string/confirm"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
-        </androidx.cardview.widget.CardView>
+                app:cardBackgroundColor="?attr/colorPrimary"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/confirm"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+            </androidx.cardview.widget.CardView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp">
+        </LinearLayout>
 
-        <com.stupidtree.style.widgets.MWheel3DView
-            android:id="@+id/pickdow"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp">
+
+            <com.stupidtree.style.widgets.MWheel3DView
+                android:id="@+id/pickdow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="1"
+                android:focusable="true"
+                app:cyclic="false"
+                app:divider="@android:color/transparent"
+                app:selectedColor="?attr/colorPrimary"
+                app:textSize="26sp"
+                app:toward="right"
+                app:unselectedColor="?attr/backgroundIconColorBottom"
+                app:visibleItems="3" />
+
+            <com.stupidtree.style.widgets.MWheel3DView
+                android:id="@+id/pickfromt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="1"
+                android:focusable="true"
+                app:cyclic="false"
+                app:divider="@android:color/transparent"
+                app:selectedColor="?attr/colorPrimary"
+                app:textSize="26sp"
+                app:toward="right"
+                app:unselectedColor="?attr/backgroundIconColorBottom"
+                app:visibleItems="3" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/dialog_pick_course_to" />
+
+            <com.stupidtree.style.widgets.MWheel3DView
+                android:id="@+id/picktot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="1"
+                android:focusable="true"
+                app:cyclic="false"
+                app:divider="@android:color/transparent"
+                app:selectedColor="?attr/colorPrimary"
+                app:textSize="26sp"
+                app:toward="right"
+                app:unselectedColor="?attr/backgroundIconColorBottom"
+                app:visibleItems="3" />
+
+            <!--&lt;!&ndash;<Spinner&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/ade_weekpicker_dow"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginLeft="8dp">&ndash;&gt;-->
+
+            <!--</Spinner>-->
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
-            android:layout_weight="1"
-            android:focusable="true"
-            app:cyclic="false"
-            app:divider="@android:color/transparent"
-            app:selectedColor="?attr/colorAccent"
-            app:textSize="20sp"
-            app:toward="right"
-            app:unselectedColor="?attr/backgroundIconColorBottom"
-            app:visibleItems="5" />
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp">
 
-        <com.stupidtree.style.widgets.MWheel3DView
-            android:id="@+id/pickfromt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
-            android:layout_weight="1"
-            android:focusable="true"
-            app:cyclic="false"
-            app:divider="@android:color/transparent"
-            app:selectedColor="?attr/colorAccent"
-            app:textSize="20sp"
-            app:toward="right"
-            app:unselectedColor="?attr/backgroundIconColorBottom"
-            app:visibleItems="5" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/from_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="1"
+                android:alpha="0.8"
+                android:clickable="false"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="3周星期四"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="16sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="-"
+                android:textSize="24sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/to_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="1"
+                android:alpha="0.8"
+                android:clickable="false"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="3周星期四"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="16sp"
+                android:visibility="visible" />
+
+            <!--&lt;!&ndash;<Spinner&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/ade_weekpicker_dow"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginLeft="8dp">&ndash;&gt;-->
+
+            <!--</Spinner>-->
+        </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/dialog_pick_course_to" />
-
-        <com.stupidtree.style.widgets.MWheel3DView
-            android:id="@+id/picktot"
+            android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
-            android:layout_weight="1"
-            android:focusable="true"
-            app:cyclic="false"
-            app:divider="@android:color/transparent"
-            app:selectedColor="?attr/colorAccent"
-            app:textSize="20sp"
-            app:toward="right"
-            app:unselectedColor="?attr/backgroundIconColorBottom"
-            app:visibleItems="5" />
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="-16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="4dp"
+            android:text="@string/ade_pick_weeks" />
 
-        <!--&lt;!&ndash;<Spinner&ndash;&gt;-->
-        <!--&lt;!&ndash;android:id="@+id/ade_weekpicker_dow"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_marginLeft="8dp">&ndash;&gt;-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/week_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:overScrollMode="never"
+            android:visibility="visible">
 
-        <!--</Spinner>-->
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/date_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:overScrollMode="never" />
     </LinearLayout>
-
 </LinearLayout>
 

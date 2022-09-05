@@ -33,7 +33,7 @@ class TimetableManagerActivity :
     override fun initViews() {
         binding.toolbar.title = ""
         binding.collapse.title = ""
-        binding.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+        binding.appbar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             val scale = 1.0f + verticalOffset / appBarLayout.height.toFloat()
             binding.title.translationX =
                 (binding.toolbar.contentInsetStartWithNavigation + ImageUtils.dp2px(
@@ -50,7 +50,7 @@ class TimetableManagerActivity :
             binding.buttonSync.scaleY = 0.7f + 0.3f * scale
             binding.buttonSync.translationX =
                 (binding.buttonSync.width / 2) * (1 - binding.buttonSync.scaleX)
-        })
+        }
         listAdapter = TimetableListAdapter(this, mutableListOf())
         editModeHelper = EditModeHelper(this, listAdapter, this)
         editModeHelper?.init(this, R.id.edit_layout, R.layout.edit_mode_bar_3)
@@ -78,42 +78,42 @@ class TimetableManagerActivity :
         binding.buttonSync.setOnClickListener {
             it.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
             binding.buttonSync.startAnimation()
-//            StupidSync.sync(object : StupidSync.SyncCallback {
-//                override fun onSuccess() {
-//                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-//                        binding.buttonSync.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
-//                    } else {
-//                        binding.buttonSync.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-//                    }
-//                    val bitmap =
-//                        ImageUtils.getResourceBitmap(getThis(), R.drawable.ic_baseline_done_24)
-//                    binding.buttonSync.doneLoadingAnimation(
-//                        getColorPrimary(), bitmap
-//                    )
-//                    binding.buttonSync.postDelayed({
-//                        binding.buttonSync.revertAnimation()
-//                    }, 600)
-//                    Toast.makeText(getThis(), R.string.sync_success, Toast.LENGTH_SHORT).show()
-//                }
-//
-//                override fun onFailed(e: Exception) {
-//                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-//                        binding.buttonSync.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
-//                    } else {
-//                        binding.buttonSync.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-//                    }
-//                    val bitmap =
-//                        ImageUtils.getResourceBitmap(getThis(), R.drawable.ic_baseline_error_24)
-//                    binding.buttonSync.doneLoadingAnimation(
-//                        getColorPrimary(), bitmap
-//                    )
-//                    binding.buttonSync.postDelayed({
-//                        binding.buttonSync.revertAnimation()
-//                    }, 600)
-//                    Toast.makeText(getThis(), R.string.sync_error, Toast.LENGTH_SHORT).show()
-//                }
-//
-//            })
+            StupidSync.sync(object : StupidSync.SyncCallback {
+                override fun onSuccess() {
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                        binding.buttonSync.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                    } else {
+                        binding.buttonSync.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+                    }
+                    val bitmap =
+                        ImageUtils.getResourceBitmap(getThis(), R.drawable.ic_baseline_done_24)
+                    binding.buttonSync.doneLoadingAnimation(
+                        getColorPrimary(), bitmap
+                    )
+                    binding.buttonSync.postDelayed({
+                        binding.buttonSync.revertAnimation()
+                    }, 600)
+                    Toast.makeText(getThis(), R.string.sync_success, Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onFailed(e: Exception) {
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                        binding.buttonSync.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                    } else {
+                        binding.buttonSync.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+                    }
+                    val bitmap =
+                        ImageUtils.getResourceBitmap(getThis(), R.drawable.ic_baseline_error_24)
+                    binding.buttonSync.doneLoadingAnimation(
+                        getColorPrimary(), bitmap
+                    )
+                    binding.buttonSync.postDelayed({
+                        binding.buttonSync.revertAnimation()
+                    }, 600)
+                    Toast.makeText(getThis(), R.string.sync_error, Toast.LENGTH_SHORT).show()
+                }
+
+            })
         }
         bindLiveData()
     }

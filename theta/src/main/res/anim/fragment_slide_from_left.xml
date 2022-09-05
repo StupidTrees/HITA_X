@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><!--<set-->
+
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools">-->
+
+
+<translate xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:duration="500"
+    android:fromXDelta="-100%p"
+    android:interpolator="@anim/m_dec_interpolator"
+    android:toXDelta="0%p"
+    tools:ignore="PrivateResource" />
+
+    <!--    <alpha-->
+    <!--        android:duration="180"-->
+    <!--        android:fromAlpha="0"-->
+    <!--        android:toAlpha="1" />-->
+
+    <!--</set>-->

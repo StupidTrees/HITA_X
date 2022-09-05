@@ -166,7 +166,8 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
                 binding?.userCard?.setOnClickListener { v ->
                     ActivityUtils.startProfileActivity(
                         requireContext(),
-                        it.id
+                        it.id,
+                        binding?.avatar
                     )
                 }
             } else {

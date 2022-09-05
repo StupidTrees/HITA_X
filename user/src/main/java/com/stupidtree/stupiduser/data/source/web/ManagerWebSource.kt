@@ -35,8 +35,8 @@ class ManagerWebSource(context: Context) : BaseWebSource<ManagerService>(
      * @param token 用户令牌
      * @return 是否更新
      */
-    fun checkUpdate(token: String,versionCode:Long): LiveData<DataState<CheckUpdateResult>> {
-        return Transformations.map(service.checkForUpdate(HttpUtils.getHeaderAuth(token),versionCode,"android")) { input ->
+    fun checkUpdate(token: String,versionCode:Long,id: String?): LiveData<DataState<CheckUpdateResult>> {
+        return Transformations.map(service.checkForUpdate(HttpUtils.getHeaderAuth(token),versionCode,id?:"","android")) { input ->
             if (input != null) {
                 when (input.code) {
                     SUCCESS -> input.data?.let { return@map DataState(it) }

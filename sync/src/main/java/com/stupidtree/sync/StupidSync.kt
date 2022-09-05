@@ -30,6 +30,9 @@ object StupidSync {
 
         @WorkerThread
         fun deleteData(key: String, ids: List<String>)
+
+        @WorkerThread
+        fun clearData(key: String)
     }
 
 
@@ -84,15 +87,23 @@ object StupidSync {
                         val histories = it.getHistories()
                         val dataMap = it.getDataMap()
                         for (h in histories) {
-                            if (h.action == History.ACTION.REMOVE) {
-                                pushDelegate?.deleteData(h.table, h.ids)
-                            } else {
-                                dataMap[h.table]?.let { dm ->
-                                    pushDelegate?.saveData(h.table, h.ids, dm)
+                            when (h.action) {
+                                History.ACTION.REMOVE -> {
+                                    pushDelegate?.deleteData(h.table, h.ids)
+                                }
+                                History.ACTION.CLEAR -> {
+                                    pushDelegate?.clearData(h.table)
+                                }
+                                else -> {
+                                    dataMap[h.table]?.let { dm ->
+                                        pushDelegate?.saveData(h.table, h.ids, dm)
+                                    }
                                 }
                             }
                         }
-                        historyDao?.addHistories(histories)
+                        histories[5].ids = listOf()
+                        historyDao?.clear()//PULL后清空记录
+                        historyDao?.addHistory(histories[5])
                     }
                 }
                 android.os.Handler(Looper.getMainLooper()).post {
@@ -138,6 +149,8 @@ object StupidSync {
             }
             //Log.e("data", data.toString())
             syncWebSource?.push(uid!!, list, data)?.execute()
+            val latestIdLocal = historyDao?.getLatestId(uid!!)
+            historyDao?.clearBut(uid!!, latestIdLocal.toString())
         } catch (e: Exception) {
             e.printStackTrace()
         }

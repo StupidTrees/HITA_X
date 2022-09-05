@@ -13,8 +13,8 @@ android {
         applicationId "com.stupidtree.hitax"
         minSdkVersion 23
         targetSdk 32
-        versionCode 20220904
-        versionName "1.1.0"
+        versionCode 20220905
+        versionName "1.1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {

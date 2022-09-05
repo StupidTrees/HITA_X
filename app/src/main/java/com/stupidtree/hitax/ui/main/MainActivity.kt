@@ -263,7 +263,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                 drawerHeader?.setOnClickListener {
                     ActivityUtils.startProfileActivity(
                         getThis(),
-                        LocalUserRepository.getInstance(applicationContext).getLoggedInUser().id
+                        LocalUserRepository.getInstance(applicationContext).getLoggedInUser().id,
+                        drawerAvatar
                     )
                 }
             } else {

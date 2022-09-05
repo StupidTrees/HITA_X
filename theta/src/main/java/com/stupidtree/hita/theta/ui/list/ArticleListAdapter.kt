@@ -6,6 +6,8 @@ import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
+import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.stupidtree.component.web.ApiResponse
@@ -107,7 +109,7 @@ class ArticleListAdapter(
             if (!data?.images.isNullOrEmpty()) {
                 binding.imgLayout.visibility = View.VISIBLE
                 binding.img1.visibility = View.VISIBLE
-                if (data?.images?.size ?: 0 >= 3) {
+                if ((data?.images?.size ?: 0) >= 3) {
                     com.stupidtree.hita.theta.utils.ImageUtils.loadArticleImageInto(
                         mContext,
                         data?.images?.get(2),
@@ -117,7 +119,7 @@ class ArticleListAdapter(
                 } else {
                     binding.img3.visibility = View.GONE
                 }
-                if (data?.images?.size ?: 0 >= 2) {
+                if ((data?.images?.size ?: 0) >= 2) {
                     com.stupidtree.hita.theta.utils.ImageUtils.loadArticleImageInto(
                         mContext,
                         data?.images?.get(1),

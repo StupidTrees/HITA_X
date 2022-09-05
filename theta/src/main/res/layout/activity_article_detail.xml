@@ -56,6 +56,7 @@
                         android:layout_height="42dp"
                         android:layout_gravity="center"
                         android:layout_marginEnd="16dp"
+                        android:transitionName="useravatar"
                         app:srcCompat="@drawable/place_holder_avatar" />
 
                     <LinearLayout
@@ -173,6 +174,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="16dp"
+                        android:layoutAnimation="@anim/recycler_layout_animation_slide_from_right"
                         android:overScrollMode="never">
 
 
@@ -557,7 +559,19 @@
                     android:background="?attr/backgroundColorSecond"
                     android:overScrollMode="never"
                     android:paddingStart="8dp"
-                    android:paddingEnd="8dp" />
+                    android:paddingEnd="8dp">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:layout_marginBottom="56dp"
+                    android:alpha="0.8"
+                    android:gravity="bottom|center"
+                    android:padding="16dp"
+                    android:text="@string/no_more_comments"
+                    android:textSize="14sp" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

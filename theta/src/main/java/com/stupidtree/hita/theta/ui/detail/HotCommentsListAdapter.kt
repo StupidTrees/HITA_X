@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.viewbinding.ViewBinding
 import com.stupidtree.component.web.ApiResponse
 import com.stupidtree.hita.theta.R
@@ -75,7 +76,10 @@ class HotCommentsListAdapter(mContext: Context, mBeans: MutableList<Comment>) :
             mOnItemClickListener?.onItemClick(data, it, position)
         }
         holder.binding.authorLayout.setOnClickListener {
-            data?.authorId?.let { it1 -> ActivityTools.startUserActivity(mContext, it1) }
+            data?.authorId?.let { it1 -> ActivityTools.startUserActivity(mContext, it1,holder.binding.avatar) }
+        }
+        holder.binding.avatar.setOnClickListener {
+            data?.authorId?.let { it1 -> ActivityTools.startUserActivity(mContext, it1,it as ImageView) }
         }
         holder.bindLike(data)
         holder.binding.likeIcon.setOnClickListener {

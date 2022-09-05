@@ -8,7 +8,7 @@ import com.google.gson.Gson
 @Entity(tableName = "history")
 class History {
 
-    enum class ACTION { REMOVE, REQUIRE }
+    enum class ACTION { REMOVE, REQUIRE,CLEAR }
 
     @PrimaryKey
     var id: Long = 0

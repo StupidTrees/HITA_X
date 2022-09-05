@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <objectAnimator
+        android:duration="210"
+        android:interpolator="@interpolator/mtrl_fast_out_slow_in"
+        android:propertyName="scale"
+        android:startOffset="0"
+        android:valueFrom="1"
+        android:valueTo="0" />
+    <!--    <objectAnimator-->
+    <!--        android:propertyName="height"-->
+    <!--        android:startOffset="0"-->
+    <!--        android:duration="200"-->
+    <!--        android:interpolator="@interpolator/mtrl_fast_out_slow_in"/>-->
+    <!--    <objectAnimator-->
+    <!--        android:propertyName="cornerRadius"-->
+    <!--        android:startOffset="0"-->
+    <!--        android:duration="200"-->
+    <!--        android:interpolator="@interpolator/mtrl_fast_out_slow_in"/>-->
+</set>

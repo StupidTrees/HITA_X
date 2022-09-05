@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import com.stupidtree.hita.theta.ThetaActivity
@@ -128,9 +129,14 @@ object ActivityUtils {
 
     }
 
-    fun startProfileActivity(from: Context, userId: String?) {
+    fun startProfileActivity(from: Context, userId: String?, imageView: ImageView?=null) {
         val i = Intent(from, ProfileActivity::class.java)
         i.putExtra("id", userId)
-        from.startActivity(i)
+        imageView?.let {
+            val op = ActivityOptionsCompat.makeSceneTransitionAnimation(from as Activity,it,"useravatar")
+            from.startActivity(i,op.toBundle())
+        }?:run {
+            from.startActivity(i)
+        }
     }
 }

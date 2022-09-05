@@ -62,7 +62,6 @@ class ProfileActivity : BaseActivity<ProfileViewModel, ActivityProfileBinding>()
                         StupidSync.clearData()
                         finish()
                     }
-
                 }
             ).show(supportFragmentManager, "logout")
         }

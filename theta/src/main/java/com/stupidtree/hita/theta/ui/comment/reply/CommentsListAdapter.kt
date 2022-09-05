@@ -73,7 +73,7 @@ class CommentsListAdapter(private val hostId:String?, mContext: Context, mBeans:
             mOnItemClickListener?.onItemClick(data, it, position)
         }
         holder.binding.authorLayout.setOnClickListener {
-            data?.authorId?.let { it1 -> ActivityTools.startUserActivity(mContext, it1) }
+            data?.authorId?.let { it1 -> ActivityTools.startUserActivity(mContext, it1,holder.binding.avatar) }
         }
         holder.bindLike(data)
         holder.binding.likeIcon.setOnClickListener {

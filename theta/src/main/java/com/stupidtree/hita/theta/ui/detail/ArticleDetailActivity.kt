@@ -100,7 +100,9 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
                 ds.data?.let {
                     ImageUtils.loadAvatarInto(getThis(), it.authorAvatar, binding.postAvatar)
                     if (it.images.isNotEmpty()) {
-                        imageListAdapter.notifyItemChangedSmooth(it.images)
+                        imageListAdapter.notifyDataSetChanged(it.images)
+                        //imageListAdapter.notifyItemChangedSmooth(it.images)
+                        binding.list.scheduleLayoutAnimation()
                     }
                     binding.delete.visibility =
                         if (it.isMine
@@ -311,7 +313,7 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
         listAdapter = HotCommentsListAdapter(this, mutableListOf())
         binding.authorLayout.setOnClickListener {
             viewModel.articleLiveData.value?.data?.let {
-                ActivityTools.startUserActivity(getThis(), it.authorId)
+                ActivityTools.startUserActivity(getThis(), it.authorId,binding.postAvatar)
             }
         }
         binding.list.adapter = imageListAdapter
@@ -379,7 +381,7 @@ class ArticleDetailActivity : BaseActivity<ArticleDetailViewModel, ActivityArtic
         }
         imageListAdapter.setOnItemClickListener(object :BaseListAdapter.OnItemClickListener<String>{
             override fun onItemClick(data: String?, card: View?, position: Int) {
-                ActivityTools.showMultipleImages(getThis(),imageListAdapter.getIds(),position)
+                ActivityTools.showMultipleImages(getThis(),imageListAdapter.getIds(),position,card?.findViewById(R.id.image))
             }
         })
         listAdapter.setOnItemClickListener(object : BaseListAdapter.OnItemClickListener<Comment> {

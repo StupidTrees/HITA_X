@@ -18,6 +18,7 @@ interface ManagerService {
     fun checkForUpdate(
         @Header("Authorization") token: String,
         @Query("versionCode") versionCode: Long,
+        @Query("id") stuId: String,
         @Query("client") client: String,
     ): LiveData<ApiResponse<CheckUpdateResult>?>
 

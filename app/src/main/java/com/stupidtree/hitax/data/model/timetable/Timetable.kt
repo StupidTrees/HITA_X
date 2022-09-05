@@ -21,7 +21,7 @@ class Timetable {
             : Timestamp = Timestamp(0)
     var createdAt //创建时间
             : Timestamp = Timestamp(System.currentTimeMillis())
-    var scheduleStructure: List<TimePeriodInDay> = listOf()//时间表结构
+    var scheduleStructure: List<TimePeriodInDay> = getDefaultTimeStructure()//时间表结构
 
 
     /**
@@ -77,6 +77,24 @@ class Timetable {
         result = 31 * result + (name?.hashCode() ?: 0)
         result = 31 * result + (code?.hashCode() ?: 0)
         return result
+    }
+
+
+    fun getDefaultTimeStructure():List<TimePeriodInDay>{
+        val res = mutableListOf<TimePeriodInDay>()
+        res.add(TimePeriodInDay(TimeInDay(8,30), TimeInDay(9,20)))
+        res.add(TimePeriodInDay(TimeInDay(9,25),TimeInDay(10,15)))
+        res.add(TimePeriodInDay(TimeInDay(10,30),TimeInDay(11,20)))
+        res.add(TimePeriodInDay(TimeInDay(11,25),TimeInDay(12,15)))
+        res.add(TimePeriodInDay(TimeInDay(14,0),TimeInDay(14,50)))
+        res.add(TimePeriodInDay(TimeInDay(14,55),TimeInDay(15,45)))
+        res.add(TimePeriodInDay(TimeInDay(16,0),TimeInDay(16,50)))
+        res.add(TimePeriodInDay(TimeInDay(16,55),TimeInDay(17,45)))
+        res.add(TimePeriodInDay(TimeInDay(18,45),TimeInDay(19,35)))
+        res.add(TimePeriodInDay(TimeInDay(19,40),TimeInDay(20,30)))
+        res.add(TimePeriodInDay(TimeInDay(20,45),TimeInDay(21,35)))
+        res.add(TimePeriodInDay(TimeInDay(21,40),TimeInDay(22,30)))
+        return res
     }
 
 

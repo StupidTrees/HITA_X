@@ -21,7 +21,7 @@ interface SubjectDao {
     @Query("SELECT * FROM subject WHERE timetableId is :timetableId")
     fun getSubjectsSync(timetableId: String): List<TermSubject>
 
-    @Query("SELECT * FROM subject WHERE timetableId is :timetableId")
+    @Query("SELECT * FROM subject WHERE timetableId is :timetableId ORDER BY credit DESC")
     fun getSubjects(timetableId: String): LiveData<List<TermSubject>>
 
 

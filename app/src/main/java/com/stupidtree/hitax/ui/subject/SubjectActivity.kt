@@ -47,7 +47,10 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
             binding.cardCredit.setTitle(getSubjectCreditKey(it))
         }
         viewModel.classesLiveData.observe(this) {
-            if (isCourseExpanded) {
+            if(it.isEmpty()){
+                isCourseExpanded = false
+                listAdapter.notifyItemChangedSmooth(it)
+            }else if (isCourseExpanded) {
                 val temp: MutableList<EventItem> = ArrayList(it)
                 temp.add(EventItem.getTagInstance("less"))
                 listAdapter.notifyItemChangedSmooth(temp)

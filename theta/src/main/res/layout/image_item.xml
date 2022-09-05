@@ -8,7 +8,8 @@
     android:layout_height="108dp"
     android:layout_margin="8dp"
     android:gravity="center"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:transitionName="image">
 
 </ImageView>
 

@@ -25,6 +25,7 @@ import android.content.Intent
 import android.net.Uri
 import android.view.HapticFeedbackConstants
 import com.google.android.material.appbar.AppBarLayout
+import com.stupidtree.hitax.ui.event.add.PopupAddEvent
 import com.stupidtree.style.widgets.PopUpColorPicker
 import com.stupidtree.hitax.utils.ImageUtils
 import com.stupidtree.style.widgets.PopUpEditText
@@ -142,7 +143,6 @@ class TimetableDetailActivity :
                             timePeriodInDay: TimePeriodInDay
                         ) {
                             viewModel.startChangeTimetableStructure(timePeriodInDay, position)
-
                         }
 
                     }).show(supportFragmentManager, "pick")
@@ -207,6 +207,9 @@ class TimetableDetailActivity :
             binding.share.startAnimation()
             viewModel.exportToIcs()
         }
+        binding.add.setOnClickListener {
+            PopupAddEvent(true).setInitTimetable(viewModel.timetableLiveData.value).show(supportFragmentManager,"add_subject")
+        }
     }
 
     private fun bindLiveData() {
@@ -237,11 +240,15 @@ class TimetableDetailActivity :
             }
         }
         viewModel.teacherInfoLiveData.observe(this) {
+            val ls = mutableListOf<TeacherInfo>()
+            for(t in ls){
+                if(!t.name.isNullOrEmpty()) ls.add(t)
+            }
             if (teachersListAdapter?.beans?.isNullOrEmpty() == true) {
-                teachersListAdapter?.notifyDataSetChanged(it)
+                teachersListAdapter?.notifyDataSetChanged(ls)
                 binding.teachersList.scheduleLayoutAnimation()
             } else {
-                teachersListAdapter?.notifyItemChangedSmooth(it)
+                teachersListAdapter?.notifyItemChangedSmooth(ls)
             }
         }
         viewModel.exportToICSResult.observe(this) {

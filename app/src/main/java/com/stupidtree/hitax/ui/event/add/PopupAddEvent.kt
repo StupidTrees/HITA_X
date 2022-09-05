@@ -1,6 +1,8 @@
 package com.stupidtree.hitax.ui.event.add
 
 import android.annotation.SuppressLint
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,14 +16,11 @@ import com.stupidtree.hitax.data.repository.TeacherInfoRepository
 import com.stupidtree.hitax.data.repository.TimetableRepository
 import com.stupidtree.hitax.databinding.DialogBottomAddEventBinding
 import com.stupidtree.hitax.ui.widgets.PopUpPickCourseTime
-import com.stupidtree.hitax.ui.widgets.PopUpPickCourseWeeks
-import com.stupidtree.style.widgets.PopUpAutoEditText
-import com.stupidtree.style.widgets.PopUpSelectableLiveList
+import com.stupidtree.style.widgets.DialogAutoEditText
+import com.stupidtree.style.widgets.DialogSelectableLiveList
 import com.stupidtree.style.widgets.TransparentModeledBottomSheetDialog
-import java.sql.Time
-import kotlin.collections.HashSet
 
-class PopupAddEvent :
+class PopupAddEvent(private val addSubjectMode:Boolean = false) :
     TransparentModeledBottomSheetDialog<AddEventViewModel, DialogBottomAddEventBinding>() {
 
     var initTimetable: Timetable? = null
@@ -53,6 +52,11 @@ class PopupAddEvent :
 
     @SuppressLint("SetTextI18n")
     override fun initViews(view: View) {
+        isCancelable = false
+        binding?.title?.setText(if(addSubjectMode) R.string.add_subject else R.string.ade_title)
+        binding?.cancel?.setOnClickListener {
+            dismiss()
+        }
         viewModel.doneLiveData.observe(this) {
             if (it) {
                 binding?.adeBtDone?.show()
@@ -81,7 +85,7 @@ class PopupAddEvent :
             }
         }
         viewModel.nameLiveData.observe(this) {
-            binding?.name?.setText(it)
+
         }
         viewModel.locationLiveData.observe(this) {
             binding?.pickLocation?.visibility =
@@ -104,12 +108,13 @@ class PopupAddEvent :
         }
         viewModel.subjectLiveData.observe(this) {
             binding?.pickSubject?.visibility =
-                if (it.state == DataState.STATE.FETCH_FAILED) View.GONE else View.VISIBLE
+                if (it.state == DataState.STATE.FETCH_FAILED||it.state == DataState.STATE.SPECIAL) View.GONE else View.VISIBLE
             if (it.state == DataState.STATE.SUCCESS) {
                 binding?.pickSubjectIcon?.setColorFilter(getColorPrimary())
                 binding?.pickSubjectText?.setTextColor(getColorPrimary())
                 binding?.pickSubject?.setCardBackgroundColor(getColorPrimary())
                 binding?.pickSubjectText?.text = it.data?.name
+                binding?.name?.setText(it.data?.name)
             } else {
                 binding?.pickSubjectText?.text = getString(R.string.ade_pick_subject)
                 binding?.pickSubjectText?.postInvalidate()
@@ -144,8 +149,35 @@ class PopupAddEvent :
                 binding?.pickTimeIcon?.setColorFilter(getColorPrimary())
                 binding?.timeShow?.setTextColor(getColorPrimary())
                 it.data?.let { ct ->
-                    binding?.timeShow?.text =
+                    val t1 =
                         resources.getStringArray(R.array.dow1)[ct.dow - 1].toString() + " " + ct.begin + "-" + ct.end
+                    val set = HashSet<Int>()
+                    val frags = mutableListOf<String>()
+                    for (i in ct.weeks) {
+                        set.add(i)
+                    }
+                    for (s in set) {
+                        if (set.contains(s - 1)) continue
+                        var length = 0
+                        var ts = s
+                        while (set.contains(ts + 1)) {
+                            length++
+                            ts++
+                        }
+                        when (ts) {
+                            s -> {
+                                frags.add("$s")
+                            }
+                            s + 1 -> {
+                                frags.add("$s")
+                                frags.add("$ts")
+                            }
+                            else -> {
+                                frags.add("$s-$ts")
+                            }
+                        }
+                    }
+                    binding?.timeShow?.text = "${frags.joinToString(", ")}周 $t1 节"
                 }
             } else {
                 binding?.timeShow?.text = getString(R.string.ade_set_time_period)
@@ -198,66 +230,23 @@ class PopupAddEvent :
                 //pickLocationIcon.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.color_control_normal), PorterDuff.Mode.SRC_IN);
             }
         }
-        viewModel.weeksLiveDate.observe(this) {
-            binding?.pickWeeks?.visibility =
-                if (it.state == DataState.STATE.FETCH_FAILED) View.GONE else View.VISIBLE
-            if (it.state == DataState.STATE.SUCCESS) {
-                binding?.pickWeeks?.setCardBackgroundColor(getColorPrimary())
-                binding?.pickWeeksIcon?.setColorFilter(getColorPrimary())
-                binding?.pickWeeksText?.setTextColor(getColorPrimary())
-                it.data?.let { ct ->
-                    val set = HashSet<Int>()
-                    val frags = mutableListOf<String>()
-                    for (i in ct) {
-                        set.add(i)
-                    }
-                    for (s in set) {
-                        if (set.contains(s - 1)) continue
-                        var length = 0
-                        var ts = s
-                        while (set.contains(ts + 1)) {
-                            length++
-                            ts++
-                        }
-                        if (ts == s) {
-                            frags.add("$s")
-                        } else if (ts == s + 1) {
-                            frags.add("$s")
-                            frags.add("$ts")
-                        } else {
-                            frags.add("$s-$ts")
-                        }
-                    }
-                    binding?.pickWeeksText?.text = frags.joinToString(", ")
-                }
-            } else {
-                binding?.pickWeeksText?.text = getString(R.string.ade_pick_weeks)
-                binding?.pickWeeks?.setCardBackgroundColor(
-                    getTextColorSecondary()
-                )
-                binding?.pickWeeksText?.setTextColor(getTextColorSecondary())
-                binding?.pickWeeksIcon?.clearColorFilter()
-                //pickTimeIcon.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.color_control_normal), PorterDuff.Mode.SRC_IN);
-            }
-        }
-
         binding?.pickTimetable?.setOnClickListener {
-            PopUpSelectableLiveList<Timetable>().setTitle(R.string.ade_pick_timetable)
+            DialogSelectableLiveList<Timetable>().setTitle(R.string.ade_pick_timetable)
                 .setInitValue(viewModel.timetableLiveData.value?.data)
-                .setDataLoader(object : PopUpSelectableLiveList.DataLoader<Timetable> {
-                    override fun loadData(): LiveData<List<PopUpSelectableLiveList.ItemData<Timetable>>> {
+                .setDataLoader(object : DialogSelectableLiveList.DataLoader<Timetable> {
+                    override fun loadData(): LiveData<List<DialogSelectableLiveList.ItemData<Timetable>>> {
                         return Transformations.switchMap(
                             TimetableRepository.getInstance(activity!!.application).getTimetables()
                         ) {
-                            val res = mutableListOf<PopUpSelectableLiveList.ItemData<Timetable>>()
+                            val res = mutableListOf<DialogSelectableLiveList.ItemData<Timetable>>()
                             for (data: Timetable in it) {
-                                res.add(PopUpSelectableLiveList.ItemData(data.name, data))
+                                res.add(DialogSelectableLiveList.ItemData(data.name, data))
                             }
                             return@switchMap MutableLiveData(res)
                         }
                     }
                 }).setOnConfirmListener(object :
-                    PopUpSelectableLiveList.OnConfirmListener<Timetable> {
+                    DialogSelectableLiveList.OnConfirmListener<Timetable> {
                     override fun onConfirm(title: String?, key: Timetable) {
                         viewModel.timetableLiveData.value = DataState(key)
                     }
@@ -265,23 +254,24 @@ class PopupAddEvent :
         }
 
         binding?.pickSubject?.setOnClickListener {
-            PopUpSelectableLiveList<TermSubject>().setTitle(R.string.ade_pick_subject)
+            DialogSelectableLiveList<TermSubject>().setTitle(R.string.ade_pick_subject)
                 .setInitValue(viewModel.subjectLiveData.value?.data)
-                .setDataLoader(object : PopUpSelectableLiveList.DataLoader<TermSubject> {
-                    override fun loadData(): LiveData<List<PopUpSelectableLiveList.ItemData<TermSubject>>> {
+                .setDataLoader(object : DialogSelectableLiveList.DataLoader<TermSubject> {
+                    override fun loadData(): LiveData<List<DialogSelectableLiveList.ItemData<TermSubject>>> {
                         return Transformations.switchMap(
                             SubjectRepository.getInstance(activity!!.application)
                                 .getSubjects(viewModel.timetableLiveData.value?.data?.id ?: "")
                         ) {
-                            val res = mutableListOf<PopUpSelectableLiveList.ItemData<TermSubject>>()
+                            val res =
+                                mutableListOf<DialogSelectableLiveList.ItemData<TermSubject>>()
                             for (data: TermSubject in it) {
-                                res.add(PopUpSelectableLiveList.ItemData(data.name, data))
+                                res.add(DialogSelectableLiveList.ItemData(data.name, data))
                             }
                             return@switchMap MutableLiveData(res)
                         }
                     }
                 }).setOnConfirmListener(object :
-                    PopUpSelectableLiveList.OnConfirmListener<TermSubject> {
+                    DialogSelectableLiveList.OnConfirmListener<TermSubject> {
                     override fun onConfirm(title: String?, key: TermSubject) {
                         viewModel.subjectLiveData.value = DataState(key)
                     }
@@ -289,29 +279,13 @@ class PopupAddEvent :
         }
         binding?.pickTime?.setOnClickListener {
             viewModel.timetableLiveData.value?.data?.let { tt ->
-                PopUpPickCourseTime().setInitialValue(viewModel.timeRangeLiveDate.value?.data)
+                PopUpPickCourseTime().setInitialValue(tt, viewModel.timeRangeLiveDate.value?.data)
                     .setSelectListener(object : PopUpPickCourseTime.OnTimeSelectedListener {
                         override fun onSelected(data: CourseTime) {
-                            viewModel.timeRangeLiveDate.value = DataState(data)
+                            if(data.weeks.isEmpty()) viewModel.timetableLiveData.value = DataState(DataState.STATE.NOTHING)
+                            else viewModel.timeRangeLiveDate.value = DataState(data)
                         }
                     }).show(childFragmentManager, "pick_course_time")
-            }
-
-        }
-
-        binding?.pickWeeks?.setOnClickListener {
-            viewModel.timetableLiveData.value?.data?.let { tt ->
-                PopUpPickCourseWeeks().setInitialValue(tt, viewModel.weeksLiveDate.value?.data)
-                    .setSelectListener(object : PopUpPickCourseWeeks.OnWeeksSelectedListener {
-
-                        override fun onSelected(data: List<Int>) {
-                            if(data.isEmpty()){
-                                viewModel.weeksLiveDate.value = DataState(DataState.STATE.NOTHING)
-                            }else{
-                                viewModel.weeksLiveDate.value = DataState(data)
-                            }
-                        }
-                    }).show(childFragmentManager, "pick_course_weeks")
             }
 
         }
@@ -320,14 +294,14 @@ class PopupAddEvent :
             viewModel.teacherLiveData.value = DataState(DataState.STATE.NOTHING)
         }
         binding?.pickTeacher?.setOnClickListener {
-            PopUpAutoEditText().setTitle(getString(R.string.ade_pick_teacher))
-                .setOnConfirmListener(object : PopUpAutoEditText.OnConfirmListener {
+            DialogAutoEditText().setTitle(getString(R.string.ade_pick_teacher))
+                .setOnConfirmListener(object : DialogAutoEditText.OnConfirmListener {
                     override fun OnConfirm(content: String) {
                         viewModel.teacherLiveData.value = DataState(content)
                     }
 
                 }).setInitValue(viewModel.teacherLiveData.value?.data ?: "")
-                .setDataLoader(object : PopUpAutoEditText.DataLoader {
+                .setDataLoader(object : DialogAutoEditText.DataLoader {
                     override fun loadData(str: String): LiveData<List<String>> {
                         return Transformations.switchMap(
                             TeacherInfoRepository.getInstance(activity!!.application)
@@ -351,14 +325,14 @@ class PopupAddEvent :
             viewModel.locationLiveData.value = DataState(DataState.STATE.NOTHING)
         }
         binding?.pickLocation?.setOnClickListener {
-            PopUpAutoEditText().setTitle(getString(R.string.ade_pick_location))
-                .setOnConfirmListener(object : PopUpAutoEditText.OnConfirmListener {
+            DialogAutoEditText().setTitle(getString(R.string.ade_pick_location))
+                .setOnConfirmListener(object : DialogAutoEditText.OnConfirmListener {
                     override fun OnConfirm(content: String) {
                         viewModel.locationLiveData.value = DataState(content)
                     }
 
                 }).setInitValue(viewModel.locationLiveData.value?.data ?: "")
-                .setDataLoader(object : PopUpAutoEditText.DataLoader {
+                .setDataLoader(object : DialogAutoEditText.DataLoader {
                     override fun loadData(str: String): LiveData<List<String>> {
                         return TimetableRepository.getInstance(activity!!.application)
                             .searchLocation(str)
@@ -371,7 +345,20 @@ class PopupAddEvent :
             viewModel.createEvent()
             dismiss()
         }
+        binding?.name?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-        viewModel.init(initTimetable, initSubject)
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                viewModel.nameLiveData.value = p0.toString()
+            }
+
+        })
+        viewModel.init(addSubjectMode,initTimetable, initSubject)
     }
 }

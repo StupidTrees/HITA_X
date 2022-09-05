@@ -24,4 +24,7 @@ interface HistoryDao {
 
     @Query("delete from history")
     fun clear()
+
+    @Query("delete from history where uid is :uid and id <> :id")
+    fun clearBut(uid:String,id:String)
 }

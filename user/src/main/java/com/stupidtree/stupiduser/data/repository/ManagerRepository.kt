@@ -14,8 +14,8 @@ class ManagerRepository(application: Application) {
 
 
 
-    fun checkUpdate(token: String, versionCode:Long): LiveData<DataState<CheckUpdateResult>> {
-        return managerWebSource.checkUpdate(token,versionCode)
+    fun checkUpdate(token: String, versionCode:Long, id: String?): LiveData<DataState<CheckUpdateResult>> {
+        return managerWebSource.checkUpdate(token,versionCode,id)
     }
 
 

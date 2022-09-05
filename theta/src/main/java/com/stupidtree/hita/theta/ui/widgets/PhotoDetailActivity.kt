@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.get
 import androidx.lifecycle.AndroidViewModel
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
@@ -30,7 +31,6 @@ class PhotoDetailActivity :
     override fun initViews() {
         val data = intent.getStringArrayExtra("ids")
         initIndex = intent.getIntExtra("init_index", 0)
-
         if (data?.isNotEmpty() == true) {
             ids.addAll(listOf(*data))
             binding.label.text = (initIndex + 1).toString() + "/" + ids.size
@@ -39,6 +39,7 @@ class PhotoDetailActivity :
     }
 
     private fun initPager() {
+        val views: Array<PhotoView?> = arrayOfNulls(ids.size)
         binding.pager.addOnPageChangeListener(object : OnPageChangeListener {
             override fun onPageScrolled(
                 position: Int,
@@ -50,7 +51,6 @@ class PhotoDetailActivity :
             @SuppressLint("SetTextI18n")
             override fun onPageSelected(position: Int) {
                 binding.label.text = (position + 1).toString() + "/" + ids.size
-
             }
 
             override fun onPageScrollStateChanged(state: Int) {}
@@ -65,25 +65,30 @@ class PhotoDetailActivity :
             }
 
             override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+                views[position] = null
                 container.removeView(`object` as View)
             }
 
             override fun instantiateItem(container: ViewGroup, position: Int): Any {
-                val v = PhotoView(getThis())
-                v.scaleType = ImageView.ScaleType.FIT_CENTER
-                v.transitionName = "image"
-                ImageUtils.loadArticleImageRawInto(
-                    getThis(),
-                    ids[position],
-                    v
-                )
-                v.adjustViewBounds = false
-                v.enable()
-                container.addView(v)
-                v.setOnClickListener {
-                    onBackPressed()
+                if (views[position] == null) {
+                    val v = PhotoView(getThis())
+                    v.scaleType = ImageView.ScaleType.FIT_CENTER
+                    ImageUtils.loadArticleImageRawInto(
+                        getThis(),
+                        ids[position],
+                        v
+                    )
+                    v.adjustViewBounds = false
+                    v.enable()
+                    v.setOnClickListener {
+                        onBackPressed()
+                    }
+                    container.addView(v)
+                    if(position==initIndex) v.transitionName = "image"
+                    views[position] = v
                 }
-                return v
+
+                return views[position]!!
             }
         }
         binding.pager.currentItem = initIndex

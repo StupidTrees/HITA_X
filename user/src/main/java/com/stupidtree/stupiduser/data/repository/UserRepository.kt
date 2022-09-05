@@ -29,16 +29,16 @@ class UserRepository private constructor(context: Context) {
 
             if (input.state === LoginResult.STATES.SUCCESS) {
                 userPreferenceSource.saveLocalUser(input.userLocal!!)
-//                StupidSync.sync(object : StupidSync.SyncCallback {
-//                    override fun onSuccess() {
-//
-//                    }
-//
-//                    override fun onFailed(e: Exception) {
-//
-//                    }
-//
-//                })
+                StupidSync.sync(object : StupidSync.SyncCallback {
+                    override fun onSuccess() {
+
+                    }
+
+                    override fun onFailed(e: Exception) {
+
+                    }
+
+                })
             }
             input
         }

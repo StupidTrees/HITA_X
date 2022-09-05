@@ -48,6 +48,7 @@
     <string name="my_star">我的收藏</string>
     <string name="as_attude">发表为投票</string>
     <string name="anonymous_post">匿名发表</string>
+    <string name="no_more_comments">没有更多评论啦</string>
 
     <string-array name="comment_actions">
         <item>删除评论</item>

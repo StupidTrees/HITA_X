@@ -117,7 +117,8 @@ class MeFragment : BaseFragment<NavigationViewModel, FragmentMeBinding>() {
                 binding?.userCard?.setOnClickListener { v ->
                     ActivityTools.startUserActivity(
                         requireContext(),
-                        it.id ?: ""
+                        it.id ?: "",
+                        binding?.avatar
                     )
                 }
             } else {

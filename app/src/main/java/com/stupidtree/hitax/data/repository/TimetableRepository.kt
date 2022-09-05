@@ -143,7 +143,6 @@ class TimetableRepository(val application: Application) {
             eventItemDao.deleteEventsFromTimetablesSync(ids)
             subjectDao.deleteSubjectsFromTimetablesSync(ids)
             StupidSync.putHistorySync(historyTag, History.ACTION.REMOVE, ids)
-
         }
 
     }
@@ -237,6 +236,11 @@ class TimetableRepository(val application: Application) {
     fun actionAddEvents(data:List<EventItem>) {
         executor.execute {
             eventItemDao.addEvents(data)
+            val ids = mutableListOf<String>()
+            for (e in data) {
+                ids.add(e.id)
+            }
+            StupidSync.putHistorySync("event", History.ACTION.REQUIRE, ids)
         }
     }
 
@@ -300,7 +304,6 @@ class TimetableRepository(val application: Application) {
             subjectDao.clear()
             timetableDao.clear()
         }
-
     }
 
     companion object {

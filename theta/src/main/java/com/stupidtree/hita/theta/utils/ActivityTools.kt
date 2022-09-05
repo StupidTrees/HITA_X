@@ -3,6 +3,9 @@ package com.stupidtree.hita.theta.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.view.View
+import android.widget.ImageView
+import androidx.core.app.ActivityOptionsCompat
 import com.stupidtree.hita.theta.ui.comment.reply.CommentReplyActivity
 import com.stupidtree.hita.theta.ui.detail.ArticleDetailActivity
 import com.stupidtree.hita.theta.ui.list.activity.ArticleListActivity
@@ -48,18 +51,28 @@ object ActivityTools {
         context.startActivity(i)
     }
 
-    fun startCommentDetail(context: Context, articleId: String="", commentId: String) {
+    fun startCommentDetail(context: Context, articleId: String = "", commentId: String) {
         val i = Intent(context, CommentReplyActivity::class.java)
-        i.putExtra("articleId",articleId)
+        i.putExtra("articleId", articleId)
         i.putExtra("commentId", commentId)
         context.startActivity(i)
     }
 
-    fun startUserActivity(context: Context, userId: String) {
+    fun startUserActivity(context: Context, userId: String, imageView: ImageView? = null) {
         val c = Class.forName("com.stupidtree.hitax.ui.profile.ProfileActivity")
         val i = Intent(context, c)
         i.putExtra("id", userId)
-        context.startActivity(i)
+        imageView?.let {
+            val op = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                context as Activity,
+                imageView,
+                "useravatar"
+            )
+            context.startActivity(i, op.toBundle())
+        } ?: kotlin.run {
+            context.startActivity(i)
+        }
+
     }
 
     fun startMessagesActivity(context: Context, title: String, mode: String) {
@@ -75,13 +88,24 @@ object ActivityTools {
      * @param urls 图片链接
      * @param index 初始显示的下必
      */
-    fun showMultipleImages(from: Activity, ids: List<String>, index: Int) {
+    fun showMultipleImages(
+        from: Activity,
+        ids: List<String>,
+        index: Int,
+        imageView: ImageView?=null
+    ) {
         val it = Intent(from, PhotoDetailActivity::class.java)
         //  ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(from,view,"image");
         val urlsArr = arrayOfNulls<String>(ids.size)
         for (i in urlsArr.indices) urlsArr[i] = ids[i]
         it.putExtra("ids", urlsArr)
         it.putExtra("init_index", index)
-        from.startActivity(it) //,activityOptionsCompat.toBundle());
+//        imageView?.let { iv ->
+//            val op = ActivityOptionsCompat.makeSceneTransitionAnimation(from, iv, "image")
+//            from.startActivity(it, op.toBundle())
+//        } ?: kotlin.run {
+            from.startActivity(it)
+//        }
+
     }
 }

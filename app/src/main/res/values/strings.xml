@@ -117,7 +117,7 @@
     <string name="ade_ddl">DDL</string>
     <string name="ade_course">课程</string>
     <string name="ade_exam">考试</string>
-    <string name="ade_namehint">输入事件名称...</string>
+    <string name="ade_namehint">输入名称…</string>
     <string name="ade_tag2">标签2</string>
     <string name="ade_tag3">标签3</string>
     <string name="ade_pick_subject">选择科目</string>
@@ -532,7 +532,7 @@
     <string name="add_course_done">已添加课程</string>
     <string name="add_event_done">事件已添加</string>
     <string name="notifi_input_teacher">请输入教师名称！</string>
-    <string name="add_subject">添加科目</string>
+    <string name="add_subject">添加科目与课时</string>
     <string name="delete_success">删除成功</string>
     <string name="delete_failed">删除失败</string>
     <string name="dialog_message_delete_subject">这将删除该科目的所有课程和考试事件，确定删除吗？</string>
