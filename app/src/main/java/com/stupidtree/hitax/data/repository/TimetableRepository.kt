@@ -1,6 +1,7 @@
 package com.stupidtree.hitax.data.repository
 
 import android.app.Application
+import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -54,6 +55,19 @@ class TimetableRepository(val application: Application) {
         return eventItemDao.getEventsDuring(from, to)
     }
 
+    /**
+     * 获取今日事件
+     */
+    @WorkerThread
+    fun getTodayEventsSync(): List<EventItem> {
+        val now = Calendar.getInstance()
+        now.set(Calendar.HOUR_OF_DAY,0)
+        now.set(Calendar.MINUTE,0)
+        val from = now.timeInMillis
+        now.add(Calendar.DATE,1)
+        val to = now.timeInMillis
+        return eventItemDao.getEventsDuringSync(from, to)
+    }
     /**
      * 获取[from,to)内的事件，包含颜色
      */

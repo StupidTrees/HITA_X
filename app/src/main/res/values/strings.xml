@@ -342,6 +342,7 @@
     <string name="timeline_counting_middle">后进行</string>
     <string name="timeline_counting_free">接下来没事了</string>
     <string name="unknown_location">未知地点</string>
+    <string name="unknown_location_widget">未知</string>
     <string name="progress">进度</string>
     <string name="bind">验证</string>
     <string name="set_signature">设置个性签名</string>
@@ -1185,4 +1186,9 @@
     <string name="hita_website">官方网站</string>
     <string name="ade_pick_timetable">选择课表</string>
     <string name="ade_pick_weeks">设置周数</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="loading">加载中</string>
+    <string name="widget_loading">组件加载中...</string>
 </resources>

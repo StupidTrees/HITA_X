@@ -1,6 +1,11 @@
 package com.stupidtree.hitax.ui.main.timeline
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.Intent.ACTION_DATE_CHANGED
+import android.content.Intent.ACTION_TIME_TICK
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.HapticFeedbackConstants
 import android.view.View
@@ -8,17 +13,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.databinding.FragmentTimelineBinding
-import com.stupidtree.style.base.BaseFragment
-import com.stupidtree.style.base.BaseListAdapter
+import com.stupidtree.hitax.ui.widgets.WidgetUtils
 import com.stupidtree.hitax.utils.EventsUtils
 import com.stupidtree.hitax.utils.TimeTools
-import com.stupidtree.hitax.utils.TimeTools.TTY_NONE
+import com.stupidtree.hitax.utils.TimeTools.TTY_WK_FOLLOWING
+import com.stupidtree.style.base.BaseFragmentWithReceiver
+import com.stupidtree.style.base.BaseListAdapter
 import java.util.*
-import kotlin.collections.ArrayList
 
-class FragmentTimeLine : BaseFragment<FragmentTimelineViewModel, FragmentTimelineBinding>() {
+class FragmentTimeLine : BaseFragmentWithReceiver<FragmentTimelineViewModel, FragmentTimelineBinding>() {
     private var listAdapter: TimelineListAdapter? = null
     private var mainPageController: MainPageController? = null
+
+
+    override var receiver: BroadcastReceiver = object: BroadcastReceiver() {
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            if(p1?.action== ACTION_TIME_TICK||p1?.action==ACTION_DATE_CHANGED||p1?.action==Intent.ACTION_TIME_CHANGED){
+                viewModel.startRefresh()
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +57,7 @@ class FragmentTimeLine : BaseFragment<FragmentTimelineViewModel, FragmentTimelin
         viewModel.startRefresh()
         mainPageController?.setTimelineTitleText(TimeTools.getDateString(
             requireContext(),
-            Calendar.getInstance(),true,TTY_NONE
+            Calendar.getInstance(),true, TTY_WK_FOLLOWING
         ))
     }
 
@@ -83,6 +97,7 @@ class FragmentTimeLine : BaseFragment<FragmentTimelineViewModel, FragmentTimelin
                     holder as TimelineListAdapter.timelineHeaderHolder
                 header.UpdateHeadView()
             }
+            activity?.let { it1 -> WidgetUtils.sendRefreshToAll(it1) }
         }
 
     }
@@ -99,6 +114,15 @@ class FragmentTimeLine : BaseFragment<FragmentTimelineViewModel, FragmentTimelin
     interface MainPageController {
         fun setTimelineTitleText(string: String)
     }
+
+    override fun getIntentFilter(): IntentFilter {
+        val inf = IntentFilter()
+        inf.addAction(ACTION_DATE_CHANGED)
+        inf.addAction(ACTION_TIME_TICK)
+        inf.addAction(Intent.ACTION_TIME_CHANGED)
+        return inf
+    }
+
 
 
 }

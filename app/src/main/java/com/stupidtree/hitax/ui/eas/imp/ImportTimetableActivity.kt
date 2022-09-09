@@ -3,7 +3,6 @@ package com.stupidtree.hitax.ui.eas.imp
 import android.os.Bundle
 import android.view.HapticFeedbackConstants
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
@@ -19,8 +18,8 @@ import com.stupidtree.hitax.ui.eas.EASActivity
 import com.stupidtree.hitax.ui.widgets.PopUpCalendarPicker
 import com.stupidtree.style.widgets.PopUpCheckableList
 import com.stupidtree.hitax.ui.widgets.PopUpTimePeriodPicker
+import com.stupidtree.hitax.ui.widgets.WidgetUtils
 import com.stupidtree.hitax.utils.AnimationUtils
-import com.stupidtree.hitax.utils.ImageUtils
 import com.stupidtree.hitax.utils.ImageUtils.dp2px
 import com.stupidtree.hitax.utils.TextTools
 import java.util.*
@@ -159,6 +158,8 @@ class ImportTimetableActivity :
                 binding.buttonImport, it.state == DataState.STATE.SUCCESS,
                 successStr = R.string.import_success, failStr = R.string.import_failed
             )
+            //通知小组件
+            WidgetUtils.sendRefreshToAll(this)
 //            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
 //                binding.buttonImport.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
 //            } else {

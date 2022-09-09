@@ -62,7 +62,7 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
             }
         })
         binding?.timetableView?.setOnCardLongClickListener(object : TimeTableView.OnCardLongClickListener {
-            override fun onEventLongClick(v: View, ei: EventItem): Boolean {
+            override fun onEventLongClick(v: View, eventItem: EventItem): Boolean {
 //                val pm = PopupMenu(requireContext(), v)
 //                pm.inflate(R.menu.menu_opr_timetable)
 //                pm.setOnMenuItemClickListener { item ->
@@ -135,9 +135,10 @@ class TimetablePageFragment : BaseFragment<TimetablePageViewModel, FragmentTimet
         viewModel.timetableViewLiveData.observe(this){
             viewModel.startDateLiveData.value?.let { date ->
                 val dataHash = it.hashCode()
-                if (it.second!=binding?.timetableView?.styleSheet//样式不同也更新
-                        ||dataHash != viewModel.dataHashCode ||
-                        binding?.timetableView?.childCount ?: 0 < it.first.size) {
+                if (it.second != binding?.timetableView?.styleSheet//样式不同也更新
+                    || dataHash != viewModel.dataHashCode ||
+                    (binding?.timetableView?.childCount ?: 0) < it.first.size
+                ) {
                     viewModel.dataHashCode = dataHash
                     binding?.timetableView?.notifyRefresh(date, it.first,it.second)
                 }else{

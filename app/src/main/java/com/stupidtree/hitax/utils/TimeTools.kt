@@ -86,6 +86,13 @@ object TimeTools {
         return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(c.time)
     }
 
+    fun printTime(date: Long?): String {
+        val c = Calendar.getInstance()
+        if (date != null) {
+            c.timeInMillis = date
+        }
+        return SimpleDateFormat("hh:mm", Locale.getDefault()).format(c.time)
+    }
 
     fun getDateAtWOT(startDate: Calendar, WeekOfTerm: Int, DOW: Int): Calendar {
         val temp = Calendar.getInstance()
@@ -128,6 +135,12 @@ object TimeTools {
             TTY_REPLACE -> if (!TextUtils.isEmpty(tag)) return tag
             TTY_FOLLOWING -> if (!TextUtils.isEmpty(tag)) {
                 following = context.getString(R.string.brackets_content, tag)
+            }
+            TTY_WK_FOLLOWING -> {
+                following = " " +context.resources.getStringArray(R.array.dow2)[getDow(c.timeInMillis) - 1]
+                        }
+            TTY_WK2_FOLLOWING -> {
+                following = " " +context.resources.getStringArray(R.array.dow1)[getDow(c.timeInMillis) - 1]
             }
         }
         return SimpleDateFormat(
@@ -198,7 +211,7 @@ object TimeTools {
      *  获得当前是第几节课
      *  返回结果为节数*10（+5）.+5表示课间
      */
-    fun getCurrentScheduleNumber(it:List<TimePeriodInDay>):Int{
+    fun getCurrentScheduleNumber(it: List<TimePeriodInDay>): Int {
         var current = 0
         val ts = System.currentTimeMillis()
         val tp = TimeInDay(Calendar.getInstance())
@@ -217,6 +230,7 @@ object TimeTools {
         }
         return current
     }
+
     private fun getWKTag(context: Context, currentWk: Int, week: Int): String {
         return when (currentWk) {
             week -> context.getString(R.string.name_this_week)
@@ -286,6 +300,7 @@ object TimeTools {
     const val TTY_FOLLOWING = 1 shl 2
     const val TTY_WK_REPLACE = 1 shl 3
     const val TTY_WK_FOLLOWING = 1 shl 4
+    const val TTY_WK2_FOLLOWING = 1 shl 5
 
 
 }
