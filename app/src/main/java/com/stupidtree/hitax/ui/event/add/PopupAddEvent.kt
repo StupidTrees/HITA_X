@@ -10,6 +10,7 @@ import androidx.lifecycle.Transformations
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.TermSubject
+import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.hitax.data.repository.SubjectRepository
 import com.stupidtree.hitax.data.repository.TeacherInfoRepository
@@ -25,6 +26,7 @@ class PopupAddEvent(private val addSubjectMode:Boolean = false) :
 
     var initTimetable: Timetable? = null
     var initSubject: TermSubject? = null
+    var initCourseTime: CourseTime? = null
 
 
     override fun getViewModelClass(): Class<AddEventViewModel> {
@@ -44,6 +46,16 @@ class PopupAddEvent(private val addSubjectMode:Boolean = false) :
         return this
     }
 
+    fun setInitTime(dow:Int,week:Int,period:TimePeriodInDay ): PopupAddEvent {
+        val ct = CourseTime()
+        ct.dow = dow
+        ct.weeks = mutableListOf(week)
+        ct.period = period
+        initCourseTime = ct
+        return this
+    }
+
+
     fun setInitSubject(subject: TermSubject): PopupAddEvent {
         initSubject = subject
         return this
@@ -52,7 +64,7 @@ class PopupAddEvent(private val addSubjectMode:Boolean = false) :
 
     @SuppressLint("SetTextI18n")
     override fun initViews(view: View) {
-        isCancelable = false
+        //isCancelable = false
         binding?.title?.setText(if(addSubjectMode) R.string.add_subject else R.string.ade_title)
         binding?.cancel?.setOnClickListener {
             dismiss()
@@ -148,36 +160,38 @@ class PopupAddEvent(private val addSubjectMode:Boolean = false) :
                 binding?.pickTime?.setCardBackgroundColor(getColorPrimary())
                 binding?.pickTimeIcon?.setColorFilter(getColorPrimary())
                 binding?.timeShow?.setTextColor(getColorPrimary())
-                it.data?.let { ct ->
-                    val t1 =
-                        resources.getStringArray(R.array.dow1)[ct.dow - 1].toString() + " " + ct.begin + "-" + ct.end
-                    val set = HashSet<Int>()
-                    val frags = mutableListOf<String>()
-                    for (i in ct.weeks) {
-                        set.add(i)
-                    }
-                    for (s in set) {
-                        if (set.contains(s - 1)) continue
-                        var length = 0
-                        var ts = s
-                        while (set.contains(ts + 1)) {
-                            length++
-                            ts++
+                viewModel.timetableLiveData.value?.data?.let { tt ->
+                    it.data?.let { ct ->
+                        val t1 =
+                            resources.getStringArray(R.array.dow1)[ct.dow - 1].toString() + " " + ct.period.from.toString() + "-" + ct.period.to.toString()
+                        val set = HashSet<Int>()
+                        val frags = mutableListOf<String>()
+                        for (i in ct.weeks) {
+                            set.add(i)
                         }
-                        when (ts) {
-                            s -> {
-                                frags.add("$s")
+                        for (s in set) {
+                            if (set.contains(s - 1)) continue
+                            var length = 0
+                            var ts = s
+                            while (set.contains(ts + 1)) {
+                                length++
+                                ts++
                             }
-                            s + 1 -> {
-                                frags.add("$s")
-                                frags.add("$ts")
-                            }
-                            else -> {
-                                frags.add("$s-$ts")
+                            when (ts) {
+                                s -> {
+                                    frags.add("$s")
+                                }
+                                s + 1 -> {
+                                    frags.add("$s")
+                                    frags.add("$ts")
+                                }
+                                else -> {
+                                    frags.add("$s-$ts")
+                                }
                             }
                         }
+                        binding?.timeShow?.text = "${frags.joinToString(", ")}周 $t1"
                     }
-                    binding?.timeShow?.text = "${frags.joinToString(", ")}周 $t1 节"
                 }
             } else {
                 binding?.timeShow?.text = getString(R.string.ade_set_time_period)
@@ -279,7 +293,7 @@ class PopupAddEvent(private val addSubjectMode:Boolean = false) :
         }
         binding?.pickTime?.setOnClickListener {
             viewModel.timetableLiveData.value?.data?.let { tt ->
-                PopUpPickCourseTime().setInitialValue(tt, viewModel.timeRangeLiveDate.value?.data)
+                PopUpPickCourseTime(tt).setInitialValue(tt, viewModel.timeRangeLiveDate.value?.data)
                     .setSelectListener(object : PopUpPickCourseTime.OnTimeSelectedListener {
                         override fun onSelected(data: CourseTime) {
                             if(data.weeks.isEmpty()) viewModel.timetableLiveData.value = DataState(DataState.STATE.NOTHING)
@@ -359,6 +373,7 @@ class PopupAddEvent(private val addSubjectMode:Boolean = false) :
             }
 
         })
-        viewModel.init(addSubjectMode,initTimetable, initSubject)
+        viewModel.init(addSubjectMode,initTimetable, initSubject,initCourseTime)
     }
+
 }

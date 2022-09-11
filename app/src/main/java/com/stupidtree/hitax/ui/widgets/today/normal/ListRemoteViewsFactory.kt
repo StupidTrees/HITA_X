@@ -84,7 +84,7 @@ internal class ListRemoteViewsFactory(val mContext: Context, intent: Intent) :
 
 
     override fun hasStableIds(): Boolean {
-        return true
+        return false
     }
 
     override fun getCount(): Int {
@@ -92,7 +92,7 @@ internal class ListRemoteViewsFactory(val mContext: Context, intent: Intent) :
     }
 
     override fun onDestroy() {
-
+        mBeans.clear()
     }
 
 }

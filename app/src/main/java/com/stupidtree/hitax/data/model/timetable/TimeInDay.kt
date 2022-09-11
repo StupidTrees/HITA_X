@@ -45,6 +45,13 @@ class TimeInDay {
         return getDistanceInMinutes(ei.hour, ei.minute)
     }
 
+    fun getAdded(minutes:Int):TimeInDay{
+        val res = TimeInDay(hour,minute)
+        res.minute += minutes;
+        res.hour += res.minute/60
+        res.minute %= 60
+        return res
+    }
     fun toMills():Long{
         return (hour*60*60*1000 + minute*60*1000).toLong()
     }

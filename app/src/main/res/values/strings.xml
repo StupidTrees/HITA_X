@@ -1191,4 +1191,6 @@
     <string name="app_widget_description">This is an app widget description</string>
     <string name="loading">加载中</string>
     <string name="widget_loading">组件加载中...</string>
+    <string name="add_timetable_first">清先添加一个课表</string>
+    <string name="belonging_timetable">所属课表</string>
 </resources>

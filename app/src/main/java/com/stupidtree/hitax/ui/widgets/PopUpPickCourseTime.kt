@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.*
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
 import com.stupidtree.hitax.R
+import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.hitax.databinding.DialogBottomPickCourseTimeBinding
 import com.stupidtree.hitax.databinding.DynamicAddEventDateitemBinding
@@ -21,11 +23,13 @@ import com.stupidtree.style.base.BaseListAdapter
 import com.stupidtree.style.base.BaseViewHolder
 import com.stupidtree.style.widgets.TransparentBottomSheetDialog
 import com.stupidtree.style.widgets.TransparentDialog
+import java.sql.Time
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PopUpPickCourseTime : TransparentDialog<DialogBottomPickCourseTimeBinding>() {
-    var rangeLiveData: MutableLiveData<Triple<Int, Int, Int>> = MutableLiveData()
+class PopUpPickCourseTime(val timetable: Timetable) :
+    TransparentDialog<DialogBottomPickCourseTimeBinding>() {
+    var rangeLiveData: MutableLiveData<Pair<Int, TimePeriodInDay>> = MutableLiveData()
     var weeksLiveData: MutableLiveData<List<Boolean>> = MutableLiveData()
     var selectedTimesLiveData: MutableLiveData<List<Long>> = MutableLiveData()
     var onTimeSelectedListener: OnTimeSelectedListener? = null
@@ -47,14 +51,15 @@ class PopUpPickCourseTime : TransparentDialog<DialogBottomPickCourseTimeBinding>
     }
 
 
-    fun bindLiveData() {
+    private fun bindLiveData() {
         weeksLiveData.observe(this) {
             listAdapter?.notifyData(it)
         }
         rangeLiveData.observe(this) {
             binding.pickdow.currentIndex = it.first - 1
-            binding.picktot.currentIndex = it.third - 1
-            binding.pickfromt.currentIndex = it.second - 1
+            val period = timetable.transformCourseNumber(it.second)
+            binding.picktot.currentIndex = period.second - 1
+            binding.pickfromt.currentIndex = period.first - 1
         }
         selectedTimesLiveData.observe(this) {
             val dt = mutableListOf<String>()
@@ -94,11 +99,17 @@ class PopUpPickCourseTime : TransparentDialog<DialogBottomPickCourseTimeBinding>
         binding.done.setOnClickListener {
             val r = CourseTime()
             r.dow = binding.pickdow.currentIndex + 1
-            r.begin = binding.pickfromt.currentIndex + 1
-            r.end = binding.picktot.currentIndex + 1
+            r.period = timetable.transformTimePeriod(
+                binding.pickfromt.currentIndex + 1,
+                binding.picktot.currentIndex + 1
+            )
             r.weeks = listAdapter?.getSelectedWeeks() ?: listOf()
-            onTimeSelectedListener?.onSelected(r)
-            dismiss()
+            if (r.weeks.isEmpty()) {
+                Toast.makeText(context, R.string.ade_pick_weeks, Toast.LENGTH_SHORT).show()
+            } else {
+                onTimeSelectedListener?.onSelected(r)
+                dismiss()
+            }
         }
         binding.pickfromt.setOnWheelChangedListener { _, _, newIndex ->
             if (binding.picktot.currentIndex < newIndex) binding.picktot.currentIndex = newIndex
@@ -168,7 +179,7 @@ class PopUpPickCourseTime : TransparentDialog<DialogBottomPickCourseTimeBinding>
 
         initCourseTime?.let { initCourseTime ->
             rangeLiveData.value =
-                Triple(initCourseTime.dow, initCourseTime.begin, initCourseTime.end)
+                Pair(initCourseTime.dow, initCourseTime.period)
             for (i in initCourseTime.weeks) {
                 if (i > weeksValue.size) for (x in weeksValue.size until i) weeksValue.add(false)
                 weeksValue[i - 1] = true

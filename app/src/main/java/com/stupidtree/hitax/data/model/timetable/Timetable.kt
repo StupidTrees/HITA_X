@@ -2,7 +2,7 @@ package com.stupidtree.hitax.data.model.timetable
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.stupidtree.hitax.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
+import com.stupidtree.hitax.ui.main.timetable.TimetableFragment.Companion.WEEK_MILLS
 import java.sql.Timestamp
 import java.util.*
 import kotlin.math.roundToInt
@@ -52,6 +52,24 @@ class Timetable {
         return listOf(startOfDay+scheduleStructure[start-1].from.toMills(),startOfDay+ scheduleStructure[end-1].to.toMills())
     }
 
+    fun getTimestamps(week:Int,dow:Int,period: TimePeriodInDay): List<Long> {
+        val startOfDay:Long = startTime.time + (week-1).toLong()*7*24*60*60*1000 + (dow-1).toLong()*24*60*60*1000
+        return listOf(startOfDay+period.from.toMills(),startOfDay+ period.to.toMills())
+    }
+
+    fun transformTimePeriod(start:Int,end:Int):TimePeriodInDay{
+        return TimePeriodInDay(scheduleStructure[start-1].from,scheduleStructure[end-1].to)
+    }
+
+    fun transformCourseNumber(period:TimePeriodInDay):Pair<Int,Int>{
+        var start = 0
+        var end = 0
+        for(i in scheduleStructure.indices){
+            if(scheduleStructure[i].contains(period.from)) start = i
+            if(scheduleStructure[i].contains(period.to)) end = i
+        }
+        return Pair(start+1,end+1)
+    }
     fun setScheduleStructure(tp: TimePeriodInDay, position: Int) {
         if (position < scheduleStructure.size) {
             scheduleStructure[position].from = tp.from

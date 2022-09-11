@@ -6,7 +6,7 @@ import android.util.Log
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.TimeInDay
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
-import com.stupidtree.hitax.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
+import com.stupidtree.hitax.ui.main.timetable.TimetableFragment.Companion.WEEK_MILLS
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
@@ -282,7 +282,7 @@ object TimeTools {
      * 获取小时（东八区）
      */
     fun getHour(date: Long): Int {
-        return 8 + ((date % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toInt()
+        return ((8 + ((date % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)))%24).toInt()
     }
 
     fun getMinute(date: Long): Int {

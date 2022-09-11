@@ -20,6 +20,7 @@ import com.stupidtree.hitax.utils.TimeTools.TTY_WK_FOLLOWING
 import com.stupidtree.style.base.BaseFragmentWithReceiver
 import com.stupidtree.style.base.BaseListAdapter
 import java.util.*
+import kotlin.Comparator
 
 class FragmentTimeLine : BaseFragmentWithReceiver<FragmentTimelineViewModel, FragmentTimelineBinding>() {
     private var listAdapter: TimelineListAdapter? = null
@@ -89,6 +90,7 @@ class FragmentTimeLine : BaseFragmentWithReceiver<FragmentTimelineViewModel, Fra
     override fun initViews(view: View) {
         initListAndAdapter()
         viewModel.todayEventsLiveData.observe(this) {
+            Collections.sort(it) { p0, p1 -> p0.from.compareTo(p1.from) }
             listAdapter?.notifyItemChangedSmooth(it)
             val holder: RecyclerView.ViewHolder? =
                 binding?.list?.findViewHolderForAdapterPosition(0)

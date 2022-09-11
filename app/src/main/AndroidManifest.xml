@@ -50,8 +50,7 @@
         </receiver>
         <activity
             android:name=".ui.main.MainActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:launchMode="singleTop" />
         <activity android:name=".ui.timetable.manager.TimetableManagerActivity" />
         <activity android:name=".ui.subject.SubjectActivity" />
         <activity android:name=".ui.welcome.WelcomeActivity" />

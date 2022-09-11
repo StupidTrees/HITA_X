@@ -18,11 +18,25 @@ import com.stupidtree.hitax.utils.TimeTools
 
 @SuppressLint("ParcelCreator")
 class TimetableListAdapter(context: Context, mBeans: MutableList<Timetable>) :
-        BaseCheckableListAdapter<Timetable, RecyclerView.ViewHolder>(context, mBeans) {
+    BaseCheckableListAdapter<Timetable, RecyclerView.ViewHolder>(context, mBeans) {
 
+    enum class SOURCE { EAS, NEW }
+
+    interface OnAddClickListener {
+        fun onAddClick(source: SOURCE)
+    }
+
+    var mOnAddClickListener: OnAddClickListener? = null
+    fun setOnAddClickListener(lis: OnAddClickListener) {
+        mOnAddClickListener = lis
+    }
 
     override fun getViewBinding(parent: ViewGroup, viewType: Int): ViewBinding {
-        return if (viewType == TYPE_ITEM) ActivityTimetableManagerItemBinding.inflate(mInflater, parent, false)
+        return if (viewType == TYPE_ITEM) ActivityTimetableManagerItemBinding.inflate(
+            mInflater,
+            parent,
+            false
+        )
         else ActivityTimetableManagerItemAddBinding.inflate(mInflater, parent, false)
     }
 
@@ -31,7 +45,10 @@ class TimetableListAdapter(context: Context, mBeans: MutableList<Timetable>) :
         else TYPE_ITEM
     }
 
-    override fun createViewHolder(viewBinding: ViewBinding, viewType: Int): RecyclerView.ViewHolder {
+    override fun createViewHolder(
+        viewBinding: ViewBinding,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
         return if (viewType == TYPE_ITEM) {
             CHolder(viewBinding as ActivityTimetableManagerItemBinding)
         } else {
@@ -47,12 +64,12 @@ class TimetableListAdapter(context: Context, mBeans: MutableList<Timetable>) :
             holder.binding.subtitle.text = TimeTools.printDate(data?.startTime?.time)
             data?.startTime?.time?.let {
                 holder.binding.icon.setImageResource(
-                        when (TimeTools.getSeason(it)) {
-                            TimeTools.SEASON.SPRING -> R.drawable.season_spring
-                            TimeTools.SEASON.SUMMER -> R.drawable.season_summer
-                            TimeTools.SEASON.AUTUMN -> R.drawable.season_autumn
-                            else -> R.drawable.season_winter
-                        }
+                    when (TimeTools.getSeason(it)) {
+                        TimeTools.SEASON.SPRING -> R.drawable.season_spring
+                        TimeTools.SEASON.SUMMER -> R.drawable.season_summer
+                        TimeTools.SEASON.AUTUMN -> R.drawable.season_autumn
+                        else -> R.drawable.season_winter
+                    }
                 )
                 holder.binding.icon.setBackgroundResource(
                     when (TimeTools.getSeason(it)) {
@@ -64,15 +81,18 @@ class TimetableListAdapter(context: Context, mBeans: MutableList<Timetable>) :
                 )
             }
         } else if (holder is AHolder) {
-            holder.binding.card.setOnClickListener {
-                mOnItemClickListener?.onItemClick(null, it, position)
+            holder.binding.icon.setOnClickListener {
+                mOnAddClickListener?.onAddClick(SOURCE.NEW)
+            }
+            holder.binding.eas.setOnClickListener {
+                mOnAddClickListener?.onAddClick(SOURCE.EAS)
             }
         }
 
 
     }
 
-    fun notifyDatasetChanged(list:List<Timetable>){
+    fun notifyDatasetChanged(list: List<Timetable>) {
         mBeans.clear()
         mBeans.addAll(list)
         notifyDataSetChanged()
@@ -83,7 +103,7 @@ class TimetableListAdapter(context: Context, mBeans: MutableList<Timetable>) :
     }
 
     inner class CHolder(itemView: ActivityTimetableManagerItemBinding) :
-            BaseViewHolder<ActivityTimetableManagerItemBinding>(itemView), CheckableViewHolder {
+        BaseViewHolder<ActivityTimetableManagerItemBinding>(itemView), CheckableViewHolder {
         override fun showCheckBox() {
             binding.check.visibility = View.VISIBLE
         }
@@ -115,7 +135,8 @@ class TimetableListAdapter(context: Context, mBeans: MutableList<Timetable>) :
 
     }
 
-    inner class AHolder(viewBinding: ActivityTimetableManagerItemAddBinding) : BaseViewHolder<ActivityTimetableManagerItemAddBinding>(viewBinding)
+    inner class AHolder(viewBinding: ActivityTimetableManagerItemAddBinding) :
+        BaseViewHolder<ActivityTimetableManagerItemAddBinding>(viewBinding)
 
     companion object {
         const val TYPE_ADD = 301

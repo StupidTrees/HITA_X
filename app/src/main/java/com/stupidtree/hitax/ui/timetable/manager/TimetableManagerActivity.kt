@@ -10,6 +10,7 @@ import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.hitax.databinding.ActivityTimetableManagerBinding
+import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.style.base.BaseActivity
 import com.stupidtree.style.base.BaseListAdapter
 import com.stupidtree.hitax.utils.ActivityUtils
@@ -68,6 +69,19 @@ class TimetableManagerActivity :
             }
 
         })
+        listAdapter.setOnAddClickListener(object : TimetableListAdapter.OnAddClickListener {
+            override fun onAddClick(source: TimetableListAdapter.SOURCE) {
+                if (source == TimetableListAdapter.SOURCE.EAS) {
+                    ActivityUtils.startActivity(
+                        this@TimetableManagerActivity,
+                        ImportTimetableActivity::class.java
+                    )
+                } else {
+                    viewModel.startNewTimetable()
+                }
+            }
+
+        })
         listAdapter.setOnItemLongClickListener(object :
             BaseListAdapter.OnItemLongClickListener<Timetable> {
             override fun onItemLongClick(data: Timetable?, view: View?, position: Int): Boolean {
@@ -118,12 +132,19 @@ class TimetableManagerActivity :
         bindLiveData()
     }
 
+    var firstEnter = true
     private fun bindLiveData() {
         viewModel.timetablesLiveData.observe(this) {
-            if (listAdapter.beans.isEmpty()) {
+            if (firstEnter) {
                 listAdapter.notifyDatasetChanged(it)
                 binding.list.scheduleLayoutAnimation()
-            } else {
+                firstEnter = false
+            } else{
+
+//            if (listAdapter.beans.isEmpty()) {
+//                listAdapter.notifyDatasetChanged(it)
+//                binding.list.scheduleLayoutAnimation()
+//            } else {
                 listAdapter.notifyItemChangedSmooth(
                     it,
                     object : BaseListAdapter.RefreshJudge<Timetable> {
@@ -132,12 +153,11 @@ class TimetableManagerActivity :
                                     || oldData.startTime != newData.startTime
                                     || oldData.id != newData.id
                         }
-
                     })
-            }
-
         }
+
     }
+}
 
 
 //    //当选择完Excel文件后调用此函数
@@ -156,46 +176,46 @@ class TimetableManagerActivity :
 //    }
 
 
-    companion object {
-        private const val CHOOSE_FILE_CODE = 0
-    }
+companion object {
+    private const val CHOOSE_FILE_CODE = 0
+}
 
-    override fun initViewBinding(): ActivityTimetableManagerBinding {
-        return ActivityTimetableManagerBinding.inflate(layoutInflater)
-    }
+override fun initViewBinding(): ActivityTimetableManagerBinding {
+    return ActivityTimetableManagerBinding.inflate(layoutInflater)
+}
 
-    override fun getViewModelClass(): Class<TimetableManagerViewModel> {
-        return TimetableManagerViewModel::class.java
-    }
+override fun getViewModelClass(): Class<TimetableManagerViewModel> {
+    return TimetableManagerViewModel::class.java
+}
 
-    override fun onEditClosed() {
+override fun onEditClosed() {
 
-    }
+}
 
-    override fun onEditStarted() {
+override fun onEditStarted() {
 
-    }
+}
 
-    override fun onItemCheckedChanged(position: Int, checked: Boolean, currentSelected: Int) {
+override fun onItemCheckedChanged(position: Int, checked: Boolean, currentSelected: Int) {
 
-    }
+}
 
-    override fun onDelete(toDelete: Collection<Timetable>?) {
-        val list = mutableListOf<Timetable>()
-        if (toDelete != null) {
-            for (t in toDelete) {
-                list.add(t)
-            }
+override fun onDelete(toDelete: Collection<Timetable>?) {
+    val list = mutableListOf<Timetable>()
+    if (toDelete != null) {
+        for (t in toDelete) {
+            list.add(t)
         }
-        viewModel.startDeleteTimetables(list)
+    }
+    viewModel.startDeleteTimetables(list)
+    editModeHelper?.closeEditMode()
+}
+
+override fun onBackPressed() {
+    if (editModeHelper?.isEditMode == true) {
         editModeHelper?.closeEditMode()
+        return
     }
-
-    override fun onBackPressed() {
-        if(editModeHelper?.isEditMode==true){
-            editModeHelper?.closeEditMode()
-            return
-        }
-        super.onBackPressed()
-    }
+    super.onBackPressed()
+}
 }

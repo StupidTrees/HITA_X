@@ -19,7 +19,7 @@
             android:focusable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
             android:theme="@style/button_ripple_accent_large"
-            app:srcCompat="@drawable/element_rounded_button_bg_primary" />
+            app:srcCompat="@drawable/element_rounded_button_bg_primary_8dp" />
 <!--        android:tint="?attr/background_icon_color_bottom"-->
 <!--        android:tintMode="src_over"-->
         <ImageView

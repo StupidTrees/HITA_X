@@ -11,7 +11,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.GravityCompat
@@ -24,24 +23,18 @@ import com.stupidtree.hitax.R
 import com.stupidtree.hitax.databinding.ActivityMainBinding
 import com.stupidtree.hitax.ui.about.ActivityAbout
 import com.stupidtree.hitax.ui.about.UserAgreementDialog
-import com.stupidtree.style.base.BaseActivity
-import com.stupidtree.style.base.BaseTabAdapter
-import com.stupidtree.hitax.ui.eas.EASActivity
-import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
-import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
 import com.stupidtree.hitax.ui.event.add.PopupAddEvent
 import com.stupidtree.hitax.ui.main.navigation.NavigationFragment
 import com.stupidtree.hitax.ui.main.timeline.FragmentTimeLine
-import com.stupidtree.hitax.ui.main.timetable.inner.TimetablePageFragment
-import com.stupidtree.hitax.ui.main.timetable.outer.TimetableFragment
+import com.stupidtree.hitax.ui.main.timetable.TimetableFragment
 import com.stupidtree.hitax.ui.main.timetable.panel.FragmentTimetablePanel
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.ImageUtils
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
+import com.stupidtree.style.base.BaseActivity
+import com.stupidtree.style.base.BaseTabAdapter
 import com.stupidtree.style.widgets.PopUpText
-import com.stupidtree.sync.StupidSync
 import me.ibrahimsn.lib.OnItemSelectedListener
-import java.lang.Exception
 
 /**
  * 很显然，这是主界面

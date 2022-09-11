@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import androidx.core.content.ContextCompat
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.EventItem
@@ -47,10 +48,10 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
             binding.cardCredit.setTitle(getSubjectCreditKey(it))
         }
         viewModel.classesLiveData.observe(this) {
-            if(it.isEmpty()){
+            if (it.isEmpty()) {
                 isCourseExpanded = false
                 listAdapter.notifyItemChangedSmooth(it)
-            }else if (isCourseExpanded) {
+            } else if (isCourseExpanded) {
                 val temp: MutableList<EventItem> = ArrayList(it)
                 temp.add(EventItem.getTagInstance("less"))
                 listAdapter.notifyItemChangedSmooth(temp)
@@ -89,7 +90,32 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
             va.startDelay = 160
             va.start()
         }
-        viewModel.timetableLiveData.observe(this){
+        viewModel.timetableLiveData.observe(this) { data ->
+            binding.timetableName.text = data.name
+            binding.timetableName.setTextColor(
+                ContextCompat.getColor(this,when (TimeTools.getSeason(data.startTime.time)) {
+                    TimeTools.SEASON.SPRING -> R.color.spring_text
+                    TimeTools.SEASON.SUMMER -> R.color.summer_text
+                    TimeTools.SEASON.AUTUMN -> R.color.autumn_text
+                    else -> R.color.winter_text
+                })
+            )
+            binding.timetableBg.setCardBackgroundColor(
+                ContextCompat.getColor(this,when (TimeTools.getSeason(data.startTime.time)) {
+                    TimeTools.SEASON.SPRING -> R.color.spring
+                    TimeTools.SEASON.SUMMER -> R.color.summer
+                    TimeTools.SEASON.AUTUMN -> R.color.autumn
+                    else -> R.color.winter
+                })
+            )
+            binding.timetableIcon.setImageResource(
+                when (TimeTools.getSeason(data.startTime.time)) {
+                    TimeTools.SEASON.SPRING -> R.drawable.season_spring
+                    TimeTools.SEASON.SUMMER -> R.drawable.season_summer
+                    TimeTools.SEASON.AUTUMN -> R.drawable.season_autumn
+                    else -> R.drawable.season_winter
+                }
+            )
 
         }
         viewModel.teachersLiveData.observe(this) {
@@ -99,6 +125,7 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
             }
             binding.cardTeacher.setTitle(sb.toString())
         }
+
 //        delete!!.setOnClickListener { v ->
 //            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
 //            val ad: AlertDialog =
@@ -190,6 +217,12 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
             }
 
         }
+        binding.timetableCard.setOnClickListener {
+            viewModel.timetableLiveData.value?.let {
+                ActivityUtils.startTimetableDetailActivity(this, it.id)
+            }
+
+        }
     }
 
 
@@ -236,7 +269,7 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
                 data?.let {
                     if (it.type === EventItem.TYPE.TAG) {
                         toggleCourseExpand()
-                    }else{
+                    } else {
                         EventsUtils.showEventItem(getThis(), it)
                     }
                 }
@@ -255,9 +288,10 @@ class SubjectActivity : BaseActivity<SubjectViewModel, ActivitySubjectBinding>()
         editModeHelper.smoothSwitch = true
         editModeHelper.closeEditMode()
         binding.courseAdd.setOnClickListener {
-            viewModel.subjectLiveData.value?.let { ts->
-                viewModel.timetableLiveData.value?.let { tt->
-                    PopupAddEvent().setInitTimetable(tt).setInitSubject(ts).show(supportFragmentManager,"add_event")
+            viewModel.subjectLiveData.value?.let { ts ->
+                viewModel.timetableLiveData.value?.let { tt ->
+                    PopupAddEvent().setInitTimetable(tt).setInitSubject(ts)
+                        .show(supportFragmentManager, "add_event")
                 }
 
             }

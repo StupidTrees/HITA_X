@@ -18,7 +18,7 @@ class TimetablePanelViewModel(application: Application) : AndroidViewModel(appli
     private val timetableRepository = TimetableRepository.getInstance(application)
 
     val startDateLiveData: SharedPreferenceIntLiveData
-        get() = timetableStyleRepository.startDateLiveData
+        get() = timetableStyleRepository.startTimeLiveData
     val drawBGLinesLiveData: SharedPreferenceBooleanLiveData
         get() = timetableStyleRepository.drawBGLinesLiveData
 

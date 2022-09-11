@@ -12,7 +12,7 @@ import com.stupidtree.hitax.data.model.eas.TermItem
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.data.model.timetable.Timetable
-import com.stupidtree.hitax.ui.main.timetable.outer.TimeTablePagerAdapter.Companion.WEEK_MILLS
+import com.stupidtree.hitax.ui.main.timetable.TimetableFragment.Companion.WEEK_MILLS
 import com.stupidtree.hitax.utils.TimeTools
 import com.stupidtree.sync.StupidSync
 import com.stupidtree.sync.data.model.History
@@ -32,13 +32,8 @@ import net.fortuna.ical4j.util.UidGenerator
 
 import net.fortuna.ical4j.model.DateTime
 
-import net.fortuna.ical4j.model.TimeZoneRegistryFactory
-import net.fortuna.ical4j.model.parameter.Cn
-import net.fortuna.ical4j.model.parameter.Role
-
 import net.fortuna.ical4j.model.property.*
 import java.io.FileOutputStream
-import java.net.URI
 
 
 class TimetableRepository(val application: Application) {

@@ -6,8 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="260dp"
     android:layout_margin="8dp"
-    android:clickable="true"
-    android:foreground="?attr/selectableItemBackgroundBorderless"
     app:cardBackgroundColor="?attr/backgroundColorSecond"
     app:cardCornerRadius="24dp"
     app:cardElevation="0dp">
@@ -23,13 +21,33 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="12dp"
             android:background="@drawable/element_round_primary_lighter"
-            android:padding="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="18dp"
+            android:theme="@style/ripplePrimary"
             android:tintMode="src_in"
-            app:srcCompat="@drawable/ic_baseline_add_24"
-            app:tint="?attr/colorControlNormal" />
+            app:srcCompat="@drawable/ic_new_timetable"
+            app:tint="?attr/colorPrimary" />
+
+        <ImageView
+            android:id="@+id/eas"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="12dp"
+            android:background="@drawable/element_round_primary_lighter"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="22dp"
+            android:theme="@style/ripplePrimary"
+            android:tintMode="src_in"
+            app:srcCompat="@drawable/ic_import"
+            app:tint="?attr/colorPrimary" />
 
     </LinearLayout>
 

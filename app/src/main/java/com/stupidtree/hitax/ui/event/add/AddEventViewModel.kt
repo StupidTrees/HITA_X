@@ -14,8 +14,8 @@ import java.time.DayOfWeek
 import java.util.*
 
 class AddEventViewModel(application: Application) : AndroidViewModel(application) {
-    val eventRepo = TimetableRepository.getInstance(application)
-    val subjectRepo = SubjectRepository.getInstance(application)
+    private val eventRepo = TimetableRepository.getInstance(application)
+    private val subjectRepo = SubjectRepository.getInstance(application)
     val timetableLiveData = MutableLiveData<DataState<Timetable>>()
     val subjectLiveData = MediatorLiveData<DataState<TermSubject>>()
     val timeRangeLiveDate = MediatorLiveData<DataState<CourseTime>>()
@@ -41,39 +41,47 @@ class AddEventViewModel(application: Application) : AndroidViewModel(application
         doneLiveData.addSource(timeRangeLiveDate) {
             checkDone()
         }
-        subjectLiveData.addSource(timetableLiveData) {
+
+        timeRangeLiveDate.addSource(timetableLiveData) {
+            if (it.state == DataState.STATE.SUCCESS) {
+                if(initCourseT!=null){
+                    timeRangeLiveDate.value = DataState(initCourseT!!)
+                    initCourseT = null
+                }else{
+                    timeRangeLiveDate.value = DataState(DataState.STATE.NOTHING)
+                }
+            } else {
+                timeRangeLiveDate.value = DataState(DataState.STATE.FETCH_FAILED)
+            }
+        }
+
+        subjectLiveData.addSource(timeRangeLiveDate) {
             if (it.state == DataState.STATE.SUCCESS) {
                 if (addSubject) {
                     subjectLiveData.value = DataState(DataState.STATE.SPECIAL)
                 } else if (initSubject != null) {
                     subjectLiveData.value = DataState(initSubject!!)
                     initSubject = null
-                } else {
+                } else if (subjectLiveData.value?.state != DataState.STATE.SUCCESS
+                    || subjectLiveData.value?.data?.timetableId != timetableLiveData.value?.data?.id
+                ) {
                     subjectLiveData.value = DataState(DataState.STATE.NOTHING)
                 }
-
             } else {
                 subjectLiveData.value = DataState(DataState.STATE.FETCH_FAILED)
             }
         }
-        timeRangeLiveDate.addSource(subjectLiveData) {
+
+        teacherLiveData.addSource(subjectLiveData) {
             if (it.state == DataState.STATE.SUCCESS || it.state == DataState.STATE.SPECIAL) {
-                if (timeRangeLiveDate.value?.state != DataState.STATE.SUCCESS) timeRangeLiveDate.value =
-                    DataState(DataState.STATE.NOTHING)
-            } else {
-                timeRangeLiveDate.value = DataState(DataState.STATE.FETCH_FAILED)
-            }
-        }
-        teacherLiveData.addSource(timeRangeLiveDate) {
-            if (it.state == DataState.STATE.SUCCESS) {
                 if (teacherLiveData.value?.state != DataState.STATE.SUCCESS) teacherLiveData.value =
                     DataState(DataState.STATE.NOTHING)
             } else {
                 teacherLiveData.value = DataState(DataState.STATE.FETCH_FAILED)
             }
         }
-        locationLiveData.addSource(timeRangeLiveDate) {
-            if (it.state == DataState.STATE.SUCCESS) {
+        locationLiveData.addSource(subjectLiveData) {
+            if (it.state == DataState.STATE.SUCCESS || it.state == DataState.STATE.SPECIAL) {
                 if (locationLiveData.value?.state != DataState.STATE.SUCCESS) locationLiveData.value =
                     DataState(DataState.STATE.NOTHING)
             } else {
@@ -91,12 +99,20 @@ class AddEventViewModel(application: Application) : AndroidViewModel(application
     }
 
     var initSubject: TermSubject? = null
-    fun init(addSubject: Boolean, timetable: Timetable?, subject: TermSubject?) {
+    var initCourseT: CourseTime? = null
+    fun init(
+        addSubject: Boolean,
+        timetable: Timetable?,
+        subject: TermSubject?,
+        courseTime: CourseTime?
+    ) {
         if (timetable == null) {
             timetableLiveData.value = DataState(DataState.STATE.NOTHING)
         } else {
             timetableLiveData.value = DataState(timetable)
         }
+
+        initCourseT = courseTime
         initSubject = subject
         this.addSubject = addSubject
     }
@@ -126,9 +142,7 @@ class AddEventViewModel(application: Application) : AndroidViewModel(application
                         ei.subjectId = subject.id
                         ei.place = locationLiveData.value?.data ?: ""
                         ei.teacher = teacherLiveData.value?.data ?: ""
-                        ei.fromNumber = range.begin
-                        ei.lastNumber = range.end - range.begin + 1
-                        val se = timetable.getTimestamps(w, range.dow, range.begin, range.end)
+                        val se = timetable.getTimestamps(w, range.dow, range.period)
                         ei.from = Timestamp(se[0])
                         ei.to = Timestamp(se[1])
                         maxEndTime = maxEndTime.coerceAtLeast(ei.to.time)

@@ -55,6 +55,87 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/timetable_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:transitionName="card"
+                app:cardBackgroundColor="?attr/backgroundColorSecond"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_weight="1"
+                        android:text="@string/belonging_timetable"
+                        android:textColor="?attr/textColorSecondary"
+                        android:textSize="18sp"
+                        android:textStyle="normal"
+                        android:visibility="visible" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/timetable_bg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="16dp"
+                        android:backgroundTint="?attr/backgroundColorBottomAsTint"
+                        android:backgroundTintMode="src_over"
+                        android:clickable="false"
+                        app:cardBackgroundColor="@color/autumn"
+                        app:cardCornerRadius="24dp"
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginEnd="12dp"
+                            android:layout_marginBottom="6dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/timetable_icon"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                app:srcCompat="@drawable/season_autumn" />
+
+                            <TextView
+                                android:id="@+id/timetable_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="6dp"
+                                android:text="新建课表1"
+                                android:textColor="@color/autumn"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -63,7 +144,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="144dp"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="16dp"
                     android:layout_weight="1"
@@ -119,7 +200,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="144dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_weight="1"
                     app:cardBGTint="?attr/colorPrimary"
                     app:cardIcon="@drawable/ic_bx_type"
@@ -142,7 +223,7 @@
                     android:id="@+id/card_teacher"
                     android:layout_width="match_parent"
                     android:layout_height="144dp"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
                     app:cardBGTint="?attr/colorPrimary"
@@ -160,7 +241,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="144dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_weight="1"
                     app:cardBGTint="?attr/colorPrimary"
                     app:cardIcon="@drawable/ic_bx_credit"
@@ -177,9 +258,9 @@
                 android:id="@+id/subject_card_allcourses"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:layout_weight="1"
                 android:transitionName="card"

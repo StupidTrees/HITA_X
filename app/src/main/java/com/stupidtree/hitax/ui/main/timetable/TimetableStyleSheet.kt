@@ -1,4 +1,4 @@
-package com.stupidtree.hitax.ui.main.timetable.inner
+package com.stupidtree.hitax.ui.main.timetable
 
 import android.graphics.Color
 import android.view.Gravity
@@ -16,9 +16,9 @@ class TimetableStyleSheet {
     var cardOpacity: Int = 95
     var cardHeight: Int = 180
     var startTime: Int = 800
-        set(varue) {
-            startTimeInDay = TimeInDay(varue / 100, varue % 100)
-            field = varue
+        set(value) {
+            startTimeInDay = TimeInDay(value / 100, value % 100)
+            field = value
         }
     var todayBGColor: Int = Color.parseColor("#10000000")
     var titleGravity: Int = Gravity.CENTER
@@ -27,7 +27,7 @@ class TimetableStyleSheet {
     var drawNowLine: Boolean = true
 
 
-    var startTimeInDay: TimeInDay? = null
+    private var startTimeInDay: TimeInDay? = null
     fun getStartTimeObject(): TimeInDay {
         startTimeInDay?.let {
             return it

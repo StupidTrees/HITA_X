@@ -26,5 +26,14 @@
     <color name="light_blue_200">#FF81D4FA</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
+    <color name="spring">#a0ff57</color>
+    <color name="summer">#57c7ff</color>
+    <color name="autumn">#ffb157</color>
+    <color name="winter">#3381ff</color>
+
+    <color name="spring_text">#60af17</color>
+    <color name="summer_text">#37a7df</color>
+    <color name="autumn_text">#ffb157</color>
+    <color name="winter_text">#01579B</color>
 
 </resources>

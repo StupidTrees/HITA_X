@@ -1,16 +1,15 @@
 package com.stupidtree.hitax.ui.event
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.model.timetable.TimeInDay
 import com.stupidtree.hitax.databinding.DialogBottomTimetableClassBinding
-import com.stupidtree.style.base.BaseFragment
 import com.stupidtree.hitax.ui.subject.SubjectActivity
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.TimeTools
+import com.stupidtree.style.base.BaseFragment
 import com.stupidtree.style.widgets.PopUpText
 import java.util.*
 
@@ -53,10 +52,16 @@ class EventItemFragment : BaseFragment<EventItemViewModel, DialogBottomTimetable
             TimeInDay(eventItem.to).toString()
         )
         binding?.ttDlgName?.text = getString(eventItem.name)
-        binding?.timeNumber?.text =
-            (eventItem.fromNumber until eventItem.fromNumber + eventItem.lastNumber).joinToString(
-                separator = ", "
-            )
+        val numberStr = (eventItem.fromNumber until eventItem.fromNumber + eventItem.lastNumber).joinToString(
+            separator = ", "
+        )
+        binding?.timeNumber?.text = numberStr
+        if(numberStr.isEmpty()){
+            binding?.numberLayout?.visibility = View.GONE
+        }else{
+            binding?.numberLayout?.visibility = View.VISIBLE
+        }
+
         binding?.ttDlgValue3Detail?.setOnClickListener {
             viewModel.eventItemLiveData.value?.let {
                 ActivityUtils.searchFor(

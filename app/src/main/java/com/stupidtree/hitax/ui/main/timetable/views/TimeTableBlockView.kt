@@ -12,7 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.EventItem
-import com.stupidtree.hitax.ui.main.timetable.inner.TimetableStyleSheet
+import com.stupidtree.hitax.ui.main.timetable.TimetableStyleSheet
 
 class TimeTableBlockView constructor(context: Context, var block: Any, var styleSheet: TimetableStyleSheet) :
         FrameLayout(context) {
