@@ -1,7 +1,12 @@
 package com.stupidtree.hitax.ui.main.navigation
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.res.ColorStateList
 import android.view.View
+import com.bumptech.glide.Glide
 import com.stupidtree.hitax.R
+import com.stupidtree.hitax.data.repository.EASRepository
 import com.stupidtree.hitax.databinding.FragmentNavigationBinding
 import com.stupidtree.style.base.BaseFragment
 import com.stupidtree.hitax.ui.eas.classroom.EmptyClassroomActivity
@@ -10,7 +15,9 @@ import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
 import com.stupidtree.hitax.ui.eas.score.ScoreInquiryActivity
 import com.stupidtree.hitax.utils.ActivityUtils
+import com.stupidtree.hitax.utils.ImageUtils
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
+import com.stupidtree.style.widgets.PopUpText
 
 class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationBinding>() {
     override fun getViewModelClass(): Class<NavigationViewModel> {
@@ -91,7 +98,7 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
             ActivityUtils.showEasVerifyWindow(
                 requireContext(),
                 directTo = ScoreInquiryActivity::class.java,
-                onResponseListener = object : PopUpLoginEAS.OnResponseListener{
+                onResponseListener = object : PopUpLoginEAS.OnResponseListener {
                     override fun onSuccess(window: PopUpLoginEAS) {
                         ActivityUtils.startActivity(
                             requireContext(),
@@ -106,11 +113,11 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
                 }
             )
         }
-        binding?.cardSubjects?.setOnClickListener{
+        binding?.cardSubjects?.setOnClickListener {
             ActivityUtils.showEasVerifyWindow(
                 requireContext(),
                 directTo = ExamActivity::class.java,
-                onResponseListener = object : PopUpLoginEAS.OnResponseListener{
+                onResponseListener = object : PopUpLoginEAS.OnResponseListener {
                     override fun onSuccess(window: PopUpLoginEAS) {
                         ActivityUtils.startActivity(
                             requireContext(),
@@ -131,14 +138,15 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
         binding?.cardSearch?.setOnClickListener {
             ActivityUtils.startSearchActivity(requireContext())
         }
-        binding?.search?.setOnClickListener{
-            binding?.search?.let{v->
-                ActivityUtils.startSearchActivity(requireActivity(),v)
+        binding?.search?.setOnClickListener {
+            binding?.search?.let { v ->
+                ActivityUtils.startSearchActivity(requireActivity(), v)
             }
-
         }
+
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onStart() {
         super.onStart()
         viewModel.startRefresh()
@@ -179,6 +187,57 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
                     ActivityUtils.startWelcomeActivity(
                         requireContext()
                     )
+                }
+            }
+        }
+        refreshEasState()
+    }
+
+    private fun refreshEasState() {
+        val token = activity?.application?.let { EASRepository.getInstance(it).getEasToken() }
+        token?.let { token ->
+            if (token.isLogin()) {
+                binding?.easTitle?.text = "教务登录为 ${token.username}"
+                binding?.easDot?.imageTintList = ColorStateList.valueOf(getColorPrimary())
+                binding?.easAvatar?.let { it1 ->
+                    ImageUtils.loadEASPictureInto(
+                        token.picture ?: "",
+                        it1
+                    )
+                }
+                binding?.easActionIcon?.setOnClickListener {
+                    PopUpText().setTitle(R.string.menu_logout_jw).setOnConfirmListener(object :PopUpText.OnConfirmListener{
+                        override fun OnConfirm() {
+                            activity?.application?.let {
+                                EASRepository.getInstance(it).logout()
+                                refreshEasState()
+                            }
+                        }
+
+                    }).show(parentFragmentManager,"logout")
+
+                }
+                binding?.easActionIcon?.visibility = View.VISIBLE
+                binding?.easLayout?.isClickable = false
+            } else {
+                binding?.easTitle?.text = "未登录教务"
+                binding?.easDot?.imageTintList = ColorStateList.valueOf(getColorPrimaryDisabled())
+                binding?.easActionIcon?.visibility = View.INVISIBLE
+                binding?.easLayout?.isClickable = true
+                binding?.easLayout?.setOnClickListener {
+                    ActivityUtils.showEasVerifyWindow<Activity>(
+                        requireContext(),
+                        directTo = null,
+                        onResponseListener = object : PopUpLoginEAS.OnResponseListener {
+                            override fun onSuccess(window: PopUpLoginEAS) {
+                                window.dismiss()
+                                refreshEasState()
+                            }
+                            override fun onFailed(window: PopUpLoginEAS) {
+
+                            }
+
+                        })
                 }
             }
         }

@@ -16,8 +16,13 @@ import com.stupidtree.hitax.ui.main.timetable.TimetableStyleSheet
 import com.stupidtree.hitax.ui.main.timetable.views.TimeTableBlockView.*
 import com.stupidtree.hitax.utils.TimeTools
 import java.util.*
+import kotlin.math.max
+import kotlin.math.min
 
 class TimeTableView : ViewGroup {
+    companion object{
+        var timetableStructure = Timetable().scheduleStructure
+    }
     var mWidth = 0
     var mHeight = 0
     var sectionWidth = 0
@@ -28,13 +33,11 @@ class TimeTableView : ViewGroup {
     lateinit var styleSheet: TimetableStyleSheet
     private val startDate: Calendar = Calendar.getInstance()
     private var onCardClickListener: OnCardClickListener? = null
-    private var onAddClickListener:OnAddClickListener?=null
+    private var onAddClickListener: OnAddClickListener? = null
 
     private var onCardLongClickListener: OnCardLongClickListener? = null
     private val mPathEffect = DashPathEffect(floatArrayOf(20f, 20f), 0f)
     private val mLinePaint = Paint()
-    var timetableStructure = Timetable().scheduleStructure
-
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         typedTimeTableView(attrs, 0)
@@ -123,11 +126,65 @@ class TimeTableView : ViewGroup {
         this.startDate.timeInMillis = startDate
         removeAllViewsInLayout()
         requestLayout()
-        for (o in events) {
-            addBlock(o)
+        for (evs in aggregateEvents(events)) {
+            addBlock(evs)
         }
+        //将同组的聚合
         invalidate()
         sectionHeight = this.styleSheet.cardHeight
+    }
+
+
+    class Interval(e: EventItem) {
+        var from: Long = 0
+        var to: Long = 1
+        var evs: MutableList<EventItem> = mutableListOf()
+
+        init {
+            from = e.from.time
+            to = e.to.time
+            evs.add(e)
+        }
+        fun getDuration():Long{
+            return to-from
+        }
+        fun add(e: EventItem) {
+            from = min(from, e.from.time)
+            to = max(to, e.to.time)
+            evs.add(e)
+        }
+    }
+
+    private fun aggregateEvents(events: List<EventItem>): List<List<EventItem>> {
+        val res = mutableListOf<List<EventItem>>()
+        val buk = arrayOfNulls<MutableList<EventItem>>(7)
+        for (i in 0 until 7) buk[i] = mutableListOf()
+        //按照周数映射
+        for (event in events) {
+            buk[event.getDow() - 1]?.add(event)
+        }
+        for (dow in 0 until 7) {
+            val b = buk[dow] ?: mutableListOf()
+            if (b.isEmpty()) continue
+            b.sortWith { i1, i2 -> i1.from.compareTo(i2.from) }
+            val lst: LinkedList<Interval> = LinkedList()
+            for (e in b) {
+                if (lst.isEmpty() || lst.peekLast()!!.to < e.from.time
+                    ||( lst.peekLast()!!.to - e.from.time < e.getDurationInMills() * 0.5
+                            && lst.peekLast()!!.to - e.from.time < lst.peekLast()!!.getDuration()*0.5)
+
+                ) { //不重叠(或遮盖少于一半)，加入队列
+                    val itm = Interval(e)
+                    lst.offerLast(itm)
+                } else { //重叠且覆盖>50%
+                    lst.peekLast()!!.add(e)
+                }
+            }
+            for (inter in lst) {
+                res.add(inter.evs)
+            }
+        }
+        return res
     }
 
     /**
@@ -138,6 +195,7 @@ class TimeTableView : ViewGroup {
         invalidate()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_UP) {
             removeView(addButton)
@@ -145,18 +203,20 @@ class TimeTableView : ViewGroup {
             val st = styleSheet.getStartTimeObject()
             val time: TimeInDay = st.getAdded((event.y / sectionHeight * 60f).toInt())
             var period: TimePeriodInDay? = null
-            for(i in timetableStructure.indices){
-                if(i==0 && timetableStructure[i].after(time)){
-                    period = TimePeriodInDay(styleSheet.getStartTimeObject(),timetableStructure[i].from)
+            for (i in timetableStructure.indices) {
+                if (i == 0 && timetableStructure[i].after(time)) {
+                    period =
+                        TimePeriodInDay(styleSheet.getStartTimeObject(), timetableStructure[i].from)
                     break
-                }else if (timetableStructure[i].contains(time)) {
+                } else if (timetableStructure[i].contains(time)) {
                     period = timetableStructure[i].clone()
                     break
-                }else if(i+1<timetableStructure.size && timetableStructure[i+1].after(time)){
-                    period = TimePeriodInDay(timetableStructure[i].to,timetableStructure[i+1].from)
+                } else if (i + 1 < timetableStructure.size && timetableStructure[i + 1].after(time)) {
+                    period =
+                        TimePeriodInDay(timetableStructure[i].to, timetableStructure[i + 1].from)
                     break
-                }else if(i==timetableStructure.size-1 && timetableStructure[i].before(time)){
-                    period = TimePeriodInDay(timetableStructure[i].to,TimeInDay(23,59))
+                } else if (i == timetableStructure.size - 1 && timetableStructure[i].before(time)) {
+                    period = TimePeriodInDay(timetableStructure[i].to, TimeInDay(23, 59))
                     break
                 }
             }
@@ -165,10 +225,10 @@ class TimeTableView : ViewGroup {
                 addButton = TimeTableBlockAddView(context, period, dow)
 
                 addView(addButton)
-                addButton?.onAddClickListener = object: TimeTableBlockAddView.OnAddClickListener {
+                addButton?.onAddClickListener = object : TimeTableBlockAddView.OnAddClickListener {
 
                     override fun onClick(view: View) {
-                        onAddClickListener?.onAddClick(dow,period)
+                        onAddClickListener?.onAddClick(dow, period)
                     }
                 }
             }
@@ -241,10 +301,7 @@ class TimeTableView : ViewGroup {
                     val lastTime = child.getDuration().toFloat()
                     val startTimeFromBeginning: Int =
                         styleSheet.getStartTimeObject()
-                            .getDistanceInMinutes(child.getEvent().from.time)
-                    if(startTimeFromBeginning==0){
-                        println("ZERO!")
-                    }
+                            .getDistanceInMinutes(child.getStartTime())
                     //计算左边的坐标
                     val left = sectionWidth * (child.getDow() - 1)
                     //计算右边坐标
@@ -279,9 +336,9 @@ class TimeTableView : ViewGroup {
         }
     }
 
-    private fun addBlock(o: Any) {
-        if (o is EventItem) {
-            val timeTableBlockView = TimeTableBlockView(context, o, styleSheet)
+    private fun addBlock(o: List<EventItem>) {
+        if (o.size <= 1) {
+            val timeTableBlockView = TimeTableBlockView(context, o[0], styleSheet)
             timeTableBlockView.onCardClickListener =
                 object : TimeTableBlockView.OnCardClickListener {
                     override fun onClick(v: View, ei: EventItem) {
@@ -296,7 +353,7 @@ class TimeTableView : ViewGroup {
                     }
                 }
             addView(timeTableBlockView)
-        } else if (o is List<*>) {
+        } else {
             val timeTableBlockView = TimeTableBlockView(context, o, styleSheet)
             timeTableBlockView.onDuplicateCardClickListener =
                 object : OnDuplicateCardClickListener {
@@ -328,7 +385,7 @@ class TimeTableView : ViewGroup {
         fun onDuplicateEventClick(v: View, eventItems: List<EventItem>): Boolean
     }
 
-    interface OnAddClickListener{
-        fun onAddClick(dow:Int,period:TimePeriodInDay)
+    interface OnAddClickListener {
+        fun onAddClick(dow: Int, period: TimePeriodInDay)
     }
 }

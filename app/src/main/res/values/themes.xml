@@ -6,7 +6,7 @@
         <item name="colorPrimaryVariant">@color/cruel_summer_primary</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorFade">@color/cruel_summer_fade</item>
+        <item name="colorFade">#736dfe</item>
         <item name="colorPrimaryDisabled">@color/cruel_summer_primary_disabled</item>
         <item name="colorSecondary">@color/cruel_summer_primary</item>
         <item name="colorSecondaryVariant">@color/cruel_summer_primary</item>
@@ -57,6 +57,12 @@
 
     <style name="Toolbar_Light_TitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="tab_text_appearance">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/textColorPrimary</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <!--水波纹风格-->

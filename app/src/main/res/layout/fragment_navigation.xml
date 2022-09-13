@@ -321,9 +321,77 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/eas_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="0dp"
+                    android:paddingBottom="4dp">
+
+                    <ImageView
+                        android:id="@+id/eas_dot"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="2dp"
+                        android:foregroundTintMode="src_over"
+                        android:tintMode="src_in"
+                        app:srcCompat="@drawable/element_round_white" />
+
+                    <ImageView
+                        android:id="@+id/eas_avatar"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/anonymous" />
+
+                    <com.stupidtree.hitax.ui.widgets.FocusTextView
+                        android:id="@+id/eas_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="@string/import_timetable"
+                        android:textColor="?attr/textColorSecondary"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@+id/eas_action_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="12dp"
+                        android:clickable="true"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:padding="8dp"
+                        android:theme="@style/button_ripple_accent_little"
+                        android:tintMode="src_in"
+                        app:srcCompat="@drawable/ic_baseline_exit_to_app_24"
+                        app:tint="?attr/colorPrimaryDisabled" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imageView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:alpha="0.3"
+                    app:srcCompat="@drawable/widget_rounded_divider" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

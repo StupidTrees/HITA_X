@@ -12,15 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginBottom="-16dp"
+        android:background="#00000000"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        app:tabGravity="center"
+        app:tabIndicator="@drawable/element_none"
         app:tabIndicatorColor="#00000000"
+        app:tabIndicatorGravity="center"
         app:tabMode="scrollable"
         app:tabPaddingBottom="16dp"
         app:tabPaddingEnd="8dp"
         app:tabPaddingStart="8dp"
         app:tabPaddingTop="16dp"
-        app:tabSelectedTextColor="?attr/colorAccent">
+        app:tabSelectedTextColor="?attr/colorAccent"
+        app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"

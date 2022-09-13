@@ -1,54 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:context=".ui.welcome.login.LoginFragment">
+    android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@android:color/transparent"
-        android:hint="@string/username"
-        android:imeActionLabel="@string/login"
-        android:imeOptions="actionNext"
-        android:inputType="text"
-        android:maxLines="1" />
 
-    <EditText
-        android:id="@+id/password"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@android:color/transparent"
-        android:hint="@string/password"
-        android:imeActionLabel="@string/login"
-        android:imeOptions="actionNext"
-        android:inputType="textPassword" />
-
-    <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
-        android:id="@+id/login"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="24dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/element_rounded_button_bg_primary"
-        android:text="@string/login"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:finalCornerAngle="24dp"
-        app:initialCornerAngle="24dp"
-        app:spinning_bar_color="@color/white"
-        app:spinning_bar_padding="5dp"
-        app:spinning_bar_width="4dp" />
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp">
 
-</LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            tools:context=".ui.welcome.login.LoginFragment">
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/username"
+                android:imeActionLabel="@string/login"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1" />
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/password"
+                android:imeActionLabel="@string/login"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword" />
+
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/element_rounded_button_bg_primary"
+                android:text="@string/login"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:finalCornerAngle="24dp"
+                app:initialCornerAngle="24dp"
+                app:spinning_bar_color="@color/white"
+                app:spinning_bar_padding="5dp"
+                app:spinning_bar_width="4dp" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

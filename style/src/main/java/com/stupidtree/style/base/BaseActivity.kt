@@ -62,6 +62,17 @@ abstract class BaseActivity<T : ViewModel, V : ViewBinding> : AppCompatActivity(
         initViews()
     }
 
+    protected fun setWindowParams(statusBar: Boolean, darkColor: Boolean, navi: Boolean) {
+        if (darkColor) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        } else {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+        }
+        /* if (AppCompatDelegate.getDefaultNightMode()!=AppCompatDelegate.MODE_NIGHT_YES&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.M&&darkColor)getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR); */if (statusBar) window.addFlags(
+            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+        )
+        if (navi) window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+    }
     /**
      * 设置Activity的窗口属性
      */
@@ -133,6 +144,11 @@ abstract class BaseActivity<T : ViewModel, V : ViewBinding> : AppCompatActivity(
     fun getTextColorSecondary(): Int {
         val typedValue = TypedValue()
         theme.resolveAttribute(R.attr.textColorSecondary, typedValue, true)
+        return typedValue.data
+    }
+    fun getColorPrimaryDisabled(): Int {
+        val typedValue = TypedValue()
+        theme.resolveAttribute(R.attr.colorPrimaryDisabled, typedValue, true)
         return typedValue.data
     }
 

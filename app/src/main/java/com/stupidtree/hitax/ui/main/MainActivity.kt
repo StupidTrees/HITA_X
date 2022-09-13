@@ -131,7 +131,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                     0
                 ).versionCode.toLong()
             }
-            if(System.currentTimeMillis()-lastCheckTs>10*60*1000) checkedUpdate = false
+            if(System.currentTimeMillis()-lastCheckTs>5*60*1000) checkedUpdate = false
             if (!checkedUpdate) {
                 if(LocalUserRepository.getInstance(this).getLoggedInUser().isValid()) {
                     checkedUpdate = true
@@ -228,15 +228,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
             if (it.state == DataState.STATE.SUCCESS) {
                 it.data?.let { cr ->
                     if (cr.shouldUpdate) {
-                        PopUpText().setText("版本：${cr.latestVersionName}\n更新内容：${cr.updateLog}\n" + "是否前往下载？")
-                            .setTitle(R.string.new_version_available)
-                            .setOnConfirmListener(object : PopUpText.OnConfirmListener {
-                                override fun OnConfirm() {
-                                    val uri: Uri = Uri.parse(cr.latestUrl);
-                                    val intent: Intent = Intent(Intent.ACTION_VIEW, uri);
-                                    startActivity(intent)
-                                }
-                            }).show(supportFragmentManager, "update")
+                        ActivityUtils.showUpdateNotification(cr,this)
                     }
                 }
             }

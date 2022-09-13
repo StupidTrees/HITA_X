@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
@@ -25,7 +27,6 @@ import com.stupidtree.hitax.utils.EventsUtils
 import com.stupidtree.hitax.utils.TimeTools
 import com.stupidtree.style.base.BaseFragment
 import tyrantgit.explosionfield.ExplosionField
-import java.sql.Time
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -50,14 +51,8 @@ class TimetableFragment :
         return TimetableViewModel::class.java
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.e("ROTATE", "onCreate")
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.e("ROTATE", "onAttach")
         if (context is MainPageController) {
             mainPageController = context
         }
@@ -78,12 +73,6 @@ class TimetableFragment :
         pagerAdapter = TimeTablePagerAdapter(WINDOW_SIZE)
         binding?.pager?.adapter = pagerAdapter
         binding?.pager?.offscreenPageLimit = WINDOW_SIZE / 2 - 1
-        Log.e(
-            "ROTATE",
-            "initViews:${viewModel.currentIndex},${viewModel.startIndex},${
-                TimeTools.printDate(viewModel.currentPageStartDate.value)
-            }"
-        )
         binding?.pager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
@@ -217,6 +206,7 @@ class TimetableFragment :
         minTT?.let {
             mainPageController?.setTitleText(getString(R.string.week_title, minWk))
             it.name?.let { it1 -> mainPageController?.setTimetableName(it1) }
+            TimeTableView.timetableStructure = it.scheduleStructure
             return
         }
         mainPageController?.setSingleTitle(getString(R.string.holiday))
@@ -263,16 +253,13 @@ class TimetableFragment :
                         false
                     )
                 }
-                getCurrentTimetableAndWeek().first?.let {
-                    views[pos]?.updateTimetableStructure(it.scheduleStructure)
-                }
                 views[pos]?.setOnCardClickListener(object : TimeTableView.OnCardClickListener {
                     override fun onEventClick(v: View, eventItem: EventItem) {
                         context?.let { EventsUtils.showEventItem(it, eventItem) }
                     }
 
                     override fun onDuplicateEventClick(v: View, eventItems: List<EventItem>) {
-
+                        context?.let { EventsUtils.showEventItem(it,eventItems) }
                     }
 
                 })
@@ -377,7 +364,7 @@ class TimetableFragment :
                 binding?.pager?.let { pg -> pg.currentItem += offset }
                 return offset != 0
             }
-            Log.e("日期跳转", "超出窗口")
+//            Log.e("日期跳转", "超出窗口")
             if (date < oldStart) {
                 binding?.pager?.let { pg -> pg.currentItem -= WINDOW_SIZE / 2 - 1 }
             } else {

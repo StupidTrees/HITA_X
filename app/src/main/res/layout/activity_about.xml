@@ -8,6 +8,7 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/element_gradient"
         app:elevation="0dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -123,5 +124,22 @@
             android:textIsSelectable="true"
             android:textSize="16sp" />
     </androidx.core.widget.NestedScrollView>
+
+    <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+        android:id="@+id/check"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="24dp"
+        android:background="@drawable/element_rounded_button_bg_primary"
+        android:text="@string/check_for_update"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:finalCornerAngle="24dp"
+        app:initialCornerAngle="24dp"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+        app:spinning_bar_color="@color/white"
+        app:spinning_bar_padding="5dp"
+        app:spinning_bar_width="4dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

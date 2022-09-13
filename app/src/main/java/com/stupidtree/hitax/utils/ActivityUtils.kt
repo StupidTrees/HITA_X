@@ -3,12 +3,17 @@ package com.stupidtree.hitax.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.net.Uri
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import com.stupidtree.hita.theta.ThetaActivity
+import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.repository.EASRepository
+import com.stupidtree.hitax.data.source.preference.EasPreferenceSource
 import com.stupidtree.hitax.ui.about.ActivityAbout
 import com.stupidtree.style.base.BaseActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
@@ -20,7 +25,10 @@ import com.stupidtree.hitax.ui.teacher.ActivityTeacherOfficial
 import com.stupidtree.hitax.ui.timetable.detail.TimetableDetailActivity
 import com.stupidtree.hitax.ui.timetable.manager.TimetableManagerActivity
 import com.stupidtree.hitax.ui.welcome.WelcomeActivity
+import com.stupidtree.stupiduser.data.model.CheckUpdateResult
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
+import com.stupidtree.style.widgets.PopUpText
+import com.stupidtree.style.widgets.PopUpUpdate
 
 
 object ActivityUtils {
@@ -138,5 +146,41 @@ object ActivityUtils {
         }?:run {
             from.startActivity(i)
         }
+    }
+
+    fun showUpdateNotificationForce(cr:CheckUpdateResult,activity: BaseActivity<*,*>){
+        PopUpText().setText("版本：${cr.latestVersionName}\n更新内容：${cr.updateLog}\n" + "是否前往下载？")
+            .setTitle(R.string.new_version_available)
+            .setOnConfirmListener(object : PopUpText.OnConfirmListener {
+
+                override fun OnConfirm() {
+                    val uri: Uri = Uri.parse(cr.latestUrl);
+                    val intent = Intent(Intent.ACTION_VIEW, uri);
+                    activity.startActivity(intent)
+                }
+            }).show(activity.supportFragmentManager, "update")
+    }
+
+    fun showUpdateNotification(cr:CheckUpdateResult,activity: BaseActivity<*,*>){
+       val preference: SharedPreferences =
+            activity.application.getSharedPreferences("update_skip", Context.MODE_PRIVATE)
+        if(preference.getBoolean(cr.latestVersionCode.toString(),false)) return
+        PopUpUpdate().setText("版本：${cr.latestVersionName}\n更新内容：${cr.updateLog}\n" + "是否前往下载？")
+            .setTitle(R.string.new_version_available)
+            .setOnActionListener(object : PopUpUpdate.OnActionListener {
+                override fun onConfirm() {
+                    val uri: Uri = Uri.parse(cr.latestUrl);
+                    val intent = Intent(Intent.ACTION_VIEW, uri);
+                    activity.startActivity(intent)
+                }
+
+                override fun onCancel() {
+
+                }
+
+                override fun onSkip() {
+                    preference.edit().putBoolean(cr.latestVersionCode.toString(),true).apply()
+                }
+            }).show(activity.supportFragmentManager, "update")
     }
 }

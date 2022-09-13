@@ -6,15 +6,15 @@
     android:layout_width="match_parent"
 
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColorSecond"
+    android:background="?attr/backgroundColorBottom"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
 
-        android:layout_height="320dp"
-        android:background="?attr/backgroundColorSecond"
+        android:layout_height="360dp"
+        android:background="#00000000"
         android:fitsSystemWindows="true"
         app:elevation="0dp">
 
@@ -31,8 +31,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
+                android:layout_gravity="bottom|center"
+                android:layout_margin="32dp"
                 android:orientation="vertical"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.9">
@@ -52,7 +52,7 @@
                     android:layout_gravity="center"
                     android:text="@string/app_name"
                     android:textColor="?attr/textColorPrimary"
-                    android:textSize="36sp"
+                    android:textSize="32sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -61,7 +61,9 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="2dp"
                     android:text="@string/app_slogan"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
             </LinearLayout>
 
             <androidx.appcompat.widget.Toolbar
@@ -70,6 +72,53 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_gravity="center"
+            android:backgroundTint="?attr/backgroundColorBottomAsTint"
+            android:backgroundTintMode="src_over"
+            app:cardBackgroundColor="?attr/textColorSecondary"
+            app:cardCornerRadius="19dp"
+            app:cardElevation="0dp">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="#00000000"
+                android:elevation="0dp"
+                app:tabIndicator="@drawable/element_none"
+                app:tabIndicatorColor="@android:color/transparent"
+                app:tabIndicatorGravity="bottom"
+                app:tabMode="fixed"
+                app:tabPaddingEnd="6dp"
+                app:tabPaddingStart="6dp"
+                app:tabSelectedTextColor="?attr/textColorPrimary"
+                app:tabTextAppearance="@style/tab_text_appearance"
+                app:tabTextColor="?attr/colorControlNormal"
+                app:tabUnboundedRipple="true">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monday" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tuesday" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wednesday" />
+            </com.google.android.material.tabs.TabLayout>
+        </androidx.cardview.widget.CardView>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -86,36 +135,6 @@
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_gravity="bottom"
-        android:background="?attr/backgroundColorSecond"
-        app:tabIndicatorColor="#00000000"
-        app:tabIndicatorGravity="center"
-        app:tabMode="auto"
-        app:tabPaddingEnd="24dp"
-        app:tabPaddingStart="24dp"
-        app:tabSelectedTextColor="?attr/colorPrimary"
-        app:tabUnboundedRipple="true">
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Monday" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tuesday" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wednesday" />
-    </com.google.android.material.tabs.TabLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

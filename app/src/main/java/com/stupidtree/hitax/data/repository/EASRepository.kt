@@ -275,6 +275,10 @@ class EASRepository internal constructor(application: Application) {
         return easPreferenceSource.getEasToken()
     }
 
+    fun logout(){
+        easPreferenceSource.clearEasToken()
+    }
+
 
     companion object {
         @Volatile

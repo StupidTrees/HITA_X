@@ -43,9 +43,14 @@ abstract class BaseFragment<T : ViewModel,V:ViewBinding> : Fragment() {
         return binding?.root
     }
 
-
     fun getColorPrimary():Int{
         return (activity as BaseActivity<*, *>).getColorPrimary()
+    }
+    fun getColorPrimaryDisabled():Int{
+        return (activity as BaseActivity<*, *>).getColorPrimaryDisabled()
+    }
+    fun getTextColorSecondary():Int{
+        return (activity as BaseActivity<*, *>).getTextColorSecondary()
     }
     override fun onDestroyView() {
         super.onDestroyView()

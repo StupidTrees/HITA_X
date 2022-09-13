@@ -43,9 +43,6 @@ class TimetableWeekView: LinearLayout{
         timetableView?.setOnCardLongClickListener(obj)
     }
 
-    fun updateTimetableStructure(ts:List<TimePeriodInDay>){
-        timetableView?.timetableStructure = ts
-    }
 
     fun refresh(
         startDate: Long,

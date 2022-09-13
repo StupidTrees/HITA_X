@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="select">选择</string>
+    <string name="skip_this_version">不再提示此版本更新</string>
+    <string name="skip">不再提示</string>
+    <string name="update_cancel">过会儿</string>
 </resources>

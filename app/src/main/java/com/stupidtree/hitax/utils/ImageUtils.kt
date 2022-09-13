@@ -6,6 +6,10 @@ import android.graphics.Canvas
 import android.text.TextUtils.isEmpty
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
+import com.stupidtree.hitax.R
 
 
 /**
@@ -14,8 +18,8 @@ import androidx.core.content.ContextCompat
  */
 object ImageUtils {
 
-    fun getResourceBitmap(context: Context,id:Int):Bitmap{
-        val vectorDrawable = ContextCompat.getDrawable(context,id)
+    fun getResourceBitmap(context: Context, id: Int): Bitmap {
+        val vectorDrawable = ContextCompat.getDrawable(context, id)
         val bitmap = Bitmap.createBitmap(
             vectorDrawable!!.intrinsicWidth,
             vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888
@@ -27,6 +31,15 @@ object ImageUtils {
     }
 
 
+    fun loadEASPictureInto(pictureUrl: String, iv: ImageView) {
+        Glide.with(iv.context).load("http://jw.hitsz.edu.cn${pictureUrl}")
+            .apply(
+                RequestOptions.bitmapTransform(CircleCrop())
+            )
+            .placeholder(R.drawable.place_holder_avatar).into(
+                iv
+            )
+    }
 
     /**
      * convert dp to its equivalent px
@@ -37,7 +50,6 @@ object ImageUtils {
         val scale = context.resources.displayMetrics.density
         return (dipValue * scale + 0.5f).toInt()
     }
-
 
 
 }

@@ -9,13 +9,20 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.ui.main.timetable.TimetableStyleSheet
+import kotlin.math.max
+import kotlin.math.min
 
-class TimeTableBlockView constructor(context: Context, var block: Any, var styleSheet: TimetableStyleSheet) :
-        FrameLayout(context) {
+class TimeTableBlockView constructor(
+    context: Context,
+    var block: Any,
+    var styleSheet: TimetableStyleSheet
+) :
+    FrameLayout(context) {
     lateinit var card: View
     var title: TextView? = null
     var subtitle: TextView? = null
@@ -50,9 +57,9 @@ class TimeTableBlockView constructor(context: Context, var block: Any, var style
         title = findViewById(R.id.title)
         subtitle = findViewById(R.id.subtitle)
         icon = findViewById(R.id.icon)
-        if(styleSheet.isFadeEnabled){
+        if (styleSheet.isFadeEnabled) {
             card.setBackgroundResource(R.drawable.spec_timetable_card_background_fade)
-        }else{
+        } else {
             card.setBackgroundResource(R.drawable.spec_timetable_card_background)
         }
         if (styleSheet.isColorEnabled) {
@@ -122,15 +129,16 @@ class TimeTableBlockView constructor(context: Context, var block: Any, var style
         val list: List<EventItem> = block as List<EventItem>
         inflate(context, R.layout.fragment_timetable_duplicate_card, this)
         card = findViewById(R.id.card)
+        val subCard:LinearLayout = findViewById(R.id.card1)
         title = findViewById(R.id.title)
         icon = findViewById(R.id.icon)
-        val sb = StringBuilder()
-        for (ei in list) sb.append(ei.name).append(";\n")
-        title?.text = sb.toString()
+        val names = mutableListOf<String>()
+        for (ei in list) names.add(ei.name)
+        title?.text = names.joinToString(",\n")
         if (onDuplicateCardClickListener != null) card.setOnClickListener { v ->
             onDuplicateCardClickListener?.onDuplicateClick(
-                    v,
-                    list
+                v,
+                list
             )
         }
         if (onDuplicateCardLongClickListener != null) card.setOnLongClickListener { v ->
@@ -138,8 +146,11 @@ class TimeTableBlockView constructor(context: Context, var block: Any, var style
             return@setOnLongClickListener false
         }
         val mainItem = list[0]
+        val subItem =  if(list.size>1)list[1] else mainItem
         if (styleSheet.isColorEnabled) {
-            card.backgroundTintList = ColorStateList.valueOf(mainItem.color)
+            subCard.backgroundTintList = ColorStateList.valueOf(mainItem.color)
+            card.backgroundTintList = ColorStateList.valueOf(subItem.color)
+
             when (styleSheet.cardTitleColor) {
                 "subject" -> title?.setTextColor(mainItem.color)
                 "white" -> title?.setTextColor(Color.WHITE)
@@ -148,6 +159,7 @@ class TimeTableBlockView constructor(context: Context, var block: Any, var style
             }
         } else {
             card.backgroundTintList = ColorStateList.valueOf(getColor(R.attr.colorPrimary))
+            subCard.backgroundTintList = ColorStateList.valueOf(getColor(R.attr.colorPrimary))
             when (styleSheet.cardTitleColor) {
                 "white" -> title?.setTextColor(Color.WHITE)
                 "black" -> title?.setTextColor(Color.BLACK)
@@ -167,7 +179,7 @@ class TimeTableBlockView constructor(context: Context, var block: Any, var style
                     "primary" -> icon?.setColorFilter(getColor(R.attr.colorPrimary))
                 }
             } else {
-                icon?.visibility = GONE
+                //icon?.visibility = GONE
             }
         }
         card.background.mutate().alpha = (255 * (styleSheet.cardOpacity.toFloat() / 100)).toInt()
@@ -196,16 +208,28 @@ class TimeTableBlockView constructor(context: Context, var block: Any, var style
         if (block is EventItem) {
             return (block as EventItem).getDurationInMinutes()
         } else if (block is List<*>) {
-            return ((block as List<*>)[0] as EventItem).getDurationInMinutes()
+            var minStart = Long.MAX_VALUE
+            var maxEnd = Long.MIN_VALUE
+            for (e in block as List<*>) {
+                minStart = min(minStart, (e as EventItem).from.time)
+                maxEnd = max(maxEnd, e.to.time)
+            }
+            return ((maxEnd - minStart) / (60 * 1000)).toInt()
         }
         return -1
     }
 
-    fun getEvent(): EventItem {
-        if (block is List<*>) {
-            return (block as List<*>)[0] as EventItem
+    fun getStartTime(): Long {
+        if (block is EventItem) {
+            return (block as EventItem).from.time
+        } else if (block is List<*>) {
+            var minStart = Long.MAX_VALUE
+            for (e in block as List<*>) {
+                minStart = min(minStart, (e as EventItem).from.time)
+            }
+            return minStart
         }
-        return block as EventItem
+        return -1
     }
 
 

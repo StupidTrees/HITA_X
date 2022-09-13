@@ -14,6 +14,7 @@
     <string name="date_format_with_prefix">"%s %s"</string>
     <string name="hint_eas_username">统一身份认证账号</string>
     <string name="hint_eas_password">密码</string>
+    <string name="hint_eas_login">请在校园内网环境下登录</string>
     <string name="login">登录</string>
     <string name="import_timetable">导入课表</string>
     <string name="pick_import_term">选择导入学期</string>
@@ -247,7 +248,7 @@
     <string name="none">无</string>
     <string name="pick_teacher">选择教师</string>
     <string name="pick_classroom">选择教室</string>
-    <string name="menu_logout_jw">注销教务登录状态</string>
+    <string name="menu_logout_jw">清除教务登录信息</string>
     <string name="menu_open_in_browser">浏览器打开</string>
     <string name="menu_all_subjects">所有科目</string>
     <string name="menu_search_teacher_website">查找教师网站</string>

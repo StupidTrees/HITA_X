@@ -63,6 +63,9 @@ class EventItem :Serializable,Comparable<EventItem>{
         return ((to.time - from.time) / 60000).toInt()
     }
 
+    fun getDurationInMills(): Long{
+        return (to.time - from.time)
+    }
     /**
      * 获取周几，周一为1
      */

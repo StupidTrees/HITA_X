@@ -134,11 +134,11 @@
             android:background="#00000000"
             android:overScrollMode="never"
             app:tabGravity="start"
-            app:tabIndicatorColor="#00000000"
+            app:tabIndicatorColor="?attr/colorPrimary"
             app:tabIndicatorFullWidth="false"
             app:tabMode="scrollable"
             app:tabPaddingStart="24dp"
-            app:tabSelectedTextColor="?attr/colorAccent">
+            app:tabSelectedTextColor="?attr/colorPrimary">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"

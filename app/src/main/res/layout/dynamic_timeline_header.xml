@@ -122,7 +122,7 @@
                     android:layout_height="80dp"
                     android:layout_marginBottom="4dp"
                     android:background="@drawable/element_round_white_light"
-                    android:padding="10dp"
+                    android:padding="12dp"
                     app:srcCompat="@drawable/ic_run"
                     app:tint="@color/white" />
 
