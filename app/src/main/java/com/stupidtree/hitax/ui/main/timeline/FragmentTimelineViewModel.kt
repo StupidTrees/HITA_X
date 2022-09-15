@@ -9,6 +9,7 @@ import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.repository.SubjectRepository
 import com.stupidtree.hitax.data.repository.TimetableRepository
 import com.stupidtree.component.data.Trigger
+import com.stupidtree.hitax.ui.main.timetable.TimetableFragment.Companion.WEEK_MILLS
 import java.util.*
 
 class FragmentTimelineViewModel(application: Application) : AndroidViewModel(application){
@@ -30,6 +31,10 @@ class FragmentTimelineViewModel(application: Application) : AndroidViewModel(app
         now.add(Calendar.DATE,1)
         val to = now.timeInMillis
         return@switchMap timetableRepository.getEventsDuring(from,to)
+    }
+
+    val weekEventsLiveData:LiveData<List<EventItem>> = Transformations.switchMap(todayEventsController){
+        return@switchMap timetableRepository.getEventsAfter(System.currentTimeMillis(),4)
     }
 
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <FrameLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="horizontal"
+        android:paddingTop="8dp">
+
+        <ImageView
+            android:id="@+id/empty"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center"
+            custom:srcCompat="@drawable/ic_empty"
+            custom:tint="?attr/backgroundIconColorBottom" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/top_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never" />
+    </FrameLayout>
+
+    <com.stupidtree.hitax.ui.widgets.pullextend.ExpendPoint
+        android:id="@+id/expend_point"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_alignParentBottom="true"
+        android:padding="1dp"
+        custom:pullDownAnimElementColor="?attr/colorAccent" />
+
+
+</RelativeLayout>

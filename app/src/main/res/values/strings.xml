@@ -340,6 +340,8 @@
     <string name="timeline_head_ongoing_subtitle">正在进行</string>
     <string name="timelinr_goodmorning_subtitle">今天共有%d节课</string>
     <string name="timeline_gonow_subtitle">%d分钟后开始</string>
+    <string name="timeline_countdown_template_hour">%.1f小时后</string>
+    <string name="timeline_countdown_template_minute">%d分钟后</string>
     <string name="timeline_counting_middle">后进行</string>
     <string name="timeline_counting_free">接下来没事了</string>
     <string name="unknown_location">未知地点</string>
@@ -1194,4 +1196,6 @@
     <string name="widget_loading">组件加载中...</string>
     <string name="add_timetable_first">清先添加一个课表</string>
     <string name="belonging_timetable">所属课表</string>
+    <string name="events_incoming">将要进行</string>
+    <string name="lecture_title">讲座信息</string>
 </resources>

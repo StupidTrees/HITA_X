@@ -33,7 +33,7 @@ class TodayWidgetSlim : AppWidgetProvider() {
         goAsync {
             val events = timetableRepo.getTodayEventsSync()
             for (appWidgetId in appWidgetIds) {
-                Log.e("WI2", "UPDATE:$appWidgetId")
+                //Log.e("WI2", "UPDATE:$appWidgetId")
                 TodayUtils.setUpOneWidget(context, events, appWidgetManager, appWidgetId, true)
             }
         }
@@ -51,7 +51,7 @@ class TodayWidgetSlim : AppWidgetProvider() {
                 goAsync {
                     val events = timetableRepo.getTodayEventsSync()
                     for (appWidgetId in mgr.getAppWidgetIds(cn)) {
-                        Log.e("WI2", "refressh$appWidgetId")
+                       // Log.e("WI2", "refressh$appWidgetId")
                         TodayUtils.setUpOneWidget(context, events, mgr, appWidgetId, true)
                     }
                 }
@@ -65,7 +65,7 @@ class TodayWidgetSlim : AppWidgetProvider() {
     }
 
     override fun onDisabled(context: Context) {
-        Log.e("WI2", "onDisabled")
+        //Log.e("WI2", "onDisabled")
         super.onDisabled(context)
     }
 

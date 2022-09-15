@@ -1,5 +1,6 @@
 package com.stupidtree.hitax.ui.main.timeline
 
+import android.animation.ValueAnimator
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -7,13 +8,17 @@ import android.content.Intent.ACTION_DATE_CHANGED
 import android.content.Intent.ACTION_TIME_TICK
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.HapticFeedbackConstants
 import android.view.View
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.databinding.FragmentTimelineBinding
 import com.stupidtree.hitax.ui.widgets.WidgetUtils
+import com.stupidtree.hitax.ui.widgets.pullextend.ExtendListHeader
 import com.stupidtree.hitax.utils.EventsUtils
 import com.stupidtree.hitax.utils.TimeTools
 import com.stupidtree.hitax.utils.TimeTools.TTY_WK_FOLLOWING
@@ -24,6 +29,7 @@ import kotlin.Comparator
 
 class FragmentTimeLine : BaseFragmentWithReceiver<FragmentTimelineViewModel, FragmentTimelineBinding>() {
     private var listAdapter: TimelineListAdapter? = null
+    private var topListAdapter: TimelineTopListAdapter? = null
     private var mainPageController: MainPageController? = null
 
 
@@ -65,10 +71,18 @@ class FragmentTimeLine : BaseFragmentWithReceiver<FragmentTimelineViewModel, Fra
 
     private fun initListAndAdapter() {
         listAdapter = TimelineListAdapter(this.requireContext(), mutableListOf())
+        topListAdapter = TimelineTopListAdapter(this.requireContext(), mutableListOf())
         binding?.list?.setItemViewCacheSize(Int.MAX_VALUE)
         binding?.list?.adapter = listAdapter
         binding?.list?.layoutManager = LinearLayoutManager(requireContext())
         listAdapter?.setOnItemClickListener(object :
+            BaseListAdapter.OnItemClickListener<EventItem> {
+            override fun onItemClick(data: EventItem?, card: View?, position: Int) {
+                data?.let { EventsUtils.showEventItem(requireContext(), it) }
+            }
+        })
+
+        topListAdapter?.setOnItemClickListener(object :
             BaseListAdapter.OnItemClickListener<EventItem> {
             override fun onItemClick(data: EventItem?, card: View?, position: Int) {
                 data?.let { EventsUtils.showEventItem(requireContext(), it) }
@@ -79,10 +93,49 @@ class FragmentTimeLine : BaseFragmentWithReceiver<FragmentTimelineViewModel, Fra
 
             override fun onConfirmed(v: View?, position: Int, hint: EventItem?) {
                 v?.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
-                val newL: MutableList<EventItem> = ArrayList(listAdapter?.beans)
-                newL.remove(hint)
-                listAdapter!!.notifyItemChangedSmooth(newL)
+                val newL  = listAdapter?.beans?.toMutableList()
+                newL?.remove(hint)
+                newL?.let { listAdapter?.notifyItemChangedSmooth(it) }
             }
+        })
+        binding?.extendHeader?.findViewById<RecyclerView>(R.id.top_list)?.let {  list->
+            list.adapter = topListAdapter
+            list.layoutManager = LinearLayoutManager(requireContext())
+        }
+        binding?.pullExtend?.setOnExpandListener(object:ExtendListHeader.OnExpandListener{
+            override fun onExpand() {
+                mainPageController?.setTimelineTitleText(getString(R.string.events_incoming))
+//                val a = ValueAnimator.ofFloat(1f,0.3f)
+//                a.addUpdateListener {
+//                    binding?.list?.alpha = it.animatedValue as Float
+//                }
+//                a.start()
+            }
+
+            override fun onCollapseStart() {
+                mainPageController?.setTimelineTitleText(TimeTools.getDateString(
+                    requireContext(),
+                    Calendar.getInstance(),true, TTY_WK_FOLLOWING
+                ))
+//                val a = ValueAnimator.ofFloat(binding?.list?.alpha?:0.3f,1f)
+//                a.addUpdateListener {
+//                    binding?.list?.alpha = it.animatedValue as Float
+//                }
+//                a.start()
+            }
+
+            override fun onCollapse() {
+                mainPageController?.setTimelineTitleText(TimeTools.getDateString(
+                    requireContext(),
+                    Calendar.getInstance(),true, TTY_WK_FOLLOWING
+                ))
+//                val a = ValueAnimator.ofFloat(binding?.list?.alpha?:0.5f,1f)
+//                a.addUpdateListener {
+//                    binding?.list?.alpha = it.animatedValue as Float
+//                }
+//                a.start()
+            }
+
         })
     }
 
@@ -102,6 +155,15 @@ class FragmentTimeLine : BaseFragmentWithReceiver<FragmentTimelineViewModel, Fra
             activity?.let { it1 -> WidgetUtils.sendRefreshToAll(it1) }
         }
 
+        viewModel.weekEventsLiveData.observe(this){
+            Collections.sort(it) { p0, p1 -> p0.from.compareTo(p1.from) }
+            if(it.isNullOrEmpty()){
+                binding?.extendHeader?.findViewById<ImageView>(R.id.empty)?.visibility = View.VISIBLE
+            }else{
+                binding?.extendHeader?.findViewById<ImageView>(R.id.empty)?.visibility = View.GONE
+            }
+            topListAdapter?.notifyItemChangedSmooth(it)
+        }
     }
 
     override fun initViewBinding(): FragmentTimelineBinding {

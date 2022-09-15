@@ -51,6 +51,14 @@ class TimetableRepository(val application: Application) {
     }
 
     /**
+     * 获取[from,...)内的至多limit个事件
+     */
+    fun getEventsAfter(from: Long,limit:Int): LiveData<List<EventItem>> {
+        return eventItemDao.getEventsAfter(from,limit)
+    }
+
+
+    /**
      * 获取今日事件
      */
     @WorkerThread

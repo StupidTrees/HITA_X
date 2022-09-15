@@ -14,6 +14,7 @@ import com.stupidtree.hitax.ui.eas.exam.ExamActivity
 import com.stupidtree.hitax.ui.eas.imp.ImportTimetableActivity
 import com.stupidtree.hitax.ui.eas.login.PopUpLoginEAS
 import com.stupidtree.hitax.ui.eas.score.ScoreInquiryActivity
+import com.stupidtree.hitax.ui.news.lecture.ActivityLecture
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.ImageUtils
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
@@ -135,15 +136,14 @@ class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationB
         binding?.cardNews?.setOnClickListener {
             ActivityUtils.startThetaActivity(requireActivity())
         }
-        binding?.cardSearch?.setOnClickListener {
-            ActivityUtils.startSearchActivity(requireContext())
-        }
         binding?.search?.setOnClickListener {
             binding?.search?.let { v ->
                 ActivityUtils.startSearchActivity(requireActivity(), v)
             }
         }
-
+        binding?.cardLecture?.setOnClickListener {
+            ActivityUtils.startActivity(requireContext(),ActivityLecture::class.java)
+        }
     }
 
     @SuppressLint("SetTextI18n")

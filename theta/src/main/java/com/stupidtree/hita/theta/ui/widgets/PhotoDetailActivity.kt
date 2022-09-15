@@ -11,6 +11,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.bm.library.PhotoView
+import com.bumptech.glide.Glide
 import com.stupidtree.hita.theta.databinding.ActivityPhotoDetailBinding
 import com.stupidtree.hita.theta.utils.ImageUtils
 import com.stupidtree.style.base.BaseActivity
@@ -19,6 +20,7 @@ class PhotoDetailActivity :
     BaseActivity<PhotoDetailActivity.PhotoViewModel, ActivityPhotoDetailBinding>() {
 
     var initIndex = 0
+    var absLink = false
     private val ids: MutableList<String> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +32,7 @@ class PhotoDetailActivity :
     @SuppressLint("SetTextI18n")
     override fun initViews() {
         val data = intent.getStringArrayExtra("ids")
+        absLink = intent.getBooleanExtra("abs",false)
         initIndex = intent.getIntExtra("init_index", 0)
         if (data?.isNotEmpty() == true) {
             ids.addAll(listOf(*data))
@@ -73,7 +76,9 @@ class PhotoDetailActivity :
                 if (views[position] == null) {
                     val v = PhotoView(getThis())
                     v.scaleType = ImageView.ScaleType.FIT_CENTER
-                    ImageUtils.loadArticleImageRawInto(
+                    if(absLink){
+                        Glide.with(getThis()).load(ids[position]).into(v)
+                    }else ImageUtils.loadArticleImageRawInto(
                         getThis(),
                         ids[position],
                         v

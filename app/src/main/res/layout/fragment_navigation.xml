@@ -66,7 +66,7 @@
                     android:focusable="true"
                     app:cardBackgroundColor="?attr/backgroundColorSecond"
                     app:cardCornerRadius="24dp"
-                    app:cardElevation="12dp">
+                    app:cardElevation="0dp">
 
                     <ImageView
                         android:id="@+id/avatar"
@@ -338,14 +338,14 @@
 
                     <ImageView
                         android:id="@+id/eas_dot"
-                        android:layout_width="8dp"
-                        android:layout_height="8dp"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
                         android:layout_gravity="center"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="4dp"
                         android:layout_marginEnd="2dp"
                         android:foregroundTintMode="src_over"
                         android:tintMode="src_in"
-                        app:srcCompat="@drawable/element_round_white" />
+                        app:srcCompat="@drawable/element_round_double" />
 
                     <ImageView
                         android:id="@+id/eas_avatar"
@@ -365,14 +365,15 @@
                         android:singleLine="true"
                         android:text="@string/import_timetable"
                         android:textColor="?attr/textColorSecondary"
-                        android:textSize="15sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:id="@+id/eas_action_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="center"
-                        android:layout_marginEnd="12dp"
+                        android:layout_marginEnd="8dp"
                         android:clickable="true"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:padding="8dp"
@@ -382,16 +383,6 @@
                         app:tint="?attr/colorPrimaryDisabled" />
 
                 </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/imageView10"
-                    android:layout_width="match_parent"
-                    android:layout_height="4dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="6dp"
-                    android:alpha="0.3"
-                    app:srcCompat="@drawable/widget_rounded_divider" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -460,134 +451,6 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/card_empty_classroom"
-                        android:layout_width="match_parent"
-                        android:layout_height="64dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"
-                        android:orientation="horizontal"
-                        android:padding="4dp"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="0dp">
-
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_bc_organization" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="16dp"
-                            android:layout_weight="1"
-                            android:gravity="center|start"
-                            android:orientation="vertical"
-                            android:paddingBottom="6dp">
-
-                            <com.stupidtree.hitax.ui.widgets.FocusTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center|start"
-                                android:layout_marginTop="8dp"
-                                android:singleLine="true"
-                                android:text="@string/shortcut_empty_classroom_short"
-                                android:textColor="?attr/textColorPrimary"
-                                android:textSize="16sp" />
-
-                            <com.stupidtree.hitax.ui.widgets.FocusTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center|start"
-                                android:layout_marginTop="2dp"
-                                android:singleLine="true"
-                                android:text="@string/prompt_empty_classroom"
-                                android:textColor="?attr/textColorPrimary"
-                                android:textSize="12sp"
-                                android:visibility="gone" />
-                        </LinearLayout>
-
-                        <ImageView
-                            android:id="@+id/imageView4"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="center"
-                            android:tintMode="src_in"
-                            app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
-                            app:tint="?attr/colorPrimaryDisabled" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/card_scores"
-                        android:layout_width="match_parent"
-                        android:layout_height="64dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"
-                        android:orientation="horizontal"
-                        android:padding="4dp"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="0dp">
-
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_bc_score" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="16dp"
-                            android:layout_weight="1"
-                            android:gravity="center|start"
-                            android:orientation="vertical"
-                            android:paddingBottom="6dp">
-
-                            <com.stupidtree.hitax.ui.widgets.FocusTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center|start"
-                                android:layout_marginTop="8dp"
-                                android:singleLine="true"
-                                android:text="@string/jw_tabs_cj"
-                                android:textColor="?attr/textColorPrimary"
-                                android:textSize="16sp" />
-
-                            <com.stupidtree.hitax.ui.widgets.FocusTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center|start"
-                                android:layout_marginTop="2dp"
-                                android:singleLine="true"
-                                android:text="@string/prompt_import"
-                                android:textColor="?attr/textColorPrimary"
-                                android:textSize="12sp"
-                                android:visibility="gone" />
-                        </LinearLayout>
-
-                        <ImageView
-                            android:id="@+id/imageView5"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="center"
-                            android:tintMode="src_in"
-                            app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
-                            app:tint="?attr/colorPrimaryDisabled" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
                         android:id="@+id/card_subjects"
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
@@ -647,6 +510,136 @@
                             app:tint="?attr/colorPrimaryDisabled" />
 
                     </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/card_empty_classroom"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:orientation="horizontal"
+                        android:padding="4dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="0dp">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_bc_organization" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:gravity="center|start"
+                            android:orientation="vertical"
+                            android:paddingBottom="6dp">
+
+                            <com.stupidtree.hitax.ui.widgets.FocusTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|start"
+                                android:layout_marginTop="8dp"
+                                android:singleLine="true"
+                                android:text="@string/shortcut_empty_classroom_short"
+                                android:textColor="?attr/textColorPrimary"
+                                android:textSize="16sp" />
+
+                            <com.stupidtree.hitax.ui.widgets.FocusTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|start"
+                                android:layout_marginTop="2dp"
+                                android:singleLine="true"
+                                android:text="@string/prompt_empty_classroom"
+                                android:textColor="?attr/textColorPrimary"
+                                android:textSize="12sp"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imageView4"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:tintMode="src_in"
+                            app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            app:tint="?attr/colorPrimaryDisabled" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/card_scores"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:orientation="horizontal"
+                        android:padding="4dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="0dp">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_bc_score" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:gravity="center|start"
+                            android:orientation="vertical"
+                            android:paddingBottom="6dp">
+
+                            <com.stupidtree.hitax.ui.widgets.FocusTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|start"
+                                android:layout_marginTop="8dp"
+                                android:singleLine="true"
+                                android:text="@string/jw_tabs_cj"
+                                android:textColor="?attr/textColorPrimary"
+                                android:textSize="16sp" />
+
+                            <com.stupidtree.hitax.ui.widgets.FocusTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center|start"
+                                android:layout_marginTop="2dp"
+                                android:singleLine="true"
+                                android:text="@string/prompt_import"
+                                android:textColor="?attr/textColorPrimary"
+                                android:textSize="12sp"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imageView5"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:tintMode="src_in"
+                            app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
+                            app:tint="?attr/colorPrimaryDisabled" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -708,7 +701,9 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_bc_news" />
+                            android:background="@drawable/ic_bc_theta"
+                            android:padding="3dp"
+                            app:srcCompat="@drawable/ic_logo_theta" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -766,7 +761,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/card_search"
+                        android:id="@+id/card_lecture"
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
                         android:layout_marginStart="8dp"
@@ -782,7 +777,7 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_bc_search" />
+                            app:srcCompat="@drawable/ic_bc_news" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -799,20 +794,10 @@
                                 android:layout_gravity="center|start"
                                 android:layout_marginTop="8dp"
                                 android:singleLine="true"
-                                android:text="@string/search"
+                                android:text="@string/lecture_title"
                                 android:textColor="?attr/textColorPrimary"
                                 android:textSize="16sp" />
 
-                            <com.stupidtree.hitax.ui.widgets.FocusTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center|start"
-                                android:layout_marginTop="2dp"
-                                android:singleLine="true"
-                                android:text="@string/prompt_import"
-                                android:textColor="?attr/textColorPrimary"
-                                android:textSize="12sp"
-                                android:visibility="gone" />
                         </LinearLayout>
 
                         <ImageView
@@ -824,6 +809,7 @@
                             app:tint="?attr/colorPrimaryDisabled" />
 
                     </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>

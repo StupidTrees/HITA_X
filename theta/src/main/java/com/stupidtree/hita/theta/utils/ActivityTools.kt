@@ -92,19 +92,20 @@ object ActivityTools {
         from: Activity,
         ids: List<String>,
         index: Int,
-        imageView: ImageView?=null
+        imageView: ImageView? = null, abs: Boolean = false
     ) {
         val it = Intent(from, PhotoDetailActivity::class.java)
         //  ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(from,view,"image");
         val urlsArr = arrayOfNulls<String>(ids.size)
         for (i in urlsArr.indices) urlsArr[i] = ids[i]
         it.putExtra("ids", urlsArr)
+        it.putExtra("abs", abs)
         it.putExtra("init_index", index)
 //        imageView?.let { iv ->
 //            val op = ActivityOptionsCompat.makeSceneTransitionAnimation(from, iv, "image")
 //            from.startActivity(it, op.toBundle())
 //        } ?: kotlin.run {
-            from.startActivity(it)
+        from.startActivity(it)
 //        }
 
     }

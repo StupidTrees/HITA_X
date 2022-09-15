@@ -89,6 +89,8 @@
         <activity android:name=".ui.profile.ProfileActivity" />
         <activity android:name=".ui.eas.exam.ExamActivity"/>
         <activity android:name=".ui.about.ActivityAbout" />
+        <activity android:name=".ui.news.lecture.ActivityLecture" />
+        <activity android:name=".ui.news.NewsDetailActivity" />
     </application>
 
 </manifest>

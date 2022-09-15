@@ -210,7 +210,10 @@
                                 android:id="@+id/stutype"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="12dp" />
+                                android:layout_marginEnd="12dp"
+                                android:textColor="?attr/textColorSecondary"
+                                android:textSize="16sp"
+                                android:thumbTextPadding="2dp" />
                         </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView

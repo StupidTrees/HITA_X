@@ -121,6 +121,11 @@ object TimeTools {
         return res
     }
 
+    fun getDateString(context: Context, ts:Long, simplified: Boolean, TTYMode: Int): String{
+        val tc = Calendar.getInstance()
+        tc.timeInMillis = ts
+        return getDateString(context,tc,simplified,TTYMode)
+    }
 
     /**
      * simplified:简化April为Apr
@@ -289,8 +294,15 @@ object TimeTools {
         return ((date % (1000 * 60 * 60)) / (1000 * 60)).toInt()
     }
 
+    fun isSameDay(tsA:Long, tsB:Long): Boolean {
+        val calA = Calendar.getInstance()
+        calA.timeInMillis = tsA
+        val calB = Calendar.getInstance()
+        calB.timeInMillis = tsB
+        return isSameDay(calA,calB)
+       }
 
-    private fun isSameDay(calDateA: Calendar, calDateB: Calendar): Boolean {
+    fun isSameDay(calDateA: Calendar, calDateB: Calendar): Boolean {
         return calDateA[Calendar.YEAR] == calDateB[Calendar.YEAR] && calDateA[Calendar.MONTH] == calDateB[Calendar.MONTH] && calDateA[Calendar.DAY_OF_MONTH] == calDateB[Calendar.DAY_OF_MONTH]
     }
 

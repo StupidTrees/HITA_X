@@ -15,10 +15,10 @@
         android:id="@+id/drawer_nav_timetable_manager"
         android:icon="@drawable/ic_menu_settings"
         android:title="@string/menu_timeable_curriculum" />
-    <item
-        android:id="@+id/drawer_nav_report"
-        android:icon="@drawable/ic_menu_bug_report"
-        android:title="@string/main_drawer_menu_report" />
+<!--    <item-->
+<!--        android:id="@+id/drawer_nav_report"-->
+<!--        android:icon="@drawable/ic_menu_bug_report"-->
+<!--        android:title="@string/main_drawer_menu_report" />-->
     <item
         android:id="@+id/drawer_nav_ua"
         android:icon="@drawable/ic_info"

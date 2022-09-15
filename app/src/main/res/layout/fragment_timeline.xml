@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/list"
+<com.stupidtree.hitax.ui.widgets.pullextend.PullExtendLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pull_extend"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:overScrollMode="never"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent">
+    <!--头部-->
+    <com.stupidtree.hitax.ui.widgets.pullextend.ExtendListHeader
+        android:id="@+id/extend_header"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
 
-</androidx.recyclerview.widget.RecyclerView>
+    </com.stupidtree.hitax.ui.widgets.pullextend.ExtendListHeader>
 
+    <com.stupidtree.hitax.ui.widgets.pullextend.mRecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutAnimation="@anim/recycler_layout_animation_slide_from_right"
+        android:overScrollMode="never">
 
+    </com.stupidtree.hitax.ui.widgets.pullextend.mRecyclerView>
+
+    <!--底部区域-->
+</com.stupidtree.hitax.ui.widgets.pullextend.PullExtendLayout>
 
 
