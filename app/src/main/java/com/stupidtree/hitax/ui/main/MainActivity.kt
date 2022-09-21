@@ -31,6 +31,7 @@ import com.stupidtree.hitax.ui.main.timetable.panel.FragmentTimetablePanel
 import com.stupidtree.hitax.utils.ActivityUtils
 import com.stupidtree.hitax.utils.ImageUtils
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
+import com.stupidtree.style.ThemeTools
 import com.stupidtree.style.base.BaseActivity
 import com.stupidtree.style.base.BaseTabAdapter
 import com.stupidtree.style.widgets.PopUpText
@@ -52,7 +53,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(binding.toolbar)
-
     }
 
 
@@ -96,13 +96,13 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                     ActivityUtils.startSearchActivity(getThis())
                 }
                 R.id.drawer_nav_ua -> {
-                    UserAgreementDialog().show(supportFragmentManager,"ua")
+                    UserAgreementDialog().show(supportFragmentManager, "ua")
                 }
                 R.id.drawer_nav_timetable_manager -> {
                     ActivityUtils.startTimetableManager(getThis())
                 }
-                R.id.drawer_nav_about-> {
-                    ActivityUtils.startActivity(getThis(),ActivityAbout::class.java)
+                R.id.drawer_nav_about -> {
+                    ActivityUtils.startActivity(getThis(), ActivityAbout::class.java)
                 }
                 else -> jumped = false
             }
@@ -114,11 +114,12 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
     }
 
     var checkedUpdate = false
-    var lastCheckTs:Long = 0
+    var lastCheckTs: Long = 0
 
     override fun onStart() {
         super.onStart()
         viewModel.startRefreshUser()
+        refreshTheme()
         try {
             val code = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 packageManager.getPackageInfo(
@@ -131,9 +132,9 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
                     0
                 ).versionCode.toLong()
             }
-            if(System.currentTimeMillis()-lastCheckTs>5*60*1000) checkedUpdate = false
+            if (System.currentTimeMillis() - lastCheckTs > 5 * 60 * 1000) checkedUpdate = false
             if (!checkedUpdate) {
-                if(LocalUserRepository.getInstance(this).getLoggedInUser().isValid()) {
+                if (LocalUserRepository.getInstance(this).getLoggedInUser().isValid()) {
                     checkedUpdate = true
                     lastCheckTs = System.currentTimeMillis()
                 }
@@ -144,6 +145,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         }
 
     }
+
 
     override fun initViews() {
         setUpDrawer()
@@ -222,13 +224,17 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         }
 
         binding.addEvent.setOnClickListener {
-            PopupAddEvent().show(supportFragmentManager,"add_event")
+            PopupAddEvent().show(supportFragmentManager, "add_event")
+        }
+
+        binding.switchTheme.setOnClickListener {
+            ThemeTools.switchTheme(getThis())
         }
         viewModel.checkUpdateResult.observe(this) {
             if (it.state == DataState.STATE.SUCCESS) {
                 it.data?.let { cr ->
                     if (cr.shouldUpdate) {
-                        ActivityUtils.showUpdateNotification(cr,this)
+                        ActivityUtils.showUpdateNotification(cr, this)
                     }
                 }
             }
@@ -276,6 +282,14 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(),
         startActivity(intent)
     }
 
+
+    private fun refreshTheme() {
+        when (ThemeTools.getThemeMode(this)) {
+            ThemeTools.MODE.DARK -> binding.switchTheme.setImageResource(R.drawable.ic_moon2)
+            ThemeTools.MODE.LIGHT -> binding.switchTheme.setImageResource(R.drawable.ic_sun)
+            else -> binding.switchTheme.setImageResource(R.drawable.ic_moon_auto)
+        }
+    }
 
     override fun getViewModelClass(): Class<MainViewModel> {
         return MainViewModel::class.java

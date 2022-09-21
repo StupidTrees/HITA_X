@@ -10,6 +10,7 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.AndroidViewModel
@@ -17,6 +18,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.stupidtree.style.R
+import com.stupidtree.style.ThemeTools
 
 /**
  * 本项目所有Activity的基类
@@ -43,8 +45,15 @@ abstract class BaseActivity<T : ViewModel, V : ViewBinding> : AppCompatActivity(
     //为Activity中的View设置行为
     protected abstract fun initViews()
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTranslucentStatusBar()
+        //setTranslucentStatusBar()
+        val mode = when (ThemeTools.getThemeMode(this)) {
+            ThemeTools.MODE.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+            ThemeTools.MODE.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+            else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        }
+        AppCompatDelegate.setDefaultNightMode(mode)
         super.onCreate(savedInstanceState)
+        setWindowParams(true,null,false)
         binding = initViewBinding()
         setContentView(binding.root)
         //所有的Activity都可以使用ButterKnife进行View注入，十分方便
@@ -52,27 +61,32 @@ abstract class BaseActivity<T : ViewModel, V : ViewBinding> : AppCompatActivity(
         //对ViewModel进行初始化
         getViewModelClass().let {
             viewModel = if (it.superclass == AndroidViewModel::class.java) {
-                ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(it)
+                ViewModelProvider(
+                    this,
+                    ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+                ).get(it)
             } else {
                 ViewModelProvider(this).get(it)
             }
         }
-
         //调用这个函数
         initViews()
     }
 
-    protected fun setWindowParams(statusBar: Boolean, darkColor: Boolean, navi: Boolean) {
-        if (darkColor) {
+    protected fun setWindowParams(statusBar: Boolean, darkColor: Boolean?=null, navi: Boolean) {
+        val dc = darkColor ?: isLightColor(getBackgroundColorBottom())
+        if (dc) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         } else {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
         }
-        /* if (AppCompatDelegate.getDefaultNightMode()!=AppCompatDelegate.MODE_NIGHT_YES&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.M&&darkColor)getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR); */if (statusBar) window.addFlags(
+        /* if (AppCompatDelegate.getDefaultNightMode()!=AppCompatDelegate.MODE_NIGHT_YES&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.M&&darkColor)getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR); */
+        if (statusBar) window.addFlags(
             WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
         )
         if (navi) window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
     }
+
     /**
      * 设置Activity的窗口属性
      */
@@ -88,7 +102,8 @@ abstract class BaseActivity<T : ViewModel, V : ViewBinding> : AppCompatActivity(
             }
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                window.decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
                 window.statusBarColor = Color.TRANSPARENT
             }
@@ -146,6 +161,7 @@ abstract class BaseActivity<T : ViewModel, V : ViewBinding> : AppCompatActivity(
         theme.resolveAttribute(R.attr.textColorSecondary, typedValue, true)
         return typedValue.data
     }
+
     fun getColorPrimaryDisabled(): Int {
         val typedValue = TypedValue()
         theme.resolveAttribute(R.attr.colorPrimaryDisabled, typedValue, true)
@@ -155,6 +171,12 @@ abstract class BaseActivity<T : ViewModel, V : ViewBinding> : AppCompatActivity(
     fun getColorControlNormal(): Int {
         val typedValue = TypedValue()
         theme.resolveAttribute(R.attr.colorControlNormal, typedValue, true)
+        return typedValue.data
+    }
+
+    fun getBackgroundColorBottom(): Int {
+        val typedValue = TypedValue()
+        theme.resolveAttribute(R.attr.backgroundColorBottom, typedValue, true)
         return typedValue.data
     }
 

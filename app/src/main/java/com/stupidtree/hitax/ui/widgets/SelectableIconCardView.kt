@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.HapticFeedbackConstants
 import android.view.View
@@ -171,7 +172,7 @@ class SelectableIconCardView : FrameLayout {
 
     private fun refreshState() {
         if (isEnabled) {
-            icon?.setBackgroundResource(R.drawable.element_round_white_light)
+            icon?.setBackgroundResource(R.drawable.element_round_bottom_light)
             if (isChecked || !checkable) {
                 icon!!.setColorFilter(iconColor)
                 if (backgroundTint != -1) {

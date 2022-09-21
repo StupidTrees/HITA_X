@@ -33,7 +33,8 @@
                     android:id="@+id/iconBG"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/element_round_white_light" />
+                    android:tintMode="src_over"
+                    app:srcCompat="@drawable/element_round_bottom_light" />
 
                 <ImageView
                     android:id="@+id/icon"

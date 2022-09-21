@@ -59,13 +59,29 @@
                             android:layout_weight="1" />
 
                         <ImageView
-                            android:id="@+id/drawer_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/switch_theme"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
                             android:layout_gravity="center"
+                            android:layout_marginEnd="-8dp"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:padding="19dp"
+                            android:theme="@style/button_ripple_control"
+                            android:tintMode="src_in"
+                            app:srcCompat="@drawable/ic_baseline_add_24"
+                            app:tint="?attr/textColorSecondary" />
+
+                        <ImageView
+                            android:id="@+id/drawer_button"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="-6dp"
                             android:foreground="?attr/selectableItemBackgroundBorderless"
                             android:padding="16dp"
                             android:theme="@style/button_ripple_control"
+                            android:tint="?attr/textColorSecondary"
+                            android:tintMode="src_in"
                             app:srcCompat="@drawable/ic_baseline_menu_24" />
 
                     </LinearLayout>
@@ -138,25 +154,32 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1" />
+
                         <ImageView
                             android:id="@+id/timetable_setting"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="-8dp"
                             android:foreground="?attr/selectableItemBackgroundBorderless"
                             android:padding="16dp"
                             android:theme="@style/button_ripple_control"
+                            android:tint="?attr/textColorSecondary"
+                            android:tintMode="src_in"
                             app:srcCompat="@drawable/ic_theme" />
+
                         <ImageView
                             android:id="@+id/add_event"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="-6dp"
                             android:foreground="?attr/selectableItemBackgroundBorderless"
                             android:padding="16dp"
-                            android:layout_marginStart="-6dp"
                             android:theme="@style/button_ripple_control"
                             android:tintMode="src_in"
                             app:srcCompat="@drawable/ic_baseline_add_24"
-                            app:tint="#FF000000" />
+                            app:tint="?attr/textColorSecondary" />
 
                     </LinearLayout>
 

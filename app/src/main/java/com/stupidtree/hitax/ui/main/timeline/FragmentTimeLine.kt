@@ -20,6 +20,7 @@ import com.stupidtree.hitax.databinding.FragmentTimelineBinding
 import com.stupidtree.hitax.ui.widgets.WidgetUtils
 import com.stupidtree.hitax.ui.widgets.pullextend.ExtendListHeader
 import com.stupidtree.hitax.utils.EventsUtils
+import com.stupidtree.hitax.utils.HintUtils
 import com.stupidtree.hitax.utils.TimeTools
 import com.stupidtree.hitax.utils.TimeTools.TTY_WK_FOLLOWING
 import com.stupidtree.style.base.BaseFragmentWithReceiver
@@ -96,6 +97,7 @@ class FragmentTimeLine : BaseFragmentWithReceiver<FragmentTimelineViewModel, Fra
                 val newL  = listAdapter?.beans?.toMutableList()
                 newL?.remove(hint)
                 newL?.let { listAdapter?.notifyItemChangedSmooth(it) }
+                hint?.let { HintUtils.clickHint(requireContext(), it) }
             }
         })
         binding?.extendHeader?.findViewById<RecyclerView>(R.id.top_list)?.let {  list->
@@ -144,7 +146,9 @@ class FragmentTimeLine : BaseFragmentWithReceiver<FragmentTimelineViewModel, Fra
         initListAndAdapter()
         viewModel.todayEventsLiveData.observe(this) {
             Collections.sort(it) { p0, p1 -> p0.from.compareTo(p1.from) }
-            listAdapter?.notifyItemChangedSmooth(it)
+            val x = it.toMutableList()
+            x.addAll(0,HintUtils.getHints(requireContext()))
+            listAdapter?.notifyItemChangedSmooth(x)
             val holder: RecyclerView.ViewHolder? =
                 binding?.list?.findViewHolderForAdapterPosition(0)
             if (holder != null) {

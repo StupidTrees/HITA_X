@@ -9,12 +9,11 @@
     android:layout_marginTop="@dimen/timeline_margin_top"
     android:layout_marginRight="@dimen/timeline_margin_top"
     android:layout_marginBottom="@dimen/timeline_margin_top"
-    android:background="?attr/colorPrimary"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackgroundBorderless"
     android:orientation="vertical"
-    app:cardBackgroundColor="?attr/colorAccent"
+    app:cardBackgroundColor="?attr/colorPrimary"
     app:cardCornerRadius="16dp"
     app:cardElevation="@dimen/timeline_card_elevation">
 
@@ -38,8 +37,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
-                app:tint="@color/white"
-                app:srcCompat="@drawable/ic_hint" />
+                app:srcCompat="@drawable/ic_hint"
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/title"
@@ -50,6 +49,7 @@
                 android:text="@string/navi_hint_text"
                 android:textColor="@color/white"
                 android:textSize="18sp"
+                android:textStyle="normal"
                 tools:ignore="NestedWeights" />
 
         </LinearLayout>
@@ -62,7 +62,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/navi_hint_button"
-            android:textColor="@color/white" />
+            android:textColor="#77ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

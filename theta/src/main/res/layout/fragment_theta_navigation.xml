@@ -20,7 +20,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/element_rounded_bar_grey_light_24"
-            android:backgroundTint="#70e7e7f2"
+            android:backgroundTint="?attr/backgroundColorBar"
             android:backgroundTintMode="src_in"
             android:clickable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
@@ -44,6 +44,7 @@
             android:layout_marginBottom="8dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
+            app:cardBackgroundColor="?attr/backgroundColorSecond"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <LinearLayout

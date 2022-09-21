@@ -7,23 +7,24 @@
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorFade">#736dfe</item>
-        <item name="colorPrimaryDisabled">@color/cruel_summer_primary_disabled</item>
+        <item name="colorPrimaryDisabled">#77cbd4e2</item>
+        <item name="backgroundColorBar">#30e7e7f2</item>
         <item name="colorSecondary">@color/cruel_summer_primary</item>
         <item name="colorSecondaryVariant">@color/cruel_summer_primary</item>
         <item name="colorOnSecondary">@color/black</item>
-        <item name="backgroundColorBar">#70e7e7f2</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">#00000000</item>
         <!-- Customize your theme here. -->
         <!--        fafbff-->
-        <item name="backgroundColorBottom">#F6F7Fa</item>
-        <item name="backgroundColorBottomAsTint">#CFFFFFFF</item>
-        <item name="backgroundColorSecond">#FFFFFF</item>
-        <item name="backgroundColorSecondAsTint">#CFFAFAFA</item>
-        <item name="textColorPrimary">#FF000000</item>
-        <item name="textColorSecondary">#FF808080</item>
-        <item name="colorControlDisabled">#FFE0E0E0</item>
-        <item name="backgroundIconColorBottom">#11304ffe</item>
+        <item name="backgroundColorBottom">#FF000000</item>
+        <item name="backgroundColorBottomAsTint">#bF242424</item>
+        <item name="backgroundColorSecond">#FF121212</item>
+        <item name="backgroundColorSecondAsTint">#6F242424</item>
+        <item name="textColorPrimary">#FFffff</item>
+        <item name="colorControlNormal">#44ffffff</item>
+        <item name="textColorSecondary">#FF858585</item>
+        <item name="colorControlDisabled">#ffE0E0E0</item>
+        <item name="backgroundIconColorBottom">#33304ffe</item>
 
         <!--透明状态栏-->
         <item name="android:windowLightStatusBar">true</item>
