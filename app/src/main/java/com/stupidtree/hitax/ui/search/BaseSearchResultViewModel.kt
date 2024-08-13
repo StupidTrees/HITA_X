@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
 
 abstract class BaseSearchResultViewModel<T>(application: Application) :
@@ -12,8 +12,7 @@ abstract class BaseSearchResultViewModel<T>(application: Application) :
 
 
     private val searchTriggerLiveData: MutableLiveData<SearchTrigger> = MutableLiveData()
-    val searchResultLiveData: LiveData<DataState<List<T>>> =
-        Transformations.switchMap(searchTriggerLiveData) {
+    val searchResultLiveData: LiveData<DataState<List<T>>> = searchTriggerLiveData.switchMap {
             return@switchMap doSearch(it)
         }
 

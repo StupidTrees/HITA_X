@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.stupidtree.component.data.DataState
 import com.stupidtree.component.web.BaseWebSource
 import com.stupidtree.hitax.data.source.web.service.UserService
@@ -36,7 +36,7 @@ class ManagerWebSource(context: Context) : BaseWebSource<ManagerService>(
      * @return 是否更新
      */
     fun checkUpdate(token: String,versionCode:Long,id: String?): LiveData<DataState<CheckUpdateResult>> {
-        return Transformations.map(service.checkForUpdate(HttpUtils.getHeaderAuth(token),versionCode,id?:"","android")) { input ->
+        return service.checkForUpdate(HttpUtils.getHeaderAuth(token),versionCode,id?:"","android").map{ input ->
             if (input != null) {
                 when (input.code) {
                     SUCCESS -> input.data?.let { return@map DataState(it) }

@@ -3,7 +3,8 @@ package com.stupidtree.hita.theta.ui.topic
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hita.theta.data.repository.TopicRepository
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
@@ -13,18 +14,17 @@ class TopicListViewModel(application: Application) : AndroidViewModel(applicatio
     private val localUserRepository = LocalUserRepository.getInstance(application)
 
     private val refreshController = MutableLiveData<PageRefreshTrigger>()
-    val topicsLiveData = Transformations.switchMap(refreshController) { pair ->
+    val topicsLiveData = refreshController.switchMap { pair ->
         val user = localUserRepository.getLoggedInUser()
         if (user.isValid()) {
-            return@switchMap Transformations.map(
-                topicRepository.getTopics(
+            return@switchMap topicRepository.getTopics(
                     user.token!!,
                     pair.mode,
                     pair.pageSize,
                     pair.pageNum,
                     pair.extra
-                )
-            ) {
+
+            ).map{
                 return@map it.setListAction(pair.action)
             }
         } else {

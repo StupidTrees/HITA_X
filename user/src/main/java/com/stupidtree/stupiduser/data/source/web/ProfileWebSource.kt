@@ -3,7 +3,7 @@ package com.stupidtree.stupiduser.data.source.web
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.stupidtree.component.data.DataState
 import com.stupidtree.component.web.BaseWebSource
 import com.stupidtree.component.web.ApiResponse
@@ -16,7 +16,6 @@ import com.stupidtree.stupiduser.data.source.web.service.codes
 import com.stupidtree.stupiduser.util.HttpUtils
 import okhttp3.MultipartBody
 import retrofit2.Call
-import java.util.*
 
 /**
  * 层次：DataSource
@@ -24,7 +23,8 @@ import java.util.*
  * 类型：网络数据
  * 数据：异步读，异步写
  */
-class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
+class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(
+    context
 ) {
     override fun getServiceClass(): Class<ProfileService> {
         return ProfileService::class.java
@@ -38,20 +38,22 @@ class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
      * @return 操作结果
      */
     fun changeSignature(token: String, signature: String): LiveData<DataState<String>> {
-        return Transformations.map(
-            service.changeSignature(
-                signature,
-                HttpUtils.getHeaderAuth(token)
-            )
-        ) { input: ApiResponse<Any?>? ->
+        return service.changeSignature(
+            signature,
+            HttpUtils.getHeaderAuth(token)
+        ).map { input: ApiResponse<Any?>? ->
             if (input != null) {
                 when (input.code) {
                     SUCCESS -> {
                         println("SUCCEED")
                         return@map DataState<String>(DataState.STATE.SUCCESS)
                     }
+
                     TOKEN_INVALID -> return@map DataState<String>(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState<String>(DataState.STATE.FETCH_FAILED, input.message)
+                    else -> return@map DataState<String>(
+                        DataState.STATE.FETCH_FAILED,
+                        input.message
+                    )
                 }
             }
             DataState(DataState.STATE.FETCH_FAILED)
@@ -65,12 +67,10 @@ class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
      * @return 操作结果
      */
     fun changeNickname(token: String, nickname: String): LiveData<DataState<String?>> {
-        return Transformations.map(
-            service.changeNickname(
-                nickname,
-                HttpUtils.getHeaderAuth(token)
-            )
-        ) { input ->
+        return service.changeNickname(
+            nickname,
+            HttpUtils.getHeaderAuth(token)
+        ).map { input ->
             if (input != null) {
                 when (input.code) {
                     SUCCESS -> return@map DataState<String?>(DataState.STATE.SUCCESS)
@@ -90,8 +90,8 @@ class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
      * @param token 用户令牌
      * @return 资料
      */
-    fun getUserProfile(token: String,userId:String): LiveData<DataState<UserProfile>> {
-        return Transformations.map(service.getUserProfile(HttpUtils.getHeaderAuth(token),userId)) { input ->
+    fun getUserProfile(token: String, userId: String): LiveData<DataState<UserProfile>> {
+        return service.getUserProfile(HttpUtils.getHeaderAuth(token), userId).map { input ->
 
             if (input != null) {
                 when (input.code) {
@@ -103,8 +103,9 @@ class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
             DataState(DataState.STATE.FETCH_FAILED)
         }
     }
-    fun follow(token: String,userId:String,follow:Boolean): LiveData<DataState<FollowResult>> {
-        return Transformations.map(service.follow(HttpUtils.getHeaderAuth(token),userId,follow)) { input ->
+
+    fun follow(token: String, userId: String, follow: Boolean): LiveData<DataState<FollowResult>> {
+        return service.follow(HttpUtils.getHeaderAuth(token), userId, follow).map { input ->
 
             if (input != null) {
                 when (input.code) {
@@ -116,11 +117,14 @@ class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
             DataState(DataState.STATE.FETCH_FAILED)
         }
     }
-    fun followCall(token: String,userId:String,follow:Boolean): Call<ApiResponse<FollowResult>> {
-        return service.followCall(HttpUtils.getHeaderAuth(token),userId,follow)
+
+    fun followCall(
+        token: String,
+        userId: String,
+        follow: Boolean
+    ): Call<ApiResponse<FollowResult>> {
+        return service.followCall(HttpUtils.getHeaderAuth(token), userId, follow)
     }
-
-
 
 
     /**
@@ -130,24 +134,23 @@ class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
      * @return 操作结果
      */
     fun changeGender(token: String, gender: String): LiveData<DataState<String>> {
-        return Transformations.map(
-            service.changeGender(
-                gender,
-                HttpUtils.getHeaderAuth(token)
-            )
-        ) { input ->
-            if (input != null) {
-                when (input.code) {
-                    SUCCESS -> return@map DataState<String>(DataState.STATE.SUCCESS)
-                    TOKEN_INVALID -> return@map DataState<String>(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState<String>(
-                        DataState.STATE.FETCH_FAILED,
-                        input.message
-                    )
+        return service.changeGender(
+            gender,
+            HttpUtils.getHeaderAuth(token)
+        )
+            .map { input ->
+                if (input != null) {
+                    when (input.code) {
+                        SUCCESS -> return@map DataState<String>(DataState.STATE.SUCCESS)
+                        TOKEN_INVALID -> return@map DataState<String>(DataState.STATE.TOKEN_INVALID)
+                        else -> return@map DataState<String>(
+                            DataState.STATE.FETCH_FAILED,
+                            input.message
+                        )
+                    }
                 }
+                DataState(DataState.STATE.FETCH_FAILED)
             }
-            DataState(DataState.STATE.FETCH_FAILED)
-        }
     }
 
 
@@ -158,12 +161,10 @@ class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
      * @return 返回
      */
     fun changeAvatar(token: String, file: MultipartBody.Part): LiveData<DataState<String>> {
-        return Transformations.map(
-            service.uploadAvatar(
-                file,
-                HttpUtils.getHeaderAuth(token)
-            )
-        ) { input ->
+        return service.uploadAvatar(
+            file,
+            HttpUtils.getHeaderAuth(token)
+        ).map { input ->
             Log.e("avatar", input.toString())
             if (input == null) {
                 return@map DataState(DataState.STATE.FETCH_FAILED)
@@ -176,6 +177,7 @@ class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
                         return@map DataState(DataState.STATE.FETCH_FAILED)
                     }
                 }
+
                 TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
                 else -> return@map DataState(DataState.STATE.FETCH_FAILED, input.message)
             }
@@ -190,11 +192,9 @@ class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
         pageNum: Int,
         extra: String
     ): LiveData<DataState<List<UserProfile>>> {
-        return Transformations.map(
-            service.getUsers(
-                HttpUtils.getHeaderAuth(token), mode, pageSize, pageNum, extra
-            )
-        ) { input ->
+        return service.getUsers(
+            HttpUtils.getHeaderAuth(token), mode, pageSize, pageNum, extra
+        ).map { input ->
             if (input != null) {
                 when (input.code) {
                     SUCCESS -> return@map DataState(input.data ?: listOf())
@@ -208,10 +208,11 @@ class ProfileWebSource(context: Context) : BaseWebSource<ProfileService>(context
             DataState(DataState.STATE.FETCH_FAILED)
         }
     }
+
     companion object {
         var instance: ProfileWebSource? = null
         fun getInstance(context: Context): ProfileWebSource {
-           synchronized(ProfileWebSource::class.java) {
+            synchronized(ProfileWebSource::class.java) {
                 if (instance == null) {
                     instance = ProfileWebSource(context.applicationContext)
                 }

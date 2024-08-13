@@ -2,11 +2,10 @@ package com.stupidtree.hita.theta.data.source.web
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.stupidtree.component.data.DataState
 import com.stupidtree.component.web.ApiResponse
 import com.stupidtree.component.web.BaseWebSource
-import com.stupidtree.component.web.LiveDataCallAdapter
 import com.stupidtree.hita.theta.data.model.Article
 import com.stupidtree.hita.theta.data.model.LikeResult
 import com.stupidtree.hita.theta.data.model.StarResult
@@ -14,16 +13,11 @@ import com.stupidtree.hita.theta.data.model.VoteResult
 import com.stupidtree.hita.theta.data.source.web.service.ArticleService
 import com.stupidtree.hita.theta.data.source.web.service.codes
 import com.stupidtree.hita.theta.data.source.web.service.codes.SUCCESS
-import com.stupidtree.stupiduser.data.model.UserProfile
-import com.stupidtree.stupiduser.data.source.web.ProfileWebSource
 import com.stupidtree.stupiduser.util.HttpUtils
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
-import java.util.HashMap
 
 
 class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
@@ -40,7 +34,7 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         topicId: String?,
         filePaths: List<String>,
         asAttitude: Boolean,
-        anonymous:Boolean
+        anonymous: Boolean
     ): LiveData<DataState<Boolean>> {
         val params: HashMap<String, RequestBody> = HashMap()
         for (f in filePaths) {
@@ -48,22 +42,23 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
             params["files\"; filename=\"" + file.name + ""] =
                 RequestBody.create(MediaType.parse("multipart/form-data"), file)
         }
-        return Transformations.map(
-            service.postArticle(
-                params, HttpUtils.getHeaderAuth(token), content, repostId, topicId,asAttitude,anonymous
-            )
-        ) { input ->
-            if (input != null) {
-                when (input.code) {
-                    SUCCESS -> return@map DataState(DataState.STATE.SUCCESS)
-                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState(
-                        DataState.STATE.FETCH_FAILED,
-                        input.message
-                    )
-                }
+        return service.postArticle(
+            params,
+            HttpUtils.getHeaderAuth(token),
+            content,
+            repostId,
+            topicId,
+            asAttitude,
+            anonymous
+        ).map { input ->
+            when (input.code) {
+                SUCCESS -> return@map DataState(DataState.STATE.SUCCESS)
+                codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                else -> return@map DataState(
+                    DataState.STATE.FETCH_FAILED,
+                    input.message
+                )
             }
-            DataState(DataState.STATE.FETCH_FAILED)
         }
     }
 
@@ -72,14 +67,12 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         content: String,
         repostId: String?,
         topicId: String?,
-        asAttitude:Boolean,
+        asAttitude: Boolean,
         anonymous: Boolean
     ): LiveData<DataState<Boolean>> {
-        return Transformations.map(
-            service.postArticle(
-                HttpUtils.getHeaderAuth(token), content, repostId, topicId,asAttitude,anonymous
-            )
-        ) { input ->
+        return service.postArticle(
+            HttpUtils.getHeaderAuth(token), content, repostId, topicId, asAttitude, anonymous
+        ).map { input ->
             if (input != null) {
                 when (input.code) {
                     SUCCESS -> return@map DataState(DataState.STATE.SUCCESS)
@@ -99,22 +92,17 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         articleId: String?,
         digOrigin: Boolean = false
     ): LiveData<DataState<Article>> {
-        return Transformations.map(
-            service.getArticleInfo(
-                HttpUtils.getHeaderAuth(token), articleId, digOrigin
-            )
-        ) { input ->
-            if (input != null) {
-                when (input.code) {
-                    SUCCESS -> return@map DataState(input.data ?: Article())
-                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState(
-                        DataState.STATE.FETCH_FAILED,
-                        input.message
-                    )
-                }
+        return service.getArticleInfo(
+            HttpUtils.getHeaderAuth(token), articleId, digOrigin
+        ).map { input ->
+            when (input.code) {
+                SUCCESS -> return@map DataState(input.data ?: Article())
+                codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                else -> return@map DataState(
+                    DataState.STATE.FETCH_FAILED,
+                    input.message
+                )
             }
-            DataState(DataState.STATE.FETCH_FAILED)
         }
     }
 
@@ -134,22 +122,17 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         pageSize: Int,
         extra: String
     ): LiveData<DataState<List<Article>>> {
-        return Transformations.map(
-            service.getArticles(
-                HttpUtils.getHeaderAuth(token), mode, beforeTime, afterTime, pageSize, extra
-            )
-        ) { input ->
-            if (input != null) {
-                when (input.code) {
-                    SUCCESS -> return@map DataState(input.data ?: listOf())
-                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState(
-                        DataState.STATE.FETCH_FAILED,
-                        input.message
-                    )
-                }
+        return service.getArticles(
+            HttpUtils.getHeaderAuth(token), mode, beforeTime, afterTime, pageSize, extra
+        ).map { input ->
+            when (input.code) {
+                SUCCESS -> return@map DataState(input.data ?: listOf())
+                codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                else -> return@map DataState(
+                    DataState.STATE.FETCH_FAILED,
+                    input.message
+                )
             }
-            DataState(DataState.STATE.FETCH_FAILED)
         }
     }
 
@@ -169,22 +152,17 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         token: String,
         articleId: String
     ): LiveData<DataState<Any>> {
-        return Transformations.map(
-            service.delete(
-                HttpUtils.getHeaderAuth(token), articleId
-            )
-        ) { input ->
-            if (input != null) {
-                when (input.code) {
-                    SUCCESS -> return@map DataState(input.data ?: "")
-                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState(
-                        DataState.STATE.FETCH_FAILED,
-                        input.message
-                    )
-                }
+        return service.delete(
+            HttpUtils.getHeaderAuth(token), articleId
+        ).map { input ->
+            when (input.code) {
+                SUCCESS -> return@map DataState(input.data ?: "")
+                codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                else -> return@map DataState(
+                    DataState.STATE.FETCH_FAILED,
+                    input.message
+                )
             }
-            DataState(DataState.STATE.FETCH_FAILED)
         }
     }
 
@@ -193,22 +171,17 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         articleId: String,
         like: Boolean
     ): LiveData<DataState<LikeResult>> {
-        return Transformations.map(
-            service.likeOrUnlikeLive(
-                HttpUtils.getHeaderAuth(token), articleId, like
-            )
-        ) { input ->
-            if (input != null) {
-                when (input.code) {
-                    SUCCESS -> return@map DataState(input.data ?: LikeResult())
-                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState(
-                        DataState.STATE.FETCH_FAILED,
-                        input.message
-                    )
-                }
+        return service.likeOrUnlikeLive(
+            HttpUtils.getHeaderAuth(token), articleId, like
+        ).map { input ->
+            when (input.code) {
+                SUCCESS -> return@map DataState(input.data ?: LikeResult())
+                codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                else -> return@map DataState(
+                    DataState.STATE.FETCH_FAILED,
+                    input.message
+                )
             }
-            DataState(DataState.STATE.FETCH_FAILED)
         }
     }
 
@@ -218,7 +191,8 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         up: Boolean
     ): Call<ApiResponse<VoteResult>> {
         return service.vote(
-            HttpUtils.getHeaderAuth(token), articleId, up)
+            HttpUtils.getHeaderAuth(token), articleId, up
+        )
     }
 
     fun voteLive(
@@ -226,25 +200,19 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         articleId: String,
         up: Boolean
     ): LiveData<DataState<VoteResult>> {
-        return Transformations.map(
-            service.voteLive(
-                HttpUtils.getHeaderAuth(token), articleId, up
-            )
-        ) { input ->
-            if (input != null) {
-                when (input.code) {
-                    SUCCESS -> return@map DataState(input.data ?: VoteResult())
-                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState(
-                        DataState.STATE.FETCH_FAILED,
-                        input.message
-                    )
-                }
+        return service.voteLive(
+            HttpUtils.getHeaderAuth(token), articleId, up
+        ).map { input ->
+            when (input.code) {
+                SUCCESS -> return@map DataState(input.data ?: VoteResult())
+                codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                else -> return@map DataState(
+                    DataState.STATE.FETCH_FAILED,
+                    input.message
+                )
             }
-            DataState(DataState.STATE.FETCH_FAILED)
         }
     }
-
 
 
     fun starOrUnstarLive(
@@ -252,22 +220,17 @@ class ArticleWebSource(context: Context) : BaseWebSource<ArticleService>(
         articleId: String,
         star: Boolean
     ): LiveData<DataState<StarResult>> {
-        return Transformations.map(
-            service.starOrUnstarLive(
-                HttpUtils.getHeaderAuth(token), articleId, star
-            )
-        ) { input ->
-            if (input != null) {
-                when (input.code) {
-                    SUCCESS -> return@map DataState(input.data ?: StarResult())
-                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState(
-                        DataState.STATE.FETCH_FAILED,
-                        input.message
-                    )
-                }
+        return service.starOrUnstarLive(
+            HttpUtils.getHeaderAuth(token), articleId, star
+        ).map { input ->
+            when (input.code) {
+                SUCCESS -> return@map DataState(input.data ?: StarResult())
+                codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                else -> return@map DataState(
+                    DataState.STATE.FETCH_FAILED,
+                    input.message
+                )
             }
-            DataState(DataState.STATE.FETCH_FAILED)
         }
     }
 

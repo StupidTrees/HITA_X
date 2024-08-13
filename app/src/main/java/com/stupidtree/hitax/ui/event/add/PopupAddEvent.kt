@@ -6,7 +6,7 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.data.model.timetable.TermSubject
@@ -249,9 +249,8 @@ class PopupAddEvent(private val addSubjectMode:Boolean = false) :
                 .setInitValue(viewModel.timetableLiveData.value?.data)
                 .setDataLoader(object : DialogSelectableLiveList.DataLoader<Timetable> {
                     override fun loadData(): LiveData<List<DialogSelectableLiveList.ItemData<Timetable>>> {
-                        return Transformations.switchMap(
-                            TimetableRepository.getInstance(activity!!.application).getTimetables()
-                        ) {
+                        return TimetableRepository.getInstance(activity!!.application).getTimetables()
+                            .switchMap{
                             val res = mutableListOf<DialogSelectableLiveList.ItemData<Timetable>>()
                             for (data: Timetable in it) {
                                 res.add(DialogSelectableLiveList.ItemData(data.name, data))
@@ -272,10 +271,8 @@ class PopupAddEvent(private val addSubjectMode:Boolean = false) :
                 .setInitValue(viewModel.subjectLiveData.value?.data)
                 .setDataLoader(object : DialogSelectableLiveList.DataLoader<TermSubject> {
                     override fun loadData(): LiveData<List<DialogSelectableLiveList.ItemData<TermSubject>>> {
-                        return Transformations.switchMap(
-                            SubjectRepository.getInstance(activity!!.application)
-                                .getSubjects(viewModel.timetableLiveData.value?.data?.id ?: "")
-                        ) {
+                        return SubjectRepository.getInstance(activity!!.application)
+                                .getSubjects(viewModel.timetableLiveData.value?.data?.id ?: "").switchMap{
                             val res =
                                 mutableListOf<DialogSelectableLiveList.ItemData<TermSubject>>()
                             for (data: TermSubject in it) {
@@ -317,10 +314,8 @@ class PopupAddEvent(private val addSubjectMode:Boolean = false) :
                 }).setInitValue(viewModel.teacherLiveData.value?.data ?: "")
                 .setDataLoader(object : DialogAutoEditText.DataLoader {
                     override fun loadData(str: String): LiveData<List<String>> {
-                        return Transformations.switchMap(
-                            TeacherInfoRepository.getInstance(activity!!.application)
-                                .searchTeachers(str)
-                        ) {
+                        return TeacherInfoRepository.getInstance(activity!!.application)
+                                .searchTeachers(str).switchMap{
                             val r = mutableListOf<String>()
                             it.data?.let { dt ->
                                 for (t in dt) {

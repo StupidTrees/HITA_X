@@ -3,7 +3,7 @@ package com.stupidtree.stupiduser.data.repository
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.stupidtree.component.data.DataState
 import com.stupidtree.stupiduser.data.UserDatabase
 import com.stupidtree.stupiduser.data.model.FollowResult
@@ -69,19 +69,18 @@ class ProfileRepository(application: Application) {
         //构造一个图片格式的POST表单
         val body = MultipartBody.Part.createFormData("upload", file.name, requestFile)
         //调用网络数据源的服务，上传头像
-        return Transformations.map(
-            profileWebSource.changeAvatar(
-                token,
-                body
-            )
-        ) { input ->
+        return profileWebSource.changeAvatar(
+            token,
+            body
+        )
+            .map { input ->
 
-            if (input.state === DataState.STATE.SUCCESS) {
-                //通知本地用户更新资料
-                localUserRepository.changeLocalAvatar(input.data)
+                if (input.state === DataState.STATE.SUCCESS) {
+                    //通知本地用户更新资料
+                    localUserRepository.changeLocalAvatar(input.data)
+                }
+                input
             }
-            input
-        }
     }
 
     /**
@@ -92,12 +91,10 @@ class ProfileRepository(application: Application) {
      * @return 操作结果
      */
     fun changeNickname(token: String, nickname: String): LiveData<DataState<String?>> {
-        return Transformations.map(
-            profileWebSource.changeNickname(
-                token,
-                nickname
-            )
-        ) { input: DataState<String?> ->
+        return profileWebSource.changeNickname(
+            token,
+            nickname
+        ).map { input: DataState<String?> ->
             if (input.state === DataState.STATE.SUCCESS) {
                 localUserRepository.changeLocalNickname(nickname)
             }
@@ -113,12 +110,10 @@ class ProfileRepository(application: Application) {
      * @return 操作结果
      */
     fun changeGender(token: String, gender: String): LiveData<DataState<String>> {
-        return Transformations.map(
-            profileWebSource.changeGender(
-                token,
-                gender
-            )
-        ) { input ->
+        return profileWebSource.changeGender(
+            token,
+            gender
+        ).map { input ->
             if (input.state === DataState.STATE.SUCCESS) {
                 localUserRepository.changeLocalGender(gender)
             }
@@ -135,7 +130,7 @@ class ProfileRepository(application: Application) {
      * @return 操作结果
      */
     fun changeSignature(token: String, signature: String): LiveData<DataState<String>> {
-        return Transformations.map(profileWebSource.changeSignature(token, signature)) { input ->
+        return profileWebSource.changeSignature(token, signature).map { input ->
             if (input.state === DataState.STATE.SUCCESS) {
                 localUserRepository.changeLocalSignature(signature)
             }

@@ -3,7 +3,7 @@ package com.stupidtree.hitax.data.repository
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.stupidtree.hitax.data.AppDatabase
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.ui.timetable.detail.TeacherInfo
@@ -36,7 +36,7 @@ class SubjectRepository(application: Application) {
     }
 
     fun getTeachersInfo(timetableId: String): LiveData<MutableList<TeacherInfo>> {
-        return Transformations.map(eventItemDao.getTeachersOfTimetable(timetableId)) {
+        return eventItemDao.getTeachersOfTimetable(timetableId).map{
             val result = mutableListOf<TeacherInfo>()
             val map = mutableMapOf<String, TeacherInfo?>()
             for (t in it) {

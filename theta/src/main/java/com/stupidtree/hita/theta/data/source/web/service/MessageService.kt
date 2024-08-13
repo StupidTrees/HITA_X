@@ -14,7 +14,7 @@ interface MessageService {
     fun countUnread(
         @Header("Authorization") token: String,
         @Query("mode") mode: String,
-    ): LiveData<ApiResponse<Int>>
+    ): LiveData<ApiResponse<Int>?>
 
     @GET("/message/gets")
     fun getMessages(
@@ -22,5 +22,5 @@ interface MessageService {
         @Query("mode") mode: String,
         @Query("pageSize") pageSize: Int,
         @Query("pageNum") pageNum: Int
-    ): LiveData<ApiResponse<List<Message>>>
+    ): LiveData<ApiResponse<List<Message>>?>
 }

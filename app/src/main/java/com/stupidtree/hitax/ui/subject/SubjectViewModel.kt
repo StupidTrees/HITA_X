@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.Timetable
@@ -24,18 +24,18 @@ class SubjectViewModel(application: Application) : AndroidViewModel(application)
      * LiveData区
      */
     private val subjectController = MutableLiveData<String>()
-    val subjectLiveData: LiveData<TermSubject> = Transformations.switchMap(subjectController) {
+    val subjectLiveData: LiveData<TermSubject> = subjectController.switchMap{
         return@switchMap subjectRepository.getSubjectById(it)
     }
-    val timetableLiveData:LiveData<Timetable> = Transformations.switchMap(subjectLiveData){
+    val timetableLiveData:LiveData<Timetable> = subjectLiveData.switchMap{
         return@switchMap timetableRepository.getTimetablesById(it.timetableId)
     }
 
-    val classesLiveData: LiveData<List<EventItem>> = Transformations.switchMap(subjectController) {
+    val classesLiveData: LiveData<List<EventItem>> = subjectController.switchMap {
         return@switchMap timetableRepository.getClassesOfSubject(it)
     }
 
-    val teachersLiveData: LiveData<List<String>> = Transformations.switchMap(subjectLiveData) {
+    val teachersLiveData: LiveData<List<String>> = subjectLiveData.switchMap{
         return@switchMap subjectRepository.getTeachersOfSubject(it.timetableId, it.id)
     }
 

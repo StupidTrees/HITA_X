@@ -1,15 +1,11 @@
 package com.stupidtree.hita.theta.ui.topic.detail
 
 import android.app.Application
-import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
-import com.stupidtree.hita.theta.R
 import com.stupidtree.hita.theta.data.repository.TopicRepository
-import com.stupidtree.hita.theta.ui.list.ArticleListFragment
-import com.stupidtree.hita.theta.ui.list.activity.ArticleListViewModel
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 
 class TopicDetailViewModel(application: Application) : AndroidViewModel(application) {
@@ -19,7 +15,7 @@ class TopicDetailViewModel(application: Application) : AndroidViewModel(applicat
 
     private val topicIdLiveData = MutableLiveData<String>()
 
-    val topicLiveData = Transformations.switchMap(topicIdLiveData) {
+    val topicLiveData = topicIdLiveData.switchMap {
         val user = userRepo.getLoggedInUser()
         if (user.isValid()) {
             return@switchMap topicRepo.getTopic(user.token!!, it)

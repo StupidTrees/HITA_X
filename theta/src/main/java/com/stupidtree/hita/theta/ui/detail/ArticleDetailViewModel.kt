@@ -3,7 +3,8 @@ package com.stupidtree.hita.theta.ui.detail
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
 import com.stupidtree.component.data.MTransformations
 import com.stupidtree.hita.theta.data.repository.ArticleRepository
@@ -28,16 +29,14 @@ class ArticleDetailViewModel(application: Application) : AndroidViewModel(applic
     }
 
     private val likeTrigger = MutableLiveData<Pair<String, Boolean>>()
-    val likeResultLiveData = Transformations.switchMap(likeTrigger) {
+    val likeResultLiveData = likeTrigger.switchMap{
         val user = localUserRepository.getLoggedInUser()
         if (user.isValid()) {
-            return@switchMap Transformations.map(
-                articleRepo.likeOrUnlikeLive(
+            return@switchMap articleRepo.likeOrUnlikeLive(
                     user.token!!,
                     it.first,
                     it.second
-                )
-            ) { ds ->
+                ).map{ ds ->
                 ds.data?.let { lr ->
                     articleLiveData.value?.data?.likeNum = lr.likeNum
                     articleLiveData.value?.data?.liked = lr.liked
@@ -49,16 +48,14 @@ class ArticleDetailViewModel(application: Application) : AndroidViewModel(applic
     }
 
     private val voteTrigger = MutableLiveData<Pair<String, Boolean>>()
-    val voteResultLiveData = Transformations.switchMap(voteTrigger) {
+    val voteResultLiveData = voteTrigger.switchMap{
         val user = localUserRepository.getLoggedInUser()
         if (user.isValid()) {
-            return@switchMap Transformations.map(
-                articleRepo.voteLive(
+            return@switchMap articleRepo.voteLive(
                     user.token!!,
                     it.first,
                     it.second
-                )
-            ) { ds ->
+                ).map { ds ->
                 ds.data?.let { lr ->
                     articleLiveData.value?.data?.upNum = lr.upNum
                     articleLiveData.value?.data?.downNum = lr.downNum
@@ -72,16 +69,14 @@ class ArticleDetailViewModel(application: Application) : AndroidViewModel(applic
 
 
     private val starTrigger = MutableLiveData<Pair<String, Boolean>>()
-    val starResultLiveData = Transformations.switchMap(starTrigger) {
+    val starResultLiveData = starTrigger.switchMap{
         val user = localUserRepository.getLoggedInUser()
         if (user.isValid()) {
-            return@switchMap Transformations.map(
-                articleRepo.starOrUnstarLive(
+            return@switchMap articleRepo.starOrUnstarLive(
                     user.token!!,
                     it.first,
                     it.second
-                )
-            ) { ds ->
+                ).map{ ds ->
                 ds.data?.let { lr ->
                     articleLiveData.value?.data?.starred = lr.starred
                 }
@@ -93,17 +88,15 @@ class ArticleDetailViewModel(application: Application) : AndroidViewModel(applic
 
 
     private val commentsTrigger = MutableLiveData<CommentRefreshTrigger>()
-    val commentsLiveData = Transformations.switchMap(commentsTrigger) { pair ->
+    val commentsLiveData = commentsTrigger.switchMap{ pair ->
         val user = localUserRepository.getLoggedInUser()
         if (user.isValid()) {
-            return@switchMap Transformations.map(
-                commentRepo.getCommentsOfArticle(
+            return@switchMap  commentRepo.getCommentsOfArticle(
                     user.token!!,
                     pair.id,
                     pair.pageSize,
                     pair.pageNum
-                )
-            ) {
+                ).map{
                 return@map it.setListAction(pair.action)
             }
         }
@@ -112,10 +105,10 @@ class ArticleDetailViewModel(application: Application) : AndroidViewModel(applic
 
 
     private val deleteArticleTrigger = MutableLiveData<String>()
-    val deleteArticleResult = Transformations.switchMap(deleteArticleTrigger) { id ->
+    val deleteArticleResult = deleteArticleTrigger.switchMap{ id ->
         val user = localUserRepository.getLoggedInUser()
         if (user.isValid()) {
-            return@switchMap Transformations.map(articleRepo.delete(user.token!!, id)) {
+            return@switchMap articleRepo.delete(user.token!!, id).map {
                 return@map it.also {
                     it.data = id
                 }
@@ -125,10 +118,10 @@ class ArticleDetailViewModel(application: Application) : AndroidViewModel(applic
     }
 
     private val deleteCommentTrigger = MutableLiveData<String>()
-    val deleteCommentResult = Transformations.switchMap(deleteCommentTrigger) { id ->
+    val deleteCommentResult = deleteCommentTrigger.switchMap{ id ->
         val user = localUserRepository.getLoggedInUser()
         if (user.isValid()) {
-            return@switchMap Transformations.map(commentRepo.delete(user.token!!, id)) {
+            return@switchMap commentRepo.delete(user.token!!, id).map {
                 return@map it.also {
                     it.data = id
                 }

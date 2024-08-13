@@ -3,7 +3,7 @@ package com.stupidtree.hitax.ui.about
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
 import com.stupidtree.component.data.Trigger
 import com.stupidtree.hitax.data.repository.EASRepository
@@ -19,12 +19,12 @@ class AboutViewModel(application: Application) : AndroidViewModel(application) {
 
     private val refreshController = MutableLiveData<Trigger>()
 
-    val aboutPageLiveData = Transformations.switchMap(refreshController) {
+    val aboutPageLiveData = refreshController.switchMap{
         return@switchMap staticRepo.getAboutPage()
     }
 
     private val checkUpdateTrigger = MutableLiveData<Long>()
-    val checkUpdateResult = Transformations.switchMap(checkUpdateTrigger) {
+    val checkUpdateResult = checkUpdateTrigger.switchMap{
         if (localUserRepository.getLoggedInUser().isValid()) {
             return@switchMap managerRepository.checkUpdate(
                 localUserRepository.getLoggedInUser().token?:"",

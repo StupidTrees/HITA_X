@@ -1,24 +1,18 @@
 package com.stupidtree.hita.theta.data.source.web
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.stupidtree.component.data.DataState
 import com.stupidtree.component.web.ApiResponse
 import com.stupidtree.component.web.BaseWebSource
-import com.stupidtree.component.web.LiveDataCallAdapter
-import com.stupidtree.hita.theta.data.model.Article
 import com.stupidtree.hita.theta.data.model.Comment
 import com.stupidtree.hita.theta.data.model.LikeResult
 import com.stupidtree.hita.theta.data.source.web.service.CommentService
 import com.stupidtree.hita.theta.data.source.web.service.codes
 import com.stupidtree.hita.theta.data.source.web.service.codes.SUCCESS
-import com.stupidtree.stupiduser.data.source.web.ProfileWebSource
 import com.stupidtree.stupiduser.util.HttpUtils
 import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class CommentWebSource(context: Context) : BaseWebSource<CommentService>(
     context
@@ -36,11 +30,9 @@ class CommentWebSource(context: Context) : BaseWebSource<CommentService>(
         contextId: String?
 
     ): LiveData<DataState<Boolean>> {
-        return Transformations.map(
-            service.postComment(
+        return service.postComment(
                 HttpUtils.getHeaderAuth(token), content, articleId, toCommentId, toUserId, contextId
-            )
-        ) { input ->
+            ).map{ input ->
             if (input != null) {
                 when (input.code) {
                     SUCCESS -> return@map DataState(DataState.STATE.SUCCESS)
@@ -61,22 +53,17 @@ class CommentWebSource(context: Context) : BaseWebSource<CommentService>(
         pageSize: Int,
         pageNum: Int
     ): LiveData<DataState<List<Comment>>> {
-        return Transformations.map(
-            service.getCommentsOfArticle(
+        return service.getCommentsOfArticle(
                 HttpUtils.getHeaderAuth(token), articleId, pageSize, pageNum
-            )
-        ) { input ->
-            if (input != null) {
-                when (input.code) {
-                    SUCCESS -> return@map DataState(input.data ?: listOf())
-                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState(
-                        DataState.STATE.FETCH_FAILED,
-                        input.message
-                    )
-                }
+            ).map{ input ->
+            when (input.code) {
+                SUCCESS -> return@map DataState(input.data ?: listOf())
+                codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                else -> return@map DataState(
+                    DataState.STATE.FETCH_FAILED,
+                    input.message
+                )
             }
-            DataState(DataState.STATE.FETCH_FAILED)
         }
     }
 
@@ -86,22 +73,17 @@ class CommentWebSource(context: Context) : BaseWebSource<CommentService>(
         pageSize: Int,
         pageNum: Int
     ): LiveData<DataState<List<Comment>>> {
-        return Transformations.map(
-            service.getCommentsOfComment(
+        return service.getCommentsOfComment(
                 HttpUtils.getHeaderAuth(token), commentId, pageSize, pageNum
-            )
-        ) { input ->
-            if (input != null) {
-                when (input.code) {
-                    SUCCESS -> return@map DataState(input.data ?: listOf())
-                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState(
-                        DataState.STATE.FETCH_FAILED,
-                        input.message
-                    )
-                }
+            ).map{ input ->
+            when (input.code) {
+                SUCCESS -> return@map DataState(input.data ?: listOf())
+                codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                else -> return@map DataState(
+                    DataState.STATE.FETCH_FAILED,
+                    input.message
+                )
             }
-            DataState(DataState.STATE.FETCH_FAILED)
         }
     }
 
@@ -109,22 +91,17 @@ class CommentWebSource(context: Context) : BaseWebSource<CommentService>(
         token: String,
         commentId: String
     ): LiveData<DataState<Comment>> {
-        return Transformations.map(
-            service.getCommentInfo(
+        return service.getCommentInfo(
                 HttpUtils.getHeaderAuth(token), commentId
-            )
-        ) { input ->
-            if (input != null) {
-                when (input.code) {
-                    SUCCESS -> return@map DataState(input.data ?: Comment())
-                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState(
-                        DataState.STATE.FETCH_FAILED,
-                        input.message
-                    )
-                }
+            ).map{ input ->
+            when (input.code) {
+                SUCCESS -> return@map DataState(input.data ?: Comment())
+                codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                else -> return@map DataState(
+                    DataState.STATE.FETCH_FAILED,
+                    input.message
+                )
             }
-            DataState(DataState.STATE.FETCH_FAILED)
         }
     }
 
@@ -143,44 +120,34 @@ class CommentWebSource(context: Context) : BaseWebSource<CommentService>(
         articleId: String,
         like: Boolean
     ): LiveData<DataState<LikeResult>> {
-        return Transformations.map(
-            service.likeOrUnlikeLive(
+        return service.likeOrUnlikeLive(
                 HttpUtils.getHeaderAuth(token), articleId, like
-            )
-        ) { input ->
-            if (input != null) {
-                when (input.code) {
-                    SUCCESS -> return@map DataState(input.data ?: LikeResult())
-                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState(
-                        DataState.STATE.FETCH_FAILED,
-                        input.message
-                    )
-                }
+            ).map{ input ->
+            when (input.code) {
+                SUCCESS -> return@map DataState(input.data ?: LikeResult())
+                codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                else -> return@map DataState(
+                    DataState.STATE.FETCH_FAILED,
+                    input.message
+                )
             }
-            DataState(DataState.STATE.FETCH_FAILED)
         }
     }
     fun delete(
         token: String,
         commentId: String
     ): LiveData<DataState<Any>> {
-        return Transformations.map(
-            service.delete(
+        return service.delete(
                 HttpUtils.getHeaderAuth(token), commentId
-            )
-        ) { input ->
-            if (input != null) {
-                when (input.code) {
-                    SUCCESS -> return@map DataState(input.data ?: "")
-                    codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
-                    else -> return@map DataState(
-                        DataState.STATE.FETCH_FAILED,
-                        input.message
-                    )
-                }
+            ).map{ input ->
+            when (input.code) {
+                SUCCESS -> return@map DataState(input.data ?: "")
+                codes.TOKEN_INVALID -> return@map DataState(DataState.STATE.TOKEN_INVALID)
+                else -> return@map DataState(
+                    DataState.STATE.FETCH_FAILED,
+                    input.message
+                )
             }
-            DataState(DataState.STATE.FETCH_FAILED)
         }
     }
 

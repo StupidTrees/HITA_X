@@ -4,7 +4,8 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.data.AppDatabase
 import com.stupidtree.hitax.data.model.eas.*
@@ -35,7 +36,7 @@ class EASRepository internal constructor(application: Application) {
      * 进行登录
      */
     fun login(username: String, password: String): LiveData<DataState<Boolean>> {
-        return Transformations.map(easService.login(username, password, null)) {
+        return easService.login(username, password, null).map {
             if (it.state == DataState.STATE.SUCCESS) {
                 it.data?.let { it1 -> easPreferenceSource.saveEasToken(it1) }
                 return@map DataState(true, DataState.STATE.SUCCESS)
@@ -52,7 +53,7 @@ class EASRepository internal constructor(application: Application) {
         if (!token.isLogin()) {
             return LiveDataUtils.getMutableLiveData(DataState(false))
         }
-        return Transformations.switchMap(easService.loginCheck(token)) {
+        return easService.loginCheck(token).switchMap {
             if (it.state == DataState.STATE.SUCCESS && it.data != null) {
                 if (!it.data!!.first) {
                     easPreferenceSource.clearEasToken()
@@ -90,10 +91,13 @@ class EASRepository internal constructor(application: Application) {
     /**
      * 获取课表结构
      */
-    fun getScheduleStructure(term: TermItem, isUndergraduate:Boolean?=null): LiveData<DataState<MutableList<TimePeriodInDay>>> {
+    fun getScheduleStructure(
+        term: TermItem,
+        isUndergraduate: Boolean? = null
+    ): LiveData<DataState<MutableList<TimePeriodInDay>>> {
         val easToken = easPreferenceSource.getEasToken()
         if (easToken.isLogin()) {
-            return easService.getScheduleStructure(term, isUndergraduate,easToken)
+            return easService.getScheduleStructure(term, isUndergraduate, easToken)
         }
         return LiveDataUtils.getMutableLiveData<DataState<MutableList<TimePeriodInDay>>>(
             DataState(
@@ -275,7 +279,7 @@ class EASRepository internal constructor(application: Application) {
         return easPreferenceSource.getEasToken()
     }
 
-    fun logout(){
+    fun logout() {
         easPreferenceSource.clearEasToken()
     }
 

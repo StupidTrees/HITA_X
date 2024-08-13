@@ -20,12 +20,10 @@ class EmptyClassroomViewModel(application: Application) : EASViewModel(applicati
 
 
     private val pageController = MutableLiveData<Trigger>()
-    val termsLiveData: LiveData<DataState<List<TermItem>>> =
-        Transformations.switchMap(pageController) {
+    val termsLiveData: LiveData<DataState<List<TermItem>>> =pageController.switchMap {
             return@switchMap easRepository.getAllTerms()
         }
-    val buildingsLiveData: LiveData<DataState<List<BuildingItem>>> =
-        Transformations.switchMap(pageController) {
+    val buildingsLiveData: LiveData<DataState<List<BuildingItem>>> = pageController.switchMap {
             return@switchMap easRepository.getTeachingBuildings()
         }
     val selectedTermLiveData = MutableLiveData<TermItem>()
@@ -34,7 +32,7 @@ class EmptyClassroomViewModel(application: Application) : EASViewModel(applicati
         MTransformations.switchMap(selectedTermLiveData) { term ->
             return@switchMap timetableRepository.getCurrentWeekOfTimetable(term)
         }
-    val timetableStructureLiveData: LiveData<DataState<MutableList<TimePeriodInDay>>> = Transformations.switchMap(selectedTermLiveData) {
+    val timetableStructureLiveData: LiveData<DataState<MutableList<TimePeriodInDay>>> = selectedTermLiveData.switchMap {
         return@switchMap easRepository.getScheduleStructure(it)
     }
     val classroomLiveData: MediatorLiveData<DataState<List<ClassroomItem>>> =

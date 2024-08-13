@@ -2,7 +2,7 @@ package com.stupidtree.stupiduser.data.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.stupidtree.stupiduser.data.source.preference.UserPreferenceSource
 import com.stupidtree.stupiduser.data.source.web.UserWebSource
 import com.stupidtree.stupiduser.data.model.LoginResult
@@ -25,7 +25,7 @@ class UserRepository private constructor(context: Context) {
      * @return 登录结果
      */
     fun login(username: String, password: String): LiveData<LoginResult> {
-        return Transformations.map(userWebSource.login(username, password)) { input: LoginResult ->
+        return userWebSource.login(username, password).map{ input: LoginResult ->
 
             if (input.state === LoginResult.STATES.SUCCESS) {
                 userPreferenceSource.saveLocalUser(input.userLocal!!)
@@ -54,13 +54,13 @@ class UserRepository private constructor(context: Context) {
      */
     fun signUp(username: String?, password: String?,
                gender: String?, nickname: String?): LiveData<SignUpResult> {
-        return Transformations.map(userWebSource.signUp(username, password, gender, nickname)) { input: SignUpResult?->
+        return userWebSource.signUp(username, password, gender, nickname).map { input: SignUpResult?->
             if (input != null) {
                 if (input.state === SignUpResult.STATES.SUCCESS) {
                     userPreferenceSource.saveLocalUser(input.userLocal!!)
                 }
             }
-            input
+            input!!
         }
     }
 

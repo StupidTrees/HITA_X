@@ -3,7 +3,7 @@ package com.stupidtree.hitax.ui.about
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.Trigger
 import com.stupidtree.hitax.data.repository.StaticRepository
 
@@ -12,11 +12,11 @@ class UserAgreementViewModel(application: Application) : AndroidViewModel(applic
 
     private val refreshController = MutableLiveData<Trigger>()
 
-    val userAgreementPageLiveData = Transformations.switchMap(refreshController) {
+    val userAgreementPageLiveData =  refreshController.switchMap {
         return@switchMap staticRepo.getUAPage()
     }
 
-    val privacyPolicyPageLiveData = Transformations.switchMap(refreshController) {
+    val privacyPolicyPageLiveData = refreshController.switchMap {
         return@switchMap staticRepo.getPPPage()
     }
 

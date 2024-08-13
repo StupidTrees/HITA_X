@@ -23,8 +23,7 @@ class ImportTimetableViewModel(application: Application) : EASViewModel(applicat
 
     private val termsController = MutableLiveData<Trigger>()
 
-    val termsLiveData: LiveData<DataState<List<TermItem>>> =
-        Transformations.switchMap(termsController) {
+    val termsLiveData: LiveData<DataState<List<TermItem>>> = termsController.switchMap{
             return@switchMap easRepository.getAllTerms()
         }
 

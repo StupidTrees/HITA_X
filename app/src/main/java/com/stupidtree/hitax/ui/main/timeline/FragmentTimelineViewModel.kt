@@ -4,13 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import com.stupidtree.hitax.data.model.timetable.EventItem
-import com.stupidtree.hitax.data.repository.SubjectRepository
-import com.stupidtree.hitax.data.repository.TimetableRepository
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.Trigger
-import com.stupidtree.hitax.ui.main.timetable.TimetableFragment.Companion.WEEK_MILLS
-import java.util.*
+import com.stupidtree.hitax.data.model.timetable.EventItem
+import com.stupidtree.hitax.data.repository.TimetableRepository
+import java.util.Calendar
 
 class FragmentTimelineViewModel(application: Application) : AndroidViewModel(application){
 
@@ -23,7 +21,7 @@ class FragmentTimelineViewModel(application: Application) : AndroidViewModel(app
      * 数据区
      */
     private val todayEventsController:MutableLiveData<Trigger> = MutableLiveData()
-    val todayEventsLiveData:LiveData<List<EventItem>> = Transformations.switchMap(todayEventsController){
+    val todayEventsLiveData:LiveData<List<EventItem>> =  todayEventsController.switchMap{
         val now = Calendar.getInstance()
         now.set(Calendar.HOUR_OF_DAY,0)
         now.set(Calendar.MINUTE,0)
@@ -33,7 +31,7 @@ class FragmentTimelineViewModel(application: Application) : AndroidViewModel(app
         return@switchMap timetableRepository.getEventsDuring(from,to)
     }
 
-    val weekEventsLiveData:LiveData<List<EventItem>> = Transformations.switchMap(todayEventsController){
+    val weekEventsLiveData:LiveData<List<EventItem>> = todayEventsController.switchMap{
         return@switchMap timetableRepository.getEventsAfter(System.currentTimeMillis(),4)
     }
 

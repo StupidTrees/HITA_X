@@ -4,12 +4,12 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
-import com.stupidtree.hitax.data.model.timetable.Timetable
-import com.stupidtree.hitax.data.repository.TimetableRepository
 import com.stupidtree.component.data.Trigger
 import com.stupidtree.hita.theta.data.repository.MessageRepository
+import com.stupidtree.hitax.data.model.timetable.Timetable
+import com.stupidtree.hitax.data.repository.TimetableRepository
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 
 class NavigationViewModel(application: Application) : AndroidViewModel(application) {
@@ -19,18 +19,15 @@ class NavigationViewModel(application: Application) : AndroidViewModel(applicati
     private val messageRepo = MessageRepository.getInstance(application)
 
     private val recentTimetableController = MutableLiveData<Trigger>()
-    val recentTimetableLiveData: LiveData<Timetable?> =
-        Transformations.switchMap(recentTimetableController) {
+    val recentTimetableLiveData: LiveData<Timetable?> = recentTimetableController.switchMap {
             return@switchMap timetableRepository.getRecentTimetable()
         }
-    val timetableCountLiveData: LiveData<Int> =
-        Transformations.switchMap(recentTimetableController) {
+    val timetableCountLiveData: LiveData<Int> = recentTimetableController.switchMap {
             return@switchMap timetableRepository.getTimetableCount()
         }
 
 
-    val unreadMessageLiveData: LiveData<DataState<Int>> =
-        Transformations.switchMap(recentTimetableController) {
+    val unreadMessageLiveData: LiveData<DataState<Int>> = recentTimetableController.switchMap {
             val lu = localUserRepository.getLoggedInUser()
             if (lu.isValid()) {
                 return@switchMap messageRepo.countUnread(lu.token!!, "all")

@@ -3,7 +3,7 @@ package com.stupidtree.hita.theta.ui.me
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hita.theta.data.repository.MessageRepository
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
@@ -14,7 +14,7 @@ class NavigationViewModel(application: Application) : AndroidViewModel(applicati
     private val localUserRepo = LocalUserRepository.getInstance(application)
     private val refreshTrigger = MutableLiveData<String>()
 
-    val repostNumLiveData = Transformations.switchMap(refreshTrigger) {
+    val repostNumLiveData = refreshTrigger.switchMap{
         val user = localUserRepo.getLoggedInUser()
         if (user.isValid()) {
             return@switchMap messageRepository.countUnread(user.token!!, "repost")
@@ -23,7 +23,7 @@ class NavigationViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    val likeNumLiveData = Transformations.switchMap(refreshTrigger) {
+    val likeNumLiveData = refreshTrigger.switchMap {
         val user = localUserRepo.getLoggedInUser()
         if (user.isValid()) {
             return@switchMap messageRepository.countUnread(user.token!!, "like")
@@ -32,7 +32,7 @@ class NavigationViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    val commentNumLiveData = Transformations.switchMap(refreshTrigger) {
+    val commentNumLiveData =  refreshTrigger.switchMap{
         val user = localUserRepo.getLoggedInUser()
         if (user.isValid()) {
             return@switchMap messageRepository.countUnread(user.token!!, "comment")
@@ -41,7 +41,7 @@ class NavigationViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    val followNumLiveData = Transformations.switchMap(refreshTrigger) {
+    val followNumLiveData = refreshTrigger.switchMap{
         val user = localUserRepo.getLoggedInUser()
         if (user.isValid()) {
             return@switchMap messageRepository.countUnread(user.token!!, "follow")

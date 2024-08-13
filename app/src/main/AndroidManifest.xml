@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.stupidtree.hitax">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
         android:name=".HApplication"
@@ -48,6 +51,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/today_slim_widget_info" />
         </receiver>
+
         <activity
             android:name=".ui.main.MainActivity"
             android:launchMode="singleTop" />
@@ -58,8 +62,8 @@
         <activity android:name=".ui.timetable.detail.TimetableDetailActivity" />
         <activity
             android:name=".ui.ActivitySplash"
-            android:theme="@style/SplashTheme"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -69,25 +73,26 @@
         <activity android:name=".ui.teacher.ActivityTeacherOfficial" />
         <activity
             android:name=".ui.search.SearchActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
             <tools:validation testUrl="http://hita.store/search" />
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="http"
                     android:host="hita.store"
-                    android:pathPrefix="/search" />
+                    android:pathPrefix="/search"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.eas.score.ScoreInquiryActivity"/>
+        <activity android:name=".ui.eas.score.ScoreInquiryActivity" />
         <activity android:name=".ui.eas.imp.ImportTimetableActivity" />
         <activity android:name=".ui.eas.classroom.EmptyClassroomActivity" />
         <activity android:name=".ui.profile.ProfileActivity" />
-        <activity android:name=".ui.eas.exam.ExamActivity"/>
+        <activity android:name=".ui.eas.exam.ExamActivity" />
         <activity android:name=".ui.about.ActivityAbout" />
         <activity android:name=".ui.news.lecture.ActivityLecture" />
         <activity android:name=".ui.news.NewsDetailActivity" />

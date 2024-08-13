@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import com.stupidtree.hitax.R
 import com.stupidtree.hitax.ui.welcome.login.LoginTrigger.Companion.getRequestState
 import com.stupidtree.hitax.utils.TextTools
@@ -31,7 +31,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     private val userRepository: UserRepository = UserRepository.getInstance(application)
 
     val loginResult: LiveData<com.stupidtree.stupiduser.data.model.LoginResult>
-        get() = Transformations.switchMap(loginState) { input: LoginTrigger ->
+        get() =  loginState.switchMap{ input: LoginTrigger ->
             if (input.isActioning) {
                 return@switchMap userRepository.login(input.username!!, input.password!!)
             }

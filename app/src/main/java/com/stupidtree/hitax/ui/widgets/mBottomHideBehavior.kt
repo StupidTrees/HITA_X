@@ -3,6 +3,7 @@ package com.stupidtree.hitax.ui.widgets
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.TimeInterpolator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
@@ -10,7 +11,7 @@ import android.view.ViewPropertyAnimator
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.animation.AnimationUtils
 
-class mBottomHideBehavior<V : View?> : CoordinatorLayout.Behavior<V> {
+class mBottomHideBehavior<V : View> : CoordinatorLayout.Behavior<V> {
     private var height = 0
     private var currentState = 2
     private var currentAnimator: ViewPropertyAnimator? = null
@@ -23,8 +24,12 @@ class mBottomHideBehavior<V : View?> : CoordinatorLayout.Behavior<V> {
         this.fabSlideEnable = fabSlideEnable
     }
 
-    override fun onLayoutChild(parent: CoordinatorLayout, child: V, layoutDirection: Int): Boolean {
-        height = child!!.measuredHeight
+    override fun onLayoutChild(
+        parent: CoordinatorLayout,
+        child: V,
+        layoutDirection: Int
+    ): Boolean {
+        height = child.measuredHeight
         return super.onLayoutChild(parent, child, layoutDirection)
     }
 
@@ -70,19 +75,21 @@ class mBottomHideBehavior<V : View?> : CoordinatorLayout.Behavior<V> {
         //super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type, consumed);
     }
 
+    @SuppressLint("RestrictedApi")
     fun slideUp(child: V) {
         if (currentAnimator != null) {
             currentAnimator!!.cancel()
-            child!!.clearAnimation()
+            child.clearAnimation()
         }
         currentState = 2
         animateChildTo(child, 0, 225L, AnimationUtils.DECELERATE_INTERPOLATOR)
     }
 
+    @SuppressLint("RestrictedApi")
     fun slideDown(child: V) {
         if (currentAnimator != null) {
             currentAnimator!!.cancel()
-            child!!.clearAnimation()
+            child.clearAnimation()
         }
         currentState = 1
         animateChildTo(child, height + 100, 175L, AnimationUtils.FAST_OUT_LINEAR_IN_INTERPOLATOR)
@@ -95,7 +102,7 @@ class mBottomHideBehavior<V : View?> : CoordinatorLayout.Behavior<V> {
         interpolator: TimeInterpolator
     ) {
         currentAnimator =
-            child!!.animate().translationY(targetY.toFloat()).setInterpolator(interpolator)
+            child.animate().translationY(targetY.toFloat()).setInterpolator(interpolator)
                 .setDuration(duration).setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
                         currentAnimator = null

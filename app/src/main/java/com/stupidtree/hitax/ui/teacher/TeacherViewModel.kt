@@ -4,9 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import com.stupidtree.hitax.data.repository.TeacherInfoRepository
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
+import com.stupidtree.hitax.data.repository.TeacherInfoRepository
 
 class TeacherViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -20,12 +20,11 @@ class TeacherViewModel(application: Application) : AndroidViewModel(application)
      */
     val teacherKeyLiveData = MutableLiveData<TeacherKey>()
 
-    val teacherProfileLiveData: LiveData<DataState<Map<String, String>>> =
-        Transformations.switchMap(teacherKeyLiveData) {
+    val teacherProfileLiveData: LiveData<DataState<Map<String, String>>> = teacherKeyLiveData.switchMap{
             return@switchMap teacherInfoRepository.getTeacherProfile(it.id, it.url)
         }
 
-    val teacherPagesLiveData:LiveData<DataState<Map<String,String>>> = Transformations.switchMap(teacherKeyLiveData){
+    val teacherPagesLiveData:LiveData<DataState<Map<String,String>>> = teacherKeyLiveData.switchMap{
         return@switchMap teacherInfoRepository.getTeacherPages(it.id)
     }
 

@@ -3,10 +3,10 @@ package com.stupidtree.hitax.ui.news.lecture
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hitax.data.repository.AdditionalRepository
-import net.fortuna.ical4j.model.property.Trigger
 
 class LectureViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -14,8 +14,8 @@ class LectureViewModel(application: Application) : AndroidViewModel(application)
     val additionalRepo = AdditionalRepository.getInstance(application)
 
     val pageOffset = MutableLiveData<Pair<Int, Boolean>>()
-    val listData = Transformations.switchMap(pageOffset) { trigger ->
-        return@switchMap Transformations.map(additionalRepo.getLectures(pageSize, trigger.first)) {
+    val listData = pageOffset.switchMap{ trigger ->
+        return@switchMap additionalRepo.getLectures(pageSize, trigger.first).map{
             if (trigger.second) { //loadMore
                 it.listAction = DataState.LIST_ACTION.APPEND
             } else {

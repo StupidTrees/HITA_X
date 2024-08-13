@@ -4,14 +4,13 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.StringTrigger
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.data.model.timetable.Timetable
 import com.stupidtree.hitax.data.repository.SubjectRepository
 import com.stupidtree.hitax.data.repository.TimetableRepository
-import java.util.*
 
 class TimetableDetailViewModel(application: Application) : AndroidViewModel(application) {
     /**
@@ -27,19 +26,19 @@ class TimetableDetailViewModel(application: Application) : AndroidViewModel(appl
     private val timetableController: MutableLiveData<StringTrigger> = MutableLiveData()
 
     val subjectsLiveData: LiveData<List<TermSubject>> =
-        Transformations.switchMap(timetableController) {
+        timetableController.switchMap{
             return@switchMap subjectsRepository.getSubjects(it.data)
         }
     val teacherInfoLiveData: LiveData<MutableList<TeacherInfo>> =
-        Transformations.switchMap(timetableController) {
+        timetableController.switchMap{
             return@switchMap subjectsRepository.getTeachersInfo(it.data)
         }
-    val timetableLiveData: LiveData<Timetable> = Transformations.switchMap(timetableController) {
+    val timetableLiveData: LiveData<Timetable> = timetableController.switchMap{
         return@switchMap timetableRepository.getTimetablesById(it.data)
     }
 
     private val exportController = MutableLiveData<Timetable>()
-    val exportToICSResult = Transformations.switchMap(exportController) {
+    val exportToICSResult =  exportController.switchMap{
         return@switchMap timetableRepository.exportToICS(it.name?:"课表",it.id)
     }
 

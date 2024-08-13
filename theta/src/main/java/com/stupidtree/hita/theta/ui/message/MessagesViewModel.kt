@@ -3,7 +3,8 @@ package com.stupidtree.hita.theta.ui.message
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hita.theta.data.repository.MessageRepository
 import com.stupidtree.hita.theta.ui.user.PageRefreshTrigger
@@ -14,17 +15,15 @@ class MessagesViewModel(application: Application) : AndroidViewModel(application
     private val localUserRepository = LocalUserRepository.getInstance(application)
 
     private val refreshController = MutableLiveData<PageRefreshTrigger>()
-    val messagesLiveData = Transformations.switchMap(refreshController) { pair ->
+    val messagesLiveData = refreshController.switchMap { pair ->
         val user = localUserRepository.getLoggedInUser()
         if (user.isValid()) {
-            return@switchMap Transformations.map(
-                messageRepository.getMessages(
-                    user.token!!,
-                    pair.mode,
-                    pair.pageSize,
-                    pair.pageNum
-                )
-            ) {
+            return@switchMap messageRepository.getMessages(
+                user.token!!,
+                pair.mode,
+                pair.pageSize,
+                pair.pageNum
+            ).map {
                 return@map it.setListAction(pair.action)
             }
         } else {

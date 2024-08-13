@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hita.theta.data.model.Topic
 import com.stupidtree.hita.theta.data.repository.TopicRepository
@@ -15,8 +15,7 @@ class ArticleNavigationViewModel(application: Application) : AndroidViewModel(ap
     private val localUserRepo = LocalUserRepository.getInstance(application)
 
     private val hotTopicController = MutableLiveData<String>()
-    val hotTopicsLiveData: LiveData<DataState<List<Topic>>> =
-        Transformations.switchMap(hotTopicController) {
+    val hotTopicsLiveData: LiveData<DataState<List<Topic>>> = hotTopicController.switchMap{
             val user = localUserRepo.getLoggedInUser()
             if (user.isValid()) {
                 return@switchMap topicRepo.getTopics(user.token!!, "hot", 0, 0, "")

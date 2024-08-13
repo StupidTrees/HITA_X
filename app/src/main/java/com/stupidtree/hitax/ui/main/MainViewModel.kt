@@ -4,12 +4,12 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
-import com.stupidtree.stupiduser.data.model.UserLocal
 import com.stupidtree.component.data.Trigger
 import com.stupidtree.hitax.data.repository.EASRepository
 import com.stupidtree.hitax.utils.LiveDataUtils
+import com.stupidtree.stupiduser.data.model.UserLocal
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
 import com.stupidtree.stupiduser.data.repository.ManagerRepository
 
@@ -24,14 +24,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * LiveData
      */
     private val localUserController = MutableLiveData<Trigger>()
-    val loggedInUserLiveData: LiveData<UserLocal> = Transformations.switchMap(localUserController) {
+    val loggedInUserLiveData: LiveData<UserLocal> = localUserController.switchMap{
         val res = MutableLiveData<UserLocal>()
         res.value = localUserRepository.getLoggedInUser()
         return@switchMap res
     }
 
     private val checkUpdateTrigger = MutableLiveData<Long>()
-    val checkUpdateResult = Transformations.switchMap(checkUpdateTrigger) {
+    val checkUpdateResult = checkUpdateTrigger.switchMap{
         if (localUserRepository.getLoggedInUser().isValid()) {
             return@switchMap managerRepository.checkUpdate(
                 localUserRepository.getLoggedInUser().token!!,

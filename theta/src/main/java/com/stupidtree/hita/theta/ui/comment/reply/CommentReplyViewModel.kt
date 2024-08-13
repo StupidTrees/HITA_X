@@ -3,7 +3,8 @@ package com.stupidtree.hita.theta.ui.comment.reply
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
 import com.stupidtree.component.data.MTransformations
 import com.stupidtree.hita.theta.data.repository.CommentRepository
@@ -26,16 +27,14 @@ class CommentReplyViewModel(application: Application) : AndroidViewModel(applica
     }
 
     private val likeTrigger = MutableLiveData<Pair<String, Boolean>>()
-    val likeResultLiveData = Transformations.switchMap(likeTrigger) {
+    val likeResultLiveData = likeTrigger.switchMap{
         val user = localUserRepository.getLoggedInUser()
         if (user.isValid()) {
-            return@switchMap Transformations.map(
-                commentRepo.likeOrUnlikeLive(
+            return@switchMap commentRepo.likeOrUnlikeLive(
                     user.token!!,
                     it.first,
                     it.second
-                )
-            ) { ds ->
+                ).map{ ds ->
                 ds.data?.let { lr ->
                     commentLiveData.value?.data?.likeNum = lr.likeNum
                     commentLiveData.value?.data?.liked = lr.liked
@@ -48,17 +47,15 @@ class CommentReplyViewModel(application: Application) : AndroidViewModel(applica
 
 
     private val commentsTrigger = MutableLiveData<CommentRefreshTrigger>()
-    val commentsLiveData = Transformations.switchMap(commentsTrigger) { pair ->
+    val commentsLiveData = commentsTrigger.switchMap{ pair ->
         val user = localUserRepository.getLoggedInUser()
         if (user.isValid()) {
-            return@switchMap Transformations.map(
-                commentRepo.getCommentsOfComment(
+            return@switchMap commentRepo.getCommentsOfComment(
                     user.token!!,
                     pair.id,
                     pair.pageSize,
                     pair.pageNum
-                )
-            ) {
+                ).map{
                 return@map it.setListAction(pair.action)
             }
         }
@@ -66,10 +63,10 @@ class CommentReplyViewModel(application: Application) : AndroidViewModel(applica
     }
 
     private val deleteCommentTrigger = MutableLiveData<String>()
-    val deleteCommentResult = Transformations.switchMap(deleteCommentTrigger) { id ->
+    val deleteCommentResult = deleteCommentTrigger.switchMap{ id ->
         val user = localUserRepository.getLoggedInUser()
         if (user.isValid()) {
-            return@switchMap Transformations.map(commentRepo.delete(user.token!!, id)) {
+            return@switchMap commentRepo.delete(user.token!!, id).map {
                 return@map it.also {
                     it.data = id
                 }

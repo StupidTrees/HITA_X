@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import com.stupidtree.hitax.data.model.timetable.EventItem
 import com.stupidtree.hitax.data.repository.SubjectRepository
 import com.stupidtree.hitax.data.repository.TimetableRepository
@@ -21,7 +21,7 @@ class EventItemViewModel(application: Application) : AndroidViewModel(applicatio
      */
     val eventItemLiveData: MutableLiveData<EventItem> = MutableLiveData()
 
-    val progressLiveData: LiveData<Pair<Int, Int>> = Transformations.switchMap(eventItemLiveData) {
+    val progressLiveData: LiveData<Pair<Int, Int>> = eventItemLiveData.switchMap {
         return@switchMap subjectRepository.getProgressOfSubject(it.subjectId, it.from.time)
     }
 

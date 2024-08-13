@@ -12,10 +12,10 @@ abstract class BaseWebSource<S>(
     livedata: Boolean = true,
     https: Boolean = true
 ) {
-    private var sslSocketFactory: SSLSocketFactory =
-        SslContextFactory().getSslSocket(context)!!.socketFactory
+//    private var sslSocketFactory: SSLSocketFactory =
+//        SslContextFactory().getSslSocket(context)!!.socketFactory
     private var okHttpClient: OkHttpClient.Builder =
-        OkHttpClient.Builder().sslSocketFactory(sslSocketFactory)
+        OkHttpClient.Builder()//.sslSocketFactory(sslSocketFactory)
 
     @JvmField
     protected var service: S

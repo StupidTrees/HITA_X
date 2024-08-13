@@ -3,7 +3,7 @@ package com.stupidtree.hita.theta.ui.create
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.DataState
 import com.stupidtree.hita.theta.data.repository.ArticleRepository
 import com.stupidtree.stupiduser.data.repository.LocalUserRepository
@@ -13,7 +13,7 @@ class CreateArticleViewModel(application: Application) : AndroidViewModel(applic
     private val localUserRepository = LocalUserRepository.getInstance(application)
 
     private val postController = MutableLiveData<CreatePostForm>()
-    val postResult = Transformations.switchMap(postController) {
+    val postResult = postController.switchMap{
         val user = localUserRepository.getLoggedInUser()
         if (user.isValid()) {
             return@switchMap if (it.urls.isNotEmpty()) {
@@ -45,7 +45,7 @@ class CreateArticleViewModel(application: Application) : AndroidViewModel(applic
 
 
     private val repostIdLiveData = MutableLiveData<String?>()
-    val repostArticleLiveData = Transformations.switchMap(repostIdLiveData) {
+    val repostArticleLiveData = repostIdLiveData.switchMap{
         val user = localUserRepository.getLoggedInUser()
         if (user.isValid() && !it.isNullOrEmpty()) {
             return@switchMap articleRepository.getArticleDetail(user.token!!, it, false)

@@ -1,8 +1,11 @@
 package com.stupidtree.hitax.ui.main.timetable
 
 import android.app.Application
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.switchMap
 import com.stupidtree.component.data.MTransformations
 import com.stupidtree.component.data.Trigger
 import com.stupidtree.hitax.data.model.timetable.EventItem
@@ -11,8 +14,7 @@ import com.stupidtree.hitax.data.repository.TimetableRepository
 import com.stupidtree.hitax.data.repository.TimetableStyleRepository
 import com.stupidtree.hitax.ui.main.timetable.TimetableFragment.Companion.WEEK_MILLS
 import com.stupidtree.hitax.ui.main.timetable.TimetableFragment.Companion.WINDOW_SIZE
-import com.stupidtree.hitax.utils.TimeTools
-import java.util.*
+import java.util.Calendar
 
 class TimetableViewModel(application: Application) :
     AndroidViewModel(application) {
@@ -20,8 +22,7 @@ class TimetableViewModel(application: Application) :
     private val timetableStyleRepository = TimetableStyleRepository.getInstance(application)
 
     private val timetableController = MutableLiveData<Trigger>()
-    val timetableLiveData: LiveData<List<Timetable>> =
-        Transformations.switchMap(timetableController) {
+    val timetableLiveData: LiveData<List<Timetable>> = timetableController.switchMap{
             return@switchMap timetableRepository.getTimetables()
         }
     val startTimeLiveData: LiveData<Int>
@@ -51,7 +52,7 @@ class TimetableViewModel(application: Application) :
             windowHashesData.add(0)
             val startLD = MutableLiveData<Long>()
             windowStartData.add(startLD)
-            val eventsRawData = Transformations.switchMap(startLD) {
+            val eventsRawData =  startLD.switchMap{
                 return@switchMap timetableRepository.getEventsDuringWithColor(
                     it,
                     it + WEEK_MILLS

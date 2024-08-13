@@ -35,8 +35,7 @@ class MyProfileViewModel(application: Application) : AndroidViewModel(applicatio
     private var profileController = MutableLiveData<StringTrigger>()
 
     //数据本体：我的用户资料
-    var userProfileLiveData: LiveData<DataState<UserProfile>> =
-        Transformations.switchMap(profileController) {
+    var userProfileLiveData: LiveData<DataState<UserProfile>> = profileController.switchMap {
             val userLocal = localUserRepository.getLoggedInUser()
             if (userLocal.isValid()) {
                 //从用户资料仓库总取出数据
@@ -52,8 +51,7 @@ class MyProfileViewModel(application: Application) : AndroidViewModel(applicatio
         get() {
             if (field == null) {
                 //controller改变时。。。巴拉巴拉
-                changeAvatarResult =
-                    Transformations.switchMap(changeAvatarController) { input: StringTrigger ->
+                changeAvatarResult = changeAvatarController.switchMap { input: StringTrigger ->
                         if (input.isActioning) {
                             //要先判断本地用户当前是否登录
                             val userLocal = localUserRepository.getLoggedInUser()
@@ -86,8 +84,7 @@ class MyProfileViewModel(application: Application) : AndroidViewModel(applicatio
         get() {
             if (field == null) {
                 //也是一样的
-                changeNicknameResult =
-                    Transformations.switchMap(changeNicknameController) { input: StringTrigger ->
+                changeNicknameResult = changeNicknameController.switchMap { input: StringTrigger ->
                         if (input.isActioning) {
                             val userLocal = localUserRepository.getLoggedInUser()
                             if (userLocal.isValid()) {
@@ -117,8 +114,7 @@ class MyProfileViewModel(application: Application) : AndroidViewModel(applicatio
     private var changeGenderController = MutableLiveData<StringTrigger>()
 
     //状态数据：更改性别的结果
-    var changeGenderResult: LiveData<DataState<String>> =
-        Transformations.switchMap(changeGenderController) { input: StringTrigger ->
+    var changeGenderResult: LiveData<DataState<String>> = changeGenderController.switchMap { input: StringTrigger ->
             if (input.isActioning) {
                 val userLocal = localUserRepository.getLoggedInUser()
                 if (userLocal.isValid()) {
@@ -143,8 +139,7 @@ class MyProfileViewModel(application: Application) : AndroidViewModel(applicatio
         get() {
             if (field == null) {
                 //也是一样的
-                changeSignatureResult =
-                    Transformations.switchMap(changeSignatureController) { input: StringTrigger ->
+                changeSignatureResult = changeSignatureController.switchMap { input: StringTrigger ->
                         if (input.isActioning) {
                             val userLocal = localUserRepository.getLoggedInUser()
                             if (userLocal.isValid()) {

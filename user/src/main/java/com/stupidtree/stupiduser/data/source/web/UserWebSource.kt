@@ -3,7 +3,7 @@ package com.stupidtree.stupiduser.data.source.web
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.stupidtree.component.web.BaseWebSource
 import com.stupidtree.hitax.data.source.web.service.UserService
 import com.stupidtree.stupiduser.R
@@ -36,12 +36,10 @@ class UserWebSource(context: Context) : BaseWebSource<UserService>(
      * @return 登录结果
      */
     fun login(username: String, password: String): LiveData<LoginResult> {
-        return Transformations.map(
-            service.login(
+        return service.login(
                 username,
                 password
-            )
-        ) { input: ApiResponse<UserLocal>? ->
+            ).map{ input: ApiResponse<UserLocal>? ->
             Log.e("login", input.toString())
             val loginResult = LoginResult()
             if (null == input) {
@@ -87,9 +85,7 @@ class UserWebSource(context: Context) : BaseWebSource<UserService>(
         gender: String?,
         nickname: String?
     ): LiveData<SignUpResult?> {
-        return Transformations.map(
-            service.signUp(username, password, gender, nickname)
-        ) { input ->
+        return service.signUp(username, password, gender, nickname).map{ input ->
             val signUpResult = SignUpResult()
             if (input != null) {
                 when (input.code) {

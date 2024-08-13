@@ -33,7 +33,7 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
     private var profileController = MutableLiveData<StringTrigger>()
 
     //从用户资料仓库中拉取数据
-    var userProfileLiveData = Transformations.switchMap(profileController) { input ->
+    var userProfileLiveData =  profileController.switchMap{ input ->
         val user = localUserRepository.getLoggedInUser()
         if (user.isValid()) {
             //从用户资料仓库中拉取数据
@@ -45,7 +45,7 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
 
     private var followController = MutableLiveData<Pair<String,Boolean>>()
 
-    val followResult = Transformations.switchMap(followController){
+    val followResult =  followController.switchMap{
         val user = localUserRepository.getLoggedInUser()
         if (user.isValid()) {
             //从用户资料仓库中拉取数据
