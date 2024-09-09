@@ -2,6 +2,8 @@
 <!--  [![standard-readme compliant](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-%E5%8D%8E%E4%B8%BA%E5%BA%94%E7%94%A8%E5%B8%82%E5%9C%BA-red?style=flat-square)](https://appstore.huawei.com/app/C101988835) [![standard-readme compliant](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-%E5%B0%8F%E7%B1%B3%E5%BA%94%E7%94%A8%E5%95%86%E5%BA%97-orange?style=flat-square)](http://app.mi.com/details?id=com.stupidtree.hita) [![standard-readme compliant](https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-%E9%85%B7%E5%AE%89%E5%B8%82%E5%9C%BA-green?style=flat-square)](https://www.coolapk.com/apk/282615) -->
 [App下载](https://github.com/StupidTrees/HITA_X/tree/master/release/app-release.apk)
 
+IOS端请联系作者 2593475337@qq.com
+
 ## 项目背景
 项目来自哈尔滨工业大学（深圳）2018级本科生大一年度立项。原名HITSZ助手，重构版改名为HITA课表
 
