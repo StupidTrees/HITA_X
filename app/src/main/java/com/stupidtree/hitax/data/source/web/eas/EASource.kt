@@ -4,12 +4,16 @@ import android.annotation.SuppressLint
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.stupidtree.component.data.DataState
+import com.stupidtree.hitax.data.model.eas.CourseItem
+import com.stupidtree.hitax.data.model.eas.CourseScoreItem
+import com.stupidtree.hitax.data.model.eas.EASToken
+import com.stupidtree.hitax.data.model.eas.ExamItem
+import com.stupidtree.hitax.data.model.eas.TermItem
 import com.stupidtree.hitax.data.model.timetable.TermSubject
 import com.stupidtree.hitax.data.model.timetable.TimeInDay
 import com.stupidtree.hitax.data.model.timetable.TimePeriodInDay
 import com.stupidtree.hitax.data.source.web.service.EASService
-import com.stupidtree.component.data.DataState
-import com.stupidtree.hitax.data.model.eas.*
 import com.stupidtree.hitax.ui.eas.classroom.BuildingItem
 import com.stupidtree.hitax.ui.eas.classroom.ClassroomItem
 import com.stupidtree.hitax.utils.JsonUtils
@@ -18,9 +22,12 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.jsoup.Connection
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import java.io.IOException
+import java.net.URI
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 class EASource internal constructor() : EASService {
     private val defaultRequestHeader: MutableMap<String, String>
@@ -39,30 +46,33 @@ class EASource internal constructor() : EASService {
         val res = MutableLiveData<DataState<EASToken>>()
         Thread {
             try {
-                val hc = Jsoup.connect("$hostName/cas").headers(defaultRequestHeader)
-                val cookies = HashMap(hc.execute().cookies())
-                val lt: String
-                val execution: String
-                val eventId: String
-                val d = hc.cookies(cookies).get()
-                lt = d.select("input[name=lt]").first().attr("value")
-                execution = d.select("input[name=execution]").first().attr("value")
-                eventId = d.select("input[name=_eventId]").first().attr("value")
-                val c2 =
-                    Jsoup.connect("https://sso.hitsz.edu.cn:7002/cas/login?service=http%3A%2F%2Fjw.hitsz.edu.cn%2FcasLogin")
-                        .cookies(cookies)
-                        .headers(defaultRequestHeader)
-                        .ignoreContentType(true)
-                val page = c2.cookies(cookies)
+                val session: Connection = Jsoup.newSession().headers(defaultRequestHeader)
+                session.url("http://jw.hitsz.edu.cn/cas").get()
+                val doc1: Document =
+                    session.newRequest("https://ids.hit.edu.cn/authserver/combinedLogin.do?type=IDSUnion&appId=ff2dfca3a2a2448e9026a8c6e38fa52b&success=http%3A%2F%2Fjw.hitsz.edu.cn%2FcasLogin")
+                        .get()
+
+                val url = "https://sso.hitsz.edu.cn:7002" + doc1.select("#authZForm").first()
+                    .attr("action")
+                val client_id: String = doc1.select("input[name=client_id]").first().attr("value")
+                val scope: String = doc1.select("input[name=scope]").first().attr("value")
+                val state: String = doc1.select("input[name=state]").first().attr("value")
+
+                val resp3: Connection.Response = session.newRequest(url).data("action", "authorize")
+                    .data("response_type", "code")
+                    .data("redirect_uri", "https://ids.hit.edu.cn/authserver/callback")
+                    .data("client_id", client_id)
+                    .data("scope", scope)
+                    .data("state", state)
                     .data("username", username)
-                    .data("password", password)
-                    .data("lt", lt)
-                    .data("rememberMe", "on")
-                    .data("execution", execution)
-                    .data("_eventId", eventId).post()
-                cookies.putAll(c2.response().cookies())
-                val login = page.toString().contains("qxdm")
+                    .data("password", password).method(Connection.Method.POST).execute()
+                val login = resp3.url().file == "/authentication/main"
+                val cookies: HashMap<String, String> = HashMap()
+
                 if (login) {
+                    session.cookieStore().get(URI.create("http://jw.hitsz.edu.cn")).forEach { c ->
+                        cookies[c.name] = c.value
+                    }
                     val token = EASToken() //登录成功，创建tokrn
                     token.cookies = cookies //设置cookies
                     token.username = username
