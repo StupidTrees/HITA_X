@@ -93,7 +93,7 @@ dependencies {
 //retrofit2的gson转换器
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     //jsoup爬虫
-    implementation 'org.jsoup:jsoup:1.13.1'
+    implementation 'org.jsoup:jsoup:1.18.2'
 
     //buttonLoading
     implementation 'br.com.simplepass:loading-button-android:2.2.0'
