@@ -163,7 +163,7 @@ class EASource internal constructor() : EASService {
         Thread {
             val terms = arrayListOf<TermItem>()
             try {
-                val s = Jsoup.connect("$hostName/component/queryXnxq")
+                val s = Jsoup.connect("$hostName/component/queryxnxqdata")
                     .cookies(token.cookies)
                     .timeout(timeout)
                     .headers(defaultRequestHeader)
@@ -172,7 +172,7 @@ class EASource internal constructor() : EASService {
                     .ignoreHttpErrors(true)
                     .post()
                 val json = s.getElementsByTag("body").first().text()
-                val jsonList = JsonUtils.getJsonObject(json)?.optJSONArray("content")
+                val jsonList = JsonUtils.getJsonArray(json)
                 jsonList?.let { ja ->
                     for (i in 0 until ja.length()) {
                         val jo = ja.optJSONObject(i)
@@ -184,10 +184,10 @@ class EASource internal constructor() : EASService {
                             }
                             val term =
                                 TermItem(
-                                    m["xn"] ?: "",
-                                    m["xnmc"] ?: "", m["xq"] ?: "", m["xqmc"] ?: ""
+                                    m["XN"] ?: "",
+                                    m["XNMC"] ?: "", m["XQ"] ?: "", m["XQMC"] ?: ""
                                 )
-                            term.isCurrent = m["sfdqxq"] == "1"
+                            term.isCurrent = m["SFDQXQ"] == "1"
                             terms.add(term)
                         }
                     }
